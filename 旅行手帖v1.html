@@ -1,0 +1,1933 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>旅行手帖 Travel Notebook</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; }
+  #root { min-height: 100vh; }
+  #rn-fatal-error { display:none; font-family: sans-serif; max-width: 640px; margin: 60px auto; padding: 24px; background:#fff5f5; border:1px solid #f0c4c0; border-radius:12px; color:#7a2e28; white-space:pre-wrap; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="rn-fatal-error"></div>
+
+<script>
+(function () {
+  const PREFIX = 'travel-notebook:';
+  window.storage = {
+    async get(key, shared) {
+      try {
+        const raw = localStorage.getItem(PREFIX + key);
+        if (raw === null) return null;
+        return { key, value: raw, shared: !!shared };
+      } catch (e) {
+        return null;
+      }
+    },
+    async set(key, value, shared) {
+      try {
+        localStorage.setItem(PREFIX + key, value);
+        return { key, value, shared: !!shared };
+      } catch (e) {
+        return null;
+      }
+    },
+    async delete(key, shared) {
+      try {
+        localStorage.removeItem(PREFIX + key);
+        return { key, deleted: true, shared: !!shared };
+      } catch (e) {
+        return null;
+      }
+    },
+    async list(prefix, shared) {
+      try {
+        const keys = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k && k.startsWith(PREFIX)) {
+            const short = k.slice(PREFIX.length);
+            if (!prefix || short.startsWith(prefix)) keys.push(short);
+          }
+        }
+        return { keys, prefix, shared: !!shared };
+      } catch (e) {
+        return null;
+      }
+    },
+  };
+})();
+</script>
+
+<script id="rn-app-source" type="text/plain">
+const { useState, useEffect, useCallback, useRef } = React;
+
+// ---------- lightweight inline icons (no external icon library needed) ----------
+function iconSvg(pathsJsx, viewBox) {
+  return function IconCmp({ size = 16, color = 'currentColor', fill = 'none', strokeWidth = 2, style, className }) {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox={viewBox || '0 0 24 24'} fill={fill} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" style={style} className={className}>
+        {pathsJsx}
+      </svg>
+    );
+  };
+}
+
+const MapPin = iconSvg(<><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></>);
+const Plus = iconSvg(<><path d="M5 12h14" /><path d="M12 5v14" /></>);
+const X = iconSvg(<><path d="M18 6 6 18" /><path d="m6 6 12 12" /></>);
+const Calendar = iconSvg(<><rect width="18" height="18" x="3" y="4" rx="2" ry="2" /><line x1="16" x2="16" y1="2" y2="6" /><line x1="8" x2="8" y1="2" y2="6" /><line x1="3" x2="21" y1="10" y2="10" /></>);
+const ImageIcon = iconSvg(<><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></>);
+const LinkIcon = iconSvg(<><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></>);
+const GripVertical = iconSvg(<><circle cx="9" cy="12" r="1" /><circle cx="9" cy="5" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="19" r="1" /></>);
+const Trash2 = iconSvg(<><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" x2="10" y1="11" y2="17" /><line x1="14" x2="14" y1="11" y2="17" /></>);
+const ChevronLeft = iconSvg(<path d="m15 18-6-6 6-6" />);
+const MapIcon = iconSvg(<><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" /><path d="M15 5.764v15" /><path d="M9 3.236v15" /></>);
+const List = iconSvg(<><line x1="8" x2="21" y1="6" y2="6" /><line x1="8" x2="21" y1="12" y2="12" /><line x1="8" x2="21" y1="18" y2="18" /><line x1="3" x2="3.01" y1="6" y2="6" /><line x1="3" x2="3.01" y1="12" y2="12" /><line x1="3" x2="3.01" y1="18" y2="18" /></>);
+const Loader2 = iconSvg(<path d="M21 12a9 9 0 1 1-6.219-8.56" />);
+const Download = iconSvg(<><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" x2="12" y1="15" y2="3" /></>);
+const Upload = iconSvg(<><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" x2="12" y1="3" y2="15" /></>);
+
+// ---------- constants ----------
+const CATEGORY_META = {
+  '花景/自然': { color: '#8a9a5b', bg: '#f0f3e8' },
+  '神社/寺廟': { color: '#a8574e', bg: '#f5e9e7' },
+  '御朱印': { color: '#c08a3e', bg: '#f7efe0' },
+  '美食': { color: '#b5651d', bg: '#f6ede0' },
+  '住宿': { color: '#5b7a9a', bg: '#e8eff5' },
+  '購物': { color: '#7a5b9a', bg: '#f0e8f5' },
+  '交通/景點': { color: '#4a6b5a', bg: '#e7f0ec' },
+  '其他': { color: '#8a8378', bg: '#f0eee9' },
+};
+const CATEGORIES = Object.keys(CATEGORY_META);
+
+// 自訂分類的自動配色盤（雜湊到固定顏色，同名分類永遠拿到同一個顏色）
+const CUSTOM_CAT_PALETTE = [
+  { color: '#b5651d', bg: '#f6ede0' },
+  { color: '#5b7a9a', bg: '#e8eff5' },
+  { color: '#7a5b9a', bg: '#f0e8f5' },
+  { color: '#4a6b5a', bg: '#e7f0ec' },
+  { color: '#a8574e', bg: '#f5e9e7' },
+  { color: '#8a9a5b', bg: '#f0f3e8' },
+  { color: '#c08a3e', bg: '#f7efe0' },
+  { color: '#6b7a8a', bg: '#e8edf0' },
+];
+
+function getCategoryMeta(catName) {
+  if (CATEGORY_META[catName]) return CATEGORY_META[catName];
+  if (!catName) return CATEGORY_META['其他'];
+  let hash = 0;
+  for (let i = 0; i < catName.length; i++) hash = (hash * 31 + catName.charCodeAt(i)) >>> 0;
+  return CUSTOM_CAT_PALETTE[hash % CUSTOM_CAT_PALETTE.length];
+}
+
+// 解析 Google Maps 完整網址，嘗試取出名稱、經緯度、地址
+// 短網址 (maps.app.goo.gl) 無法在前端展開，只會回傳 isShortLink: true
+function parseGoogleMapsUrl(rawUrl) {
+  const url = rawUrl.trim();
+  const result = { name: '', lat: null, lng: null, address: '', isShortLink: false, recognized: false };
+  if (!url) return result;
+
+  if (/maps\.app\.goo\.gl|goo\.gl\/maps/i.test(url)) {
+    result.isShortLink = true;
+    return result;
+  }
+
+  if (!/google\.[a-z.]+\/maps/i.test(url) && !/^https?:\/\/maps\.google/i.test(url)) {
+    return result; // 不是 google maps 網址，不解析
+  }
+
+  result.recognized = true;
+
+  // 座標：優先抓 !8m2!3d緯度!4d經度 —— 這是店家實際精準座標
+  // （@lat,lng,zoom 只是「分享當下地圖畫面置中的位置」，滑動過地圖或縮放層級不同時，
+  //   跟店家實際位置可能差到幾百公尺甚至幾公里，所以不能當第一優先）
+  let m = url.match(/!8m2!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
+  if (m) {
+    result.lat = parseFloat(m[1]);
+    result.lng = parseFloat(m[2]);
+  }
+  // 次選：沒有 !8m2! 前綴但仍有 !3d!4d 的情況
+  if (result.lat == null) {
+    const m2 = url.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
+    if (m2) { result.lat = parseFloat(m2[1]); result.lng = parseFloat(m2[2]); }
+  }
+  // 再次選：?q=lat,lng
+  if (result.lat == null) {
+    const m3 = url.match(/[?&]q=(-?\d+\.\d+),(-?\d+\.\d+)/);
+    if (m3) { result.lat = parseFloat(m3[1]); result.lng = parseFloat(m3[2]); }
+  }
+  // 最後才用 @lat,lng（地圖畫面置中點，僅供參考，可能不精準）
+  if (result.lat == null) {
+    const m4 = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+    if (m4) { result.lat = parseFloat(m4[1]); result.lng = parseFloat(m4[2]); }
+  }
+
+  // 名稱：/maps/place/名稱/ 這一段（URL encoded，用 + 或 %20 分隔）
+  const nameMatch = url.match(/\/maps\/place\/([^/@]+)/);
+  if (nameMatch) {
+    let raw;
+    try {
+      raw = decodeURIComponent(nameMatch[1]).replace(/\+/g, ' ');
+    } catch {
+      raw = nameMatch[1].replace(/\+/g, ' ');
+    }
+
+    // Google 常把「地址+店名」黏成一段，例如：
+    // "404臺中市北區健行里忠太西路39號HAUSINC CAFE"
+    // 嘗試抓出台灣地址前綴（郵遞區號 + 縣市區路街 + 門牌號），切開地址與店名
+    const addrMatch = raw.match(/^(\d{3,5}\s*)?((?:台|臺)?[北中南東西]?[\u4e00-\u9fa5]{2,4}[縣市][\u4e00-\u9fa5]{1,4}[鄉鎮市區][\u4e00-\u9fa50-9]*?[路街道段巷弄](?:[\d一二三四五六七八九十]+[段巷弄])*\d*號)/);
+    if (addrMatch) {
+      const addrPart = addrMatch[0].trim();
+      const rest = raw.slice(addrMatch[0].length).trim();
+      result.address = addrPart;
+      result.name = rest || addrPart;
+    } else {
+      result.name = raw;
+    }
+  }
+
+  return result;
+}
+
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+
+// 把使用者上傳的圖片縮小後轉成 base64，避免單張圖片太大把 localStorage 塞爆
+function resizeImageFile(file, maxDim = 900, quality = 0.82) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('讀取圖片失敗'));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('圖片格式無法讀取'));
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) { height = Math.round(height * (maxDim / width)); width = maxDim; }
+          else { width = Math.round(width * (maxDim / height)); height = maxDim; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+// 產生 Google Maps 連結：優先用經緯度，沒有就用地址/名稱搜尋
+function googleMapsLink(place) {
+  // 優先用「名稱＋地址」查詢，這樣 Google Map 會顯示完整地點資訊卡（含名稱、評價、營業時間）
+  // 只用經緯度查詢的話，Google 只會顯示一個沒有名字的座標點
+  const parts = [place.name, place.address].filter(Boolean);
+  if (parts.length > 0) {
+    const q = encodeURIComponent(parts.join(' '));
+    return `https://www.google.com/maps/search/?api=1&query=${q}`;
+  }
+  if (place.lat != null && place.lng != null) {
+    return `https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}`;
+  }
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name || '')}`;
+}
+
+// 用於嵌入真實 Google 地圖（免 API key，使用 output=embed 參數）
+// 優先用經緯度定位最精準；沒有經緯度就用名稱＋地址搜尋
+function googleMapsEmbedUrl(place) {
+  if (!place) return null;
+  let q;
+  if (place.lat != null && place.lng != null) {
+    q = `${place.lat},${place.lng}`;
+  } else {
+    const parts = [place.name, place.address].filter(Boolean);
+    if (parts.length === 0) return null;
+    q = encodeURIComponent(parts.join(' '));
+  }
+  return `https://www.google.com/maps?q=${q}&output=embed`;
+}
+
+// 從地址「文字」自動拆出國家／縣州／市／區域，完全不需要使用者手動輸入。
+// 用於：手動貼上的地址、或從 Google Map 連結解析出來的地址（還沒經緯度反查前）。
+// 目前對台灣地址格式（XX市/縣 + XX區/鄉/鎮/市）做精準比對；
+// 其他情況嘗試用逗號分隔的階層式地址（OpenStreetMap 反查結果常見這種格式）概略拆解。
+function parseAddressComponents(address) {
+  const empty = { country: '', region: '', city: '', district: '' };
+  if (!address) return empty;
+
+  // 台灣：例如「臺中市北區健行里忠太西路39號」→ 市=臺中市、區=北區
+  const twMatch = address.match(/((?:台|臺)?[\u4e00-\u9fa5]{1,3}[縣市])([\u4e00-\u9fa5]{1,4}(?:區|鄉|鎮|市))/);
+  if (twMatch) {
+    return { country: '台灣', region: '', city: twMatch[1], district: twMatch[2] };
+  }
+
+  // 逗號分隔的階層式地址（OpenStreetMap 反查結果、部分西式地址常見這種格式）
+  // 由右到左依序視為：國家、縣/州、市、區域
+  if (address.includes(',')) {
+    const parts = address.split(',').map(s => s.trim()).filter(Boolean);
+    if (parts.length >= 2) {
+      return {
+        country: parts[parts.length - 1] || '',
+        region: parts.length >= 3 ? parts[parts.length - 2] : '',
+        city: parts.length >= 4 ? parts[parts.length - 3] : '',
+        district: parts.length >= 5 ? parts[parts.length - 4] : '',
+      };
+    }
+  }
+
+  return empty;
+}
+
+// 用經緯度反查地址：Google 分享連結通常不含地址文字，
+// 但有座標的話可以用 OpenStreetMap 的免費服務（Nominatim）反查，不需要任何 API key
+// 回傳完整地址文字，以及拆解好的國家／縣州／市／區域（供自動填欄位使用）
+async function reverseGeocodeAddress(lat, lng) {
+  const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=zh-TW&zoom=18`;
+  const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+  if (!res.ok) throw new Error('查詢失敗');
+  const data = await res.json();
+  if (!data || !data.display_name) throw new Error('查無地址');
+  const a = data.address || {};
+  return {
+    display_name: data.display_name,
+    country: a.country || '',
+    region: a.state || a.county || a.province || '',
+    city: a.city || a.town || a.municipality || '',
+    district: a.city_district || a.district || a.suburb || a.township || a.village || '',
+  };
+}
+
+// 多站路線連結：把一天的地點依序串成 Google Maps 路線規劃
+function googleMapsRouteLink(placesInOrder) {
+  const stops = placesInOrder
+    .filter(p => p.address || p.name || (p.lat != null && p.lng != null))
+    .map(p => p.lat != null && p.lng != null ? `${p.lat},${p.lng}` : encodeURIComponent(p.address || p.name));
+  if (stops.length < 2) return null;
+  const destination = stops[stops.length - 1];
+  const origin = stops[0];
+  const waypoints = stops.slice(1, -1).join('|');
+  let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
+  if (waypoints) url += `&waypoints=${waypoints}`;
+  return url;
+}
+
+const STORAGE_KEY_PLACES = 'places';
+const STORAGE_KEY_TRIPS = 'trips';
+const STORAGE_KEY_CATEGORIES = 'custom-categories';
+const STORAGE_KEY_LINKS = 'reference-links';
+
+// ---------- root ----------
+function TravelNotebook() {
+  const [view, setView] = useState('collection'); // collection | trips | tripDetail | links
+  const [places, setPlaces] = useState(null); // null = loading
+  const [trips, setTrips] = useState(null);
+  const [customCategories, setCustomCategories] = useState(null);
+  const [links, setLinks] = useState(null);
+  const [activeTripId, setActiveTripId] = useState(null);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const p = await window.storage.get(STORAGE_KEY_PLACES, false);
+        setPlaces(p ? JSON.parse(p.value) : []);
+      } catch {
+        setPlaces([]);
+      }
+      try {
+        const t = await window.storage.get(STORAGE_KEY_TRIPS, false);
+        setTrips(t ? JSON.parse(t.value) : []);
+      } catch {
+        setTrips([]);
+      }
+      try {
+        const c = await window.storage.get(STORAGE_KEY_CATEGORIES, false);
+        setCustomCategories(c ? JSON.parse(c.value) : []);
+      } catch {
+        setCustomCategories([]);
+      }
+      try {
+        const l = await window.storage.get(STORAGE_KEY_LINKS, false);
+        setLinks(l ? JSON.parse(l.value) : []);
+      } catch {
+        setLinks([]);
+      }
+    })();
+  }, []);
+
+  const savePlaces = useCallback(async (next) => {
+    setPlaces(next);
+    try {
+      await window.storage.set(STORAGE_KEY_PLACES, JSON.stringify(next), false);
+    } catch {
+      setError('儲存失敗，請稍後再試');
+      setTimeout(() => setError(''), 3000);
+    }
+  }, []);
+
+  const saveTrips = useCallback(async (next) => {
+    setTrips(next);
+    try {
+      await window.storage.set(STORAGE_KEY_TRIPS, JSON.stringify(next), false);
+    } catch {
+      setError('儲存失敗，請稍後再試');
+      setTimeout(() => setError(''), 3000);
+    }
+  }, []);
+
+  const saveCustomCategories = useCallback(async (next) => {
+    setCustomCategories(next);
+    try {
+      await window.storage.set(STORAGE_KEY_CATEGORIES, JSON.stringify(next), false);
+    } catch {
+      setError('儲存失敗，請稍後再試');
+      setTimeout(() => setError(''), 3000);
+    }
+  }, []);
+
+  const saveLinks = useCallback(async (next) => {
+    setLinks(next);
+    try {
+      await window.storage.set(STORAGE_KEY_LINKS, JSON.stringify(next), false);
+    } catch {
+      setError('儲存失敗，請稍後再試');
+      setTimeout(() => setError(''), 3000);
+    }
+  }, []);
+
+  if (places === null || trips === null || customCategories === null || links === null) {
+    return (
+      <div style={styles.loadingScreen}>
+        <Loader2 style={{ animation: 'rn-spin 1s linear infinite' }} size={28} color="#8a8378" />
+        <p style={{ marginTop: 12, color: '#8a8378', fontFamily: FONT_BODY }}>載入旅行手帖中…</p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={styles.app}>
+      <GlobalStyle />
+      <Header
+        view={view} setView={setView} activeTripId={activeTripId} setActiveTripId={setActiveTripId}
+        places={places} trips={trips} savePlaces={savePlaces} saveTrips={saveTrips}
+        customCategories={customCategories} saveCustomCategories={saveCustomCategories}
+        links={links} saveLinks={saveLinks}
+      />
+      {error && <div style={styles.errorBanner}>{error}</div>}
+      <main style={styles.main}>
+        {view === 'collection' && (
+          <CollectionView
+            places={places} savePlaces={savePlaces} trips={trips} saveTrips={saveTrips}
+            customCategories={customCategories} saveCustomCategories={saveCustomCategories}
+          />
+        )}
+        {view === 'trips' && (
+          <TripsListView
+            trips={trips}
+            saveTrips={saveTrips}
+            openTrip={(id) => { setActiveTripId(id); setView('tripDetail'); }}
+          />
+        )}
+        {view === 'tripDetail' && activeTripId && (
+          <TripDetailView
+            trip={trips.find(t => t.id === activeTripId)}
+            trips={trips}
+            saveTrips={saveTrips}
+            places={places}
+            back={() => setView('trips')}
+          />
+        )}
+        {view === 'links' && (
+          <ReferenceLinksView links={links} saveLinks={saveLinks} />
+        )}
+      </main>
+    </div>
+  );
+}
+
+const FONT_DISPLAY = "'Shippori Mincho', 'Noto Serif TC', serif";
+const FONT_BODY = "'Noto Sans TC', sans-serif";
+
+function GlobalStyle() {
+  return (
+    <style>{`
+      @import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;600&display=swap');
+      * { box-sizing: border-box; }
+      ::-webkit-scrollbar { width: 8px; height: 8px; }
+      ::-webkit-scrollbar-thumb { background: #d8d2c4; border-radius: 4px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      input, textarea, select, button { font-family: ${FONT_BODY}; }
+      button { cursor: pointer; }
+      @keyframes rn-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    `}</style>
+  );
+}
+
+// ---------- styles ----------
+const styles = {
+  app: {
+    minHeight: '100vh',
+    background: '#faf7f0',
+    backgroundImage: 'radial-gradient(circle at 1px 1px, #efe9d8 1px, transparent 0)',
+    backgroundSize: '22px 22px',
+    fontFamily: FONT_BODY,
+    color: '#3a352c',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  main: { flex: 1, maxWidth: 1100, margin: '0 auto', width: '100%', padding: '20px 16px 60px' },
+  loadingScreen: { minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#faf7f0' },
+  errorBanner: { background: '#a8574e', color: '#fff', textAlign: 'center', padding: '8px', fontSize: 13 },
+};
+
+// ---------- header ----------
+function Header({ view, setView, activeTripId, setActiveTripId, places, trips, savePlaces, saveTrips, customCategories, saveCustomCategories, links, saveLinks }) {
+  const [showBackup, setShowBackup] = useState(false);
+  return (
+    <header style={hstyles.wrap}>
+      <div style={hstyles.inner}>
+        <div style={hstyles.brand}>
+          <div style={hstyles.stamp}>旅</div>
+          <div>
+            <div style={hstyles.title}>旅行手帖</div>
+            <div style={hstyles.sub}>Travel Notebook</div>
+          </div>
+        </div>
+        <nav style={hstyles.nav}>
+          <NavBtn active={view === 'collection'} onClick={() => setView('collection')} icon={<MapPin size={15} />} label="收藏地點" />
+          <NavBtn active={view === 'trips' || view === 'tripDetail'} onClick={() => { setActiveTripId(null); setView('trips'); }} icon={<Calendar size={15} />} label="我的行程" />
+          <NavBtn active={view === 'links'} onClick={() => setView('links')} icon={<LinkIcon size={15} />} label="參考資料" />
+          <button onClick={() => setShowBackup(true)} title="備份／還原資料" style={hstyles.backupBtn}>
+            <Download size={14} /> 備份
+          </button>
+        </nav>
+      </div>
+      {showBackup && (
+        <BackupModal
+          places={places} trips={trips} savePlaces={savePlaces} saveTrips={saveTrips}
+          customCategories={customCategories} saveCustomCategories={saveCustomCategories}
+          links={links} saveLinks={saveLinks}
+          onClose={() => setShowBackup(false)}
+        />
+      )}
+    </header>
+  );
+}
+
+function BackupModal({ places, trips, savePlaces, saveTrips, customCategories, saveCustomCategories, links, saveLinks, onClose }) {
+  const fileInputRef = useRef(null);
+  const [importMsg, setImportMsg] = useState('');
+  const [importErr, setImportErr] = useState('');
+
+  function handleExport() {
+    const payload = {
+      app: 'travel-notebook',
+      exportedAt: new Date().toISOString(),
+      places,
+      trips,
+      customCategories,
+      links,
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const dateStr = new Date().toISOString().slice(0, 10);
+    a.href = url;
+    a.download = `旅行手帖備份_${dateStr}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function handleImportClick() {
+    setImportMsg('');
+    setImportErr('');
+    fileInputRef.current?.click();
+  }
+
+  function handleFileChange(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (evt) => {
+      try {
+        const data = JSON.parse(evt.target.result);
+        if (!data || !Array.isArray(data.places) || !Array.isArray(data.trips)) {
+          setImportErr('這個檔案格式看起來不是旅行手帖的備份檔');
+          return;
+        }
+        await savePlaces(data.places);
+        await saveTrips(data.trips);
+        if (Array.isArray(data.customCategories)) await saveCustomCategories(data.customCategories);
+        if (Array.isArray(data.links)) await saveLinks(data.links);
+        setImportMsg(`已還原 ${data.places.length} 個地點、${data.trips.length} 個行程（會覆蓋目前資料）`);
+      } catch {
+        setImportErr('讀取失敗，請確認這是有效的 JSON 備份檔');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  }
+
+  return (
+    <Modal onClose={onClose} title="備份與還原">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div>
+          <p style={{ fontSize: 12.5, color: '#8a8378', lineHeight: 1.7, margin: '0 0 10px' }}>
+            資料存在這台裝置的瀏覽器裡，不會自動同步到別的手機或電腦。建議定期匯出備份，或用匯出/匯入的方式把資料搬到別的裝置。
+          </p>
+        </div>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button onClick={handleExport} style={{ ...fstyles.saveBtn, display: 'flex', alignItems: 'center', gap: 6, flex: 1, justifyContent: 'center' }}>
+            <Download size={14} /> 匯出備份檔
+          </button>
+          <button onClick={handleImportClick} style={{ ...fstyles.cancelBtn, display: 'flex', alignItems: 'center', gap: 6, flex: 1, justifyContent: 'center' }}>
+            <Upload size={14} /> 匯入備份檔
+          </button>
+          <input ref={fileInputRef} type="file" accept="application/json" onChange={handleFileChange} style={{ display: 'none' }} />
+        </div>
+        {importMsg && <p style={{ fontSize: 12.5, color: '#4a8a5a', margin: 0 }}>{importMsg}</p>}
+        {importErr && <p style={{ fontSize: 12.5, color: '#a8574e', margin: 0 }}>{importErr}</p>}
+        <p style={{ fontSize: 11.5, color: '#a39a86', margin: 0, lineHeight: 1.6 }}>
+          小提醒：匯入會直接覆蓋目前這台裝置上的所有地點和行程，請先匯出目前資料備份，再匯入其他檔案。
+        </p>
+      </div>
+    </Modal>
+  );
+}
+
+function NavBtn({ active, onClick, icon, label }) {
+  return (
+    <button onClick={onClick} style={{
+      display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', borderRadius: 20,
+      border: active ? '1px solid #a8574e' : '1px solid transparent',
+      background: active ? '#a8574e' : 'transparent',
+      color: active ? '#fff' : '#6b6458',
+      fontSize: 14, fontWeight: 500, transition: 'all .15s',
+    }}>
+      {icon}{label}
+    </button>
+  );
+}
+
+const hstyles = {
+  wrap: { borderBottom: '1px solid #e8e1d0', background: 'rgba(250,247,240,0.9)', backdropFilter: 'blur(6px)', position: 'sticky', top: 0, zIndex: 30 },
+  inner: { maxWidth: 1100, margin: '0 auto', padding: '14px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 },
+  brand: { display: 'flex', alignItems: 'center', gap: 10 },
+  stamp: { width: 38, height: 38, borderRadius: 8, border: '2px solid #a8574e', color: '#a8574e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 17, transform: 'rotate(-3deg)' },
+  title: { fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 19, lineHeight: 1.1, color: '#3a352c' },
+  sub: { fontSize: 10, letterSpacing: '0.12em', color: '#a39a86' },
+  backupBtn: { display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', borderRadius: 20, border: '1px solid #e2dbc9', background: '#fffdf8', color: '#6b6458', fontSize: 13.5, fontWeight: 500 },
+  nav: { display: 'flex', gap: 8 },
+};
+
+// ============================================================
+// COLLECTION VIEW
+// ============================================================
+function CollectionView({ places, savePlaces, trips, saveTrips, customCategories, saveCustomCategories }) {
+  const [showForm, setShowForm] = useState(false);
+  const [editingPlace, setEditingPlace] = useState(null);
+  const [filterCat, setFilterCat] = useState('全部');
+  const [query, setQuery] = useState('');
+  const [layout, setLayout] = useState('map'); // map | list
+  const [selectedId, setSelectedId] = useState(null);
+  const [addToTripFor, setAddToTripFor] = useState(null);
+  const [noteViewPlace, setNoteViewPlace] = useState(null);
+  const [showRegionFilter, setShowRegionFilter] = useState(false);
+  const [filterCountry, setFilterCountry] = useState('全部');
+  const [filterRegion, setFilterRegion] = useState('全部');
+  const [filterCity, setFilterCity] = useState('全部');
+  const [filterDistrict, setFilterDistrict] = useState('全部');
+
+  const allCategories = [...CATEGORIES, ...customCategories.filter(c => !CATEGORIES.includes(c))];
+
+  const distinctValues = (field) => {
+    const set = new Set();
+    places.forEach(p => { if (p[field]) set.add(p[field]); });
+    return Array.from(set).sort((a, b) => a.localeCompare(b, 'zh-Hant'));
+  };
+  const countryOptions = distinctValues('country');
+  const regionOptions = distinctValues('region');
+  const cityOptions = distinctValues('city');
+  const districtOptions = distinctValues('district');
+  const hasRegionData = countryOptions.length + regionOptions.length + cityOptions.length + districtOptions.length > 0;
+
+  const filtered = places.filter(p => {
+    if (filterCat !== '全部' && p.category !== filterCat) return false;
+    if (filterCountry !== '全部' && p.country !== filterCountry) return false;
+    if (filterRegion !== '全部' && p.region !== filterRegion) return false;
+    if (filterCity !== '全部' && p.city !== filterCity) return false;
+    if (filterDistrict !== '全部' && p.district !== filterDistrict) return false;
+    if (query && !(p.name.includes(query) || (p.note || '').includes(query))) return false;
+    return true;
+  });
+
+  const geo = filtered.filter(p => p.name);
+
+  async function handleDelete(id) {
+    await savePlaces(places.filter(p => p.id !== id));
+    if (selectedId === id) setSelectedId(null);
+  }
+
+  async function handleSave(place) {
+    if (editingPlace) {
+      await savePlaces(places.map(p => p.id === place.id ? place : p));
+    } else {
+      await savePlaces([place, ...places]);
+    }
+    if (place.category && !allCategories.includes(place.category)) {
+      await saveCustomCategories([...customCategories, place.category]);
+    }
+    setShowForm(false);
+    setEditingPlace(null);
+  }
+
+  return (
+    <div>
+      <SectionIntro
+        eyebrow="COLLECTION"
+        title="收藏地點"
+        desc="把喜歡的地點存下來——網址、圖片、種類，之後排行程時直接拖進去。"
+      />
+
+      <div style={cstyles.toolbar}>
+        <div style={cstyles.searchWrap}>
+          <input
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="搜尋地點名稱或筆記…"
+            style={cstyles.search}
+          />
+        </div>
+        <div style={cstyles.filterRow}>
+          <FilterChip label="全部" active={filterCat === '全部'} onClick={() => setFilterCat('全部')} />
+          {allCategories.map(c => (
+            <FilterChip key={c} label={c} active={filterCat === c} onClick={() => setFilterCat(c)} color={getCategoryMeta(c).color} />
+          ))}
+          {hasRegionData && (
+            <FilterChip label={`地區篩選${showRegionFilter ? ' ▲' : ' ▼'}`} active={showRegionFilter} onClick={() => setShowRegionFilter(v => !v)} />
+          )}
+        </div>
+        {showRegionFilter && hasRegionData && (
+          <div style={cstyles.regionFilterRow}>
+            {countryOptions.length > 0 && (
+              <select style={cstyles.regionSelect} value={filterCountry} onChange={e => setFilterCountry(e.target.value)}>
+                <option value="全部">國家：全部</option>
+                {countryOptions.map(v => <option key={v} value={v}>{v}</option>)}
+              </select>
+            )}
+            {regionOptions.length > 0 && (
+              <select style={cstyles.regionSelect} value={filterRegion} onChange={e => setFilterRegion(e.target.value)}>
+                <option value="全部">縣／州：全部</option>
+                {regionOptions.map(v => <option key={v} value={v}>{v}</option>)}
+              </select>
+            )}
+            {cityOptions.length > 0 && (
+              <select style={cstyles.regionSelect} value={filterCity} onChange={e => setFilterCity(e.target.value)}>
+                <option value="全部">市：全部</option>
+                {cityOptions.map(v => <option key={v} value={v}>{v}</option>)}
+              </select>
+            )}
+            {districtOptions.length > 0 && (
+              <select style={cstyles.regionSelect} value={filterDistrict} onChange={e => setFilterDistrict(e.target.value)}>
+                <option value="全部">區域：全部</option>
+                {districtOptions.map(v => <option key={v} value={v}>{v}</option>)}
+              </select>
+            )}
+            {(filterCountry !== '全部' || filterRegion !== '全部' || filterCity !== '全部' || filterDistrict !== '全部') && (
+              <button
+                onClick={() => { setFilterCountry('全部'); setFilterRegion('全部'); setFilterCity('全部'); setFilterDistrict('全部'); }}
+                style={cstyles.regionClearBtn}
+              >
+                清除地區篩選
+              </button>
+            )}
+          </div>
+        )}
+        <div style={cstyles.rightTools}>
+          <div style={cstyles.layoutToggle}>
+            <button onClick={() => setLayout('map')} style={cstyles.toggleBtn(layout === 'map')} title="地圖對照"><MapIcon size={15} /></button>
+            <button onClick={() => setLayout('list')} style={cstyles.toggleBtn(layout === 'list')} title="純列表"><List size={15} /></button>
+          </div>
+          <button style={cstyles.addBtn} onClick={() => { setEditingPlace(null); setShowForm(true); }}>
+            <Plus size={16} /> 新增地點
+          </button>
+        </div>
+      </div>
+
+      {places.length === 0 ? (
+        <EmptyState
+          title="還沒有收藏任何地點"
+          desc="看到喜歡的景點、店家或神社時，存下網址、圖片和種類，之後規劃行程會輕鬆很多。"
+          actionLabel="新增第一個地點"
+          onAction={() => { setEditingPlace(null); setShowForm(true); }}
+        />
+      ) : layout === 'map' ? (
+        <div style={cstyles.splitLayout}>
+          <RealMap places={geo} selectedId={selectedId} onSelect={setSelectedId} emptyHint="沒有符合條件的地點" />
+          <div style={cstyles.listPane}>
+            {filtered.length === 0 ? (
+              <p style={{ color: '#a39a86', padding: 20, textAlign: 'center' }}>沒有符合條件的地點</p>
+            ) : filtered.map(p => (
+              <PlaceCard
+                key={p.id}
+                place={p}
+                compact
+                selected={selectedId === p.id}
+                onSelect={() => setSelectedId(p.id)}
+                onEdit={() => { setEditingPlace(p); setShowForm(true); }}
+                onDelete={() => handleDelete(p.id)}
+                onAddToTrip={() => setAddToTripFor(p)}
+                onViewNote={setNoteViewPlace}
+              />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div style={cstyles.grid}>
+          {filtered.map(p => (
+            <PlaceCard
+              key={p.id}
+              place={p}
+              onEdit={() => { setEditingPlace(p); setShowForm(true); }}
+              onDelete={() => handleDelete(p.id)}
+              onAddToTrip={() => setAddToTripFor(p)}
+              onViewNote={setNoteViewPlace}
+            />
+          ))}
+        </div>
+      )}
+
+      {showForm && (
+        <PlaceFormModal
+          initial={editingPlace}
+          onClose={() => { setShowForm(false); setEditingPlace(null); }}
+          onSave={handleSave}
+          allCategories={allCategories}
+        />
+      )}
+
+      {addToTripFor && (
+        <AddToTripModal
+          place={addToTripFor}
+          trips={trips}
+          saveTrips={saveTrips}
+          onClose={() => setAddToTripFor(null)}
+        />
+      )}
+
+      {noteViewPlace && (
+        <Modal onClose={() => setNoteViewPlace(null)} title={noteViewPlace.name}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
+            <span style={{ fontSize: 10.5, fontWeight: 600, color: getCategoryMeta(noteViewPlace.category).color, background: getCategoryMeta(noteViewPlace.category).bg, padding: '2px 7px', borderRadius: 8 }}>
+              {noteViewPlace.category}
+            </span>
+            {(noteViewPlace.city || noteViewPlace.region) && (
+              <span style={{ fontSize: 11.5, color: '#a39a86' }}>{[noteViewPlace.region, noteViewPlace.city, noteViewPlace.district].filter(Boolean).join(' · ')}</span>
+            )}
+          </div>
+          <p style={{ fontSize: 13.5, color: '#3a352c', lineHeight: 1.8, whiteSpace: 'pre-wrap', margin: 0 }}>{noteViewPlace.note}</p>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+function SectionIntro({ eyebrow, title, desc }) {
+  return (
+    <div style={{ marginBottom: 22 }}>
+      <div style={{ fontSize: 11, letterSpacing: '0.16em', color: '#a8574e', fontWeight: 600, marginBottom: 4 }}>{eyebrow}</div>
+      <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 26, fontWeight: 700, margin: '0 0 6px' }}>{title}</h1>
+      <p style={{ color: '#8a8378', fontSize: 14, margin: 0, maxWidth: 560, lineHeight: 1.6 }}>{desc}</p>
+    </div>
+  );
+}
+
+function EmptyState({ title, desc, actionLabel, onAction }) {
+  return (
+    <div style={{
+      border: '1.5px dashed #d8d2c4', borderRadius: 16, padding: '50px 24px', textAlign: 'center', background: '#fffdf8',
+    }}>
+      <div style={{ fontSize: 34, marginBottom: 10 }}>🗺️</div>
+      <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: 18, margin: '0 0 8px' }}>{title}</h3>
+      <p style={{ color: '#a39a86', fontSize: 13.5, maxWidth: 380, margin: '0 auto 18px', lineHeight: 1.6 }}>{desc}</p>
+      {onAction && (
+        <button onClick={onAction} style={{ ...cstyles.addBtn, margin: '0 auto' }}>
+          <Plus size={16} /> {actionLabel}
+        </button>
+      )}
+    </div>
+  );
+}
+
+const cstyles = {
+  toolbar: { display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center', marginBottom: 18 },
+  searchWrap: { flex: '1 1 200px', minWidth: 160 },
+  search: { width: '100%', padding: '9px 14px', borderRadius: 10, border: '1px solid #e2dbc9', background: '#fffdf8', fontSize: 13.5, outline: 'none' },
+  filterRow: { display: 'flex', gap: 6, flexWrap: 'wrap' },
+  rightTools: { display: 'flex', gap: 8, marginLeft: 'auto', alignItems: 'center' },
+  layoutToggle: { display: 'flex', border: '1px solid #e2dbc9', borderRadius: 10, overflow: 'hidden' },
+  toggleBtn: (active) => ({ padding: '8px 10px', background: active ? '#3a352c' : '#fffdf8', color: active ? '#fff' : '#8a8378', border: 'none' }),
+  addBtn: { display: 'flex', alignItems: 'center', gap: 6, background: '#a8574e', color: '#fff', border: 'none', borderRadius: 10, padding: '9px 16px', fontSize: 13.5, fontWeight: 600 },
+  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 14 },
+  splitLayout: { display: 'grid', gridTemplateColumns: 'minmax(280px, 1fr) minmax(280px, 1fr)', gap: 16, alignItems: 'start' },
+  listPane: { display: 'flex', flexDirection: 'column', gap: 10, maxHeight: 560, overflowY: 'auto', paddingRight: 4 },
+  regionFilterRow: { display: 'flex', gap: 8, flexWrap: 'wrap', flexBasis: '100%', background: '#fffdf8', border: '1px solid #e2dbc9', borderRadius: 10, padding: 10 },
+  regionSelect: { padding: '7px 10px', borderRadius: 8, border: '1px solid #e2dbc9', background: '#fff', fontSize: 12.5, color: '#3a352c' },
+  regionClearBtn: { padding: '7px 12px', borderRadius: 8, border: '1px solid #e2dbc9', background: '#fff', color: '#a8574e', fontSize: 12, fontWeight: 600 },
+};
+
+function FilterChip({ label, active, onClick, color }) {
+  return (
+    <button onClick={onClick} style={{
+      padding: '6px 12px', borderRadius: 16, fontSize: 12.5, fontWeight: 500,
+      border: `1px solid ${active ? (color || '#3a352c') : '#e2dbc9'}`,
+      background: active ? (color || '#3a352c') : '#fffdf8',
+      color: active ? '#fff' : '#6b6458',
+      whiteSpace: 'nowrap',
+    }}>{label}</button>
+  );
+}
+
+// ---------- mini map (schematic, no external API) ----------
+function RealMap({ places, selectedId, onSelect, emptyHint }) {
+  if (places.length === 0) {
+    return (
+      <div style={mstyles.emptyMap}>
+        <MapIcon size={26} color="#c9c1ac" />
+        <p style={{ color: '#a39a86', fontSize: 12.5, marginTop: 8 }}>{emptyHint || '目前沒有可顯示的地點'}</p>
+      </div>
+    );
+  }
+
+  const selected = places.find(p => p.id === selectedId) || places[0];
+  const embedUrl = googleMapsEmbedUrl(selected);
+
+  return (
+    <div style={mstyles.mapWrap}>
+      {embedUrl ? (
+        <iframe
+          key={embedUrl}
+          title={selected.name}
+          src={embedUrl}
+          style={{ border: 0, width: '100%', height: '100%', display: 'block' }}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+      ) : (
+        <div style={mstyles.emptyMap}>
+          <MapIcon size={26} color="#c9c1ac" />
+          <p style={{ color: '#a39a86', fontSize: 12.5, marginTop: 8 }}>這個地點缺少地址或名稱資料，暫時無法顯示地圖</p>
+        </div>
+      )}
+      {places.length > 1 && (
+        <div style={mstyles.pinStrip}>
+          {places.map(p => {
+            const meta = getCategoryMeta(p.category);
+            const isSel = p.id === selected.id;
+            return (
+              <button
+                key={p.id}
+                onClick={() => onSelect(p.id)}
+                title={p.name}
+                style={mstyles.pinChip(isSel, meta.color)}
+              >
+                <MapPin size={11} color={isSel ? '#fff' : meta.color} />
+                <span style={mstyles.pinChipLabel}>{p.name}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+const mstyles = {
+  mapWrap: {
+    position: 'relative', height: 560, borderRadius: 16, border: '1px solid #e2dbc9',
+    background: '#e7ecdc', overflow: 'hidden',
+  },
+  emptyMap: {
+    height: 560, borderRadius: 16, border: '1.5px dashed #d8d2c4', display: 'flex', flexDirection: 'column',
+    alignItems: 'center', justifyContent: 'center', background: '#fffdf8', textAlign: 'center', padding: 20,
+  },
+  pinStrip: {
+    position: 'absolute', left: 10, right: 10, bottom: 10, display: 'flex', gap: 6, overflowX: 'auto',
+    padding: 4,
+  },
+  pinChip: (active, color) => ({
+    display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0, padding: '6px 10px', borderRadius: 16,
+    border: `1px solid ${active ? color : '#e2dbc9'}`, background: active ? color : 'rgba(255,253,248,0.95)',
+    color: active ? '#fff' : '#3a352c', fontSize: 11.5, fontWeight: 500, boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
+    maxWidth: 160, whiteSpace: 'nowrap',
+  }),
+  pinChipLabel: { overflow: 'hidden', textOverflow: 'ellipsis' },
+};
+
+// ---------- place card ----------
+function PlaceCard({ place, compact, selected, onSelect, onEdit, onDelete, onAddToTrip, onViewNote }) {
+  const meta = getCategoryMeta(place.category);
+  const [confirmDel, setConfirmDel] = useState(false);
+
+  return (
+    <div
+      onClick={onSelect}
+      style={{
+        background: '#fffdf8', border: `1px solid ${selected ? meta.color : '#e8e1d0'}`,
+        borderRadius: 14, overflow: 'hidden', display: 'flex', flexDirection: compact ? 'row' : 'column',
+        cursor: onSelect ? 'pointer' : 'default', boxShadow: selected ? `0 0 0 2px ${meta.color}22` : 'none',
+        transition: 'all .15s',
+      }}
+    >
+      <div style={{
+        width: compact ? 88 : '100%', height: compact ? 88 : 130, flexShrink: 0, background: meta.bg,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+      }}>
+        {place.image ? (
+          <img src={place.image} alt={place.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { e.target.style.display = 'none'; }} />
+        ) : (
+          <ImageIcon size={compact ? 20 : 26} color={meta.color} />
+        )}
+      </div>
+      <div style={{ padding: compact ? '8px 10px' : '12px 14px', flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4, flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 10.5, fontWeight: 600, color: meta.color, background: meta.bg, padding: '2px 7px', borderRadius: 8 }}>{place.category}</span>
+          {(place.city || place.region || place.district) && (
+            <span style={{ fontSize: 10, color: '#a39a86' }}>{[place.region, place.city, place.district].filter(Boolean).join(' · ')}</span>
+          )}
+        </div>
+        <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: compact ? 14 : 15.5, marginBottom: 3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{place.name}</div>
+        {!compact && place.note && <p style={{ fontSize: 12.5, color: '#8a8378', margin: '0 0 8px', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{place.note}</p>}
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
+          {place.url && (
+            <a href={place.url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ fontSize: 11.5, color: '#5b7a9a', display: 'flex', alignItems: 'center', gap: 3, textDecoration: 'none' }}>
+              <LinkIcon size={11} /> 網址
+            </a>
+          )}
+          {(place.address || (place.lat != null && place.lng != null)) && (
+            <a href={googleMapsLink(place)} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ fontSize: 11.5, color: '#4a8a5a', display: 'flex', alignItems: 'center', gap: 3, textDecoration: 'none' }}>
+              <MapPin size={11} /> Google Map
+            </a>
+          )}
+          <div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
+            {place.note && onViewNote && (
+              <IconBtn title="快速查看筆記" onClick={e => { e.stopPropagation(); onViewNote(place); }}>筆記</IconBtn>
+            )}
+            {onAddToTrip && (
+              <IconBtn title="加入行程" onClick={e => { e.stopPropagation(); onAddToTrip(); }}><Plus size={13} /></IconBtn>
+            )}
+            <IconBtn title="編輯" onClick={e => { e.stopPropagation(); onEdit(); }}>✎</IconBtn>
+            {!confirmDel ? (
+              <IconBtn title="刪除" onClick={e => { e.stopPropagation(); setConfirmDel(true); }}><Trash2 size={12} /></IconBtn>
+            ) : (
+              <>
+                <IconBtn danger title="確認刪除" onClick={e => { e.stopPropagation(); onDelete(); }}>確認</IconBtn>
+                <IconBtn title="取消" onClick={e => { e.stopPropagation(); setConfirmDel(false); }}>取消</IconBtn>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function IconBtn({ children, onClick, title, danger }) {
+  return (
+    <button onClick={onClick} title={title} style={{
+      border: '1px solid #e2dbc9', background: danger ? '#a8574e' : '#fff', color: danger ? '#fff' : '#6b6458',
+      borderRadius: 7, padding: '4px 7px', fontSize: 10.5, display: 'flex', alignItems: 'center', gap: 3,
+    }}>{children}</button>
+  );
+}
+
+// ---------- place form modal ----------
+function PlaceFormModal({ initial, onClose, onSave, allCategories }) {
+  const [name, setName] = useState(initial?.name || '');
+  const [url, setUrl] = useState(initial?.url || '');
+  const [image, setImage] = useState(initial?.image || '');
+  const [category, setCategory] = useState(initial?.category || allCategories[0] || CATEGORIES[0]);
+  const [newCatMode, setNewCatMode] = useState(false);
+  const [newCatInput, setNewCatInput] = useState('');
+  const [note, setNote] = useState(initial?.note || '');
+  const [lat, setLat] = useState(initial?.lat ?? '');
+  const [lng, setLng] = useState(initial?.lng ?? '');
+  const [address, setAddress] = useState(initial?.address || '');
+  // 國家／縣州／市／區域：不開放手動輸入，全部從地址文字或反查結果自動算出
+  const [geoComponents, setGeoComponents] = useState({
+    country: initial?.country || '',
+    region: initial?.region || '',
+    city: initial?.city || '',
+    district: initial?.district || '',
+  });
+  const [errMsg, setErrMsg] = useState('');
+  const [gmapInput, setGmapInput] = useState('');
+  const [gmapStatus, setGmapStatus] = useState(null); // null | 'ok' | 'partial' | 'short' | 'unrecognized'
+  const [geoStatus, setGeoStatus] = useState(null); // null | 'loading' | 'ok' | 'error'
+  const [imgStatus, setImgStatus] = useState(null); // null | 'loading' | 'error'
+
+  // 地址文字有變動、且還沒做過精準的座標反查時，用文字規則自動拆出行政區
+  function syncGeoFromAddressText(addr) {
+    if (geoStatus === 'ok') return; // 已經有更精準的反查結果，不要被文字規則覆蓋
+    const parsed = parseAddressComponents(addr);
+    if (parsed.country || parsed.region || parsed.city || parsed.district) {
+      setGeoComponents(parsed);
+    }
+  }
+
+  async function handleParseGmap() {
+    const parsed = parseGoogleMapsUrl(gmapInput);
+    if (!gmapInput.trim()) return;
+
+    if (parsed.isShortLink) {
+      setUrl(gmapInput.trim());
+      setGmapStatus('short');
+      return;
+    }
+    if (!parsed.recognized) {
+      setGmapStatus('unrecognized');
+      return;
+    }
+
+    setUrl(gmapInput.trim());
+    if (parsed.name && !name) setName(parsed.name);
+    if (parsed.address && !address) {
+      setAddress(parsed.address);
+      syncGeoFromAddressText(parsed.address);
+    }
+    if (parsed.lat != null) { setLat(parsed.lat); setLng(parsed.lng); }
+
+    if (parsed.name && parsed.lat != null) setGmapStatus('ok');
+    else setGmapStatus('partial');
+
+    // 連結裡沒有地址文字，但有座標的話可以自動反查地址與行政區（最準確的來源）
+    if (parsed.lat != null && !parsed.address && !address) {
+      await handleLookupAddress(parsed.lat, parsed.lng);
+    }
+  }
+
+  async function handleLookupAddress(overrideLat, overrideLng) {
+    const useLat = overrideLat != null ? overrideLat : parseFloat(lat);
+    const useLng = overrideLng != null ? overrideLng : parseFloat(lng);
+    if (Number.isNaN(useLat) || Number.isNaN(useLng)) {
+      setGeoStatus('error');
+      return;
+    }
+    setGeoStatus('loading');
+    try {
+      const found = await reverseGeocodeAddress(useLat, useLng);
+      setAddress(found.display_name);
+      setGeoComponents({
+        country: found.country, region: found.region, city: found.city, district: found.district,
+      });
+      setGeoStatus('ok');
+    } catch {
+      setGeoStatus('error');
+    }
+  }
+
+  async function handleImageUpload(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setImgStatus('error');
+      return;
+    }
+    setImgStatus('loading');
+    try {
+      const dataUrl = await resizeImageFile(file);
+      setImage(dataUrl);
+      setImgStatus(null);
+    } catch {
+      setImgStatus('error');
+    }
+    e.target.value = '';
+  }
+
+  function confirmNewCategory() {
+    const trimmed = newCatInput.trim();
+    if (!trimmed) return;
+    setCategory(trimmed);
+    setNewCatMode(false);
+    setNewCatInput('');
+  }
+
+  function submit() {
+    if (!name.trim()) { setErrMsg('請輸入地點名稱'); return; }
+    // 保險：如果因為某些操作順序，地址已經填了但 geoComponents 還沒同步，存檔前再算一次
+    const finalGeo = (geoComponents.country || geoComponents.region || geoComponents.city || geoComponents.district)
+      ? geoComponents
+      : parseAddressComponents(address);
+    const place = {
+      id: initial?.id || uid(),
+      name: name.trim(),
+      url: url.trim(),
+      image: image.trim(),
+      category,
+      note: note.trim(),
+      address: address.trim(),
+      country: (finalGeo.country || '').trim(),
+      region: (finalGeo.region || '').trim(),
+      city: (finalGeo.city || '').trim(),
+      district: (finalGeo.district || '').trim(),
+      lat: lat === '' ? null : parseFloat(lat),
+      lng: lng === '' ? null : parseFloat(lng),
+      createdAt: initial?.createdAt || Date.now(),
+    };
+    onSave(place);
+  }
+
+  return (
+    <Modal onClose={onClose} title={initial ? '編輯地點' : '新增地點'} wide>
+      <div style={fstyles.form}>
+        <div style={gmapStyles.wrap}>
+          <span style={{ fontSize: 12, color: '#8a8378', fontWeight: 500 }}>貼上 Google Map 連結，自動帶入名稱與座標</span>
+          <div style={{ display: 'flex', gap: 6 }}>
+            <input
+              style={{ ...fstyles.input, flex: 1 }}
+              value={gmapInput}
+              onChange={e => { setGmapInput(e.target.value); setGmapStatus(null); }}
+              placeholder="https://www.google.com/maps/place/…"
+            />
+            <button onClick={handleParseGmap} style={gmapStyles.parseBtn}>帶入</button>
+          </div>
+          {gmapStatus === 'ok' && <p style={gmapStyles.msgOk}>已自動帶入名稱與座標，Google 網址常把地址和店名黏在一起，請確認名稱／地址欄位是否需要微調</p>}
+          {gmapStatus === 'partial' && <p style={gmapStyles.msgPartial}>已帶入部分資訊，名稱或座標可能需要手動補上</p>}
+          {gmapStatus === 'short' && (
+            <p style={gmapStyles.msgWarn}>
+              這是 Google 短網址，已存為地點網址，但無法自動解析座標。<br />
+              請點開連結後複製瀏覽器網址列的完整網址（通常開頭是 google.com/maps/place/…）再貼一次，或手動填寫地址／經緯度。
+            </p>
+          )}
+          {gmapStatus === 'unrecognized' && <p style={gmapStyles.msgWarn}>看起來不是 Google Map 網址，請確認後再試一次</p>}
+          <p style={{ fontSize: 10.5, color: '#a39a86', margin: '2px 0 0' }}>地址查詢由 OpenStreetMap（Nominatim）提供 · © OpenStreetMap contributors</p>
+        </div>
+
+        <Field label="地點名稱 *">
+          <input style={fstyles.input} value={name} onChange={e => setName(e.target.value)} placeholder="例：清水寺" />
+        </Field>
+        <Field label="網址">
+          <input style={fstyles.input} value={url} onChange={e => setUrl(e.target.value)} placeholder="https://…" />
+        </Field>
+
+        <Field label="圖片">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <input style={fstyles.input} value={image.startsWith('data:') ? '' : image} onChange={e => setImage(e.target.value)} placeholder="貼上圖片網址…" disabled={image.startsWith('data:')} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <label style={fstyles.uploadBtn}>
+                <Upload size={13} /> 上傳圖片
+                <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
+              </label>
+              {imgStatus === 'loading' && <span style={{ fontSize: 11.5, color: '#8a8378' }}>處理中…</span>}
+              {imgStatus === 'error' && <span style={{ fontSize: 11.5, color: '#a8574e' }}>圖片讀取失敗，請換一張試試</span>}
+              {image && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <img src={image} alt="預覽" style={{ width: 36, height: 36, borderRadius: 6, objectFit: 'cover', border: '1px solid #e2dbc9' }} />
+                  <button onClick={() => setImage('')} style={{ fontSize: 11, color: '#a8574e', background: 'none', border: 'none', padding: 0 }}>移除</button>
+                </div>
+              )}
+            </div>
+            {image.startsWith('data:') && <p style={{ fontSize: 10.5, color: '#a39a86', margin: 0 }}>已上傳本機圖片，若想改用網址請先按「移除」</p>}
+          </div>
+        </Field>
+
+        <Field label="種類">
+          {!newCatMode ? (
+            <div style={{ display: 'flex', gap: 6 }}>
+              <select style={{ ...fstyles.input, flex: 1 }} value={category} onChange={e => setCategory(e.target.value)}>
+                {allCategories.map(c => <option key={c} value={c}>{c}</option>)}
+                {!allCategories.includes(category) && <option value={category}>{category}</option>}
+              </select>
+              <button type="button" onClick={() => setNewCatMode(true)} style={{ ...gmapStyles.parseBtn, background: '#5b7a9a', whiteSpace: 'nowrap' }}>
+                <Plus size={13} /> 新增種類
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', gap: 6 }}>
+              <input
+                style={{ ...fstyles.input, flex: 1 }}
+                value={newCatInput}
+                onChange={e => setNewCatInput(e.target.value)}
+                placeholder="輸入新種類名稱…"
+                autoFocus
+              />
+              <button type="button" onClick={confirmNewCategory} style={{ ...gmapStyles.parseBtn, background: '#4a8a5a' }}>確定</button>
+              <button type="button" onClick={() => { setNewCatMode(false); setNewCatInput(''); }} style={fstyles.cancelBtn}>取消</button>
+            </div>
+          )}
+        </Field>
+
+        <Field label="地址（用於開啟 Google Map，填地址或下方經緯度擇一即可）">
+          <div style={{ display: 'flex', gap: 6 }}>
+            <input
+              style={{ ...fstyles.input, flex: 1 }}
+              value={address}
+              onChange={e => setAddress(e.target.value)}
+              onBlur={e => syncGeoFromAddressText(e.target.value)}
+              placeholder="例：京都府京都市東山区清水1丁目294"
+            />
+            <button
+              onClick={() => handleLookupAddress()}
+              disabled={geoStatus === 'loading' || (lat === '' || lng === '')}
+              title={lat === '' || lng === '' ? '請先填寫經緯度' : '依座標查詢地址與行政區'}
+              style={{
+                ...gmapStyles.parseBtn, background: '#5b7a9a', whiteSpace: 'nowrap',
+                opacity: (lat === '' || lng === '') ? 0.5 : 1,
+              }}
+            >
+              {geoStatus === 'loading' ? '查詢中…' : '依座標查地址'}
+            </button>
+          </div>
+          {geoStatus === 'ok' && <p style={gmapStyles.msgOk}>已依座標查到地址與行政區，請確認是否正確</p>}
+          {geoStatus === 'error' && <p style={gmapStyles.msgWarn}>查詢失敗，請確認網路連線，或手動輸入</p>}
+          {(geoComponents.country || geoComponents.region || geoComponents.city || geoComponents.district) ? (
+            <p style={{ fontSize: 11.5, color: '#4a6b5a', margin: '2px 0 0' }}>
+              已自動判斷地區：{[geoComponents.country, geoComponents.region, geoComponents.city, geoComponents.district].filter(Boolean).join(' · ')}
+              <span style={{ color: '#a39a86' }}>（用於「依國家／縣市／區域」搜尋，不需要手動填寫）</span>
+            </p>
+          ) : (
+            address && <p style={{ fontSize: 11.5, color: '#a39a86', margin: '2px 0 0' }}>目前還沒判斷出地區，可以按「依座標查地址」讓系統自動判斷</p>
+          )}
+        </Field>
+
+        <div style={{ display: 'flex', gap: 10 }}>
+          <Field label="緯度 (lat，選填，Google Map 連結解析後會自動帶入)">
+            <input style={fstyles.input} value={lat} onChange={e => setLat(e.target.value)} placeholder="例：34.9948" />
+          </Field>
+          <Field label="經度 (lng，選填)">
+            <input style={fstyles.input} value={lng} onChange={e => setLng(e.target.value)} placeholder="例：135.7850" />
+          </Field>
+        </div>
+        <Field label="筆記">
+          <textarea style={{ ...fstyles.input, minHeight: 70, resize: 'vertical' }} value={note} onChange={e => setNote(e.target.value)} placeholder="心得、注意事項…" />
+        </Field>
+        {errMsg && <p style={{ color: '#a8574e', fontSize: 12.5, margin: 0 }}>{errMsg}</p>}
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 4 }}>
+          <button onClick={onClose} style={fstyles.cancelBtn}>取消</button>
+          <button onClick={submit} style={fstyles.saveBtn}>{initial ? '儲存變更' : '新增地點'}</button>
+        </div>
+      </div>
+    </Modal>
+  );
+}
+
+function Field({ label, children }) {
+  return (
+    <label style={{ display: 'flex', flexDirection: 'column', gap: 5, flex: 1 }}>
+      <span style={{ fontSize: 12, color: '#8a8378', fontWeight: 500 }}>{label}</span>
+      {children}
+    </label>
+  );
+}
+
+const fstyles = {
+  form: { display: 'flex', flexDirection: 'column', gap: 12 },
+  input: { padding: '9px 12px', borderRadius: 9, border: '1px solid #e2dbc9', fontSize: 13.5, outline: 'none', width: '100%', background: '#fff' },
+  cancelBtn: { padding: '9px 18px', borderRadius: 9, border: '1px solid #e2dbc9', background: '#fff', color: '#6b6458', fontSize: 13.5 },
+  saveBtn: { padding: '9px 20px', borderRadius: 9, border: 'none', background: '#a8574e', color: '#fff', fontSize: 13.5, fontWeight: 600 },
+  uploadBtn: {
+    display: 'inline-flex', alignItems: 'center', gap: 6, padding: '8px 14px', borderRadius: 9,
+    border: '1px solid #e2dbc9', background: '#fff', color: '#5b7a9a', fontSize: 12.5, fontWeight: 600, cursor: 'pointer',
+  },
+};
+
+const gmapStyles = {
+  wrap: { display: 'flex', flexDirection: 'column', gap: 6, background: '#eef1e5', border: '1px solid #d8e0c8', borderRadius: 10, padding: 12, marginBottom: 2 },
+  parseBtn: { padding: '9px 16px', borderRadius: 9, border: 'none', background: '#4a8a5a', color: '#fff', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap' },
+  msgOk: { fontSize: 11.5, color: '#4a8a5a', margin: '2px 0 0', lineHeight: 1.5 },
+  msgPartial: { fontSize: 11.5, color: '#c08a3e', margin: '2px 0 0', lineHeight: 1.5 },
+  msgWarn: { fontSize: 11.5, color: '#a8574e', margin: '2px 0 0', lineHeight: 1.5 },
+};
+
+function Modal({ onClose, title, children, wide }) {
+  return (
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(58,53,44,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: 16 }} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} style={{
+        background: '#faf7f0', borderRadius: 16, padding: 22, width: '100%', maxWidth: wide ? 640 : 420,
+        maxHeight: '88vh', overflowY: 'auto', boxShadow: '0 20px 50px rgba(0,0,0,0.2)',
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+          <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: 17, margin: 0 }}>{title}</h3>
+          <button onClick={onClose} style={{ border: 'none', background: 'transparent', color: '#a39a86' }}><X size={18} /></button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// ---------- add to trip modal ----------
+function AddToTripModal({ place, trips, saveTrips, onClose }) {
+  const [selectedTrip, setSelectedTrip] = useState(trips[0]?.id || '');
+  const [dayIdx, setDayIdx] = useState(0);
+  const trip = trips.find(t => t.id === selectedTrip);
+
+  async function add() {
+    if (!trip) return;
+    const days = trip.days.map((d, i) => i === dayIdx ? { ...d, items: [...d.items, { id: uid(), placeId: place.id }] } : d);
+    await saveTrips(trips.map(t => t.id === trip.id ? { ...t, days } : t));
+    onClose();
+  }
+
+  if (trips.length === 0) {
+    return (
+      <Modal onClose={onClose} title="加入行程">
+        <p style={{ fontSize: 13.5, color: '#8a8378', lineHeight: 1.7 }}>目前還沒有任何行程。請先到「我的行程」建立一個行程，再回來把地點加進去。</p>
+        <div style={{ textAlign: 'right' }}><button onClick={onClose} style={fstyles.cancelBtn}>了解</button></div>
+      </Modal>
+    );
+  }
+
+  return (
+    <Modal onClose={onClose} title={`加入行程：${place.name}`}>
+      <div style={fstyles.form}>
+        <Field label="選擇行程">
+          <select style={fstyles.input} value={selectedTrip} onChange={e => { setSelectedTrip(e.target.value); setDayIdx(0); }}>
+            {trips.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+          </select>
+        </Field>
+        {trip && (
+          <Field label="選擇天數">
+            <select style={fstyles.input} value={dayIdx} onChange={e => setDayIdx(parseInt(e.target.value))}>
+              {trip.days.map((d, i) => <option key={d.id} value={i}>Day {i + 1}{d.date ? `（${d.date}）` : ''}</option>)}
+            </select>
+          </Field>
+        )}
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+          <button onClick={onClose} style={fstyles.cancelBtn}>取消</button>
+          <button onClick={add} style={fstyles.saveBtn}>加入</button>
+        </div>
+      </div>
+    </Modal>
+  );
+}
+
+// ============================================================
+// TRIPS LIST VIEW
+// ============================================================
+function TripsListView({ trips, saveTrips, openTrip }) {
+  const [showForm, setShowForm] = useState(false);
+
+  async function createTrip({ name, startDate, numDays }) {
+    const days = Array.from({ length: numDays }).map((_, i) => ({
+      id: uid(),
+      date: startDate ? addDays(startDate, i) : '',
+      items: [],
+    }));
+    const trip = { id: uid(), name, days, createdAt: Date.now() };
+    await saveTrips([trip, ...trips]);
+    setShowForm(false);
+    openTrip(trip.id);
+  }
+
+  async function deleteTrip(id) {
+    await saveTrips(trips.filter(t => t.id !== id));
+  }
+
+  return (
+    <div>
+      <SectionIntro eyebrow="ITINERARY" title="我的行程" desc="建立行程，把收藏的地點依天數排進去，規劃路線。" />
+      <div style={{ marginBottom: 18 }}>
+        <button style={cstyles.addBtn} onClick={() => setShowForm(true)}><Plus size={16} /> 建立新行程</button>
+      </div>
+
+      {trips.length === 0 ? (
+        <EmptyState title="還沒有任何行程" desc="建立一個行程，設定天數，就可以開始把收藏的地點排進去。" actionLabel="建立第一個行程" onAction={() => setShowForm(true)} />
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 14 }}>
+          {trips.map(t => (
+            <TripCard key={t.id} trip={t} onOpen={() => openTrip(t.id)} onDelete={() => deleteTrip(t.id)} />
+          ))}
+        </div>
+      )}
+
+      {showForm && <TripFormModal onClose={() => setShowForm(false)} onCreate={createTrip} />}
+    </div>
+  );
+}
+
+function addDays(dateStr, n) {
+  const d = new Date(dateStr + 'T00:00:00');
+  d.setDate(d.getDate() + n);
+  return d.toISOString().slice(0, 10);
+}
+
+function TripCard({ trip, onOpen, onDelete }) {
+  const [confirmDel, setConfirmDel] = useState(false);
+  const totalStops = trip.days.reduce((s, d) => s + d.items.length, 0);
+  return (
+    <div style={{ background: '#fffdf8', border: '1px solid #e8e1d0', borderRadius: 14, padding: 16, cursor: 'pointer' }} onClick={onOpen}>
+      <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 17, marginBottom: 6 }}>{trip.name}</div>
+      <div style={{ fontSize: 12.5, color: '#8a8378', marginBottom: 12 }}>
+        {trip.days.length} 天行程・共 {totalStops} 個地點
+      </div>
+      <div style={{ display: 'flex', gap: 4, marginBottom: 12, flexWrap: 'wrap' }}>
+        {trip.days.slice(0, 6).map((d, i) => (
+          <span key={d.id} style={{ fontSize: 10.5, background: '#f0f3e8', color: '#8a9a5b', padding: '2px 7px', borderRadius: 6 }}>D{i + 1}</span>
+        ))}
+        {trip.days.length > 6 && <span style={{ fontSize: 10.5, color: '#a39a86' }}>…</span>}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        {!confirmDel ? (
+          <IconBtn title="刪除行程" onClick={e => { e.stopPropagation(); setConfirmDel(true); }}><Trash2 size={12} /></IconBtn>
+        ) : (
+          <div style={{ display: 'flex', gap: 4 }}>
+            <IconBtn danger title="確認刪除" onClick={e => { e.stopPropagation(); onDelete(); }}>確認刪除</IconBtn>
+            <IconBtn title="取消" onClick={e => { e.stopPropagation(); setConfirmDel(false); }}>取消</IconBtn>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function TripFormModal({ onClose, onCreate }) {
+  const [name, setName] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [numDays, setNumDays] = useState(3);
+  const [errMsg, setErrMsg] = useState('');
+
+  function submit() {
+    if (!name.trim()) { setErrMsg('請輸入行程名稱'); return; }
+    if (numDays < 1 || numDays > 60) { setErrMsg('天數請輸入 1–60'); return; }
+    onCreate({ name: name.trim(), startDate, numDays: parseInt(numDays) });
+  }
+
+  return (
+    <Modal onClose={onClose} title="建立新行程">
+      <div style={fstyles.form}>
+        <Field label="行程名稱 *">
+          <input style={fstyles.input} value={name} onChange={e => setName(e.target.value)} placeholder="例：京都賞楓五日" />
+        </Field>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <Field label="出發日期（選填）">
+            <input type="date" style={fstyles.input} value={startDate} onChange={e => setStartDate(e.target.value)} />
+          </Field>
+          <Field label="天數 *">
+            <input type="number" min={1} max={60} style={fstyles.input} value={numDays} onChange={e => setNumDays(e.target.value)} />
+          </Field>
+        </div>
+        {errMsg && <p style={{ color: '#a8574e', fontSize: 12.5, margin: 0 }}>{errMsg}</p>}
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+          <button onClick={onClose} style={fstyles.cancelBtn}>取消</button>
+          <button onClick={submit} style={fstyles.saveBtn}>建立行程</button>
+        </div>
+      </div>
+    </Modal>
+  );
+}
+
+// ============================================================
+// TRIP DETAIL VIEW
+// ============================================================
+function TripDetailView({ trip, trips, saveTrips, places, back }) {
+  const [activeDay, setActiveDay] = useState(0);
+  const [dragItem, setDragItem] = useState(null); // {dayIdx, itemIdx}
+  const [previewId, setPreviewId] = useState(null);
+  const [showAddPlace, setShowAddPlace] = useState(false);
+
+  if (!trip) return null;
+
+  const placeMap = {};
+  places.forEach(p => { placeMap[p.id] = p; });
+
+  const day = trip.days[activeDay];
+  const dayPlaces = day.items.map(it => placeMap[it.placeId]).filter(Boolean);
+
+  async function updateDays(days) {
+    await saveTrips(trips.map(t => t.id === trip.id ? { ...t, days } : t));
+  }
+
+  async function removeItem(dayIdx, itemId) {
+    const days = trip.days.map((d, i) => i === dayIdx ? { ...d, items: d.items.filter(it => it.id !== itemId) } : d);
+    await updateDays(days);
+  }
+
+  async function reorder(dayIdx, fromIdx, toIdx) {
+    const d = trip.days[dayIdx];
+    const items = [...d.items];
+    const [moved] = items.splice(fromIdx, 1);
+    items.splice(toIdx, 0, moved);
+    const days = trip.days.map((dd, i) => i === dayIdx ? { ...dd, items } : dd);
+    await updateDays(days);
+  }
+
+  async function updateDayDate(dayIdx, date) {
+    const days = trip.days.map((d, i) => i === dayIdx ? { ...d, date } : d);
+    await updateDays(days);
+  }
+
+  async function addPlaceToDay(placeId) {
+    const days = trip.days.map((d, i) => i === activeDay ? { ...d, items: [...d.items, { id: uid(), placeId }] } : d);
+    await updateDays(days);
+  }
+
+  return (
+    <div>
+      <button onClick={back} style={{ display: 'flex', alignItems: 'center', gap: 4, border: 'none', background: 'transparent', color: '#8a8378', fontSize: 13, marginBottom: 14, padding: 0 }}>
+        <ChevronLeft size={15} /> 回到行程列表
+      </button>
+
+      <SectionIntro eyebrow="TRIP" title={trip.name} desc={`共 ${trip.days.length} 天・依天數安排地點，右側地圖會即時對照當日路線`} />
+
+      <div style={tstyles.dayTabs}>
+        {trip.days.map((d, i) => (
+          <button key={d.id} onClick={() => setActiveDay(i)} style={tstyles.dayTab(i === activeDay)}>
+            Day {i + 1}
+            <span style={{ display: 'block', fontSize: 10, opacity: 0.75 }}>{d.date || '—'}</span>
+          </button>
+        ))}
+      </div>
+
+      <div style={tstyles.splitLayout}>
+        <div style={tstyles.dayPane}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12, flexWrap: 'wrap' }}>
+            <span style={{ fontSize: 12.5, color: '#8a8378' }}>本日日期</span>
+            <input type="date" value={day.date || ''} onChange={e => updateDayDate(activeDay, e.target.value)} style={{ ...fstyles.input, width: 'auto', padding: '6px 10px' }} />
+            <button onClick={() => setShowAddPlace(true)} style={{ ...cstyles.addBtn, padding: '7px 14px' }}>
+              <Plus size={14} /> 加入地點
+            </button>
+            {googleMapsRouteLink(dayPlaces) && (
+              <a
+                href={googleMapsRouteLink(dayPlaces)}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  marginLeft: 'auto', fontSize: 12, color: '#fff', background: '#4a8a5a', padding: '7px 14px',
+                  borderRadius: 8, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5, fontWeight: 600,
+                }}
+              >
+                <MapPin size={13} /> 在 Google Map 開啟整天路線
+              </a>
+            )}
+          </div>
+
+          {dayPlaces.length === 0 ? (
+            <div style={{ border: '1.5px dashed #d8d2c4', borderRadius: 12, padding: '32px 16px', textAlign: 'center', color: '#a39a86', fontSize: 13 }}>
+              這天還沒有安排地點。<br />點上面的「加入地點」把收藏的地點排進來。
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {day.items.map((it, idx) => {
+                const p = placeMap[it.placeId];
+                if (!p) return null;
+                const meta = getCategoryMeta(p.category);
+                const isPreview = (previewId || dayPlaces[0]?.id) === p.id;
+                return (
+                  <div
+                    key={it.id}
+                    draggable
+                    onDragStart={() => setDragItem(idx)}
+                    onDragOver={e => e.preventDefault()}
+                    onDrop={() => { if (dragItem !== null && dragItem !== idx) reorder(activeDay, dragItem, idx); setDragItem(null); }}
+                    onClick={() => setPreviewId(p.id)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 10, background: '#fffdf8',
+                      border: `1px solid ${isPreview ? meta.color : '#e8e1d0'}`,
+                      borderRadius: 12, padding: '10px 12px', cursor: 'grab',
+                    }}
+                  >
+                    <GripVertical size={15} color="#c9c1ac" />
+                    <div style={{ width: 24, height: 24, borderRadius: '50%', background: meta.bg, color: meta.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, flexShrink: 0 }}>{idx + 1}</div>
+                    <div style={{ width: 44, height: 44, borderRadius: 8, overflow: 'hidden', background: meta.bg, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {p.image ? <img src={p.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { e.target.style.display = 'none'; }} /> : <ImageIcon size={16} color={meta.color} />}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 600, fontSize: 13.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
+                      <div style={{ fontSize: 10.5, color: meta.color }}>{p.category}</div>
+                    </div>
+                    {(p.address || (p.lat != null && p.lng != null)) && (
+                      <a
+                        href={googleMapsLink(p)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={e => e.stopPropagation()}
+                        title="在 Google Map 開啟"
+                        style={{ border: '1px solid #cfe3d3', background: '#fff', color: '#4a8a5a', borderRadius: 7, padding: '4px 7px', display: 'flex', alignItems: 'center' }}
+                      >
+                        <MapPin size={13} />
+                      </a>
+                    )}
+                    <IconBtn title="從此天移除" onClick={() => removeItem(activeDay, it.id)}><X size={13} /></IconBtn>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        <div>
+          <RealMap
+            places={dayPlaces}
+            selectedId={previewId || dayPlaces[0]?.id}
+            onSelect={setPreviewId}
+            emptyHint="這天還沒有地點，加入後就能預覽地圖"
+          />
+        </div>
+      </div>
+
+      {showAddPlace && (
+        <AddPlaceToDayModal
+          places={places}
+          existingIds={new Set(day.items.map(it => it.placeId))}
+          onAdd={addPlaceToDay}
+          onClose={() => setShowAddPlace(false)}
+        />
+      )}
+    </div>
+  );
+}
+
+function AddPlaceToDayModal({ places, existingIds, onAdd, onClose }) {
+  const [query, setQuery] = useState('');
+  const filtered = places.filter(p => !query || p.name.includes(query) || (p.note || '').includes(query));
+
+  return (
+    <Modal onClose={onClose} title="加入地點到這一天" wide>
+      <input
+        style={{ ...fstyles.input, marginBottom: 12 }}
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+        placeholder="搜尋收藏的地點…"
+      />
+      {places.length === 0 ? (
+        <p style={{ fontSize: 13, color: '#8a8378', textAlign: 'center', padding: '20px 0' }}>
+          還沒有收藏任何地點，先到「收藏地點」新增幾個吧。
+        </p>
+      ) : filtered.length === 0 ? (
+        <p style={{ fontSize: 13, color: '#a39a86', textAlign: 'center', padding: '20px 0' }}>沒有符合的地點</p>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 420, overflowY: 'auto' }}>
+          {filtered.map(p => {
+            const meta = getCategoryMeta(p.category);
+            const added = existingIds.has(p.id);
+            return (
+              <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '1px solid #e8e1d0', borderRadius: 10, padding: '8px 10px', background: '#fffdf8' }}>
+                <div style={{ width: 38, height: 38, borderRadius: 8, overflow: 'hidden', background: meta.bg, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {p.image ? <img src={p.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { e.target.style.display = 'none'; }} /> : <ImageIcon size={15} color={meta.color} />}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 600, fontSize: 13, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
+                  <div style={{ fontSize: 10.5, color: meta.color }}>{p.category}</div>
+                </div>
+                <button
+                  disabled={added}
+                  onClick={() => !added && onAdd(p.id)}
+                  style={{
+                    border: 'none', borderRadius: 8, padding: '6px 12px', fontSize: 12, fontWeight: 600,
+                    background: added ? '#e8e1d0' : '#a8574e', color: added ? '#a39a86' : '#fff',
+                  }}
+                >
+                  {added ? '已加入' : '加入'}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </Modal>
+  );
+}
+
+const tstyles = {
+  dayTabs: { display: 'flex', gap: 6, overflowX: 'auto', marginBottom: 18, paddingBottom: 4 },
+  dayTab: (active) => ({
+    padding: '8px 14px', borderRadius: 10, border: `1px solid ${active ? '#a8574e' : '#e2dbc9'}`,
+    background: active ? '#a8574e' : '#fffdf8', color: active ? '#fff' : '#6b6458', fontSize: 12.5, fontWeight: 600,
+    flexShrink: 0, textAlign: 'left', lineHeight: 1.3,
+  }),
+  splitLayout: { display: 'grid', gridTemplateColumns: 'minmax(280px, 1fr) minmax(280px, 1fr)', gap: 16, alignItems: 'start' },
+  dayPane: { minHeight: 200 },
+};
+
+// ============================================================
+// REFERENCE LINKS VIEW（個人參考資料連結）
+// ============================================================
+function ReferenceLinksView({ links, saveLinks }) {
+  const [showForm, setShowForm] = useState(false);
+  const [editingLink, setEditingLink] = useState(null);
+  const [query, setQuery] = useState('');
+  const [noteView, setNoteView] = useState(null);
+
+  const filtered = links.filter(l => {
+    if (!query) return true;
+    return l.title.includes(query) || (l.note || '').includes(query) || (l.tag || '').includes(query);
+  });
+
+  async function handleDelete(id) {
+    await saveLinks(links.filter(l => l.id !== id));
+  }
+
+  async function handleSave(link) {
+    if (editingLink) {
+      await saveLinks(links.map(l => l.id === link.id ? link : l));
+    } else {
+      await saveLinks([link, ...links]);
+    }
+    setShowForm(false);
+    setEditingLink(null);
+  }
+
+  return (
+    <div>
+      <SectionIntro
+        eyebrow="REFERENCE"
+        title="參考資料"
+        desc="存放個人參考用的連結——靈感文章、工具網站、待讀資料，跟收藏地點分開管理。"
+      />
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center', marginBottom: 18 }}>
+        <input
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          placeholder="搜尋標題、標籤或筆記…"
+          style={{ ...cstyles.search, flex: '1 1 200px', minWidth: 160 }}
+        />
+        <button style={{ ...cstyles.addBtn, marginLeft: 'auto' }} onClick={() => { setEditingLink(null); setShowForm(true); }}>
+          <Plus size={16} /> 新增連結
+        </button>
+      </div>
+
+      {links.length === 0 ? (
+        <EmptyState
+          title="還沒有存任何參考資料"
+          desc="看到有用的文章、工具或靈感網站時，存下標題和連結，之後要用隨時找得到。"
+          actionLabel="新增第一筆資料"
+          onAction={() => { setEditingLink(null); setShowForm(true); }}
+        />
+      ) : filtered.length === 0 ? (
+        <p style={{ color: '#a39a86', padding: 20, textAlign: 'center' }}>沒有符合條件的資料</p>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {filtered.map(l => (
+            <div key={l.id} style={{ background: '#fffdf8', border: '1px solid #e8e1d0', borderRadius: 12, padding: '12px 14px' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                <div style={{ width: 34, height: 34, borderRadius: 8, background: '#eef1e5', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <LinkIcon size={15} color="#4a6b5a" />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                    <span style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 15 }}>{l.title}</span>
+                    {l.tag && <span style={{ fontSize: 10.5, fontWeight: 600, color: '#4a6b5a', background: '#e7f0ec', padding: '2px 7px', borderRadius: 8 }}>{l.tag}</span>}
+                  </div>
+                  <a href={l.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: '#5b7a9a', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 3, marginTop: 2, wordBreak: 'break-all' }}>
+                    <LinkIcon size={10} /> {l.url}
+                  </a>
+                  {l.note && (
+                    <p style={{ fontSize: 12.5, color: '#8a8378', margin: '6px 0 0', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      {l.note}
+                    </p>
+                  )}
+                </div>
+                <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
+                  {l.note && <IconBtn title="查看完整筆記" onClick={() => setNoteView(l)}>筆記</IconBtn>}
+                  <IconBtn title="編輯" onClick={() => { setEditingLink(l); setShowForm(true); }}>✎</IconBtn>
+                  <IconBtn title="刪除" onClick={() => handleDelete(l.id)}><Trash2 size={12} /></IconBtn>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {showForm && (
+        <ReferenceLinkFormModal
+          initial={editingLink}
+          onClose={() => { setShowForm(false); setEditingLink(null); }}
+          onSave={handleSave}
+        />
+      )}
+
+      {noteView && (
+        <Modal onClose={() => setNoteView(null)} title={noteView.title}>
+          <p style={{ fontSize: 13.5, color: '#3a352c', lineHeight: 1.8, whiteSpace: 'pre-wrap', margin: 0 }}>{noteView.note}</p>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+function ReferenceLinkFormModal({ initial, onClose, onSave }) {
+  const [title, setTitle] = useState(initial?.title || '');
+  const [url, setUrl] = useState(initial?.url || '');
+  const [tag, setTag] = useState(initial?.tag || '');
+  const [note, setNote] = useState(initial?.note || '');
+  const [errMsg, setErrMsg] = useState('');
+
+  function submit() {
+    if (!title.trim()) { setErrMsg('請輸入標題'); return; }
+    if (!url.trim()) { setErrMsg('請輸入網址'); return; }
+    onSave({
+      id: initial?.id || uid(),
+      title: title.trim(),
+      url: url.trim(),
+      tag: tag.trim(),
+      note: note.trim(),
+      createdAt: initial?.createdAt || Date.now(),
+    });
+  }
+
+  return (
+    <Modal onClose={onClose} title={initial ? '編輯參考資料' : '新增參考資料'}>
+      <div style={fstyles.form}>
+        <Field label="標題 *">
+          <input style={fstyles.input} value={title} onChange={e => setTitle(e.target.value)} placeholder="例：京都賞楓交通懶人包" />
+        </Field>
+        <Field label="網址 *">
+          <input style={fstyles.input} value={url} onChange={e => setUrl(e.target.value)} placeholder="https://…" />
+        </Field>
+        <Field label="標籤（選填）">
+          <input style={fstyles.input} value={tag} onChange={e => setTag(e.target.value)} placeholder="例：交通、靈感、工具" />
+        </Field>
+        <Field label="筆記">
+          <textarea style={{ ...fstyles.input, minHeight: 90, resize: 'vertical' }} value={note} onChange={e => setNote(e.target.value)} placeholder="重點摘要、之後要注意的事…" />
+        </Field>
+        {errMsg && <p style={{ color: '#a8574e', fontSize: 12.5, margin: 0 }}>{errMsg}</p>}
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+          <button onClick={onClose} style={fstyles.cancelBtn}>取消</button>
+          <button onClick={submit} style={fstyles.saveBtn}>{initial ? '儲存變更' : '新增資料'}</button>
+        </div>
+      </div>
+    </Modal>
+  );
+}
+
+</script>
+
+<script>
+(function () {
+  function showFatal(msg) {
+    const el = document.getElementById('rn-fatal-error');
+    el.style.display = 'block';
+    el.textContent = '頁面載入失敗，請確認網路連線正常後重新整理。\n\n錯誤訊息：' + msg;
+  }
+  try {
+    if (typeof Babel === 'undefined' || typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
+      showFatal('必要的程式庫（React / Babel）沒有載入成功，請確認網路連線後重新整理頁面。');
+      return;
+    }
+    const source = document.getElementById('rn-app-source').textContent;
+    const transformed = Babel.transform(source, {
+      presets: [['react', { runtime: 'classic' }]],
+    }).code;
+    (0, eval)(transformed);
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(TravelNotebook));
+  } catch (e) {
+    console.error(e);
+    showFatal((e && e.message) || String(e));
+  }
+})();
+</script>
+</body>
+</html>
