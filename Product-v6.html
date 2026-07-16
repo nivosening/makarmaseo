@@ -197,6 +197,12 @@
   .appear-list-item a{ color:var(--ink-soft); text-decoration:none; border-bottom:1px dotted var(--ink-soft); }
   .appear-list-item a:hover{ color:var(--red); border-color:var(--red); }
   .appear-more{ font-size:11px; color:var(--meta); padding-left:10px; }
+  .appear-count-label{ font-size:11px; color:var(--ink-soft); font-weight:700; margin-bottom:1px; }
+  .appear-count-badge{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:20px; height:20px; border-radius:50%; background:var(--ink-soft); color:#fff;
+    font-size:10.5px; font-weight:700; flex:none;
+  }
   .card-note{ font-size:12px; color:var(--ink-soft); line-height:1.5; }
   .card-foot{
     display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:8px;
@@ -268,7 +274,13 @@
     background:var(--card-bg); cursor:pointer; text-align:left;
   }
   .merge-candidate:hover{ border-color:var(--ink); background:var(--paper-deep); }
+  .merge-candidate.selected{ border-color:var(--gold); background:var(--gold-bg); }
+  .merge-candidate .mc-left{ display:flex; align-items:center; gap:10px; }
+  .merge-candidate input[type="checkbox"]{ width:16px; height:16px; accent-color:var(--gold); flex:none; }
   .merge-candidate .mc-name{ font-weight:700; font-size:13px; }
+  .merge-candidate .mc-same-badge{
+    font-size:10px; color:var(--gold); border:1px solid var(--gold); border-radius:20px; padding:1px 7px; margin-left:6px;
+  }
   .merge-candidate .mc-meta{ font-size:11px; color:var(--meta); margin-top:2px; }
   .merge-field{ margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--paper-line); }
   .merge-field-label{ font-size:11px; color:var(--meta); letter-spacing:.03em; margin-bottom:6px; }
@@ -292,7 +304,6 @@
     </div>
     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
       <span class="stamp-count" id="totalCount">共 0 件</span>
-      <span class="stamp-count" id="storageModeBadge" style="display:none;"></span>
       <button class="btn btn-ghost" id="openBulkBtn">整批新增</button>
       <div class="menu-wrap" style="position:relative;">
         <button class="btn btn-ghost" id="dataMenuBtn">匯入／匯出 ▾</button>
@@ -456,15 +467,19 @@
 
     <div id="mergeStep1">
       <div style="font-size:12.5px; color:var(--ink-soft); margin-bottom:10px;">
-        要把「<b id="mergeSourceName"></b>」跟哪一件商品合併？
+        要把「<b id="mergeSourceName"></b>」跟哪些商品合併？（可複選，名稱相同的會排在最上面）
       </div>
       <input type="text" id="mergeSearchInput" class="search-box" placeholder="搜尋商品名稱或品牌..." style="margin-bottom:10px; width:100%;">
       <div id="mergeCandidateList" style="max-height:280px; overflow-y:auto; display:flex; flex-direction:column; gap:6px;"></div>
+      <div class="modal-actions">
+        <span id="mergeSelectedCount" style="font-size:12px; color:var(--meta); margin-right:auto; align-self:center;">尚未選擇商品</span>
+        <button class="btn btn-primary" id="mergeNextBtn" disabled>下一步</button>
+      </div>
     </div>
 
     <div id="mergeStep2" style="display:none;">
       <div style="font-size:12px; color:var(--ink-soft); line-height:1.6; margin-bottom:14px; background:var(--paper-deep); padding:9px 11px; border-radius:var(--radius);">
-        內容相同或其中一邊留白的欄位會自動選好，你可以再調整。<b>所屬檔期、主題標籤、出現紀錄一律自動合併（取聯集），不會遺漏任何一筆。</b>
+        內容相同或其中幾邊留白的欄位會自動選好，你可以再調整。<b>所屬檔期、主題標籤、出現紀錄一律自動合併（取聯集），不會遺漏任何一筆。</b>
       </div>
       <div id="mergeFieldsWrap"></div>
       <div class="modal-actions">
@@ -517,20 +532,7 @@ const storageAdapter = STORAGE_MODE === 'cloud' ? window.storage : {
   }
 };
 
-(function initStorageBadge(){
-  const badge = document.getElementById('storageModeBadge');
-  if(STORAGE_MODE === 'local'){
-    badge.style.display = 'inline-block';
-    badge.style.borderColor = 'var(--gold)';
-    badge.style.color = 'var(--gold)';
-    badge.textContent = '💾 本機儲存（僅存在這個瀏覽器）';
-  } else if(STORAGE_MODE === 'none'){
-    badge.style.display = 'inline-block';
-    badge.style.borderColor = 'var(--red)';
-    badge.style.color = 'var(--red)';
-    badge.textContent = '⚠️ 無法儲存，資料離開頁面就會消失';
-  }
-})();
+
 
 let state = { campaigns: [], themes: [], products: [] };
 let activeCampaign = 'all';
@@ -744,13 +746,14 @@ function renderGrid(){
     const appearances = p.appearances || [];
     const shownAppear = appearances.slice(0, 2);
     const appearHtml = appearances.length ? `<div class="appear-list">
+        <div class="appear-count-label">出現紀錄・共 ${appearances.length} 筆</div>
         ${shownAppear.map(a => {
           const label = [a.site, a.title].filter(Boolean).join(' － ') || a.url || '未命名紀錄';
           return a.url
             ? `<div class="appear-list-item"><a href="${escapeAttr(a.url)}" target="_blank" rel="noopener">${escapeHtml(label)}</a></div>`
             : `<div class="appear-list-item">${escapeHtml(label)}</div>`;
         }).join('')}
-        ${appearances.length > 2 ? `<div class="appear-more">還有 ${appearances.length - 2} 筆紀錄...</div>` : ''}
+        ${appearances.length > 2 ? `<div class="appear-more">還有 ${appearances.length - 2} 筆，開編輯查看全部</div>` : ''}
       </div>` : '';
     return `<div class="card ${p.isClient?'is-client':''}" data-id="${p.id}">
       <button class="client-toggle-btn ${p.isClient?'active':''}" data-toggle-client="${p.id}" title="標記為客戶商品">🚩</button>
@@ -766,7 +769,10 @@ function renderGrid(){
         ${p.note ? `<div class="card-note">${escapeHtml(p.note)}</div>` : ''}
         ${appearHtml}
         <div class="card-foot">
-          ${statusHtml}
+          <div style="display:flex; align-items:center; gap:6px;">
+            ${statusHtml}
+            ${appearances.length ? `<span class="appear-count-badge" title="出現紀錄筆數">${appearances.length}</span>` : ''}
+          </div>
           <div class="card-actions">
             ${p.url ? `<a class="link-btn" href="${escapeAttr(p.url)}" target="_blank" rel="noopener">連結 ↗</a>` : ''}
             <button class="icon-btn" data-merge="${p.id}" title="與其他商品合併">⇄</button>
@@ -1372,7 +1378,7 @@ document.getElementById('bulkConfirmBtn').addEventListener('click', async () => 
 
 /* ===== 合併商品 ===== */
 let mergeSourceId = null;
-let mergeTargetId = null;
+let mergeSelectedTargets = [];
 const MERGE_FIELDS = [
   { key: 'name', label: '品名' },
   { key: 'brand', label: '品牌' },
@@ -1391,7 +1397,7 @@ function mergeFieldDisplay(key, val){
 
 function openMergeModal(sourceId){
   mergeSourceId = sourceId;
-  mergeTargetId = null;
+  mergeSelectedTargets = [];
   const source = state.products.find(x => x.id === sourceId);
   if(!source) return;
   document.getElementById('mergeSourceName').textContent = source.name;
@@ -1399,81 +1405,114 @@ function openMergeModal(sourceId){
   document.getElementById('mergeStep1').style.display = 'block';
   document.getElementById('mergeStep2').style.display = 'none';
   renderMergeCandidates('');
+  updateMergeSelectedCount();
   document.getElementById('mergeOverlay').style.display = 'flex';
 }
 function closeMergeModal(){
   document.getElementById('mergeOverlay').style.display = 'none';
   mergeSourceId = null;
-  mergeTargetId = null;
+  mergeSelectedTargets = [];
+}
+function updateMergeSelectedCount(){
+  const countEl = document.getElementById('mergeSelectedCount');
+  const nextBtn = document.getElementById('mergeNextBtn');
+  const n = mergeSelectedTargets.length;
+  countEl.textContent = n === 0 ? '尚未選擇商品' : `已選擇 ${n} 件商品，加上原本這件共 ${n + 1} 件將合併為 1 筆`;
+  nextBtn.disabled = n === 0;
 }
 function renderMergeCandidates(filterText){
   const wrap = document.getElementById('mergeCandidateList');
+  const source = state.products.find(x => x.id === mergeSourceId);
+  const sourceNorm = source ? normalizeName(source.name) : '';
   const s = filterText.trim().toLowerCase();
-  const list = state.products.filter(p => {
+  let list = state.products.filter(p => {
     if(p.id === mergeSourceId) return false;
     if(!s) return true;
     return `${p.name} ${p.brand||''}`.toLowerCase().includes(s);
   });
+  // 名稱相同的排最上面
+  list = list.map((p, i) => ({ p, i, same: normalizeName(p.name) === sourceNorm ? 0 : 1 }))
+    .sort((x, y) => x.same - y.same || x.i - y.i)
+    .map(x => x.p);
+
   if(list.length === 0){
     wrap.innerHTML = `<div style="font-size:12px; color:var(--meta); padding:10px 0;">找不到符合的商品。</div>`;
     return;
   }
-  wrap.innerHTML = list.map(p => `
-    <div class="merge-candidate" data-target="${p.id}">
-      <div>
-        <div class="mc-name">${escapeHtml(p.name)}</div>
-        <div class="mc-meta">${escapeHtml(p.brand||'')}${p.price ? ' ・ NT$' + escapeHtml(p.price) : ''}</div>
+  wrap.innerHTML = list.map(p => {
+    const isSame = normalizeName(p.name) === sourceNorm;
+    const checked = mergeSelectedTargets.includes(p.id);
+    return `
+    <div class="merge-candidate ${checked?'selected':''}" data-target="${p.id}">
+      <div class="mc-left">
+        <input type="checkbox" data-target-cb="${p.id}" ${checked?'checked':''}>
+        <div>
+          <div class="mc-name">${escapeHtml(p.name)}${isSame ? '<span class="mc-same-badge">名稱相同</span>' : ''}</div>
+          <div class="mc-meta">${escapeHtml(p.brand||'')}${p.price ? ' ・ NT$' + escapeHtml(p.price) : ''}</div>
+        </div>
       </div>
-      <span style="font-size:11px; color:var(--meta);">選擇 →</span>
-    </div>
-  `).join('');
-  wrap.querySelectorAll('[data-target]').forEach(el => {
-    el.addEventListener('click', () => selectMergeTarget(el.dataset.target));
+    </div>`;
+  }).join('');
+  wrap.querySelectorAll('.merge-candidate').forEach(el => {
+    el.addEventListener('click', () => toggleMergeTarget(el.dataset.target));
   });
+}
+function toggleMergeTarget(id){
+  if(mergeSelectedTargets.includes(id)){
+    mergeSelectedTargets = mergeSelectedTargets.filter(t => t !== id);
+  } else {
+    mergeSelectedTargets.push(id);
+  }
+  renderMergeCandidates(document.getElementById('mergeSearchInput').value);
+  updateMergeSelectedCount();
 }
 document.getElementById('mergeSearchInput').addEventListener('input', (e) => {
   renderMergeCandidates(e.target.value);
 });
-
-function selectMergeTarget(targetId){
-  mergeTargetId = targetId;
+document.getElementById('mergeNextBtn').addEventListener('click', () => {
+  if(mergeSelectedTargets.length === 0) return;
   document.getElementById('mergeStep1').style.display = 'none';
   document.getElementById('mergeStep2').style.display = 'block';
   renderMergeFields();
+});
+
+function getMergeGroup(){
+  return [mergeSourceId, ...mergeSelectedTargets]
+    .map(id => state.products.find(x => x.id === id))
+    .filter(Boolean);
 }
 
 function renderMergeFields(){
-  const source = state.products.find(x => x.id === mergeSourceId);
-  const target = state.products.find(x => x.id === mergeTargetId);
+  const group = getMergeGroup();
   const wrap = document.getElementById('mergeFieldsWrap');
   wrap.innerHTML = MERGE_FIELDS.map(f => {
-    const dispA = mergeFieldDisplay(f.key, source[f.key]);
-    const dispB = mergeFieldDisplay(f.key, target[f.key]);
-    const sameValue = dispA === dispB;
-    if(sameValue && dispA === ''){
-      // 兩邊都空白，不用顯示這個欄位
-      return `<input type="hidden" data-field="${f.key}" value="a">`;
-    }
-    if(sameValue){
+    const entries = group.map(p => ({ id: p.id, name: p.name, val: mergeFieldDisplay(f.key, p[f.key]) }));
+    const uniqueVals = new Set(entries.map(e => e.val));
+
+    if(uniqueVals.size <= 1){
+      const dispVal = entries[0].val;
+      if(dispVal === ''){
+        return `<input type="hidden" data-field="${f.key}" value="${entries[0].id}">`;
+      }
       return `<div class="merge-field">
         <div class="merge-field-label">${f.label}</div>
-        <div class="merge-field-single">${escapeHtml(dispA)}</div>
-        <input type="hidden" data-field="${f.key}" value="a">
+        <div class="merge-field-single">${escapeHtml(dispVal)}</div>
+        <input type="hidden" data-field="${f.key}" value="${entries[0].id}">
       </div>`;
     }
-    const aEmpty = dispA === '';
-    const bEmpty = dispB === '';
-    const bDefault = aEmpty && !bEmpty;
+
+    const nonEmpty = entries.filter(e => e.val !== '');
+    const defaultEntry = nonEmpty[0] || entries[0];
+    const optionsHtml = entries.map(e => {
+      const empty = e.val === '';
+      return `<label class="merge-field-opt">
+        <input type="radio" name="mergefield_${f.key}" value="${e.id}" ${e.id===defaultEntry.id?'checked':''}>
+        <span class="${empty?'merge-field-empty':'merge-field-value'}"><b>${escapeHtml(e.name)}：</b>${empty ? '（空白）' : escapeHtml(e.val)}</span>
+      </label>`;
+    }).join('');
     return `<div class="merge-field">
       <div class="merge-field-label">${f.label}</div>
-      <label class="merge-field-opt">
-        <input type="radio" name="mergefield_${f.key}" value="a" ${bDefault?'':'checked'}>
-        <span class="${aEmpty?'merge-field-empty':'merge-field-value'}">${aEmpty ? '（空白）' : escapeHtml(dispA)}</span>
-      </label>
-      <label class="merge-field-opt">
-        <input type="radio" name="mergefield_${f.key}" value="b" ${bDefault?'checked':''}>
-        <span class="${bEmpty?'merge-field-empty':'merge-field-value'}">${bEmpty ? '（空白）' : escapeHtml(dispB)}</span>
-      </label>
+      ${optionsHtml}
     </div>`;
   }).join('');
 }
@@ -1493,40 +1532,40 @@ function unionAppearances(listA, listB){
 document.getElementById('closeMergeBtn').addEventListener('click', closeMergeModal);
 document.getElementById('mergeOverlay').addEventListener('click', (e) => { if(e.target.id==='mergeOverlay') closeMergeModal(); });
 document.getElementById('mergeBackBtn').addEventListener('click', () => {
-  mergeTargetId = null;
   document.getElementById('mergeStep2').style.display = 'none';
   document.getElementById('mergeStep1').style.display = 'block';
 });
 
 document.getElementById('mergeConfirmBtn').addEventListener('click', async () => {
-  const source = state.products.find(x => x.id === mergeSourceId);
-  const target = state.products.find(x => x.id === mergeTargetId);
-  if(!source || !target) return;
+  const group = getMergeGroup();
+  if(group.length < 2) return;
+  const groupIds = group.map(p => p.id);
 
-  const merged = { id: source.id };
+  const merged = { id: mergeSourceId };
   MERGE_FIELDS.forEach(f => {
     const hiddenInput = document.querySelector(`#mergeFieldsWrap [data-field="${f.key}"]`);
-    let chosen = 'a';
+    let chosenId;
     if(hiddenInput){
-      chosen = hiddenInput.value;
+      chosenId = hiddenInput.value;
     } else {
       const checked = document.querySelector(`input[name="mergefield_${f.key}"]:checked`);
-      chosen = checked ? checked.value : 'a';
+      chosenId = checked ? checked.value : group[0].id;
     }
-    const rawVal = chosen === 'a' ? source[f.key] : target[f.key];
+    const chosenProduct = group.find(p => p.id === chosenId) || group[0];
+    const rawVal = chosenProduct[f.key];
     merged[f.key] = f.key === 'isClient' ? !!rawVal : (rawVal || '');
   });
-  merged.tags = Array.from(new Set([...(source.tags||[]), ...(target.tags||[])]));
-  merged.themeTags = Array.from(new Set([...(source.themeTags||[]), ...(target.themeTags||[])]));
-  merged.appearances = unionAppearances(source.appearances, target.appearances);
-  merged.createdAt = Math.min(source.createdAt||Date.now(), target.createdAt||Date.now());
+  merged.tags = Array.from(new Set(group.flatMap(p => p.tags||[])));
+  merged.themeTags = Array.from(new Set(group.flatMap(p => p.themeTags||[])));
+  merged.appearances = group.reduce((acc, p) => unionAppearances(acc, p.appearances), []);
+  merged.createdAt = Math.min(...group.map(p => p.createdAt || Date.now()));
 
-  state.products = state.products.filter(x => x.id !== mergeSourceId && x.id !== mergeTargetId);
+  state.products = state.products.filter(p => !groupIds.includes(p.id));
   state.products.push(merged);
   await saveData();
   closeMergeModal();
   renderAll();
-  alert('已合併為一筆商品，檔期、主題標籤與出現紀錄都已合併保留。');
+  alert(`已將 ${group.length} 筆商品合併為 1 筆，檔期、主題標籤與出現紀錄都已合併保留。`);
 });
 
 loadData();
