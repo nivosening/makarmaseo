@@ -1,0 +1,2952 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO 排名達標紀錄</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+
+  :root {
+    --bg: #f8f5ee;
+    --surface: #fdfcf8;
+    --surface-elevated: #ffffff;
+    --border: #e6e1d4;
+    --border-soft: #efeae0;
+    --text: #2d2a24;
+    --text-soft: #756e62;
+    --text-mute: #a89f90;
+    --olive: #8b9166;
+    --olive-deep: #6b7050;
+    --olive-soft: #ecebe0;
+    --olive-tint: #f5f4ea;
+    --warm: #c4a373;
+    --warm-soft: #f5ede0;
+    --simei-bg: #e3e9d4;
+    --simei-text: #4d5a30;
+    --tracking-bg: #f3e6d2;
+    --tracking-text: #76551e;
+    --fail-bg: #efd9d3;
+    --fail-text: #76362d;
+    --auto-bg: #f5f4ea;
+    --auto-border: #d4d4b8;
+    --serif: "Cormorant Garamond", "Noto Serif TC", serif;
+    --sans: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "PingFang TC", sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    line-height: 1.65;
+    font-size: 15px;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .app {
+    max-width: 760px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+
+  .header {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .header-title {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    margin: 0;
+    line-height: 1.1;
+  }
+  .header-zh {
+    font-size: 14px;
+    color: var(--text-soft);
+    margin-top: 2px;
+    letter-spacing: 0.04em;
+  }
+  .header-divider {
+    width: 32px;
+    height: 1px;
+    background: var(--olive);
+    margin-top: 14px;
+    opacity: 0.5;
+  }
+
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0 28px;
+  }
+  .tab {
+    padding: 14px 0;
+    margin-right: 28px;
+    font-size: 14px;
+    color: var(--text-soft);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.18s;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active {
+    color: var(--text);
+    border-bottom-color: var(--olive);
+    font-weight: 500;
+  }
+  .tab-count {
+    color: var(--text-mute);
+    font-size: 12px;
+    margin-left: 4px;
+    font-feature-settings: "tnum";
+  }
+
+  .panel { padding: 28px; }
+  .panel.hidden { display: none; }
+
+  .form-section-label {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--olive-deep);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+    font-weight: 500;
+  }
+  .form-section-divider {
+    width: 24px;
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 22px;
+  }
+
+  /* === 大輸入框（智慧解析） === */
+  .smart-input-block {
+    background: var(--olive-tint);
+    border: 1px solid var(--auto-border);
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+  .smart-input-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .smart-input-label .title {
+    font-size: 13px;
+    color: var(--olive-deep);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .smart-input-label .hint {
+    font-size: 11.5px;
+    color: var(--text-mute);
+    letter-spacing: 0.02em;
+  }
+  .smart-input-block textarea {
+    background: var(--surface-elevated);
+    border-color: var(--border);
+    min-height: 70px;
+    margin-bottom: 8px;
+  }
+  .smart-input-syntax {
+    font-size: 11.5px;
+    color: var(--text-soft);
+    line-height: 1.7;
+    background: var(--surface-elevated);
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border-soft);
+  }
+  .smart-input-syntax code {
+    background: var(--olive-soft);
+    padding: 1px 5px;
+    border-radius: 2px;
+    font-size: 11px;
+    color: var(--olive-deep);
+    font-family: ui-monospace, SFMono-Regular, monospace;
+  }
+  .parse-result {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--surface-elevated);
+    border: 1px solid var(--auto-border);
+    border-radius: 4px;
+    font-size: 12.5px;
+    color: var(--text-soft);
+    display: none;
+  }
+  .parse-result.show { display: block; }
+  .parse-result strong {
+    color: var(--olive-deep);
+    font-weight: 500;
+  }
+  .parse-result .filled-list {
+    margin-top: 4px;
+    color: var(--text);
+  }
+  .parse-result .filled-tag {
+    display: inline-block;
+    background: var(--olive-soft);
+    color: var(--olive-deep);
+    padding: 1px 7px;
+    border-radius: 10px;
+    margin: 2px 4px 2px 0;
+    font-size: 11.5px;
+  }
+
+  /* === 表單 === */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .form-grid .full { grid-column: 1 / -1; }
+
+  .field-label {
+    display: block;
+    font-size: 12.5px;
+    color: var(--text-soft);
+    margin-bottom: 5px;
+    letter-spacing: 0.03em;
+  }
+  .field-label .required {
+    color: var(--olive);
+    margin-left: 2px;
+  }
+  .field-label .auto-tag {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 6px;
+    background: var(--olive-soft);
+    color: var(--olive-deep);
+    font-size: 10.5px;
+    border-radius: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="url"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    background: var(--surface-elevated);
+    color: var(--text);
+    transition: all 0.15s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--olive);
+  }
+  input.auto-filled, select.auto-filled {
+    background: var(--auto-bg);
+    border-color: var(--auto-border);
+  }
+
+  textarea {
+    min-height: 78px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23756e62' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 30px;
+  }
+
+  /* 客戶名稱建議下拉 */
+  .customer-input-wrap {
+    position: relative;
+  }
+  .suggest-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    z-index: 50;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .suggest-dropdown.show {
+    display: block;
+  }
+  .suggest-item {
+    padding: 8px 11px;
+    font-size: 13.5px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-soft);
+    transition: background 0.12s;
+  }
+  .suggest-item:last-child {
+    border-bottom: none;
+  }
+  .suggest-item:hover, .suggest-item.active {
+    background: var(--olive-tint);
+    color: var(--olive-deep);
+  }
+  .suggest-item .meta {
+    font-size: 11.5px;
+    color: var(--text-mute);
+    margin-left: 6px;
+  }
+
+  /* 工具列（匯出按鈕） */
+  /* 業主聚焦資訊條 */
+  .client-focus {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--olive-tint);
+    border: 1px solid var(--olive-soft);
+    border-left: 3px solid var(--olive);
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  .client-focus-main {
+    flex: 1;
+    min-width: 0;
+  }
+  .client-focus-label {
+    font-family: var(--serif);
+    font-size: 10.5px;
+    color: var(--olive-deep);
+    letter-spacing: 0.18em;
+    margin-bottom: 4px;
+  }
+  .client-focus-name {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.2;
+    word-break: break-word;
+  }
+  .client-focus-website {
+    margin-top: 4px;
+    font-size: 12px;
+    word-break: break-all;
+  }
+  .client-focus-website a {
+    color: var(--olive-deep);
+    text-decoration: none;
+  }
+  .client-focus-website a:hover { text-decoration: underline; }
+  .client-focus-website .empty {
+    color: var(--text-mute);
+    font-style: italic;
+  }
+  .client-focus-clear {
+    flex: 0 0 auto;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-mute);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .client-focus-clear:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 8px;
+    margin: 14px 0 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .add-client-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+  }
+  .add-client-row input { flex: 1; min-width: 0; }
+  .add-client-row .btn-primary {
+    flex: 0 0 auto;
+    padding: 9px 22px;
+  }
+  @media (max-width: 580px) {
+    .add-client-row { flex-wrap: wrap; }
+    .add-client-row input { flex: 1 1 100%; }
+    .add-client-row .btn-primary { flex: 1 1 100%; }
+  }
+  .sort-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: auto;
+  }
+  .sort-label {
+    font-size: 11.5px;
+    color: var(--text-soft);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  #sortSelect {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  #sortSelect:focus {
+    outline: none;
+    border-color: var(--olive);
+  }
+  .btn-export {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-soft);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: all 0.15s;
+  }
+  .btn-export:hover {
+    border-color: var(--olive);
+    color: var(--olive-deep);
+  }
+  .btn-export::before {
+    content: "↓ ";
+    color: var(--olive);
+  }
+
+  /* Upload */
+  .upload-zone {
+    margin-top: 14px;
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    padding: 22px 16px;
+    text-align: center;
+    background: var(--surface-elevated);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .upload-zone:hover {
+    border-color: var(--olive);
+    background: var(--olive-soft);
+  }
+  .upload-zone.has-files {
+    border-style: solid;
+    border-color: var(--olive);
+    background: var(--olive-soft);
+  }
+  .upload-text {
+    font-size: 13px;
+    color: var(--text-soft);
+  }
+  .upload-text strong {
+    color: var(--olive-deep);
+    font-weight: 500;
+  }
+  .upload-hint {
+    font-size: 11.5px;
+    color: var(--text-mute);
+    margin-top: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  .file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .file-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--olive-soft);
+    border: 1px solid var(--border);
+  }
+  .file-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    cursor: zoom-in;
+    transition: opacity 0.15s ease;
+  }
+  .file-item img:hover { opacity: 0.85; }
+  .file-remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    background: rgba(45, 42, 36, 0.7);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .actions {
+    margin-top: 22px;
+    display: flex;
+    gap: 10px;
+  }
+  .btn-primary, .btn-secondary {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+  }
+  .btn-primary {
+    background: var(--olive);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--olive-deep); }
+  .btn-primary:disabled { background: var(--text-mute); cursor: wait; }
+  .btn-secondary {
+    background: var(--surface-elevated);
+    color: var(--text-soft);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover {
+    color: var(--text);
+    border-color: var(--text-soft);
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--text);
+    color: var(--surface);
+    padding: 12px 22px;
+    border-radius: 4px;
+    font-size: 13.5px;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 200;
+    pointer-events: none;
+    letter-spacing: 0.05em;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Query page */
+  .filters-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+    padding: 9px 12px 9px 34px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 13.5px;
+    background: var(--surface-elevated) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 16 16' fill='%23a89f90'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E") no-repeat 11px center;
+    font-family: inherit;
+    color: var(--text);
+  }
+  .search-box:focus {
+    outline: none;
+    border-color: var(--olive);
+  }
+
+  .chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .chip {
+    font-size: 12px;
+    padding: 5px 11px;
+    border-radius: 3px;
+    background: var(--surface-elevated);
+    color: var(--text-soft);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.04em;
+  }
+  .chip:hover { border-color: var(--olive); }
+  .chip.active {
+    background: var(--olive);
+    color: white;
+    border-color: var(--olive);
+  }
+
+  .records {
+    display: flex;
+    flex-direction: column;
+  }
+  .record {
+    display: flex;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-soft);
+    cursor: pointer;
+    transition: background 0.15s;
+    margin: 0 -10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 4px;
+  }
+  .record:hover { background: var(--olive-soft); }
+  .record:last-child { border-bottom: none; }
+
+  .thumb {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--olive-soft);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .thumb-empty {
+    font-size: 11px;
+    color: var(--text-mute);
+    letter-spacing: 0.04em;
+  }
+
+  .record-main { flex: 1; min-width: 0; }
+  .record-customer {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0 0 3px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .record-keyword {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-bottom: 6px;
+    font-feature-settings: "tnum";
+  }
+  .record-keyword .rank {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--olive-deep);
+    font-weight: 500;
+    margin-left: 4px;
+  }
+  .record-keyword .volume {
+    color: var(--text-mute);
+    font-size: 12px;
+    margin-left: 6px;
+  }
+  .record-meta {
+    font-size: 12px;
+    color: var(--text-soft);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .record-meta .dot {
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: var(--text-mute);
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .badge.simei { background: var(--simei-bg); color: var(--simei-text); }
+  .badge.tracking { background: var(--tracking-bg); color: var(--tracking-text); }
+  .badge.fail { background: var(--fail-bg); color: var(--fail-text); }
+  .badge.ai-badge {
+    background: transparent;
+    color: var(--olive-deep);
+    border: 1px solid var(--olive);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+  .badge.non-targeted {
+    background: transparent;
+    color: var(--text-soft);
+    border: 1px dashed var(--text-mute);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+  .badge.targeted {
+    background: var(--olive-soft);
+    color: var(--olive-deep);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-mute);
+    font-size: 13.5px;
+  }
+  .empty-state .em-icon {
+    font-family: var(--serif);
+    font-size: 32px;
+    margin-bottom: 8px;
+    color: var(--border);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 22px;
+  }
+  .stat {
+    background: var(--surface-elevated);
+    padding: 12px 8px;
+    text-align: center;
+  }
+  .stat-value {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1;
+    font-feature-settings: "tnum";
+  }
+  .stat-label {
+    font-size: 10.5px;
+    color: var(--text-soft);
+    margin-top: 4px;
+    letter-spacing: 0.06em;
+  }
+  @media (max-width: 580px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 42, 36, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+
+  /* Clients */
+  .clients-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .client-card {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    transition: all 0.15s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .client-card:hover {
+    border-color: var(--olive);
+    background: var(--olive-soft);
+  }
+  .client-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .client-name-wrap {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .client-name {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.2;
+    word-break: break-word;
+  }
+  .client-website {
+    font-size: 11.5px;
+    color: var(--olive-deep);
+    text-decoration: none;
+    word-break: break-all;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+  }
+  .client-website:hover { text-decoration: underline; }
+  .client-website-empty {
+    font-size: 11px;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+  .client-card-actions {
+    display: flex;
+    gap: 4px;
+    flex: 0 0 auto;
+  }
+  .client-edit {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-mute);
+    font-size: 11px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .client-edit:hover {
+    border-color: var(--olive);
+    color: var(--olive-deep);
+  }
+  .client-delete {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-mute);
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.15s;
+  }
+  .client-delete:hover {
+    border-color: var(--fail-text);
+    color: var(--fail-text);
+  }
+  .client-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    align-items: baseline;
+    font-size: 12px;
+    color: var(--text-soft);
+  }
+  .client-stat-num {
+    font-family: var(--serif);
+    font-size: 20px;
+    color: var(--olive-deep);
+    font-weight: 500;
+    font-feature-settings: "tnum";
+    line-height: 1;
+  }
+  .client-stat-label {
+    font-size: 10.5px;
+    color: var(--text-mute);
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+  .client-rate {
+    font-size: 11.5px;
+    color: var(--text-soft);
+    padding-top: 6px;
+    border-top: 1px solid var(--border-soft);
+    display: flex;
+    justify-content: space-between;
+  }
+  .client-rate .rate-value {
+    color: var(--olive-deep);
+    font-weight: 500;
+  }
+  .client-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--text-mute);
+    font-size: 13px;
+  }
+  .client-empty .em-icon {
+    font-family: var(--serif);
+    font-size: 30px;
+    margin-bottom: 6px;
+    color: var(--border);
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: 6px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 28px;
+  }
+  .modal-customer {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 0 4px;
+    line-height: 1.2;
+  }
+  .modal-meta {
+    font-size: 12.5px;
+    color: var(--text-soft);
+    margin-bottom: 20px;
+    letter-spacing: 0.04em;
+  }
+  .modal-section-label {
+    font-family: var(--serif);
+    font-size: 11.5px;
+    color: var(--olive-deep);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+    font-weight: 500;
+  }
+  .modal-imgs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .modal-img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 4px;
+    background: var(--olive-soft);
+    cursor: zoom-in;
+    transition: opacity 0.15s ease;
+  }
+  .modal-img:hover { opacity: 0.85; }
+
+  /* Lightbox：點縮圖看原圖 */
+  .lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 18, 14, 0.88);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    cursor: zoom-out;
+    animation: lightboxFade 0.18s ease;
+  }
+  .lightbox-overlay.show { display: flex; }
+  @keyframes lightboxFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .lightbox-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    cursor: default;
+  }
+  .lightbox-close {
+    position: fixed;
+    top: 18px;
+    right: 22px;
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+    transition: background 0.15s ease;
+  }
+  .lightbox-close:hover { background: rgba(255, 255, 255, 0.22); }
+  .modal-rows {
+    border-top: 1px solid var(--border-soft);
+  }
+  .modal-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 13.5px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .modal-row .label { color: var(--text-soft); }
+  .modal-row .value { color: var(--text); font-weight: 500; }
+  .modal-link {
+    color: var(--olive-deep);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .modal-link:hover { text-decoration: underline; }
+  .modal-note {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: var(--olive-soft);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.7;
+  }
+  .modal-actions {
+    margin-top: 22px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .modal-actions .btn-secondary { flex: 1 1 100px; padding: 10px; }
+  .modal-actions .btn-danger {
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid var(--fail-bg);
+    color: var(--fail-text);
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    flex: 0 0 auto;
+  }
+  .modal-actions .btn-danger:hover {
+    background: var(--fail-bg);
+  }
+
+  @media (max-width: 580px) {
+    .panel { padding: 22px 18px; }
+    .header { padding: 22px 18px 16px; }
+    .tabs { padding: 0 18px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .header-title { font-size: 22px; }
+    .modal { padding: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header class="header">
+    <h1 class="header-title">SEO Ranking Records</h1>
+    <div class="header-zh">SEO 排名達標紀錄</div>
+    <div class="header-divider"></div>
+  </header>
+
+  <nav class="tabs">
+    <div class="tab active" data-tab="input" onclick="switchTab('input')">記一筆</div>
+    <div class="tab" data-tab="query" onclick="switchTab('query')">查紀錄<span class="tab-count" id="recordCount">(0)</span></div>
+    <div class="tab" data-tab="clients" onclick="switchTab('clients')">業主<span class="tab-count" id="clientCount">(0)</span></div>
+  </nav>
+
+  <!-- 輸入頁 -->
+  <section class="panel" id="panel-input">
+    <div class="form-section-label" id="formSectionLabel">New Entry</div>
+    <div class="form-section-divider"></div>
+
+    <!-- 大輸入框 + 自動解析 -->
+    <div class="smart-input-block">
+      <div class="smart-input-label">
+        <span class="title">快速貼上 · 自動拆欄位</span>
+        <span class="hint">貼完點「解析」會自動填入下方</span>
+      </div>
+      <textarea id="smartInput" placeholder="例如：115/5/8 kw:黃金豆 第3名 月搜尋量：8,080 佳昕事業 Alva AI 指定:是"></textarea>
+      <div class="smart-input-syntax">
+        <strong style="color: var(--text);">標記語法</strong>：
+        <code>kw:關鍵字</code> / <code>關鍵字 OOO</code>（含空白用 <code>kw:"台中 咖啡廳"</code>）·
+        <code>客戶:名稱</code> ·
+        <code>第3名</code> / <code>排名3</code> / <code>No.3</code> / <code>第三名</code> ·
+        <code>月搜1900</code> / <code>月搜尋量:8,080</code>（支援千分位）·
+        <code>含AI</code> / <code>AI摘要版位</code> / 獨立的 <code>AI</code> ·
+        <code>指定</code> / <code>非指定</code> / <code>無指定</code> / <code>指定:是</code> / <code>指定:否</code> ·
+        <code>https://...</code>（落地頁網址）<br>
+        <strong style="color: var(--text);">日期</strong>：
+        <code>20260508</code> / <code>2026.5.8</code> / <code>2026/5/8</code> / <code>115/5/8</code>（民國年）/ <code>5/8</code> / <code>5月8日</code> / <code>今天</code><br>
+        客戶與輸入人員若在名單裡會自動匹配，可省略前綴
+      </div>
+      <div class="parse-result" id="parseResult"></div>
+      <div style="margin-top: 10px; display: flex; gap: 8px;">
+        <button class="btn-secondary" style="flex: 0 0 auto; padding: 8px 16px;" onclick="parseSmartInput()">解析</button>
+        <button class="btn-secondary" style="flex: 0 0 auto; padding: 8px 16px;" onclick="clearSmartInput()">清空輸入框</button>
+      </div>
+    </div>
+
+    <!-- 結構化欄位 -->
+    <div class="form-grid">
+      <div>
+        <label class="field-label">日期 <span class="required">*</span></label>
+        <input type="date" id="f-date">
+      </div>
+      <div>
+        <label class="field-label">輸入人員</label>
+        <select id="f-recorder">
+          <option value="">（可留白）</option>
+        </select>
+      </div>
+
+      <div class="full">
+        <label class="field-label">客戶/案件 <span class="required">*</span></label>
+        <div class="customer-input-wrap">
+          <input type="text" id="f-customer" placeholder="例如:佳昕事業 官網" autocomplete="off"
+                 oninput="onCustomerInput(this.value)" onfocus="onCustomerInput(this.value)" onblur="hideCustomerSuggest()">
+          <div class="suggest-dropdown" id="customerSuggest"></div>
+        </div>
+      </div>
+
+      <div class="full">
+        <label class="field-label">關鍵字 <span class="required">*</span></label>
+        <input type="text" id="f-keyword" placeholder="例如:橡膠O型環">
+      </div>
+
+      <div>
+        <label class="field-label">排名 <span class="required">*</span></label>
+        <input type="number" id="f-rank" placeholder="第幾名" min="1">
+      </div>
+      <div>
+        <label class="field-label">月搜尋量</label>
+        <input type="text" id="f-volume" placeholder="例如:1900、40,500" inputmode="numeric"
+               oninput="formatVolumeInput(this)">
+      </div>
+
+      <div>
+        <label class="field-label">搜尋引擎</label>
+        <select id="f-engine">
+          <option value="Google">Google</option>
+          <option value="Yahoo">Yahoo</option>
+          <option value="Bing">Bing</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">狀態 <span class="required">*</span></label>
+        <select id="f-status">
+          <option value="simei">已達標</option>
+          <option value="tracking">追蹤中</option>
+          <option value="fail">未達標</option>
+        </select>
+      </div>
+
+      <div class="full">
+        <label class="field-label">AI 摘要</label>
+        <select id="f-aisummary">
+          <option value="no">否</option>
+          <option value="yes">是</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="field-label">是否為指定關鍵字</label>
+        <select id="f-targeted">
+          <option value="yes">是（指定）</option>
+          <option value="no">否（非指定）</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">落地頁網址</label>
+        <input type="url" id="f-landing" placeholder="https://example.com/page（選填）">
+      </div>
+
+      <div class="full">
+        <label class="field-label">備註/說明</label>
+        <textarea id="f-note" placeholder="補充說明（選填）"></textarea>
+      </div>
+    </div>
+
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-text">拖曳排名截圖到這裡，或 <strong>點擊上傳</strong></div>
+      <div class="upload-hint">壓縮後存雲端 · 最多 2 張</div>
+      <div class="file-grid" id="fileGrid"></div>
+    </div>
+    <input type="file" id="fileInput" accept="image/*" multiple style="display: none;" onchange="handleFiles(event)">
+
+    <div class="actions">
+      <button class="btn-secondary" id="cancelEditBtn" onclick="cancelEdit()" style="display:none;">取消編輯</button>
+      <button class="btn-secondary" onclick="resetForm()">清空</button>
+      <button class="btn-primary" id="submitBtn" onclick="submitRecord()">送出歸檔</button>
+    </div>
+  </section>
+
+  <!-- 查詢頁 -->
+  <section class="panel hidden" id="panel-query">
+    <div class="form-section-label">Records</div>
+    <div class="form-section-divider"></div>
+
+    <!-- 業主聚焦資訊（從業主卡片點進來才顯示） -->
+    <div class="client-focus" id="clientFocus" style="display:none;">
+      <div class="client-focus-main">
+        <div class="client-focus-label">CLIENT</div>
+        <div class="client-focus-name" id="clientFocusName"></div>
+        <div class="client-focus-website" id="clientFocusWebsite"></div>
+      </div>
+      <button class="client-focus-clear" onclick="clearClientFocus()" title="清除業主篩選">×</button>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat">
+        <div class="stat-value" id="stat-total">0</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="stat-simei-targeted">0</div>
+        <div class="stat-label">指定 達標</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="stat-simei-non">0</div>
+        <div class="stat-label">非指定 達標</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="stat-rate">—</div>
+        <div class="stat-label">Rate</div>
+      </div>
+    </div>
+
+    <div class="filters-row">
+      <input type="text" class="search-box" placeholder="搜尋客戶（模糊比對）、關鍵字、人員..." id="searchInput" oninput="onSearchInput(this.value)">
+    </div>
+
+    <div class="toolbar">
+      <div class="sort-wrap">
+        <label class="sort-label">排序</label>
+        <select id="sortSelect" onchange="onSortChange(this.value)">
+          <option value="created_desc">建立時間（新→舊）</option>
+          <option value="created_asc">建立時間（舊→新）</option>
+          <option value="date_desc">日期（新→舊）</option>
+          <option value="date_asc">日期（舊→新）</option>
+        </select>
+      </div>
+      <button class="btn-export" onclick="exportFiltered()">本頁匯出</button>
+      <button class="btn-export" onclick="exportAll()">全部匯出</button>
+    </div>
+
+    <div class="chips" id="statusChips">
+      <span class="chip active" data-filter="all" onclick="setStatusFilter('all', this)">全部</span>
+      <span class="chip" data-filter="simei" onclick="setStatusFilter('simei', this)">已達標</span>
+      <span class="chip" data-filter="tracking" onclick="setStatusFilter('tracking', this)">追蹤中</span>
+      <span class="chip" data-filter="fail" onclick="setStatusFilter('fail', this)">未達標</span>
+    </div>
+
+    <div class="chips" id="recorderChips">
+      <span class="chip active" data-recorder="all" onclick="setRecorderFilter('all', this)">所有人員</span>
+    </div>
+
+    <div class="records" id="recordsList"></div>
+  </section>
+
+  <!-- 業主頁 -->
+  <section class="panel hidden" id="panel-clients">
+    <div class="form-section-label">Clients</div>
+    <div class="form-section-divider"></div>
+
+    <!-- 新增業主區塊 -->
+    <div class="smart-input-block" style="margin-bottom: 26px;">
+      <div class="smart-input-label">
+        <span class="title">新增業主</span>
+        <span class="hint">業主名稱會自動加進客戶名單，方便智慧解析比對</span>
+      </div>
+      <div class="add-client-row">
+        <input type="text" id="newClientName" placeholder="業主名稱（例如:佳昕事業）" onkeydown="if(event.key==='Enter') addClient()">
+        <input type="url" id="newClientWebsite" placeholder="網站網址（選填，例如：https://example.com）" onkeydown="if(event.key==='Enter') addClient()">
+        <button class="btn-primary" onclick="addClient()">新增</button>
+      </div>
+    </div>
+
+    <!-- 業主列表 -->
+    <div class="form-section-label" style="margin-top: 28px;">Client List</div>
+    <div class="form-section-divider"></div>
+
+    <div class="filters-row">
+      <input type="text" class="search-box" placeholder="搜尋業主名稱..." id="clientSearchInput" oninput="renderClients()">
+    </div>
+
+    <div class="clients-list" id="clientsList"></div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalIfBg(event)">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightboxIfBg(event)">
+  <div class="lightbox-close" onclick="closeLightbox()">×</div>
+  <img class="lightbox-img" id="lightboxImg" alt="" onclick="event.stopPropagation()">
+</div>
+
+<!-- Firebase SDK (compat 版本，全域 firebase 物件) -->
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script>
+  // ===== Firebase 設定 =====
+  const firebaseConfig = {
+    apiKey: "AIzaSyB-eOofAWwllFSyn9itk7IFrMwwKrocyy4",
+    authDomain: "makarma-seo.firebaseapp.com",
+    databaseURL: "https://makarma-seo-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "makarma-seo",
+    storageBucket: "makarma-seo.firebasestorage.app",
+    messagingSenderId: "405158918962",
+    appId: "1:405158918962:web:bbac146e95fb824083f52b"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // 啟用離線快取（瀏覽器關掉重開還能看舊資料、網路斷掉還能讀）
+  db.enablePersistence({ synchronizeTabs: true }).catch(err => {
+    console.warn('離線快取啟用失敗（多分頁開啟時正常）:', err.code);
+  });
+</script>
+
+<script>
+/* =========================================================================
+ * SEO 排名達標紀錄 — 前端邏輯（Firebase 版）
+ *
+ * 資料儲存：Firestore（records / clients collection）
+ * 截圖儲存：Base64 dataUrl 直接存進 Firestore 文件
+ * 登入機制：Anonymous Auth（自動登入）
+ * ========================================================================= */
+
+// ===== 設定區 =====
+
+// 輸入人員名單
+const RECORDER_LIST = ['Alva', 'Rita', 'Phoebe', '其他'];
+
+// 業主名單預設值（首次部署、Firestore 為空時自動寫入；之後在「業主」分頁動態管理）
+const DEFAULT_CLIENTS = ['佳昕', '佳昕事業', '詒瑋的貓舍', '親寶貝養生餐'];
+
+const STATUS_LABEL = {
+  simei: '已達標',
+  tracking: '追蹤中',
+  fail: '未達標'
+};
+
+const STORAGE_KEY = 'seo_ranking_records_v2';
+const CLIENTS_STORAGE_KEY = 'seo_ranking_clients_v2';
+
+// ===== 狀態 =====
+
+let records = [];
+let clients = [];          // 業主名單（動態管理）
+let uploadedFiles = [];
+let currentStatusFilter = 'all';
+let currentRecorderFilter = 'all';
+
+// ===== 模糊比對工具 =====
+
+// 把名稱正規化：移除空格、常見公司後綴、轉小寫、半形化
+function normalizeClientName(name) {
+  if (!name) return '';
+  let s = String(name).toLowerCase();
+  // 全形轉半形
+  s = s.replace(/[\uff01-\uff5e]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xfee0));
+  // 移除空白
+  s = s.replace(/\s+/g, '');
+  // 移除常見公司/組織後綴
+  s = s.replace(/(股份有限公司|有限公司|股份|事業|工作室|企業社|商行|商號|有限|公司)$/g, '');
+  // 移除標點
+  s = s.replace(/[、，,。\.\-_／\/]/g, '');
+  return s;
+}
+
+// 判斷兩個名稱是否「相似」（同一群業主）
+function isSimilarClient(a, b) {
+  const na = normalizeClientName(a);
+  const nb = normalizeClientName(b);
+  if (!na || !nb) return false;
+  if (na === nb) return true;
+  // 一方包含另一方（且短的至少 2 字以上，避免單字誤判）
+  if (na.length >= 2 && nb.includes(na)) return true;
+  if (nb.length >= 2 && na.includes(nb)) return true;
+  return false;
+}
+
+// 給定一個輸入詞，回傳 clients 中所有相似的業主名稱
+function findSimilarClients(query) {
+  const nq = normalizeClientName(query);
+  if (!nq) return [];
+  return clients.map(c => c.name).filter(name => {
+    const nc = normalizeClientName(name);
+    if (!nc) return false;
+    if (nc === nq) return true;
+    if (nq.length >= 1 && nc.includes(nq)) return true;
+    if (nc.length >= 2 && nq.includes(nc)) return true;
+    return false;
+  });
+}
+
+// 給定搜尋詞，判斷一筆紀錄是否符合（用於模糊搜尋）
+function recordMatchesFuzzy(record, query) {
+  if (!query) return true;
+  const nq = normalizeClientName(query);
+  if (!nq) {
+    // 完全是空白/標點，退回原本的字串比對
+    const q = query.toLowerCase();
+    return (record.customer || '').toLowerCase().includes(q) ||
+           (record.keyword || '').toLowerCase().includes(q) ||
+           (record.recorder || '').toLowerCase().includes(q) ||
+           (record.note || '').toLowerCase().includes(q);
+  }
+  const nc = normalizeClientName(record.customer);
+  // 業主用模糊；關鍵字、紀錄人、備註用原始包含比對
+  if (nc && (nc.includes(nq) || nq.includes(nc))) return true;
+  const q = query.toLowerCase();
+  return (record.keyword || '').toLowerCase().includes(q) ||
+         (record.recorder || '').toLowerCase().includes(q) ||
+         (record.note || '').toLowerCase().includes(q);
+}
+
+// ===== 初始化 =====
+
+function init() {
+  document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+
+  // 輸入人員下拉
+  const recorderSelect = document.getElementById('f-recorder');
+  RECORDER_LIST.forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    recorderSelect.appendChild(opt);
+  });
+
+  // 人員 chip
+  const chips = document.getElementById('recorderChips');
+  RECORDER_LIST.forEach(name => {
+    const chip = document.createElement('span');
+    chip.className = 'chip';
+    chip.dataset.recorder = name;
+    chip.textContent = name;
+    chip.onclick = () => setRecorderFilter(name, chip);
+    chips.appendChild(chip);
+  });
+
+  setupDragDrop();
+
+  // 顯示「連線中」訊息
+  showToast('連線雲端中…');
+
+  // 匿名登入
+  auth.signInAnonymously()
+    .then(() => {
+      // 登入成功後啟動即時資料監聽
+      subscribeClients();
+      subscribeRecords();
+    })
+    .catch(err => {
+      console.error('登入失敗:', err);
+      showToast('連線失敗：' + err.message);
+    });
+}
+
+// ===== 資料層（Firestore）=====
+
+let recordsUnsubscribe = null;
+let clientsUnsubscribe = null;
+
+// 訂閱紀錄集合（即時同步：他人新增/刪除自動更新畫面）
+function subscribeRecords() {
+  if (recordsUnsubscribe) recordsUnsubscribe();
+  recordsUnsubscribe = db.collection('records')
+    .orderBy('createdAt', 'desc')
+    .limit(500)
+    .onSnapshot(snapshot => {
+      records = snapshot.docs.map(doc => normalizeRecord({ id: doc.id, ...doc.data() }));
+      updateRecordCount();
+      renderRecords();
+    }, err => {
+      console.error('讀取紀錄失敗:', err);
+      showToast('讀取失敗：' + err.message);
+    });
+}
+
+// 舊版欄位相容：把 isTargetKeyword / landingPageUrl 映射成 targeted / landing
+// 重要：舊版預設值「沒填 = 否（非指定）」要被尊重，不能用新版的「沒填 = 指定」吃掉
+function normalizeRecord(r) {
+  // 落地頁網址：舊欄位 landingPageUrl → 新欄位 landing
+  if (r.landing == null && r.landingPageUrl != null) {
+    r.landing = r.landingPageUrl;
+  }
+  // 是否為指定關鍵字：舊欄位 isTargetKeyword → 新欄位 targeted
+  // 來源優先順序：
+  //   1. 已有 targeted 直接用
+  //   2. 有 isTargetKeyword（不論值為何）→ 用它（包含舊版「沒填預設 no」存進去的 'no'）
+  //   3. 都沒有 → 真正的舊舊資料，當作「指定」（與本版預設一致）
+  if (r.targeted == null) {
+    if (r.isTargetKeyword != null) {
+      r.targeted = (r.isTargetKeyword === 'yes') ? 'yes' : 'no';
+    } else {
+      r.targeted = 'yes';
+    }
+  }
+  return r;
+}
+
+// 訂閱業主名單
+function subscribeClients() {
+  if (clientsUnsubscribe) clientsUnsubscribe();
+  clientsUnsubscribe = db.collection('clients')
+    .orderBy('name')
+    .onSnapshot(snapshot => {
+      // clients: [{ id, name, website }]
+      clients = snapshot.docs.map(doc => {
+        const d = doc.data() || {};
+        return { id: doc.id, name: d.name || '', website: d.website || '' };
+      });
+      // 第一次載入且 collection 為空 → 寫入預設業主
+      if (clients.length === 0 && !sessionStorage.getItem('clients_seeded')) {
+        sessionStorage.setItem('clients_seeded', '1');
+        seedDefaultClients();
+        return;
+      }
+      updateClientCount();
+      renderClients();
+      renderRecords(); // 業主清單變化可能影響顯示
+    }, err => {
+      console.error('讀取業主失敗:', err);
+    });
+}
+
+// 第一次使用時把預設業主寫進 Firestore
+async function seedDefaultClients() {
+  const batch = db.batch();
+  DEFAULT_CLIENTS.forEach(name => {
+    const ref = db.collection('clients').doc(); // 自動 ID
+    batch.set(ref, {
+      name,
+      website: '',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  });
+  try {
+    await batch.commit();
+  } catch (e) {
+    console.error('寫入預設業主失敗:', e);
+  }
+}
+
+async function dataSave(record) {
+  // 用 record.id 當 Firestore document ID，方便日後刪除
+  const docId = record.id;
+  const data = { ...record };
+  delete data.id; // ID 已當作 doc ID，內容不必再存
+  await db.collection('records').doc(docId).set(data);
+  return record;
+}
+
+async function dataDelete(id) {
+  try {
+    await db.collection('records').doc(id).delete();
+    // 不必手動更新 records 陣列，onSnapshot 會自動觸發
+  } catch (e) {
+    console.error('刪除失敗:', e);
+    showToast('刪除失敗：' + e.message);
+  }
+}
+
+// 保留空殼，避免舊呼叫點報錯
+function dataLoad() { /* 由 subscribeRecords 取代 */ }
+
+// ===== 智慧解析（規則式）=====
+
+function parseSmartInput() {
+  const text = document.getElementById('smartInput').value.trim();
+  if (!text) {
+    showToast('請先貼上內容');
+    return;
+  }
+
+  const result = parseText(text);
+  applyParsedResult(result);
+  showParseResult(result);
+}
+
+/**
+ * 規則式解析：
+ *  - 日期: YYYY/MM/DD、YYYY-MM-DD、YYYY.M.D、YYYYMMDD、MM/DD、M月D日、今天、昨天、前天
+ *  - 排名: 「第N名」「排名N」「N名」
+ *  - 搜尋量: 「月搜N」「搜量N」「搜尋量N」「N/月」、或剩餘的 3+ 位獨立數字
+ *  - 關鍵字: kw:XXX、關鍵字:XXX、#XXX
+ *  - 客戶: 客戶:XXX、案件:XXX，或匹配 clients 名單
+ *  - 輸入人員: 匹配 RECORDER_LIST
+ *  - 搜尋引擎: 文字裡出現 Google/Yahoo/Bing
+ */
+function parseText(text) {
+  const out = {
+    date: null,
+    recorder: null,
+    customer: null,
+    keyword: null,
+    rank: null,
+    volume: null,
+    engine: null,
+    aiSummary: null,
+    targeted: null,
+    landing: null,
+    matched: []  // 抓到的欄位清單（給 UI 顯示）
+  };
+
+  let remaining = text;
+
+  // 1. 日期
+  const todayObj = new Date();
+  const fmtDate = (d) => d.toISOString().split('T')[0];
+
+  // 今天 / 昨天 / 前天
+  if (/今天|今日/.test(text)) {
+    out.date = fmtDate(todayObj);
+    out.matched.push('日期');
+  } else if (/昨天|昨日/.test(text)) {
+    const d = new Date(todayObj); d.setDate(d.getDate() - 1);
+    out.date = fmtDate(d);
+    out.matched.push('日期');
+  } else if (/前天/.test(text)) {
+    const d = new Date(todayObj); d.setDate(d.getDate() - 2);
+    out.date = fmtDate(d);
+    out.matched.push('日期');
+  } else {
+    // 民國年 YYY/MM/DD、YYY-MM-DD、YYY.MM.DD（3 位數年，自動 +1911）
+    let m = text.match(/(?:^|[\s,，])(\d{3})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})(?![\d\.\-\/])/);
+    if (m) {
+      const rocYear = parseInt(m[1]);
+      const month = parseInt(m[2]);
+      const day = parseInt(m[3]);
+      if (rocYear >= 100 && rocYear <= 200 && month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+        const y = rocYear + 1911;
+        out.date = `${y}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+        out.matched.push('日期');
+      }
+    }
+    // YYYY/MM/DD、YYYY-MM-DD、YYYY.MM.DD
+    if (!out.date) {
+      m = text.match(/(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})/);
+      if (m) {
+        out.date = `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+        out.matched.push('日期');
+      }
+    }
+    if (!out.date) {
+      // YYYYMMDD（8 位數連寫）
+      m = text.match(/(?:^|[\s,，])(\d{8})(?!\d)/);
+      if (m) {
+        const y = parseInt(m[1].slice(0, 4));
+        const mo = parseInt(m[1].slice(4, 6));
+        const d = parseInt(m[1].slice(6, 8));
+        if (y >= 2020 && y <= 2099 && mo >= 1 && mo <= 12 && d >= 1 && d <= 31) {
+          out.date = `${y}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+          out.matched.push('日期');
+        }
+      }
+    }
+    if (!out.date) {
+      // M/D、M-D、M.D（不接其他數字）
+      m = text.match(/(?:^|[\s,，])(\d{1,2})[\/\-\.](\d{1,2})(?![\d\.\-\/])/);
+      if (m) {
+        const month = parseInt(m[1]), day = parseInt(m[2]);
+        if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+          out.date = `${todayObj.getFullYear()}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+          out.matched.push('日期');
+        }
+      } else {
+        // M月D日
+        m = text.match(/(\d{1,2})月(\d{1,2})日?/);
+        if (m) {
+          out.date = `${todayObj.getFullYear()}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+          out.matched.push('日期');
+        }
+      }
+    }
+  }
+
+  // 2. 關鍵字
+  // 優先順序：
+  //   (a) 引號包裹: kw:"台中 咖啡廳" 或 kw:「台中 咖啡廳」 或 kw:'台中 咖啡廳'
+  //   (b) 標記後接內容到下個結構化標記: kw:台中咖啡廳 ...
+  //   (c) #XXX（不支援含空白）
+
+  // (a) 引號包裹（半形/全形/中文引號）
+  let kwMatch = text.match(/(?:kw|關鍵字|keyword)[\s:：]*["「『'']([^"」』'']+)["」』'']/i);
+  if (kwMatch) {
+    out.keyword = kwMatch[1].trim();
+    out.matched.push('關鍵字');
+  } else {
+    // (b) 標記模式：抓到下一個結構化標記前的全部內容（用 [\s\S] 支援跨行）
+    const kwStopPattern = '(?:客戶|業主|案件|client|排名|目前排名|第\\s*\\d|第\\s*[一二三四五六七八九十]|No\\.|\\d+\\s*名|月搜|搜量|搜尋量|月搜尋量|查詢時間|volume|vol|google|yahoo|bing|#|kw[\\s:：]|關鍵字[\\s:：]|keyword[\\s:：]|[,，]|\\n|\\r|\\s{2,})';
+    kwMatch = text.match(new RegExp(`(?:kw|關鍵字|keyword)[\\s:：]+([\\s\\S]+?)(?=${kwStopPattern}|$)`, 'i'));
+    if (kwMatch) {
+      out.keyword = kwMatch[1].trim();
+      out.matched.push('關鍵字');
+    } else {
+      // (c) # 開頭：不含空白，碰到空白或標點就斷
+      kwMatch = text.match(/#([^\s,，#]+)/);
+      if (kwMatch) {
+        out.keyword = kwMatch[1].trim();
+        out.matched.push('關鍵字');
+      }
+    }
+  }
+  // 後處理：超過 30 字截斷
+  if (out.keyword && out.keyword.length > 30) {
+    out.keyword = out.keyword.substring(0, 30).trim();
+  }
+
+  // 3. 客戶/業主
+  let customerMatch = text.match(/(?:客戶|業主|案件|client)[\s:：]+([^\s,，\n\r]+)/i);
+  if (customerMatch) {
+    out.customer = customerMatch[1].trim();
+    out.matched.push('客戶');
+  } else {
+    // 從名單比對：長名稱優先（避免「佳昕」搶在「佳昕事業」前面匹配）
+    const sortedClients = clients.map(c => c.name).sort((a, b) => b.length - a.length);
+    for (const c of sortedClients) {
+      if (text.includes(c)) {
+        out.customer = c;
+        out.matched.push('客戶');
+        break;
+      }
+    }
+  }
+
+  // 4. 輸入人員（從名單比對）
+  for (const r of RECORDER_LIST) {
+    // 用空白邊界，避免 "Ning" 誤中 "Lining"
+    const re = new RegExp(`(^|[\\s,，:：])${r}([\\s,，]|$)`, 'i');
+    if (re.test(text)) {
+      out.recorder = r;
+      out.matched.push('輸入人員');
+      break;
+    }
+  }
+
+  // 5. 排名（先抽出來避免被當搜尋量）
+  // 支援格式：第3名、第3、排名3、排名:3、排名：3、3名、第三名、第三、No.3、No 3、Number 3
+  let rankMatch = text.match(/(?:排名|第)[\s:：]*(\d{1,4})\s*名?/);
+  if (!rankMatch) rankMatch = text.match(/(?:^|[\s,，])(\d{1,4})\s*名/);
+  if (!rankMatch) rankMatch = text.match(/(?:^|[\s,，：:])(?:No|Number|#)\s*\.\s*(\d{1,4})(?![\d名])/i);
+  if (rankMatch) {
+    const v = parseInt(rankMatch[1]);
+    if (v >= 1 && v <= 1000) {
+      out.rank = v;
+      out.matched.push('排名');
+    }
+  }
+  // 中文數字排名（一到十、十一到二十）
+  if (!out.rank) {
+    const cnNum = {
+      '一': 1, '二': 2, '三': 3, '四': 4, '五': 5,
+      '六': 6, '七': 7, '八': 8, '九': 9, '十': 10
+    };
+    // 先試「十一」「十二」… 到「二十」
+    let cnMatch = text.match(/(?:排名|第)\s*(十[一二三四五六七八九]?|[二三]十[一二三四五六七八九]?)\s*名?/);
+    if (cnMatch) {
+      const s = cnMatch[1];
+      let v = 0;
+      if (s === '十') v = 10;
+      else if (s.startsWith('十')) v = 10 + cnNum[s[1]];
+      else if (s.endsWith('十')) v = cnNum[s[0]] * 10;
+      else { // 二十一、三十五 之類
+        v = cnNum[s[0]] * 10 + cnNum[s[2]];
+      }
+      if (v >= 1 && v <= 100) {
+        out.rank = v;
+        out.matched.push('排名');
+      }
+    } else {
+      // 一到九
+      cnMatch = text.match(/(?:排名|第)\s*([一二三四五六七八九])\s*名?/);
+      if (cnMatch) {
+        out.rank = cnNum[cnMatch[1]];
+        out.matched.push('排名');
+      }
+    }
+  }
+
+  // 6. 月搜尋量（範圍：10 以上的整數，支援千分位逗號如 8,080 / 40,500）
+  // 標記模式：月搜8,080 / 搜尋量:8,080 / 月搜尋量 40,500
+  let volMatch = text.match(/(?:月搜尋量|月搜|搜量|搜尋量|volume|vol)[\s:：]?\s*(\d{1,3}(?:,\d{3})+|\d{1,7})/i);
+  if (!volMatch) volMatch = text.match(/(\d{1,3}(?:,\d{3})+|\d{2,7})\s*(?:\/月|每月)/);
+  if (volMatch) {
+    // 移除逗號後再轉數字
+    const v = parseInt(volMatch[1].replace(/,/g, ''));
+    if (v >= 10) {
+      out.volume = v;
+      out.matched.push('搜尋量');
+    }
+  } else if (out.rank !== null) {
+    // 把已抓到的日期、排名整段移除，剩餘的 2+ 位獨立數字才當搜尋量
+    let cleanedText = text;
+    cleanedText = cleanedText
+      .replace(/\d{4}[\/\-\.]\d{1,2}[\/\-\.]\d{1,2}/g, '')
+      .replace(/(?:^|[\s,，])\d{8}(?!\d)/g, '')
+      .replace(/(?:^|[\s,，])\d{3}[\/\-\.]\d{1,2}[\/\-\.]\d{1,2}(?![\d\.\-\/])/g, '')
+      .replace(/(?:^|[\s,，])\d{1,2}[\/\-\.]\d{1,2}(?![\d\.\-\/])/g, '')
+      .replace(/\d{1,2}月\d{1,2}日?/g, '');
+    cleanedText = cleanedText
+      .replace(/(?:排名|第)\s*\d{1,4}\s*名?/g, '')
+      .replace(/(?:^|[\s,，])\d{1,4}\s*名/g, '')
+      .replace(/(?:^|[\s,，])(?:No|Number)[\s\.\:：]*\d{1,4}/gi, '');
+    // 含千分位的數字優先（如 8,080、40,500），再退回純 2~7 位數字
+    let bigNum = cleanedText.match(/(?:^|[\s,，])(\d{1,3}(?:,\d{3})+)(?![\d\/月\-\.])/);
+    if (!bigNum) bigNum = cleanedText.match(/(?:^|[\s,，])(\d{2,7})(?![\d\/月\-\.])/);
+    if (bigNum) {
+      const v = parseInt(bigNum[1].replace(/,/g, ''));
+      if (v >= 10) {
+        out.volume = v;
+        out.matched.push('搜尋量(推測)');
+      }
+    }
+  }
+
+  // 7. 搜尋引擎
+  if (/google/i.test(text)) { out.engine = 'Google'; }
+  else if (/yahoo/i.test(text)) { out.engine = 'Yahoo'; out.matched.push('搜尋引擎'); }
+  else if (/bing/i.test(text)) { out.engine = 'Bing'; out.matched.push('搜尋引擎'); }
+
+  // 8. AI 摘要
+  // 偵測 yes：有AI摘要 / AI摘要:有 / AI摘要:是 / 含AI / +AI / AI:yes / AI摘要版位 / 獨立的 AI
+  // 偵測 no：無AI摘要 / 沒AI摘要 / AI摘要:無
+  // 先判 no（避免 "無AI摘要" 中的 "AI" 被當成 yes）
+  if (/(?:無\s*ai\s*摘要|沒\s*ai\s*摘要|ai\s*摘要[\s:：]*[無否沒nN0]|ai\s*[:：]\s*(?:no|n|0|無|否|沒))/i.test(text)) {
+    out.aiSummary = 'no';
+    out.matched.push('AI 摘要');
+  } else if (/(?:有\s*ai\s*摘要|ai\s*摘要版位|ai\s*摘要[\s:：]*[有是yY1]|含\s*ai|＋\s*ai|\+\s*ai|ai\s*[:：]\s*(?:yes|y|1|有|是))/i.test(text)) {
+    out.aiSummary = 'yes';
+    out.matched.push('AI 摘要');
+  } else if (/(?:^|[\s,，、])AI(?=[\s,，、]|$)/.test(text)) {
+    // 獨立的 AI（前後為邊界）也視為有 AI 摘要
+    out.aiSummary = 'yes';
+    out.matched.push('AI 摘要');
+  }
+
+  // 9. 是否為指定關鍵字
+  // 「指定」「指定字」「指定KW」/ 「非指定」「無指定」「不指定」/ targeted:yes / targeted:no
+  // 「指定:是」「指定:否」「指定關鍵字:是」「指定關鍵字:否」（明確標記 + 是/否）
+  // 先判 no（避免「非指定」「無指定」被「指定」搶先匹配）
+  if (/(?:非指定(?:關鍵字|字|kw)?|無指定(?:關鍵字|字|kw)?|不指定|非\s*target|targeted?\s*[:：]\s*(?:no|n|0|否|無)|指定(?:關鍵字|字|kw)?\s*[:：]\s*(?:no|n|0|否|無|沒))/i.test(text)) {
+    out.targeted = 'no';
+    out.matched.push('非指定');
+  } else if (/(?:指定(?:關鍵字|字|kw)?\s*[:：]\s*(?:yes|y|1|是|有)|target(?:ed)?\s*[:：]\s*(?:yes|y|1|是|有)|targeted?關鍵字|指定(?:關鍵字|字|kw)?(?![\s:：]*[否無沒no0nN]))/i.test(text)) {
+    out.targeted = 'yes';
+    out.matched.push('指定');
+  }
+
+  // 10. 落地頁網址：抓 https://... 或 http://...
+  // 行內第一個 URL 就好（避免抓到一堆）
+  const urlMatch = text.match(/https?:\/\/[^\s,，「」"'）)】\]]+/i);
+  if (urlMatch) {
+    out.landing = urlMatch[0];
+    out.matched.push('落地頁');
+  }
+
+  return out;
+}
+
+function applyParsedResult(r) {
+  const set = (id, val) => {
+    if (val === null || val === undefined || val === '') return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = val;
+    el.classList.add('auto-filled');
+  };
+
+  set('f-date', r.date);
+  set('f-recorder', r.recorder);
+  set('f-customer', r.customer);
+  set('f-keyword', r.keyword);
+  set('f-rank', r.rank);
+  // 搜尋量：先寫入再格式化（顯示 1,900）
+  if (r.volume !== null && r.volume !== undefined && r.volume !== '') {
+    const volEl = document.getElementById('f-volume');
+    volEl.value = String(r.volume);
+    formatVolumeInput(volEl);
+    volEl.classList.add('auto-filled');
+  }
+  set('f-engine', r.engine);
+  set('f-aisummary', r.aiSummary);
+  set('f-targeted', r.targeted);
+  set('f-landing', r.landing);
+}
+
+function showParseResult(r) {
+  const box = document.getElementById('parseResult');
+  if (r.matched.length === 0) {
+    box.innerHTML = `<strong>沒抓到任何欄位。</strong> 請嘗試使用標記語法（如 <code>kw:</code>），或手動填入下方。`;
+    box.classList.add('show');
+    return;
+  }
+  const tags = r.matched.map(m => `<span class="filled-tag">${m}</span>`).join('');
+  box.innerHTML = `<strong>已自動填入 ${r.matched.length} 個欄位</strong><div class="filled-list">${tags}</div><div style="margin-top: 4px; color: var(--text-mute);">請檢查下方欄位是否正確，未抓到的請手動補。</div>`;
+  box.classList.add('show');
+}
+
+function clearSmartInput() {
+  document.getElementById('smartInput').value = '';
+  document.getElementById('parseResult').classList.remove('show');
+}
+
+// ===== Tab 切換 =====
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.getElementById('panel-input').classList.toggle('hidden', tab !== 'input');
+  document.getElementById('panel-query').classList.toggle('hidden', tab !== 'query');
+  document.getElementById('panel-clients').classList.toggle('hidden', tab !== 'clients');
+  if (tab === 'query') renderRecords();
+  if (tab === 'clients') renderClients();
+}
+
+// ===== 客戶名稱自動建議 =====
+
+let _hideSuggestTimer = null;
+
+function onCustomerInput(value) {
+  const dropdown = document.getElementById('customerSuggest');
+  if (!dropdown) return;
+
+  const matches = findSimilarClients(value);
+  // 過濾掉跟輸入完全一樣的（避免「你打了什麼就建議什麼」的廢話）
+  const filtered = matches.filter(m => m !== value);
+
+  if (filtered.length === 0) {
+    dropdown.classList.remove('show');
+    dropdown.innerHTML = '';
+    return;
+  }
+
+  // 為每個建議加上「這個業主有 X 筆紀錄」的小資訊
+  dropdown.innerHTML = filtered.slice(0, 8).map(name => {
+    const count = records.filter(r => r.customer === name).length;
+    const meta = count > 0 ? `<span class="meta">${count} 筆</span>` : '';
+    return `<div class="suggest-item" onmousedown="pickCustomerSuggest('${escapeHtml(name).replace(/'/g, "\\'")}')">${escapeHtml(name)}${meta}</div>`;
+  }).join('');
+  dropdown.classList.add('show');
+}
+
+function pickCustomerSuggest(name) {
+  const input = document.getElementById('f-customer');
+  input.value = name;
+  hideCustomerSuggest();
+}
+
+function hideCustomerSuggest() {
+  // 用 setTimeout 避免 onmousedown 還沒觸發就被 blur 隱藏
+  clearTimeout(_hideSuggestTimer);
+  _hideSuggestTimer = setTimeout(() => {
+    const dropdown = document.getElementById('customerSuggest');
+    if (dropdown) dropdown.classList.remove('show');
+  }, 150);
+}
+
+// ===== 上傳 =====
+
+// 壓縮圖片：最大寬高 1600px、JPEG 品質 0.82，回傳壓縮後 dataUrl
+function compressImage(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 1600;
+        let { width, height } = img;
+        if (width > MAX || height > MAX) {
+          if (width > height) {
+            height = Math.round(height * MAX / width);
+            width = MAX;
+          } else {
+            width = Math.round(width * MAX / height);
+            height = MAX;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+        resolve(dataUrl);
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handleFiles(event) {
+  const files = Array.from(event.target.files);
+  for (const file of files) {
+    if (uploadedFiles.length >= 2) {
+      showToast('最多 2 張');
+      break;
+    }
+    try {
+      const dataUrl = await compressImage(file);
+      // 檢查大小（Base64 字串長度 ≈ 實際 bytes × 1.33）
+      if (dataUrl.length > 800000) {
+        showToast('圖片過大，請挑小一點的');
+        continue;
+      }
+      uploadedFiles.push({ name: file.name, dataUrl, file });
+      renderFileGrid();
+    } catch (err) {
+      showToast('圖片處理失敗');
+      console.error(err);
+    }
+  }
+  event.target.value = '';
+}
+
+function renderFileGrid() {
+  const zone = document.getElementById('uploadZone');
+  const grid = document.getElementById('fileGrid');
+  zone.classList.toggle('has-files', uploadedFiles.length > 0);
+  grid.innerHTML = uploadedFiles.map((f, i) => `
+    <div class="file-item">
+      <img src="${f.dataUrl}" alt="" onclick="event.stopPropagation(); openLightbox(uploadedFiles[${i}].dataUrl)">
+      <div class="file-remove" onclick="event.stopPropagation(); removeFile(${i})">×</div>
+    </div>
+  `).join('');
+}
+
+function removeFile(idx) {
+  uploadedFiles.splice(idx, 1);
+  renderFileGrid();
+}
+
+function setupDragDrop() {
+  const zone = document.getElementById('uploadZone');
+  ['dragenter', 'dragover'].forEach(ev => {
+    zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.add('has-files'); });
+  });
+  ['dragleave', 'drop'].forEach(ev => {
+    zone.addEventListener(ev, e => {
+      e.preventDefault();
+      if (uploadedFiles.length === 0) zone.classList.remove('has-files');
+    });
+  });
+  zone.addEventListener('drop', async e => {
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+    for (const file of files) {
+      if (uploadedFiles.length >= 2) {
+        showToast('最多 2 張');
+        break;
+      }
+      try {
+        const dataUrl = await compressImage(file);
+        if (dataUrl.length > 800000) {
+          showToast('圖片過大，請挑小一點的');
+          continue;
+        }
+        uploadedFiles.push({ name: file.name, dataUrl, file });
+        renderFileGrid();
+      } catch (err) {
+        showToast('圖片處理失敗');
+      }
+    }
+  });
+}
+
+// ===== 送出 =====
+
+// editingRecordId: 不為 null 表示目前是「編輯既有紀錄」模式
+let editingRecordId = null;
+
+async function submitRecord() {
+  const date = document.getElementById('f-date').value;
+  const recorder = document.getElementById('f-recorder').value;
+  const customer = document.getElementById('f-customer').value.trim();
+  const keyword = document.getElementById('f-keyword').value.trim();
+  const targeted = document.getElementById('f-targeted').value;
+  const rank = document.getElementById('f-rank').value;
+  const volumeStr = document.getElementById('f-volume').value;
+  const volume = parseVolumeInput(volumeStr);
+  const engine = document.getElementById('f-engine').value;
+  const landing = document.getElementById('f-landing').value.trim();
+  const status = document.getElementById('f-status').value;
+  const aiSummary = document.getElementById('f-aisummary').value;
+  const note = document.getElementById('f-note').value.trim();
+
+  if (!date || !customer || !keyword || !rank) {
+    showToast('請填寫必填欄位（日期、客戶、關鍵字、排名）');
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = editingRecordId ? '儲存中...' : '歸檔中...';
+
+  // FIREBASE: 改成上傳圖到 Storage，imageUrls 改用真實 URL
+  const imageUrls = uploadedFiles.map(f => f.dataUrl);
+
+  let record;
+  if (editingRecordId) {
+    // 編輯：保留原本的 id 與 createdAt
+    const original = records.find(r => r.id === editingRecordId);
+    record = {
+      ...(original || {}),
+      id: editingRecordId,
+      date,
+      recorder,
+      customer,
+      keyword,
+      targeted,
+      // 同步寫入舊欄位，讓舊版本也能正確顯示
+      isTargetKeyword: targeted,
+      rank: parseInt(rank),
+      volume: volume,
+      engine,
+      landing,
+      // 同步寫入舊欄位
+      landingPageUrl: landing,
+      status,
+      aiSummary,
+      note,
+      imageUrls,
+      updatedAt: new Date().toISOString(),
+      createdAt: (original && original.createdAt) || new Date().toISOString()
+    };
+  } else {
+    record = {
+      id: 'r_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+      date,
+      recorder,
+      customer,
+      keyword,
+      targeted,
+      // 同步寫入舊欄位，讓舊版本也能正確顯示
+      isTargetKeyword: targeted,
+      rank: parseInt(rank),
+      volume: volume,
+      engine,
+      landing,
+      // 同步寫入舊欄位
+      landingPageUrl: landing,
+      status,
+      aiSummary,
+      note,
+      imageUrls,
+      createdAt: new Date().toISOString()
+    };
+  }
+
+  await dataSave(record);
+
+  // 如果是新業主（且沒有相似的）才自動加進 Firestore
+  if (customer && findSimilarClients(customer).length === 0) {
+    try {
+      await db.collection('clients').add({
+        name: customer,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } catch (e) {
+      console.warn('自動新增業主失敗:', e);
+    }
+  }
+
+  showToast(editingRecordId ? '已更新' : '已歸檔');
+  const wasEditing = !!editingRecordId;
+  editingRecordId = null;
+  resetForm();
+  updateRecordCount();
+  btn.disabled = false;
+  btn.textContent = '送出歸檔';
+
+  // 編輯完直接跳回查紀錄頁
+  if (wasEditing) {
+    switchTab('query');
+  }
+}
+
+function resetForm() {
+  editingRecordId = null;
+  document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('f-recorder').value = '';
+  document.getElementById('f-customer').value = '';
+  document.getElementById('f-keyword').value = '';
+  document.getElementById('f-targeted').value = 'yes';
+  document.getElementById('f-rank').value = '';
+  document.getElementById('f-volume').value = '';
+  document.getElementById('f-engine').value = 'Google';
+  document.getElementById('f-landing').value = '';
+  document.getElementById('f-status').value = 'simei';
+  document.getElementById('f-aisummary').value = 'no';
+  document.getElementById('f-note').value = '';
+  document.getElementById('smartInput').value = '';
+  document.getElementById('parseResult').classList.remove('show');
+  uploadedFiles = [];
+  renderFileGrid();
+  // 還原表單頂端標題與送出按鈕
+  document.getElementById('formSectionLabel').textContent = 'New Entry';
+  document.getElementById('submitBtn').textContent = '送出歸檔';
+  document.getElementById('cancelEditBtn').style.display = 'none';
+  // 移除自動填入標記
+  document.querySelectorAll('.auto-filled').forEach(el => el.classList.remove('auto-filled'));
+}
+
+// 取消編輯
+function cancelEdit() {
+  editingRecordId = null;
+  resetForm();
+  switchTab('query');
+}
+
+// 進入編輯模式：把資料填回表單，切到輸入頁
+function startEditRecord(id) {
+  const r = records.find(x => x.id === id);
+  if (!r) return;
+
+  closeModal();
+  editingRecordId = id;
+
+  // 切到輸入頁
+  switchTab('input');
+
+  // 填回欄位
+  document.getElementById('f-date').value = r.date || '';
+  document.getElementById('f-recorder').value = r.recorder || '';
+  document.getElementById('f-customer').value = r.customer || '';
+  document.getElementById('f-keyword').value = r.keyword || '';
+  document.getElementById('f-targeted').value = r.targeted || 'yes';
+  document.getElementById('f-rank').value = r.rank != null ? r.rank : '';
+  document.getElementById('f-volume').value = r.volume != null ? Number(r.volume).toLocaleString('en-US') : '';
+  document.getElementById('f-engine').value = r.engine || 'Google';
+  document.getElementById('f-landing').value = r.landing || '';
+  document.getElementById('f-status').value = r.status || 'simei';
+  document.getElementById('f-aisummary').value = r.aiSummary || 'no';
+  document.getElementById('f-note').value = r.note || '';
+
+  // 截圖
+  uploadedFiles = (r.imageUrls || []).map((url, i) => ({
+    name: `existing_${i}.jpg`,
+    dataUrl: url,
+    file: null
+  }));
+  renderFileGrid();
+
+  // 變更表單標題與按鈕
+  document.getElementById('formSectionLabel').textContent = 'Editing Entry · 編輯紀錄';
+  document.getElementById('submitBtn').textContent = '儲存變更';
+  document.getElementById('cancelEditBtn').style.display = '';
+
+  // 滑到頁首讓人看到「編輯中」
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showToast('編輯模式：修改後按「儲存變更」');
+}
+
+// ===== 查詢 =====
+
+function setStatusFilter(value, el) {
+  currentStatusFilter = value;
+  document.querySelectorAll('#statusChips .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderRecords();
+}
+
+function setRecorderFilter(value, el) {
+  currentRecorderFilter = value;
+  document.querySelectorAll('#recorderChips .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderRecords();
+}
+
+// 目前排序方式
+let currentSort = 'created_desc';
+
+function onSortChange(value) {
+  currentSort = value;
+  renderRecords();
+}
+
+function renderRecords() {
+  const search = document.getElementById('searchInput').value;
+  let filtered = [...records];
+
+  if (currentStatusFilter !== 'all') {
+    filtered = filtered.filter(r => r.status === currentStatusFilter);
+  }
+  if (currentRecorderFilter !== 'all') {
+    filtered = filtered.filter(r => r.recorder === currentRecorderFilter);
+  }
+  if (search) {
+    filtered = filtered.filter(r => recordMatchesFuzzy(r, search));
+  }
+
+  // 暴露給匯出功能取目前篩選結果
+  window._currentFilteredRecords = filtered;
+
+  // 排序
+  applySort(filtered, currentSort);
+
+  // 統計：指定 / 非指定 達標
+  document.getElementById('stat-total').textContent = filtered.length;
+  const simeiList = filtered.filter(r => r.status === 'simei');
+  const simeiTargeted = simeiList.filter(r => (r.targeted ?? 'yes') === 'yes').length;
+  const simeiNonTargeted = simeiList.filter(r => (r.targeted ?? 'yes') === 'no').length;
+  document.getElementById('stat-simei-targeted').textContent = simeiTargeted;
+  document.getElementById('stat-simei-non').textContent = simeiNonTargeted;
+  document.getElementById('stat-rate').textContent = filtered.length > 0
+    ? Math.round(simeiList.length / filtered.length * 100) + '%'
+    : '—';
+
+  const list = document.getElementById('recordsList');
+  if (filtered.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="em-icon">∅</div>
+        <div>${records.length === 0 ? '還沒有任何紀錄' : '沒有符合條件的紀錄'}</div>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(r => {
+    const dateShort = formatDateShort(r.date);
+    const thumb = (r.imageUrls && r.imageUrls.length > 0)
+      ? `<img src="${escapeHtml(r.imageUrls[0])}" alt="">`
+      : `<span class="thumb-empty">無圖</span>`;
+    const volStr = r.volume ? `<span class="volume">月搜 ${Number(r.volume).toLocaleString('en-US')}</span>` : '';
+    const aiBadge = r.aiSummary === 'yes' ? `<span class="badge ai-badge">AI</span>` : '';
+    // 指定 / 非指定 都顯示標籤，舊資料 (undefined) 預設視為「指定」
+    const targetedBadge = (r.targeted ?? 'yes') === 'yes'
+      ? `<span class="badge targeted">指定</span>`
+      : `<span class="badge non-targeted">非指定</span>`;
+    return `
+      <div class="record" onclick="showDetail('${r.id}')">
+        <div class="thumb">${thumb}</div>
+        <div class="record-main">
+          <div class="record-customer">${escapeHtml(r.customer)}</div>
+          <div class="record-keyword">
+            ${escapeHtml(r.keyword)} <span class="rank">${r.rank}</span>
+            ${volStr}
+          </div>
+          <div class="record-meta">
+            <span>${dateShort}</span>
+            <span class="dot"></span>
+            <span>${escapeHtml(r.recorder)}</span>
+            <span class="dot"></span>
+            <span>${escapeHtml(r.engine || 'Google')}</span>
+            <span class="badge ${r.status}">${STATUS_LABEL[r.status]}</span>
+            ${targetedBadge}
+            ${aiBadge}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// 共用排序：在 sortType 中切換
+function applySort(arr, sortType) {
+  switch (sortType) {
+    case 'created_asc':
+      arr.sort((a, b) => (a.createdAt || '').localeCompare(b.createdAt || ''));
+      break;
+    case 'date_desc':
+      arr.sort((a, b) => {
+        const cmp = (b.date || '').localeCompare(a.date || '');
+        if (cmp !== 0) return cmp;
+        // 同一天：用建立時間新→舊作為次要排序
+        return (b.createdAt || '').localeCompare(a.createdAt || '');
+      });
+      break;
+    case 'date_asc':
+      arr.sort((a, b) => {
+        const cmp = (a.date || '').localeCompare(b.date || '');
+        if (cmp !== 0) return cmp;
+        return (a.createdAt || '').localeCompare(b.createdAt || '');
+      });
+      break;
+    case 'created_desc':
+    default:
+      arr.sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+      break;
+  }
+}
+
+function updateRecordCount() {
+  document.getElementById('recordCount').textContent = `(${records.length})`;
+}
+
+// ===== 業主管理（Firestore）=====
+
+// loadClients / saveClients 改為由 subscribeClients 統一處理
+function loadClients() { /* 由 subscribeClients 取代 */ }
+function saveClients() { /* 由 addClient/removeClient 直接寫 Firestore 取代 */ }
+
+function updateClientCount() {
+  const el = document.getElementById('clientCount');
+  if (el) el.textContent = `(${clients.length})`;
+}
+
+async function addClient() {
+  const input = document.getElementById('newClientName');
+  const websiteInput = document.getElementById('newClientWebsite');
+  const name = input.value.trim();
+  const website = (websiteInput?.value || '').trim();
+  if (!name) {
+    showToast('請輸入業主名稱');
+    return;
+  }
+  if (clients.some(c => c.name === name)) {
+    showToast('此業主已存在');
+    return;
+  }
+  // 模糊比對：找出可能相似的既有業主
+  const similar = findSimilarClients(name).filter(c => c !== name);
+  if (similar.length > 0) {
+    const ok = confirm(`偵測到可能相似的業主：\n${similar.map(s => '・' + s).join('\n')}\n\n仍要新增「${name}」當作獨立業主嗎？`);
+    if (!ok) return;
+  }
+  try {
+    await db.collection('clients').add({
+      name,
+      website,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    input.value = '';
+    if (websiteInput) websiteInput.value = '';
+    showToast('已新增業主');
+    // onSnapshot 會自動觸發畫面更新
+  } catch (e) {
+    showToast('新增失敗：' + e.message);
+  }
+}
+
+async function removeClient(name) {
+  if (!confirm(`確定刪除業主「${name}」？\n（已有的紀錄不會被刪除，只是名單裡移除）`)) return;
+  try {
+    const snap = await db.collection('clients').where('name', '==', name).get();
+    const batch = db.batch();
+    snap.docs.forEach(doc => batch.delete(doc.ref));
+    await batch.commit();
+    showToast('已刪除');
+  } catch (e) {
+    showToast('刪除失敗：' + e.message);
+  }
+}
+
+// 編輯業主：可改名 + 可改網址
+async function editClient(originalName) {
+  const client = clients.find(c => c.name === originalName);
+  if (!client) return;
+
+  const newName = prompt(`修改業主名稱：\n（留空 = 不變）`, client.name);
+  if (newName === null) return; // 取消
+  const finalName = (newName || '').trim() || client.name;
+
+  const newWebsite = prompt(`修改網站網址（選填）：\n例如：https://example.com`, client.website || '');
+  if (newWebsite === null) return; // 取消
+  const finalWebsite = (newWebsite || '').trim();
+
+  // 檢查重名（換名後與其他業主撞名）
+  if (finalName !== client.name && clients.some(c => c.name === finalName && c.id !== client.id)) {
+    showToast('已有同名業主，請改別的名稱');
+    return;
+  }
+
+  try {
+    await db.collection('clients').doc(client.id).update({
+      name: finalName,
+      website: finalWebsite,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // 名稱改了 → 同步把所有舊名的 records.customer 也改掉
+    if (finalName !== client.name) {
+      const snap = await db.collection('records').where('customer', '==', client.name).get();
+      if (!snap.empty) {
+        // Firestore 一次最多 500 個，這邊資料量小直接一批
+        const batch = db.batch();
+        snap.docs.forEach(doc => batch.update(doc.ref, { customer: finalName }));
+        await batch.commit();
+      }
+    }
+    showToast('已更新');
+  } catch (e) {
+    showToast('更新失敗：' + e.message);
+  }
+}
+
+function getClientStats(clientName) {
+  const related = records.filter(r => r.customer === clientName);
+  const simei = related.filter(r => r.status === 'simei');
+  const tracking = related.filter(r => r.status === 'tracking').length;
+  const fail = related.filter(r => r.status === 'fail').length;
+
+  // 達標紀錄裡：指定關鍵字 vs 非指定關鍵字
+  // 沒有 targeted 欄位的舊紀錄（undefined）→ 預設視為「指定」
+  const simeiTargeted = simei.filter(r => (r.targeted ?? 'yes') === 'yes').length;
+  const simeiNonTargeted = simei.filter(r => (r.targeted ?? 'yes') === 'no').length;
+
+  const rate = related.length > 0 ? Math.round(simei.length / related.length * 100) : null;
+  return {
+    total: related.length,
+    simei: simei.length,
+    simeiTargeted,
+    simeiNonTargeted,
+    tracking,
+    fail,
+    rate
+  };
+}
+
+function renderClients() {
+  const search = (document.getElementById('clientSearchInput')?.value || '');
+  let filtered;
+  if (!search) {
+    filtered = clients.slice();
+  } else {
+    const nq = normalizeClientName(search);
+    if (!nq) {
+      // 純標點/空白，退回原始包含比對
+      const q = search.toLowerCase();
+      filtered = clients.filter(c => c.name.toLowerCase().includes(q));
+    } else {
+      filtered = clients.filter(c => {
+        const nc = normalizeClientName(c.name);
+        return nc.includes(nq) || nq.includes(nc);
+      });
+    }
+  }
+  const list = document.getElementById('clientsList');
+
+  if (filtered.length === 0) {
+    list.innerHTML = `
+      <div class="client-empty">
+        <div class="em-icon">∅</div>
+        <div>${clients.length === 0 ? '還沒有業主，請從上方新增' : '沒有符合的業主'}</div>
+      </div>`;
+    return;
+  }
+
+  // 依達標數倒序
+  const withStats = filtered.map(c => ({ ...c, stats: getClientStats(c.name) }));
+  withStats.sort((a, b) => b.stats.simei - a.stats.simei || b.stats.total - a.stats.total);
+
+  list.innerHTML = withStats.map(({ name, website, stats }) => {
+    const rateText = stats.rate !== null ? `${stats.rate}%` : '—';
+    const websiteHTML = website
+      ? `<a class="client-website" href="${escapeHtml(website)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${escapeHtml(formatWebsiteDisplay(website))}</a>`
+      : `<span class="client-website-empty">尚未設定網址</span>`;
+    return `
+      <div class="client-card" onclick="filterByClient('${escapeHtml(name).replace(/'/g, "\\'")}')">
+        <div class="client-card-header">
+          <div class="client-name-wrap">
+            <div class="client-name">${escapeHtml(name)}</div>
+            ${websiteHTML}
+          </div>
+          <div class="client-card-actions">
+            <button class="client-edit" onclick="event.stopPropagation(); editClient('${escapeHtml(name).replace(/'/g, "\\'")}')" title="編輯">✎</button>
+            <button class="client-delete" onclick="event.stopPropagation(); removeClient('${escapeHtml(name).replace(/'/g, "\\'")}')" title="刪除">×</button>
+          </div>
+        </div>
+        <div class="client-stats">
+          <div>
+            <div class="client-stat-num">${stats.total}</div>
+            <div class="client-stat-label">TOTAL</div>
+          </div>
+          <div>
+            <div class="client-stat-num">${stats.simeiTargeted}</div>
+            <div class="client-stat-label">指定 達標</div>
+          </div>
+          <div>
+            <div class="client-stat-num">${stats.simeiNonTargeted}</div>
+            <div class="client-stat-label">非指定 達標</div>
+          </div>
+        </div>
+        <div class="client-rate">
+          <span>達標率（合計）</span>
+          <span class="rate-value">${rateText}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// 把網址化為比較好閱讀的短字串：去掉 protocol、結尾斜線
+function formatWebsiteDisplay(url) {
+  if (!url) return '';
+  return String(url).replace(/^https?:\/\//, '').replace(/\/$/, '');
+}
+
+// 從業主分頁點擊業主 → 跳到查紀錄頁、用該業主搜尋、頂部顯示業主資訊
+function filterByClient(name) {
+  const client = clients.find(c => c.name === name);
+  switchTab('query');
+  document.getElementById('searchInput').value = name;
+
+  // 顯示業主聚焦條
+  const focus = document.getElementById('clientFocus');
+  document.getElementById('clientFocusName').textContent = name;
+  const websiteEl = document.getElementById('clientFocusWebsite');
+  if (client && client.website) {
+    websiteEl.innerHTML = `<a href="${escapeHtml(client.website)}" target="_blank" rel="noopener">${escapeHtml(formatWebsiteDisplay(client.website))} ↗</a>`;
+  } else {
+    websiteEl.innerHTML = `<span class="empty">尚未設定網址</span>`;
+  }
+  focus.style.display = '';
+
+  renderRecords();
+}
+
+// 清除業主聚焦
+function clearClientFocus() {
+  document.getElementById('clientFocus').style.display = 'none';
+  document.getElementById('searchInput').value = '';
+  renderRecords();
+}
+
+// 搜尋框輸入：若使用者把搜尋字清空或改掉業主名稱，自動隱藏業主聚焦條
+function onSearchInput(value) {
+  const focus = document.getElementById('clientFocus');
+  if (focus.style.display !== 'none') {
+    const focusedName = document.getElementById('clientFocusName').textContent;
+    if (value.trim() !== focusedName) {
+      focus.style.display = 'none';
+    }
+  }
+  renderRecords();
+}
+
+// ===== Modal =====
+
+function showDetail(id) {
+  const r = records.find(x => x.id === id);
+  if (!r) return;
+
+  const imgsHTML = (r.imageUrls && r.imageUrls.length > 0)
+    ? `<div class="modal-section-label">截圖</div>
+       <div class="modal-imgs">${r.imageUrls.map(u => `<img src="${escapeHtml(u)}" class="modal-img" alt="" onclick="openLightbox('${escapeHtml(u).replace(/'/g, "\\'")}')">`).join('')}</div>`
+    : '';
+
+  const noteHTML = r.note
+    ? `<div class="modal-note">${escapeHtml(r.note)}</div>`
+    : '';
+
+  // 落地頁：如果有就顯示成可點連結；否則顯示「—」
+  const landingHTML = r.landing
+    ? `<a href="${escapeHtml(r.landing)}" target="_blank" rel="noopener" class="modal-link">${escapeHtml(formatWebsiteDisplay(r.landing))}</a>`
+    : '—';
+
+  // targeted 沒填的舊紀錄預設視為「指定」
+  const targetedText = (r.targeted ?? 'yes') === 'yes' ? '是（指定）' : '否（非指定）';
+
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-customer">${escapeHtml(r.customer)}</div>
+    <div class="modal-meta">${formatDateLong(r.date)} · ${escapeHtml(r.recorder)}</div>
+
+    ${imgsHTML}
+
+    <div class="modal-section-label">資料</div>
+    <div class="modal-rows">
+      <div class="modal-row"><span class="label">關鍵字</span><span class="value">${escapeHtml(r.keyword)}</span></div>
+      <div class="modal-row"><span class="label">指定關鍵字</span><span class="value">${targetedText}</span></div>
+      <div class="modal-row"><span class="label">排名</span><span class="value">第 ${r.rank} 名</span></div>
+      <div class="modal-row"><span class="label">月搜尋量</span><span class="value">${r.volume ? Number(r.volume).toLocaleString('en-US') : '—'}</span></div>
+      <div class="modal-row"><span class="label">搜尋引擎</span><span class="value">${escapeHtml(r.engine || 'Google')}</span></div>
+      <div class="modal-row"><span class="label">落地頁</span><span class="value">${landingHTML}</span></div>
+      <div class="modal-row"><span class="label">狀態</span><span class="value">${STATUS_LABEL[r.status]}</span></div>
+      <div class="modal-row"><span class="label">AI 摘要</span><span class="value">${r.aiSummary === 'yes' ? '有' : '無'}</span></div>
+    </div>
+
+    ${noteHTML}
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">關閉</button>
+      <button class="btn-secondary" onclick="startEditRecord('${r.id}')">編輯</button>
+      <button class="btn-danger" onclick="confirmDelete('${r.id}')">刪除</button>
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+
+function closeModalIfBg(event) {
+  if (event.target.id === 'modalOverlay') closeModal();
+}
+
+// ===== Lightbox（點縮圖看原圖） =====
+
+function openLightbox(url) {
+  const overlay = document.getElementById('lightboxOverlay');
+  const img = document.getElementById('lightboxImg');
+  img.src = url;
+  overlay.classList.add('show');
+}
+
+function closeLightbox() {
+  document.getElementById('lightboxOverlay').classList.remove('show');
+  // 延遲清掉 src，等淡出動畫結束
+  setTimeout(() => {
+    const img = document.getElementById('lightboxImg');
+    if (!document.getElementById('lightboxOverlay').classList.contains('show')) {
+      img.src = '';
+    }
+  }, 200);
+}
+
+function closeLightboxIfBg(event) {
+  // 點背景或關閉鈕都會關，圖片本身已 stopPropagation
+  closeLightbox();
+}
+
+// Esc 關閉 lightbox（優先於 modal）
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const lb = document.getElementById('lightboxOverlay');
+    if (lb && lb.classList.contains('show')) {
+      closeLightbox();
+    }
+  }
+});
+
+function confirmDelete(id) {
+  if (confirm('確定刪除這筆紀錄？')) {
+    dataDelete(id);
+    closeModal();
+    showToast('已刪除');
+  }
+}
+
+// ===== 匯出 CSV =====
+
+function exportFiltered() {
+  const filtered = window._currentFilteredRecords || [];
+  if (filtered.length === 0) {
+    showToast('目前沒有可匯出的紀錄');
+    return;
+  }
+  doExport(filtered, '本頁');
+}
+
+function exportAll() {
+  if (records.length === 0) {
+    showToast('目前沒有可匯出的紀錄');
+    return;
+  }
+  doExport(records, '全部');
+}
+
+function doExport(list, scopeLabel) {
+  const includeImage = confirm(`要在 CSV 裡包含截圖（Base64 字串）嗎？\n\n・選「確定」：會包含，但檔案會變很大（每筆紀錄多 ~100KB）\n・選「取消」：只匯出文字欄位（推薦）`);
+
+  // 套用目前畫面上的排序選擇（讓匯出順序跟畫面一致）
+  const sorted = [...list];
+  applySort(sorted, currentSort);
+
+  const headers = [
+    '日期', '紀錄人', '客戶/案件', '關鍵字', '指定關鍵字',
+    '排名', '月搜尋量', '搜尋引擎', '落地頁', '狀態', 'AI摘要', '備註', '建立時間', '更新時間'
+  ];
+  if (includeImage) headers.push('截圖1(Base64)', '截圖2(Base64)');
+
+  const rows = sorted.map(r => {
+    const targetedText = (r.targeted ?? 'yes') === 'yes' ? '指定' : '非指定';
+    const row = [
+      r.date || '',
+      r.recorder || '',
+      r.customer || '',
+      r.keyword || '',
+      targetedText,
+      r.rank != null ? r.rank : '',
+      r.volume != null ? r.volume : '',
+      r.engine || '',
+      r.landing || '',
+      STATUS_LABEL[r.status] || r.status || '',
+      r.aiSummary === 'yes' ? '有' : '無',
+      r.note || '',
+      r.createdAt || '',
+      r.updatedAt || ''
+    ];
+    if (includeImage) {
+      row.push((r.imageUrls && r.imageUrls[0]) || '');
+      row.push((r.imageUrls && r.imageUrls[1]) || '');
+    }
+    return row;
+  });
+
+  const csv = [headers, ...rows].map(row =>
+    row.map(cell => csvEscape(cell)).join(',')
+  ).join('\r\n');
+
+  // 加 UTF-8 BOM 讓 Excel 用 UTF-8 開啟，中文不亂碼
+  const BOM = '\uFEFF';
+  const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8;' });
+
+  const today = new Date().toISOString().split('T')[0];
+  const filename = `SEO紀錄_${scopeLabel}_${today}.csv`;
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+  showToast(`已匯出 ${sorted.length} 筆`);
+}
+
+function csvEscape(value) {
+  if (value == null) return '';
+  const s = String(value);
+  // 如果包含逗號、雙引號、換行，要用雙引號包起來，並把內部雙引號變兩個
+  if (/[",\r\n]/.test(s)) {
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+  return s;
+}
+
+// ===== 工具 =====
+
+// 月搜尋量輸入即時格式化（千分位逗號）：1900 → 1,900；40500 → 40,500
+function formatVolumeInput(el) {
+  const raw = el.value;
+  // 只留下數字
+  const digits = raw.replace(/[^\d]/g, '');
+  if (!digits) {
+    el.value = '';
+    return;
+  }
+  el.value = Number(digits).toLocaleString('en-US');
+}
+
+// 將千分位字串轉成數字（送出時用）
+function parseVolumeInput(str) {
+  if (str == null || str === '') return null;
+  const digits = String(str).replace(/[^\d]/g, '');
+  if (!digits) return null;
+  const n = parseInt(digits, 10);
+  return isNaN(n) ? null : n;
+}
+
+function formatDateShort(dateStr) {
+  if (!dateStr) return '';
+  const [, m, d] = dateStr.split('-');
+  return `${parseInt(m)}/${d}`;
+}
+
+function formatDateLong(dateStr) {
+  if (!dateStr) return '';
+  const [y, m, d] = dateStr.split('-');
+  return `${y} 年 ${parseInt(m)} 月 ${parseInt(d)} 日`;
+}
+
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+init();
+</script>
+
+</body>
+</html>
