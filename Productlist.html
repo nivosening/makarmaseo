@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Tancoco 檔期商品收藏簿</title><meta name="description" content="精選 180 件檔期商品，含品牌、售價、規格版本與備註。"><meta property="og:type" content="website"><meta property="og:title" content="Tancoco 檔期商品收藏簿"><meta property="og:description" content="精選 180 件檔期商品，含品牌、售價、規格版本與備註。"><meta property="og:site_name" content="Tancoco 檔期商品收藏簿"><meta property="og:locale" content="zh_TW"><meta property="og:image" content="https://www.wanfuxuan.com.tw/archive/image/aW1hZ2UtMjAyNjA3MTAyMDM3NDEtNC4zNjg3MDYyNzc%3D.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Tancoco 檔期商品收藏簿"><meta name="twitter:description" content="精選 180 件檔期商品，含品牌、售價、規格版本與備註。"><meta name="twitter:image" content="https://www.wanfuxuan.com.tw/archive/image/aW1hZ2UtMjAyNjA3MTAyMDM3NDEtNC4zNjg3MDYyNzc%3D.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet"><style>
+  :root{
+    --paper:#F4EEDF;
+    --paper-line:#E3D9C0;
+    --paper-deep:#ECE4CF;
+    --ink:#1F3352;
+    --ink-soft:#4B5A72;
+    --meta:#8A8272;
+    --red:#B23A2E;
+    --red-deep:#8E2C22;
+    --card-bg:#FBF8EF;
+    --shadow: 0 1px 0 rgba(31,51,82,0.06);
+    --radius: 3px;
+    --c1:#D98A9E; --c2:#5C8A72; --c3:#C08A3E; --c4:#7A5178;
+    --c5:#5B87A8; --c6:#C06B3E; --c7:#445A87; --c8:#7C8A4E;
+    --gold:#A8791E; --gold-bg:#FBF1D9;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Noto Sans TC', sans-serif;
+    background:
+      repeating-linear-gradient(180deg, transparent, transparent 35px, var(--paper-line) 35px, var(--paper-line) 36px),
+      var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+  }
+  .app{ max-width:1240px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* ===== Header ===== */
+  header{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:14px; margin-bottom:22px; flex-wrap:wrap; gap:14px;
+  }
+  .title-block{ display:flex; align-items:baseline; gap:14px; }
+  h1{
+    font-family:'Noto Serif TC', serif; font-weight:900; font-size:26px;
+    margin:0; letter-spacing:.04em;
+  }
+  .subtitle{ font-size:12.5px; color:var(--meta); letter-spacing:.05em; }
+  .stamp-count{
+    font-size:11px; color:var(--meta); border:1px solid var(--paper-line);
+    padding:3px 10px; border-radius:20px; background:var(--card-bg);
+  }
+  .btn{
+    font-family:inherit; cursor:pointer; border:none; border-radius:var(--radius);
+    padding:10px 18px; font-size:13.5px; font-weight:700; letter-spacing:.03em;
+    transition:transform .1s ease, box-shadow .15s ease;
+  }
+  .btn:active{ transform:translateY(1px); }
+  .btn-primary{ background:var(--red); color:#FBF3E7; box-shadow:0 2px 0 var(--red-deep); }
+  .btn-primary:hover{ background:var(--red-deep); }
+  .btn-ghost{ background:transparent; color:var(--ink-soft); border:1px solid var(--paper-line); }
+  .btn-ghost:hover{ border-color:var(--ink-soft); }
+  .menu-item-btn{
+    display:block; width:100%; text-align:left; background:none; border:none; cursor:pointer;
+    font-family:inherit; font-size:13px; color:var(--ink-soft); padding:10px 14px;
+  }
+  .menu-item-btn:hover{ background:var(--paper-deep); color:var(--ink); }
+  .menu-item-btn + .menu-item-btn{ border-top:1px solid var(--paper-line); }
+
+  /* ===== Layout ===== */
+  .layout{ display:grid; grid-template-columns:220px 1fr; gap:26px; align-items:start; }
+  @media(max-width:820px){
+    .layout{ grid-template-columns:1fr; }
+    .sidebar{ position:static !important; top:auto; background:var(--paper); padding-bottom:8px; margin-bottom:4px; border-bottom:2px solid var(--paper-line); }
+  }
+
+  /* ===== Sidebar tabs ===== */
+  .sidebar{ position:sticky; top:20px; background:var(--paper); z-index:2; }
+  .sidebar-label{
+    font-size:11px; color:var(--meta); letter-spacing:.12em; margin:0 0 8px 4px;
+    text-transform:uppercase;
+  }
+  .tab-list{ display:flex; flex-direction:column; gap:5px; margin-bottom:18px; }
+  .tab{
+    display:flex; align-items:center; gap:8px; cursor:pointer;
+    padding:8px 10px 8px 8px; border-radius:0 var(--radius) var(--radius) 0;
+    border-left:4px solid transparent; background:transparent;
+    font-size:13.5px; color:var(--ink-soft); position:relative;
+  }
+  .tab:hover{ background:var(--paper-deep); }
+  .tab.active{ background:var(--card-bg); border-left-color:var(--ink); color:var(--ink); font-weight:700; box-shadow:var(--shadow); }
+  .tab .dot{ width:9px; height:9px; border-radius:50%; flex:none; }
+  .tab .name{ flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tab .cnt{ font-size:11px; color:var(--meta); }
+  .tab-del{
+    opacity:0; background:none; border:none; color:var(--meta); cursor:pointer;
+    font-size:13px; padding:0 2px; line-height:1;
+  }
+  .tab:hover .tab-del{ opacity:1; }
+
+  .add-campaign{
+    display:flex; gap:6px; margin-left:2px;
+  }
+  .add-campaign input{
+    flex:1; min-width:0; font-family:inherit; font-size:12.5px; padding:7px 8px;
+    border:1px solid var(--paper-line); border-radius:var(--radius); background:var(--card-bg); color:var(--ink);
+  }
+  .add-campaign button{
+    border:1px solid var(--ink); background:var(--card-bg); color:var(--ink);
+    border-radius:var(--radius); font-size:14px; cursor:pointer; padding:0 10px;
+  }
+  .theme-chip-list{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .theme-chip{
+    font-size:11.5px; padding:4px 10px 4px 12px; border-radius:20px; border:1.3px solid var(--paper-line);
+    background:var(--card-bg); color:var(--ink-soft); cursor:pointer; display:flex; align-items:center; gap:5px;
+  }
+  .theme-chip.active{ font-weight:700; color:#fff; border-color:transparent; }
+  .theme-chip .theme-del{ background:none; border:none; padding:0; font-size:11px; color:inherit; opacity:.6; cursor:pointer; }
+  .theme-chip .theme-del:hover{ opacity:1; }
+
+  /* ===== Filter row ===== */
+  .filter-row{
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:16px;
+  }
+  .search-box{
+    flex:1; min-width:180px; font-family:inherit; font-size:13.5px; padding:9px 12px;
+    border:1px solid var(--paper-line); border-radius:var(--radius); background:var(--card-bg); color:var(--ink);
+  }
+  .status-filter{ display:flex; gap:6px; flex-wrap:wrap; }
+  .chip{
+    font-size:12px; padding:6px 12px; border-radius:20px; border:1px solid var(--paper-line);
+    background:var(--card-bg); color:var(--ink-soft); cursor:pointer; white-space:nowrap;
+  }
+  .chip.active{ border-color:var(--ink); color:var(--ink); font-weight:700; background:var(--paper-deep); }
+  .price-filter{ display:flex; align-items:center; gap:5px; }
+  .price-filter input{
+    width:82px; font-family:inherit; font-size:12.5px; padding:8px 9px;
+    border:1px solid var(--paper-line); border-radius:var(--radius); background:var(--card-bg); color:var(--ink);
+  }
+  .price-sep{ color:var(--meta); font-size:12px; }
+  .sort-select{
+    font-family:inherit; font-size:12.5px; padding:8px 10px;
+    border:1px solid var(--paper-line); border-radius:var(--radius); background:var(--card-bg); color:var(--ink);
+    cursor:pointer;
+  }
+
+  /* ===== Cards ===== */
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:16px;
+  }
+  .card{
+    background:var(--card-bg); border:1px solid var(--paper-line); border-radius:var(--radius);
+    box-shadow:var(--shadow); position:relative; overflow:hidden; display:flex; flex-direction:column;
+  }
+  .card.is-client{
+    border:1.5px solid var(--gold);
+    box-shadow:0 0 0 3px var(--gold-bg);
+  }
+  .client-ribbon{
+    position:absolute; top:10px; right:-30px; width:120px;
+    background:var(--gold); color:#fff; font-size:11px; font-weight:700; letter-spacing:.08em;
+    text-align:center; padding:3px 0; transform:rotate(35deg); z-index:2;
+    box-shadow:0 1px 3px rgba(0,0,0,.2);
+  }
+  .card-top{ height:5px; display:flex; }
+  .card-top span{ flex:1; }
+  .card-img{
+    height:130px; background:var(--paper-deep); display:flex; align-items:center; justify-content:center;
+    overflow:hidden; color:var(--meta); font-size:12px;
+  }
+  .card-img img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .card-body{ padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1; }
+  .card-name{ font-family:'Noto Serif TC', serif; font-weight:700; font-size:15px; line-height:1.35; }
+  .card-brand{ font-size:11.5px; color:var(--meta); }
+  .card-brand.clickable{ cursor:pointer; text-decoration:underline; text-decoration-style:dotted; text-underline-offset:2px; }
+  .card-brand.clickable:hover{ color:var(--ink); }
+  .card-price{ font-variant-numeric:tabular-nums; font-size:13.5px; color:var(--ink-soft); }
+  .card-tags{ display:flex; gap:5px; flex-wrap:wrap; margin-top:2px; }
+  .tag-pill{
+    font-size:10.5px; padding:2px 8px; border-radius:20px; color:#fff; opacity:.88;
+  }
+  .theme-pill{
+    font-size:10.5px; padding:1.5px 8px; border-radius:20px; background:transparent;
+    border:1.3px solid; font-weight:600;
+  }
+  .client-toggle-btn{
+    position:absolute; top:8px; left:8px; z-index:3; width:26px; height:26px;
+    border-radius:50%; border:1.5px solid var(--gold); background:var(--card-bg);
+    cursor:pointer; font-size:12px; display:flex; align-items:center; justify-content:center;
+    opacity:.5; transition:all .2s ease; padding:0;
+  }
+  .client-toggle-btn:hover{ opacity:1; }
+  .client-toggle-btn.active{
+    background:var(--gold); opacity:1; box-shadow:0 1px 4px rgba(0,0,0,.25);
+  }
+  .appear-list{ display:flex; flex-direction:column; gap:3px; margin-top:2px; }
+  .appear-list-item{
+    font-size:11px; color:var(--ink-soft); line-height:1.5; padding-left:10px; position:relative;
+  }
+  .appear-list-item::before{ content:"·"; position:absolute; left:0; color:var(--meta); }
+  .appear-list-item a{ color:var(--ink-soft); text-decoration:none; border-bottom:1px dotted var(--ink-soft); }
+  .appear-list-item a:hover{ color:var(--red); border-color:var(--red); }
+  .appear-more{ font-size:11px; color:var(--meta); padding-left:10px; }
+  .appear-count-label{ font-size:11px; color:var(--ink-soft); font-weight:700; margin-bottom:1px; }
+  .appear-count-badge{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:20px; height:20px; border-radius:50%; background:var(--ink-soft); color:#fff;
+    font-size:10.5px; font-weight:700; flex:none;
+  }
+  .card-note{ font-size:12px; color:var(--ink-soft); line-height:1.5; }
+  .card-foot{
+    display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:8px;
+  }
+  .status-badge{
+    font-size:11px; padding:3px 9px; border-radius:20px; border:1px solid var(--paper-line); color:var(--ink-soft);
+  }
+  .status-adopted{
+    border:2px solid var(--red); color:var(--red); font-weight:700; transform:rotate(-3deg);
+    font-family:'Noto Serif TC', serif; letter-spacing:.08em;
+  }
+  .card-actions{ display:flex; gap:8px; }
+  .icon-btn{
+    background:none; border:none; cursor:pointer; color:var(--meta); font-size:14px; padding:2px;
+  }
+  .icon-btn:hover{ color:var(--ink); }
+  .card a.link-btn{ color:var(--ink-soft); text-decoration:none; font-size:12px; border-bottom:1px dotted var(--ink-soft); }
+  .card a.link-btn:hover{ color:var(--red); border-color:var(--red); }
+
+  .empty{
+    text-align:center; padding:60px 20px; color:var(--meta); font-size:13.5px;
+    border:1px dashed var(--paper-line); border-radius:var(--radius); background:var(--card-bg);
+  }
+  .empty b{ display:block; font-family:'Noto Serif TC',serif; font-size:16px; color:var(--ink); margin-bottom:6px; font-weight:700; }
+
+  /* ===== Modal ===== */
+  .overlay{
+    position:fixed; inset:0; background:rgba(31,51,82,0.35); display:flex; align-items:center; justify-content:center;
+    padding:20px; z-index:50;
+  }
+  .modal{
+    background:var(--paper); border-radius:4px; width:100%; max-width:480px; max-height:88vh; overflow-y:auto;
+    padding:22px 22px 20px; box-shadow:0 12px 40px rgba(0,0,0,0.25); border:1px solid var(--paper-line);
+  }
+  .modal h2{ font-family:'Noto Serif TC',serif; font-size:18px; margin:0 0 16px; }
+  .field{ margin-bottom:13px; }
+  .field label{ display:block; font-size:12px; color:var(--meta); margin-bottom:5px; letter-spacing:.03em; }
+  .field input, .field textarea, .field select{
+    width:100%; font-family:inherit; font-size:13.5px; padding:9px 10px;
+    border:1px solid var(--paper-line); border-radius:var(--radius); background:var(--card-bg); color:var(--ink);
+  }
+  .field textarea{ resize:vertical; min-height:56px; }
+  .tag-select{ display:flex; flex-wrap:wrap; gap:6px; }
+  .tag-opt{
+    font-size:12px; padding:5px 11px; border-radius:20px; border:1px solid var(--paper-line);
+    cursor:pointer; color:var(--ink-soft); background:var(--card-bg);
+  }
+  .tag-opt.sel{ color:#fff; border-color:transparent; font-weight:700; }
+  .status-select{ display:flex; gap:6px; flex-wrap:wrap; }
+  .modal-actions{ display:flex; justify-content:flex-end; gap:8px; margin-top:18px; }
+  .field-row{ display:flex; gap:10px; }
+  .field-row .field{ flex:1; }
+  .close-x{ float:right; background:none; border:none; font-size:18px; cursor:pointer; color:var(--meta); }
+  .appear-row{
+    display:grid; grid-template-columns:1fr 1.3fr 1.3fr auto; gap:6px; margin-bottom:6px; align-items:center;
+  }
+  .appear-row input{
+    font-family:inherit; font-size:12px; padding:7px 8px;
+    border:1px solid var(--paper-line); border-radius:var(--radius); background:var(--card-bg); color:var(--ink);
+  }
+  .appear-row .appear-remove{
+    background:none; border:none; color:var(--meta); cursor:pointer; font-size:14px; padding:2px 4px;
+  }
+  .appear-row .appear-remove:hover{ color:var(--red); }
+  @media(max-width:560px){ .appear-row{ grid-template-columns:1fr; } }
+  .merge-candidate{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:9px 12px; border:1px solid var(--paper-line); border-radius:var(--radius);
+    background:var(--card-bg); cursor:pointer; text-align:left;
+  }
+  .merge-candidate:hover{ border-color:var(--ink); background:var(--paper-deep); }
+  .merge-candidate.selected{ border-color:var(--gold); background:var(--gold-bg); }
+  .merge-candidate .mc-left{ display:flex; align-items:center; gap:10px; }
+  .merge-candidate input[type="checkbox"]{ width:16px; height:16px; accent-color:var(--gold); flex:none; }
+  .merge-candidate .mc-name{ font-weight:700; font-size:13px; }
+  .merge-candidate .mc-same-badge{
+    font-size:10px; color:var(--gold); border:1px solid var(--gold); border-radius:20px; padding:1px 7px; margin-left:6px;
+  }
+  .merge-candidate .mc-meta{ font-size:11px; color:var(--meta); margin-top:2px; }
+  .mc-thumb{
+    width:56px; height:56px; flex:none; background:var(--paper-deep);
+    border-radius:var(--radius); overflow:hidden; display:flex;
+    align-items:center; justify-content:center; font-size:10px; color:var(--meta);
+  }
+  .mc-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .mc-thumb.big{ width:80px; height:80px; }
+  .merge-source-preview{
+    display:flex; align-items:center; gap:12px; background:var(--paper-deep);
+    padding:10px 12px; border-radius:var(--radius); margin-bottom:12px;
+    border:1px solid var(--paper-line);
+  }
+  .merge-source-preview .msp-meta{ flex:1; }
+  .merge-source-preview .msp-name{ font-weight:700; font-size:13.5px; }
+  .merge-source-preview .msp-sub{ font-size:11.5px; color:var(--meta); margin-top:2px; }
+
+  /* Step 2 - 模式切換 */
+  .merge-mode-tabs{
+    display:flex; gap:0; margin-bottom:14px;
+    border:1px solid var(--paper-line); border-radius:var(--radius); overflow:hidden;
+    background:var(--card-bg);
+  }
+  .merge-mode-tab{
+    flex:1; padding:9px 12px; text-align:center; cursor:pointer;
+    background:transparent; border:none; font-family:inherit;
+    font-size:12.5px; color:var(--ink-soft); position:relative;
+    border-right:1px solid var(--paper-line);
+  }
+  .merge-mode-tab:last-child{ border-right:none; }
+  .merge-mode-tab:hover{ background:var(--paper-deep); color:var(--ink); }
+  .merge-mode-tab.active{
+    background:var(--ink); color:#fff; font-weight:700;
+  }
+  .merge-mode-tab .mmt-hint{
+    display:block; font-size:10.5px; font-weight:400; margin-top:2px; opacity:.85;
+  }
+  .merge-mode-desc{
+    font-size:12px; color:var(--ink-soft); line-height:1.65;
+    background:var(--paper-deep); padding:9px 11px; border-radius:var(--radius);
+    margin-bottom:14px;
+  }
+  .merge-mode-desc b{ color:var(--ink); }
+
+  /* Step 2 - 變體合併模式 */
+  .merge-variant-list{ display:flex; flex-direction:column; gap:8px; }
+  .merge-variant-row{
+    display:flex; align-items:center; gap:10px; padding:10px;
+    border:1px solid var(--paper-line); border-radius:var(--radius);
+    background:var(--card-bg);
+  }
+  .merge-variant-row.is-main{
+    border-color:var(--gold); background:var(--gold-bg);
+    box-shadow:inset 3px 0 0 var(--gold);
+  }
+  .merge-variant-row .mvr-thumb{ width:50px; height:50px; flex:none; }
+  .merge-variant-row .mvr-info{ flex:1; min-width:0; }
+  .merge-variant-row .mvr-name{
+    font-size:12.5px; font-weight:700; line-height:1.35;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .merge-variant-row .mvr-sub{ font-size:11px; color:var(--meta); margin-top:1px; }
+  .merge-variant-row .mvr-controls{
+    display:flex; flex-direction:column; gap:4px; flex:none; align-items:flex-end;
+  }
+  .merge-variant-row .mvr-main-radio{
+    display:flex; align-items:center; gap:4px; font-size:11px; color:var(--meta); cursor:pointer;
+  }
+  .merge-variant-row.is-main .mvr-main-radio{ color:var(--gold); font-weight:700; }
+  .merge-variant-row .mvr-label-input{
+    font-family:inherit; font-size:12px; padding:5px 8px; width:160px;
+    border:1px solid var(--paper-line); border-radius:var(--radius); background:#fff;
+  }
+  .merge-variant-name-edit{
+    margin-bottom:12px; padding:10px 12px; background:var(--paper-deep);
+    border-radius:var(--radius); border:1px solid var(--paper-line);
+  }
+  .merge-variant-name-edit label{
+    display:block; font-size:11.5px; color:var(--ink-soft); margin-bottom:5px; font-weight:700;
+  }
+  .merge-variant-name-edit input{
+    width:100%; font-family:inherit; font-size:13px; padding:6px 8px;
+    border:1px solid var(--paper-line); border-radius:var(--radius); background:#fff;
+  }
+
+  /* 重複模式：欄位選項的縮圖 */
+  .merge-field-opt .mfo-thumb{
+    width:36px; height:36px; flex:none; background:var(--paper-deep);
+    border-radius:2px; overflow:hidden; display:inline-flex;
+    align-items:center; justify-content:center;
+  }
+  .merge-field-opt .mfo-thumb img{ width:100%; height:100%; object-fit:cover; }
+  .merge-field-opt{ display:flex; align-items:flex-start; gap:8px; }
+
+  /* ===== 出現紀錄反查 ===== */
+  .appear-overview-search{
+    margin-bottom:12px; width:100%;
+  }
+  .appear-overview-empty{
+    font-size:12.5px; color:var(--meta); text-align:center; padding:24px 0;
+  }
+  .appear-group{
+    margin-bottom:14px; border:1px solid var(--paper-line); border-radius:var(--radius);
+    background:var(--card-bg); overflow:hidden;
+  }
+  .appear-group-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 12px; background:var(--paper-deep); cursor:pointer;
+    border-bottom:1px solid var(--paper-line);
+  }
+  .appear-group-head:hover{ background:var(--paper-line); }
+  .appear-group-title{
+    font-family:'Noto Serif TC', serif; font-weight:700; font-size:14px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .appear-group-title .agt-badge{
+    font-size:10.5px; padding:2px 8px; border-radius:20px;
+    background:var(--ink); color:#fff; font-family:'Noto Sans TC', sans-serif;
+    font-variant-numeric:tabular-nums;
+  }
+  .appear-group-body{ padding:2px 0; }
+  .appear-item{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 12px; cursor:pointer;
+    border-bottom:1px dashed var(--paper-line);
+  }
+  .appear-item:last-child{ border-bottom:none; }
+  .appear-item:hover{ background:var(--paper-deep); }
+  .appear-item-title{
+    font-size:12.5px; color:var(--ink); flex:1; min-width:0; line-height:1.5;
+    padding-right:10px;
+  }
+  .appear-item-title a{
+    color:var(--meta); font-size:11px; margin-left:6px;
+    text-decoration:none; border-bottom:1px dotted var(--meta);
+  }
+  .appear-item-title a:hover{ color:var(--ink); border-color:var(--ink); }
+  .appear-item-count{
+    flex:none; font-size:11px; color:var(--meta); font-variant-numeric:tabular-nums;
+    background:var(--card-bg); border:1px solid var(--paper-line);
+    padding:2px 8px; border-radius:20px;
+  }
+  .appear-overview-hint{
+    font-size:11.5px; color:var(--meta); line-height:1.7;
+    background:var(--paper-deep); padding:9px 11px; border-radius:var(--radius);
+    margin-bottom:12px;
+  }
+  .merge-field{ margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--paper-line); }
+  .merge-field-label{ font-size:11px; color:var(--meta); letter-spacing:.03em; margin-bottom:6px; }
+  .merge-field-opt{
+    display:flex; gap:8px; align-items:flex-start; font-size:12.5px; padding:6px 8px; border-radius:var(--radius);
+    cursor:pointer; margin-bottom:4px; border:1px solid transparent;
+  }
+  .merge-field-opt:hover{ background:var(--paper-deep); }
+  .merge-field-opt input{ margin-top:2px; width:auto; }
+  .merge-field-value{ color:var(--ink); word-break:break-all; }
+  .merge-field-empty{ color:var(--meta); font-style:italic; }
+  .merge-field-single{ font-size:12.5px; color:var(--ink-soft); padding:2px 0; }
+
+  /* ===== 品牌顯示（支援聯名多品牌） ===== */
+  .brand-item{
+    text-decoration:underline; text-decoration-style:dotted; text-underline-offset:2px;
+    cursor:pointer;
+  }
+  .brand-item:hover{ color:var(--ink); }
+  .brand-sep{ color:var(--meta); margin:0 4px; }
+  .brand-more{ color:var(--meta); font-size:10.5px; margin-left:4px; }
+
+  /* ===== Variants（規格版本切換） ===== */
+  .card-price .price-suffix{ font-size:11px; color:var(--meta); margin-left:4px; }
+  .variant-row{
+    display:flex; flex-wrap:wrap; gap:5px; margin-top:2px;
+    padding:6px 0; border-top:1px dashed var(--paper-line); border-bottom:1px dashed var(--paper-line);
+  }
+  .variant-row-label{
+    font-size:10.5px; color:var(--meta); letter-spacing:.05em; width:100%; margin-bottom:2px;
+  }
+  .variant-chip{
+    font-size:11.5px; padding:4px 10px; border-radius:20px;
+    border:1px solid var(--paper-line); background:var(--card-bg); color:var(--ink-soft);
+    cursor:pointer; white-space:nowrap; font-family:inherit;
+    display:inline-flex; align-items:center; gap:5px;
+  }
+  .variant-chip:hover{ border-color:var(--ink-soft); color:var(--ink); }
+  .variant-chip.active{
+    border-color:var(--ink); color:var(--ink); font-weight:700; background:var(--paper-deep);
+    box-shadow:inset 0 -2px 0 var(--ink);
+  }
+  .variant-chip .vc-price{
+    font-size:10.5px; color:var(--meta); font-variant-numeric:tabular-nums;
+  }
+  .variant-chip.active .vc-price{ color:var(--ink); }
+  .note-fade{ animation: fade .2s ease; }
+  @keyframes fade{ from{opacity:.4;} to{opacity:1;} }
+
+  /* ===== 商品詳情彈窗 ===== */
+  .card-name.clickable, .card-img.clickable{ cursor:pointer; }
+  .card-name.clickable:hover{ color:var(--red); }
+  .card-img.clickable:hover{ opacity:.85; }
+  .detail-modal{ max-width:640px; }
+  .detail-hero{
+    display:flex; gap:16px; margin-bottom:14px; align-items:flex-start;
+  }
+  .detail-img{
+    width:200px; height:200px; flex:none; background:var(--paper-deep);
+    border:1px solid var(--paper-line); border-radius:var(--radius); overflow:hidden;
+    display:flex; align-items:center; justify-content:center; color:var(--meta); font-size:12px;
+  }
+  .detail-img img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .detail-head{ flex:1; min-width:0; }
+  .detail-name{
+    font-family:'Noto Serif TC',serif; font-weight:700; font-size:19px; line-height:1.4;
+    margin-bottom:6px;
+  }
+  .detail-brand{ font-size:13px; color:var(--meta); margin-bottom:8px; }
+  .detail-price{
+    font-size:17px; font-variant-numeric:tabular-nums; color:var(--ink); font-weight:700;
+    margin-bottom:10px;
+  }
+  .detail-price .dp-range{ font-size:12px; color:var(--meta); font-weight:400; margin-left:6px; }
+  .detail-client-badge{
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:.06em;
+    background:var(--gold); color:#fff; padding:3px 10px; border-radius:20px; margin-bottom:8px;
+  }
+  .detail-link{
+    display:inline-block; font-size:12.5px; color:var(--ink-soft); text-decoration:none;
+    border:1px solid var(--paper-line); background:var(--card-bg);
+    padding:6px 12px; border-radius:var(--radius); margin-top:4px;
+  }
+  .detail-link:hover{ border-color:var(--ink); color:var(--ink); }
+  .detail-sec{ margin-bottom:14px; }
+  .detail-sec-label{
+    font-size:11px; color:var(--meta); letter-spacing:.1em; text-transform:uppercase;
+    border-bottom:1px solid var(--paper-line); padding-bottom:4px; margin-bottom:8px;
+  }
+  .detail-note{
+    font-size:13px; line-height:1.75; color:var(--ink-soft); white-space:pre-wrap;
+    background:var(--card-bg); border:1px solid var(--paper-line);
+    border-radius:var(--radius); padding:10px 12px;
+  }
+  .detail-empty{ font-size:12.5px; color:var(--meta); font-style:italic; }
+  .detail-variant{
+    display:flex; align-items:flex-start; gap:10px; padding:9px 10px;
+    border:1px solid var(--paper-line); border-radius:var(--radius);
+    background:var(--card-bg); margin-bottom:7px; cursor:pointer;
+  }
+  .detail-variant:hover{ border-color:var(--ink-soft); }
+  .detail-variant.is-cur{ border-color:var(--ink); box-shadow:inset 3px 0 0 var(--ink); }
+  .detail-variant-switch{
+    display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;
+    padding-top:10px; border-top:1px dashed var(--paper-line);
+  }
+  .detail-variant-switch .dvs-label{
+    width:100%; font-size:10.5px; color:var(--meta); letter-spacing:.06em; margin-bottom:2px;
+  }
+  .detail-variant .dv-thumb{
+    width:46px; height:46px; flex:none; background:var(--paper-deep); border-radius:2px;
+    overflow:hidden; display:flex; align-items:center; justify-content:center;
+    font-size:9.5px; color:var(--meta);
+  }
+  .detail-variant .dv-thumb img{ width:100%; height:100%; object-fit:cover; }
+  .detail-variant .dv-body{ flex:1; min-width:0; }
+  .detail-variant .dv-label{ font-size:13px; font-weight:700; }
+  .detail-variant .dv-price{ font-size:12.5px; color:var(--ink-soft); font-variant-numeric:tabular-nums; margin-top:2px; }
+  .detail-variant .dv-note{ font-size:12px; color:var(--meta); line-height:1.6; margin-top:4px; white-space:pre-wrap; }
+  .detail-variant .dv-link{ font-size:11.5px; color:var(--ink-soft); margin-top:4px; display:inline-block; }
+  .detail-appear{
+    display:flex; align-items:baseline; gap:8px; padding:7px 0;
+    border-bottom:1px dashed var(--paper-line); font-size:12.5px; line-height:1.6;
+  }
+  .detail-appear:last-child{ border-bottom:none; }
+  .detail-appear .da-site{
+    flex:none; font-weight:700; color:var(--ink); font-size:12px;
+    background:var(--paper-deep); padding:2px 8px; border-radius:20px;
+  }
+  .detail-appear .da-title{ flex:1; min-width:0; color:var(--ink-soft); }
+  .detail-appear a{ color:var(--meta); font-size:11px; margin-left:6px; text-decoration:none; border-bottom:1px dotted var(--meta); }
+  .detail-appear a:hover{ color:var(--ink); border-color:var(--ink); }
+  .detail-meta-foot{ font-size:11px; color:var(--meta); margin-top:14px; text-align:right; }
+  @media(max-width:560px){
+    .detail-hero{ flex-direction:column; }
+    .detail-img{ width:100%; height:200px; }
+  }
+
+  /* ===== Variants 編輯區（Modal 內） ===== */
+  .variant-editor-list{ display:flex; flex-direction:column; gap:10px; }
+  .variant-editor-item{
+    border:1px solid var(--paper-line); border-radius:var(--radius); background:var(--card-bg);
+    padding:10px 12px 12px; position:relative;
+  }
+  .variant-editor-item .ve-head{
+    display:flex; align-items:center; gap:8px; margin-bottom:8px;
+  }
+  .variant-editor-item .ve-idx{
+    font-family:'Noto Serif TC', serif; font-weight:700; font-size:13px; color:var(--ink);
+    background:var(--paper-deep); padding:2px 8px; border-radius:2px; letter-spacing:.05em;
+  }
+  .variant-editor-item .ve-label{
+    flex:1; font-family:inherit; font-size:13px; padding:6px 8px;
+    border:1px solid var(--paper-line); border-radius:var(--radius); background:#fff;
+  }
+  .variant-editor-item .ve-remove{
+    background:none; border:none; color:var(--meta); cursor:pointer; font-size:14px; padding:2px 4px;
+  }
+  .variant-editor-item .ve-remove:hover{ color:var(--red); }
+  .variant-editor-item .ve-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px;
+  }
+  .variant-editor-item input, .variant-editor-item textarea{
+    font-family:inherit; font-size:12px; padding:6px 8px;
+    border:1px solid var(--paper-line); border-radius:var(--radius); background:#fff; color:var(--ink);
+    width:100%;
+  }
+  .variant-editor-item textarea{ resize:vertical; min-height:38px; }
+  .variant-editor-item .ve-toggle-row{
+    display:flex; gap:4px; flex-wrap:wrap; margin-top:6px;
+  }
+  .variant-editor-item .ve-toggle{
+    font-size:11px; color:var(--ink-soft); background:none; border:1px dashed var(--paper-line);
+    padding:3px 8px; border-radius:20px; cursor:pointer; font-family:inherit;
+  }
+  .variant-editor-item .ve-toggle:hover{ border-color:var(--ink-soft); color:var(--ink); }
+  .variant-editor-item .ve-toggle.active{
+    border-style:solid; border-color:var(--ink); color:var(--ink); background:var(--paper-deep);
+  }
+  .variant-editor-item .ve-optional{ display:none; margin-top:8px; padding-top:8px; border-top:1px dashed var(--paper-line); }
+  .variant-editor-item .ve-optional.open{ display:block; }
+  .variant-editor-item .ve-optional-label{
+    font-size:11px; color:var(--meta); margin-bottom:4px;
+  }
+  .variant-editor-item .ve-tags{ display:flex; flex-wrap:wrap; gap:4px; }
+  .variant-editor-item .ve-tags .tag-opt{ font-size:11px; padding:3px 8px; }
+  .variant-add-btn{ width:100%; margin-top:8px; }
+  .variant-hint{
+    font-size:11px; color:var(--meta); line-height:1.6; padding:8px 10px;
+    background:var(--paper-deep); border-radius:var(--radius); margin-bottom:10px;
+  }
+</style><style>.ro-note{font-size:11px;color:var(--meta);border:1px solid var(--paper-line);padding:3px 10px;border-radius:20px;background:var(--card-bg);}.title-block{flex-wrap:wrap;}.title-block .subtitle{max-width:560px;line-height:1.6;}</style>
+</head>
+<body>
+<div class="app"><header><div class="title-block"><h1>Tancoco 檔期商品收藏簿</h1><span class="subtitle">精選 180 件檔期商品，含品牌、售價、規格版本與備註。</span></div><div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;"><span class="stamp-count" id="totalCount">共 180 件</span><span class="ro-note">2026/07/18</span></div></header><div class="layout"><aside class="sidebar"><div class="sidebar-label">檔期分類</div><div class="tab-list" id="tabList"></div><div class="sidebar-label" style="margin-top:24px;">主題標籤</div><div class="theme-chip-list" id="themeFilterList"></div></aside><main><div class="filter-row"><input type="text" class="search-box" id="searchBox" placeholder="搜尋商品名稱、品牌或備註..."><div class="price-filter"><input type="number" id="priceMinInput" placeholder="最低價" min="0"><span class="price-sep">－</span><input type="number" id="priceMaxInput" placeholder="最高價" min="0"></div><select id="appearFilter" class="sort-select"><option value="all">出現次數：全部</option><option value="none">尚未出現</option><option value="1-3">1 - 3 次</option><option value="3-5">3 - 5 次</option><option value="5-10">5 - 10 次</option><option value="10plus">10 次以上</option></select><select id="sortSelect" class="sort-select"><option value="newest">排序：最新加入</option><option value="name">排序：名稱 A→Z</option><option value="price-asc">排序：售價低→高</option><option value="price-desc">排序：售價高→低</option><option value="appear-desc">排序：出現次數多→少</option><option value="appear-asc">排序：出現次數少→多</option></select><span class="chip" id="appearOverviewChip" style="border-color:var(--ink-soft); color:var(--ink-soft); cursor:pointer;">📋 出現紀錄總覽</span><span class="chip" id="appearFilterChip" style="display:none; border-color:var(--ink); color:var(--ink); font-weight:700;"></span><span class="chip" id="brandFilterChip" style="display:none; border-color:var(--ink); color:var(--ink); font-weight:700;"></span></div><div class="grid" id="grid"></div></main></div></div><div class="overlay" id="appearOverviewOverlay" style="display:none;"><div class="modal"><button class="close-x" id="closeAppearOverviewBtn">✕</button><h2>📋 出現紀錄總覽</h2><div class="appear-overview-hint">點站台名可篩選整個站台，點文章標題可只看那篇推薦過的商品。</div><input type="text" class="search-box appear-overview-search" id="appearOverviewSearch" placeholder="搜尋站台或文章標題..."><div id="appearOverviewList"></div></div></div><div class="overlay" id="detailOverlay" style="display:none;"><div class="modal detail-modal"><button class="close-x" id="closeDetailBtn">✕</button><div id="detailBody"></div></div></div>
+<script>
+const COLORS = ["var(--c1)","var(--c2)","var(--c3)","var(--c4)","var(--c5)","var(--c6)","var(--c7)","var(--c8)"];
+const RAW_COLORS = ["#D98A9E","#5C8A72","#C08A3E","#7A5178","#5B87A8","#C06B3E","#445A87","#7C8A4E"];
+const SNAP = {"campaigns":[{"id":"c_midautumn","name":"中秋"},{"id":"c_lunarnewyear","name":"春節"},{"id":"c_valentines","name":"情人節"},{"id":"c_exchange","name":"交換禮物"},{"id":"c_duanwu","name":"端午"},{"id":"c_labor_day","name":"勞動節"},{"id":"c_corporate_gifts","name":"企業送禮"},{"id":"c_birthday_anniversary","name":"生日/紀念日"}],"themes":[{"id":"t_伴手禮","name":"伴手禮"},{"id":"t_送長輩","name":"送長輩"},{"id":"t_送客戶","name":"送客戶"},{"id":"t_企業送禮","name":"企業送禮"},{"id":"t_甜點","name":"甜點"},{"id":"t_鹹食","name":"鹹食"},{"id":"t_茶飲","name":"茶飲"},{"id":"t_養生","name":"養生"},{"id":"t_ESG永續","name":"ESG永續"},{"id":"t_烤肉聚會","name":"烤肉/聚會"},{"id":"t_非食品禮品","name":"非食品禮品"},{"id":"t_咖啡","name":"咖啡"},{"id":"t_酒品","name":"酒品"},{"id":"t_水果","name":"水果"},{"id":"t_在地特色","name":"在地特色"},{"id":"t_公益","name":"公益"},{"id":"mrmtt65xi7zwy","name":"蜂蜜"},{"id":"t_family","name":"家庭共享"},{"id":"t_health","name":"養生保健"},{"id":"t_vegetarian","name":"素食"},{"id":"t_creative","name":"創意禮盒"},{"id":"t_practical","name":"實用小物"},{"id":"t_fragrance","name":"香氛"},{"id":"t_lifestyle","name":"質感生活提案"},{"id":"t_500","name":"500元禮物"},{"id":"t_zongzi","name":"粽子"},{"id":"t_not_zongzi","name":"不送粽子"},{"id":"t_employee","name":"員工福利"},{"id":"t_vip","name":"VIP贈禮"},{"id":"t_csr","name":"公益/CSR"},{"id":"t_nuts","name":"堅果"},{"id":"t_office","name":"辦公用品"},{"id":"t_beauty","name":"美妝保養"},{"id":"t_girlfriend","name":"送女友"},{"id":"t_wellness","name":"舒壓放鬆"},{"id":"t_custom","name":"可客製"},{"id":"mrolnem7ixnzo","name":"獎項"}],"products":[{"name":"菠蘿蛋黃酥禮盒","brand":"卡厝味","price":"650","url":"https://www.cacakuche.tw/%E8%8F%A0%E8%98%BF%E7%B3%BB%E5%88%97","image":"https://www.wanfuxuan.com.tw/archive/image/aW1hZ2UtMjAyNjA3MTAyMDM3NDEtNC4zNjg3MDYyNzc%3D.png","tags":["c_midautumn"],"themeTags":["t_甜點","t_伴手禮"],"id":"p_raw_midautumn_wanfuxuan_004","note":"酥脆菠蘿外皮包住紅豆鹹蛋黃內餡，另有巧克力酥可混搭；6 入禮盒，每顆約 85g，獨立包裝附脫氧劑。","status":"待評估","createdAt":1752710400004,"appearances":[{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/moonfestivalgifts","title":"2026 中秋送禮推薦：8 款台灣在地好物，送到對方心坎裡"}],"brands":["卡厝味"],"variants":[]},{"name":"養美元氣禮盒","brand":"順天本草","price":"990","url":"https://www.suntenherb.com.tw/tw/product/show.aspx?kind=13&num=293&page=1","image":"https://www.wanfuxuan.com.tw/archive/image/aW1hZ2UtMjAyNjA3MTAyMDM5MjQtNy4zNjg3MTY0MTM%3D.png","tags":["c_midautumn"],"themeTags":["t_養生","t_茶飲","t_送長輩"],"id":"p_raw_midautumn_wanfuxuan_007","note":"以黃耆養生茶、粉光元氣茶、四物美妍茶三款漢方茶品組成；原枝切製，熱水沖泡即可飲用。","status":"待評估","createdAt":1752710400007,"appearances":[{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/moonfestivalgifts","title":"2026 中秋送禮推薦：8 款台灣在地好物，送到對方心坎裡"}],"brands":["順天本草"],"variants":[]},{"name":"多元堅果禮盒","brand":"謝謝堅果","price":"390–1220","url":"https://www.thankyounuts.com/categories/%E4%BC%B4%E6%89%8B%E7%A6%AE%E7%9B%92%E5%B0%88%E5%8D%80","image":"https://www.wanfuxuan.com.tw/archive/image/aW1hZ2UtMjAyNjA3MTAyMDM5NDktOC4zNjg3MTkwMjc%3D.png","tags":["c_midautumn"],"themeTags":["t_送長輩","t_伴手禮"],"id":"p_raw_midautumn_wanfuxuan_008","note":"台灣品牌，主打多元堅果與健康伴手禮；禮盒品項多、價格帶彈性大，全素可食，適合朋友、同事或大量送禮。","status":"待評估","createdAt":1752710400008,"appearances":[{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/moonfestivalgifts","title":"2026 中秋送禮推薦：8 款台灣在地好物，送到對方心坎裡"}],"brands":["謝謝堅果"],"variants":[]},{"id":"p_raw_midautumn_csgc_016","name":"山海醞味雙入禮盒","brand":"春水良品","price":"440","url":"","image":"https://img.shoplineapp.com/media/image_clips/6a4b25bcf0cf732fbb960e2b/original.png?1783309755=&owner_id=650963b10f664a00827c6bec","note":"內容包含海藏 XO 堯魚干貝醬與山藏珍味蒜味茶油醬；適合喜歡料理、偏好鹹食或想避開傳統月餅的人。","tags":["c_midautumn"],"themeTags":["t_鹹食","t_伴手禮"],"appearances":[{"site":"春水良品","url":"https://www.csgcshop.com/blog/posts/moonfestivalgifts","title":"2026 中秋送禮排行榜：8 款實用又有質感的禮盒推薦，讓送禮不踩雷！"}],"status":"待評估","createdAt":1752710400016,"brands":["春水良品"],"variants":[]},{"name":"一抹日嚐中秋禮盒｜春水獻禮","brand":"春水良品","price":"668 早鳥價","url":"","image":"https://img.shoplineapp.com/media/image_clips/6a4b25fa4216a958dc7cc782/original.png?1783309817=&owner_id=650963b10f664a00827c6bec","tags":["c_midautumn"],"themeTags":["t_茶飲","t_甜點","t_送長輩"],"id":"p_raw_midautumn_csgc_017","note":"內容包含蜜香紅奶茶粉包 6 包、核桃牛奶糖抹醬 220g，附專屬提袋；適合長輩、客戶、家庭客與茶飲愛好者。","status":"待評估","createdAt":1752710400017,"appearances":[{"site":"春水良品","url":"https://www.csgcshop.com/blog/posts/moonfestivalgifts","title":"2026 中秋送禮排行榜：8 款實用又有質感的禮盒推薦，讓送禮不踩雷！"}],"brands":["春水良品"],"variants":[]},{"name":"多謝禮盒","brand":"謝謝堅果","price":"610","url":"","image":"https://img.shoplineapp.com/media/image_clips/6a4b2649324e1e72056865a2/original.png?1783309897=&owner_id=650963b10f664a00827c6bec","tags":["c_midautumn"],"themeTags":["t_送長輩"],"id":"p_raw_midautumn_csgc_018","note":"內容包含原味綜合五堅果、蔓越莓乾、海苔堅果脆片與感謝心意卡；約 120～180 天保存期限，專利密封罐保鮮。","status":"待評估","createdAt":1752710400018,"appearances":[{"site":"春水良品","url":"https://www.csgcshop.com/blog/posts/moonfestivalgifts","title":"2026 中秋送禮排行榜：8 款實用又有質感的禮盒推薦，讓送禮不踩雷！"}],"brands":["謝謝堅果"],"variants":[]},{"name":"竹梅報喜百年茶禮盒","brand":"六月初一","price":"2380","url":"","image":"https://img.shoplineapp.com/media/image_clips/6a4b26e86281160fbbda9bb1/original.png?1783310055=&owner_id=650963b10f664a00827c6bec","tags":["c_midautumn"],"themeTags":["t_茶飲","t_送長輩","t_送客戶"],"id":"p_raw_midautumn_csgc_021","note":"故宮百年聯名茶禮，內容包含蛋捲或風味單品、華剛百年茶與個人茶杯組；適合企業客戶、長輩與重要合作夥伴。","status":"待評估","createdAt":1752710400021,"appearances":[{"site":"春水良品","url":"https://www.csgcshop.com/blog/posts/moonfestivalgifts","title":"2026 中秋送禮排行榜：8 款實用又有質感的禮盒推薦，讓送禮不踩雷！"}],"brands":["六月初一"],"variants":[]},{"name":"流心焦糖蛋黃禮盒","brand":"but. we love butter","price":"488/798","url":"https://www.but.com.tw/","image":"https://img.shoplineapp.com/media/image_clips/6a4b272ba562b1b47f9b1311/original.png?1783310122=&owner_id=650963b10f664a00827c6bec","tags":["c_midautumn"],"themeTags":["t_甜點","t_送客戶"],"id":"p_raw_midautumn_csgc_022","note":"流心焦糖蛋黃口味奶油餅乾，提供 6 入與 10 入；包裝具藝術聯名設計感，賞味期約 12 天。","status":"待評估","createdAt":1752710400022,"appearances":[{"site":"春水良品","url":"https://www.csgcshop.com/blog/posts/moonfestivalgifts","title":"2026 中秋送禮排行榜：8 款實用又有質感的禮盒推薦，讓送禮不踩雷！"}],"brands":["but. we love butter"],"variants":[]},{"name":"茶蛋組","brand":"不二糕餅","price":"700","url":"https://shop.oneonlybakery.com/","image":"https://img.shoplineapp.com/media/image_clips/6a2f64ce07921a0010d6afe8/original.png?1781490894=&owner_id=6709e33b1edfa70009674da7","tags":["c_midautumn"],"themeTags":["t_甜點","t_送長輩"],"id":"p_raw_midautumn_thankyou_024","note":"茶蛋組包含蛋黃酥與茶鳳黃，屬於中秋經典糕餅路線，適合喜歡傳統糕餅與茶點風味的長輩。","status":"待評估","createdAt":1752710400024,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"}],"brands":["不二糕餅"],"variants":[]},{"name":"法式點心經典禮盒","brand":"珠寶盒法式點心坊","price":"670","url":"https://www.boitedebijou.com.tw/","image":"https://img.shoplineapp.com/media/image_clips/6a2f657361f3b737d83c3e5b/original.png?1781491058=&owner_id=6709e33b1edfa70009674da7","tags":["c_midautumn"],"themeTags":["t_甜點","t_送客戶"],"id":"p_raw_midautumn_thankyou_028","note":"內容包含瑪德蓮、費南雪、達克瓦茲等法式常溫點心，並附紙提袋；適合辦公室茶點或重視質感的客戶送禮。","status":"待評估","createdAt":1752710400028,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"}],"brands":["珠寶盒法式點心坊"],"variants":[]},{"name":"〖實心x粹〗典雅臻選五韻禮盒","brand":"實心蛋捲","price":"710","url":"https://www.trueroll.com.tw/","image":"https://img.shoplineapp.com/media/image_clips/6a2f65d57134cf4254bef771/original.png?1781491156=&owner_id=6709e33b1edfa70009674da7","tags":["c_midautumn"],"themeTags":["t_甜點","t_企業送禮"],"id":"p_raw_midautumn_thankyou_031","note":"以粹蛋捲與實心蛋捲組合為主，口味接受度高，適合員工節慶禮、部門贈禮與辦公室共享。","status":"待評估","createdAt":1752710400031,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"}],"brands":["實心蛋捲"],"variants":[]},{"name":"海苔堅果脆片、紅心芭樂乾","brand":"謝謝堅果","price":"280／380","url":"","image":"https://img.shoplineapp.com/media/image_clips/6a2f65f19ad9ff6041c6837e/original.png?1781491185=&owner_id=6709e33b1edfa70009674da7","tags":["c_midautumn"],"themeTags":["t_伴手禮"],"id":"p_raw_midautumn_thankyou_032","note":"紅心芭樂乾使用台灣紅心芭樂製成；海苔堅果脆片結合海苔、堅果與白芝麻，適合自行搭配成小禮。","status":"待評估","createdAt":1752710400032,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"}],"brands":["謝謝堅果"],"variants":[]},{"name":"幾米完美小孩．雙層鐵盒","brand":"喜憨兒","price":"630","url":"https://www.sefunnet.com/","image":"https://img.shoplineapp.com/media/image_clips/6a2f660d7c09e18e4f0ba26a/original.png?1781491212=&owner_id=6709e33b1edfa70009674da7","tags":["c_midautumn"],"themeTags":["t_甜點","t_公益"],"id":"p_raw_midautumn_thankyou_033","note":"雙層鐵盒搭配幾米圖像，內容包含造型餅乾、杏仁餅乾、伯爵餅乾、蝴蝶酥等點心；鐵盒可作收納。","status":"待評估","createdAt":1752710400033,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"}],"brands":["喜憨兒"],"variants":[]},{"name":"精品濾掛耳包","brand":"九露咖啡","price":"224~659","url":"https://myship.7-11.com.tw/","image":"https://img.shoplineapp.com/media/image_clips/6a2f671d80caa040821880df/original.png?1781491484=&owner_id=6709e33b1edfa70009674da7","tags":["c_midautumn"],"themeTags":["t_咖啡"],"id":"p_raw_midautumn_thankyou_037","note":"自家烘焙精品咖啡，提供果香淺焙與濃郁中深焙濾掛耳包選項，規格包含 5 入、10 入與 15 入。","status":"待評估","createdAt":1752710400037,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"}],"brands":["九露咖啡"],"variants":[]},{"name":"凍頂氣泡烏龍茶","brand":"LeeLee","price":"950","url":"https://www.leelee-tea.com/","image":"https://img.shoplineapp.com/media/image_clips/6a2f674d34fc5f315b09a52e/original.png?1781491532=&owner_id=6709e33b1edfa70009674da7","tags":["c_midautumn"],"themeTags":["t_茶飲","t_烤肉聚會"],"id":"p_raw_midautumn_thankyou_038","note":"無酒精氣泡茶，容量 750ml，成分包含碳酸水、凍頂烏龍茶與糖；可常溫或冷藏保存，建議冰鎮後飲用。","status":"待評估","createdAt":1752710400038,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"}],"brands":["LeeLee"],"variants":[]},{"name":"冰糖燕窩禮盒","brand":"採涎人燕窩","price":"2880","url":"","image":"https://wangtain.com/wp-content/uploads/2026/06/image-24-1024x1024.png","tags":["c_midautumn"],"themeTags":["t_養生","t_送長輩"],"id":"p_raw_midautumn_wangtain_041","note":"採涎人冰糖燕窩嚴選印尼頂級燕盞，經手工挑毛與慢火燉煮，不添加化學防腐劑、增稠劑或人工色素。開瓶即可飲用，成分單純，外盒與瓶身包裝典雅。","status":"待評估","createdAt":1752710400041,"appearances":[{"site":"小葉子","url":"https://wangtain.com/news/moonfestivalgifts/","title":"2026 中秋送禮推薦：10 款絕不踩雷的中秋禮盒與送禮禁忌"}],"brands":["採涎人燕窩"],"variants":[]},{"id":"p_raw_midautumn_wangtain_044","name":"月沐中秋 ESG 永續禮盒","brands":["豐滄"],"brand":"豐滄","price":"425（售價500）","url":"https://dayuan-feng-cang.com/product/moonlit-bliss-rose-rice-crisps-marigold-oolong-tea-esg-gift-box/","image":"https://wangtain.com/wp-content/uploads/2026/06/S__44098322-1024x1024.jpg","note":"月沐中秋芳香萬壽菊烏龍＋玫瑰米香 ESG 永續禮盒結合玫瑰米香與小葉子芳香萬壽菊烏龍茶包，米香酥脆、成分單純，包裝具永續環保概念。","tags":["c_midautumn"],"themeTags":["t_ESG永續","t_茶飲","t_企業送禮","t_咖啡"],"appearances":[{"site":"小葉子","url":"https://wangtain.com/news/moonfestivalgifts/","title":"2026 中秋送禮推薦：10 款絕不踩雷的中秋禮盒與送禮禁忌"},{"site":"康燕居","url":"https://www.kyj.com.tw/blog/moonfestivalgifts","title":"別再只送月餅！中秋伴手禮有這 6 個更體面、創意的選擇"},{"site":"春水良品","url":"https://www.csgcshop.com/blog/posts/moonfestivalgifts","title":"2026 中秋送禮排行榜：8 款實用又有質感的禮盒推薦，讓送禮不踩雷！"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/nomooncakes/","title":"中秋送禮不要月餅可以送什麼？2026 六款健康又有質感的中秋禮盒推薦！"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/midautumnfestival/","title":"2026中秋禮盒推薦，豐滄是企業/送禮/客製化贈品的最佳選擇"}],"variants":[{"label":"玫瑰米香＋芳香萬壽菊烏龍茶","price":"","url":"","image":"","note":"","campaigns":[],"themeTags":[],"appearances":[]},{"label":"玫瑰米香＋精品咖啡","price":"","url":"https://dayuan-feng-cang.com/product/moonlit-bliss-rose-rice-crisps-specialty-coffee-esg-charity-gift-box/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/06/image.png","note":"月沐中秋 ESG 永續禮盒擷取中秋滿月的溫暖意象，內容可從 2 種組合擇一：5 入玫瑰米香＋5 包咖啡，或 5 入玫瑰米香＋5 包茶。以台灣好米與創新米食陪伴團圓時刻。","campaigns":[],"themeTags":[],"appearances":[]}],"createdAt":1752710400019,"status":"待評估"},{"name":"鳳梨酥禮盒","brand":"微熱山丘","price":"345 元起","url":"https://shop.sunnyhills.com.tw/","image":"https://wangtain.com/wp-content/uploads/2026/06/image-29-1024x1024.png","tags":["c_midautumn"],"themeTags":["t_甜點","t_伴手禮"],"id":"p_raw_midautumn_wangtain_046","note":"微熱山丘鳳梨酥使用台灣在地八卦山土鳳梨為內餡，保留鳳梨果肉纖維與酸甜風味；外皮帶紅殼鮮蛋與天然奶油香氣，經典布提袋包裝適合送禮。","status":"待評估","createdAt":1752710400046,"appearances":[{"site":"小葉子","url":"https://wangtain.com/news/moonfestivalgifts/","title":"2026 中秋送禮推薦：10 款絕不踩雷的中秋禮盒與送禮禁忌"}],"brands":["微熱山丘"],"variants":[]},{"name":"綠豆椪禮盒","brand":"舊振南","price":"500","url":"https://shop.jzn.com.tw/","image":"https://wangtain.com/wp-content/uploads/2026/06/image-30-1024x1024.png","tags":["c_midautumn"],"themeTags":["t_甜點","t_送長輩"],"id":"p_raw_midautumn_wangtain_047","note":"舊振南綠豆椪以百年漢餅工藝製作，外皮層次豐富，內餡以綠豆經多道洗沙工序熬煮，清香綿密；可依收禮者葷素習慣挑選純綠豆沙或含滷肉款。","status":"待評估","createdAt":1752710400047,"appearances":[{"site":"小葉子","url":"https://wangtain.com/news/moonfestivalgifts/","title":"2026 中秋送禮推薦：10 款絕不踩雷的中秋禮盒與送禮禁忌"}],"brands":["舊振南"],"variants":[]},{"name":"冰糖/紅棗冰糖燕窩飲禮盒","brand":"採涎人","price":"2880","url":"","image":"https://cdn-general.cybassets.com/s/files/27634/ckeditor/pictures/content_5ae50261-2904-4f85-b8c4-a9ff5d1f3170.png","tags":["c_midautumn"],"themeTags":["t_養生","t_送長輩"],"id":"p_raw_midautumn_savour_049","note":"冰糖／紅棗冰糖燕窩飲禮盒內含冰糖燕窩與紅棗燕窩兩種風味，冰糖款清爽三分微糖，紅棗款溫潤順口；燕窩源自印尼自家燕屋，經高規格製程並通過 SGS 與多項國際認證。","status":"待評估","createdAt":1752710400049,"appearances":[{"site":"採涎人燕窩","url":"https://www.savour.tw/blogs/%E7%87%95%E7%AA%A9%E5%B0%88%E6%AC%84/moonfestivalgifts","title":"2026 中秋送禮推薦，熱門 10 款中秋禮盒一次看！"}],"brands":["採涎人"],"variants":[]},{"name":"祝福之馨茶饗禮盒","brand":"samova","price":"650","url":"https://www.cass.com.tw/","image":"https://cdn-general.cybassets.com/s/files/27634/ckeditor/pictures/content_8dc4c8e4-0086-4149-88e0-56881e430bff.png","tags":["c_midautumn"],"themeTags":["t_茶飲","t_送客戶"],"id":"p_raw_midautumn_savour_055","note":"samova 祝福之馨茶饗禮盒嚴選德國 samova 四款人氣花草茶，包含草本綠茶、洋甘菊、水果茶等，茶包採 PLA 食用級環保材質，包裝以燕子為主視覺並提供客製化卡片服務。","status":"待評估","createdAt":1752710400055,"appearances":[{"site":"採涎人燕窩","url":"https://www.savour.tw/blogs/%E7%87%95%E7%AA%A9%E5%B0%88%E6%AC%84/moonfestivalgifts","title":"2026 中秋送禮推薦，熱門 10 款中秋禮盒一次看！"}],"brands":["samova"],"variants":[]},{"name":"達克瓦茲禮盒","brand":"UiiPie","price":"360（3入）～920（9入）","url":"https://www.unipie.tw/","image":"https://cdn-general.cybassets.com/s/files/27634/ckeditor/pictures/content_478f051f-7b3a-426f-9a28-cb97c9fd9b5b.png","tags":["c_midautumn"],"themeTags":["t_甜點"],"id":"p_raw_midautumn_savour_056","note":"UiiPie 達克瓦茲使用無麩質米穀粉與美國藍鑽杏仁粉製作餅皮，內餡使用法國奶油與天然食材，減糖 42%，有玫瑰檸檬、開心果等多種口味。","status":"待評估","createdAt":1752710400056,"appearances":[{"site":"採涎人燕窩","url":"https://www.savour.tw/blogs/%E7%87%95%E7%AA%A9%E5%B0%88%E6%AC%84/moonfestivalgifts","title":"2026 中秋送禮推薦，熱門 10 款中秋禮盒一次看！"}],"brands":["UiiPie"],"variants":[]},{"name":"宇治焙茶酥","brand":"辻利茶舗","price":"280","url":"https://tsujiri.com.tw/","image":"https://cdn-general.cybassets.com/s/files/27634/ckeditor/pictures/content_07715049-1eef-43d9-b14b-1dc6e9aee1e0.png","tags":["c_midautumn"],"themeTags":["t_甜點","t_茶飲"],"id":"p_raw_midautumn_savour_057","note":"辻利茶舗宇治焙茶酥將台灣花生與日本宇治特選焙茶粉結合，外層為 128 層薄翠麥芽糖衣，口感酥脆不黏牙，帶焙茶香與堅果氣息。","status":"待評估","createdAt":1752710400057,"appearances":[{"site":"採涎人燕窩","url":"https://www.savour.tw/blogs/%E7%87%95%E7%AA%A9%E5%B0%88%E6%AC%84/moonfestivalgifts","title":"2026 中秋送禮推薦，熱門 10 款中秋禮盒一次看！"}],"brands":["辻利茶舗"],"variants":[]},{"name":"原味生乳捲","brand":"亞尼克","price":"392","url":"https://www.yannick.com.tw/","image":"https://cdn-general.cybassets.com/s/files/27634/ckeditor/pictures/content_8286e5cd-f3a7-4791-b131-a967fb02ec66.png","tags":["c_midautumn"],"themeTags":["t_甜點"],"id":"p_raw_midautumn_savour_058","note":"亞尼克原味生乳捲使用北海道中澤奶霜與日本昭和蛋糕專用麵粉，奶霜質地輕盈、蛋糕體柔軟濕潤；接單後生產並每日新鮮製作宅配。","status":"待評估","createdAt":1752710400058,"appearances":[{"site":"採涎人燕窩","url":"https://www.savour.tw/blogs/%E7%87%95%E7%AA%A9%E5%B0%88%E6%AC%84/moonfestivalgifts","title":"2026 中秋送禮推薦，熱門 10 款中秋禮盒一次看！"}],"brands":["亞尼克"],"variants":[]},{"name":"燕選滋養雙響禮盒","brand":"心耘燕朝燕窩","price":"3380","url":"","image":"https://cdn.showmore.cc/shop/QvV5BMzhGnjgBYTqy4wZ9R.png","tags":["c_midautumn"],"themeTags":["t_養生","t_企業送禮"],"id":"p_raw_midautumn_sinyun_059","note":"禮盒包含玫瑰燕條花與斑蘭燕窩即食飲；玫瑰燕條花以嚴選金絲燕燕條段排列成玫瑰花造型，免挑毛即可燉煮；斑蘭燕窩即食飲選用冰糖與斑蘭葉細火燉煮，減糖清爽。品牌從柬埔寨自建燕屋把關原料，無人工香料、色素、穩定劑及防腐劑，通過 SGS 檢驗。","status":"待評估","createdAt":1752710400059,"appearances":[{"site":"心耘燕朝燕窩","url":"https://www.sinyunyanchao.com/articles/article-ravxfGxbkd2RdxWRbF75YR","title":"中秋企業送禮推薦懶人包｜10 款人氣中秋禮盒塑造好印象"}],"brands":["心耘燕朝燕窩"],"variants":[]},{"name":"Love 兔 U 烙印蛋糕禮盒","brand":"金格","price":"475","url":"","image":"https://cdn.showmore.cc/shop/8G49Sk8QVeuASUBkrCgtCm.png","tags":["c_midautumn"],"themeTags":["t_甜點","t_企業送禮"],"id":"p_raw_midautumn_sinyun_066","note":"Love 兔 U 烙印蛋糕禮盒以玫瑰燙金設計，內含兔兔烙印長崎蛋糕、兔兔杯緣子餅乾與法式小洋果子；長崎蛋糕採 100% 無添加潔淨標章配方。","status":"待評估","createdAt":1752710400066,"appearances":[{"site":"心耘燕朝燕窩","url":"https://www.sinyunyanchao.com/articles/article-ravxfGxbkd2RdxWRbF75YR","title":"中秋企業送禮推薦懶人包｜10 款人氣中秋禮盒塑造好印象"}],"brands":["金格"],"variants":[]},{"name":"鴻金瑞曲禮盒","brand":"軒記","price":"799","url":"","image":"https://cdn.showmore.cc/shop/vgwzihTP2SEo9Z89fqzr2J.png","tags":["c_midautumn"],"themeTags":["t_鹹食","t_企業送禮"],"id":"p_raw_midautumn_sinyun_067","note":"鴻金瑞曲禮盒內含蜜汁豬肉條、黑胡椒豬肉條與杏仁脆豬肉乾，鹹甜交融、包裝喜氣大方，適合鹹食伴手禮與節慶聚會分享。","status":"待評估","createdAt":1752710400067,"appearances":[{"site":"心耘燕朝燕窩","url":"https://www.sinyunyanchao.com/articles/article-ravxfGxbkd2RdxWRbF75YR","title":"中秋企業送禮推薦懶人包｜10 款人氣中秋禮盒塑造好印象"}],"brands":["軒記"],"variants":[]},{"name":"玫瑰星球 8 結禮盒","brand":"六月初一 x 小王子","price":"500","url":"","image":"https://cdn.showmore.cc/shop/u84u6CFhzs8t2LMtuJuCUX.png","tags":["c_midautumn"],"themeTags":["t_甜點","t_企業送禮"],"id":"p_raw_midautumn_sinyun_068","note":"六月初一與《小王子》聯名的玫瑰星球 8 結禮盒，使用小王子與玫瑰元素設計並搭配雙面燙金；內含 8 字型千層蛋捲，多種人氣口味可選。","status":"待評估","createdAt":1752710400068,"appearances":[{"site":"心耘燕朝燕窩","url":"https://www.sinyunyanchao.com/articles/article-ravxfGxbkd2RdxWRbF75YR","title":"中秋企業送禮推薦懶人包｜10 款人氣中秋禮盒塑造好印象"}],"brands":["六月初一","小王子"],"variants":[]},{"name":"煙燻無骨鳳爪600g (原味/辣味/蒜味/蒜辣/檸檬酸辣)","brand":"戀鳳爪","price":"230","url":"https://www.meetinglife.com.tw/meetinglife/index.php?action=product_detail&prod_no=P0093300307504","image":"https://rs.joo.com.tw/website/uploads/ckfinder/meetinglife/images/%E5%96%AE%E5%BC%B5_210104_1.jpg","tags":["c_midautumn"],"themeTags":["t_烤肉聚會","t_鹹食"],"id":"p_raw_midautumn_meetinglife_069","note":"無骨鳳爪適合喝酒配菜，先以藥材與醬油滷製，再以蔗糖煙燻並人工剪製；真空冷凍包裝，產品重量 1 斤裝 600g。","status":"待評估","createdAt":1752710400069,"appearances":[{"site":"戀鳳爪","url":"https://www.meetinglife.com.tw/meetinglife/index.php?action=brands_detail&br_uid=2539","title":"中秋節烤肉全攻略：食材清單、醃肉技巧與桌邊小菜一次搞定！"}],"brands":["戀鳳爪"],"variants":[]},{"name":"煙燻豬耳絲500g (原味/辣味)","brand":"戀鳳爪","price":"200","url":"https://www.meetinglife.com.tw/meetinglife/index.php?action=product_detail&prod_no=P0093300307518","image":"https://rs.joo.com.tw/website/uploads/ckfinder/meetinglife/images/%E5%96%AE%E5%BC%B5_210104_5.jpg","tags":["c_midautumn"],"themeTags":["t_烤肉聚會","t_鹹食"],"id":"p_raw_midautumn_meetinglife_070","note":"煙燻豬耳絲使用豬頭皮與豬耳絲的黃金比例，口感帶脆感與嚼勁；退冰即可食用，經清洗、滷製、蔗糖煙燻與人工拌料後真空包裝，產品重量 500g。","status":"待評估","createdAt":1752710400070,"appearances":[{"site":"戀鳳爪","url":"https://www.meetinglife.com.tw/meetinglife/index.php?action=brands_detail&br_uid=2539","title":"中秋節烤肉全攻略：食材清單、醃肉技巧與桌邊小菜一次搞定！"}],"brands":["戀鳳爪"],"variants":[]},{"name":"煙燻豆干500g (原味/辣味)","brand":"戀鳳爪","price":"150","url":"https://www.meetinglife.com.tw/meetinglife/index.php?action=product_detail&prod_no=P0093300307517","image":"https://rs.joo.com.tw/website/uploads/ckfinder/meetinglife/images/%E5%96%AE%E5%BC%B5_210104_2.jpg","tags":["c_midautumn"],"themeTags":["t_烤肉聚會","t_鹹食"],"id":"p_raw_midautumn_meetinglife_071","note":"煙燻豆干以多種藥材與老滷滷製，飽滿厚實、滷汁入味；再以蔗糖煙燻並真空包裝，產品重量 500g 裝。","status":"待評估","createdAt":1752710400071,"appearances":[{"site":"戀鳳爪","url":"https://www.meetinglife.com.tw/meetinglife/index.php?action=brands_detail&br_uid=2539","title":"中秋節烤肉全攻略：食材清單、醃肉技巧與桌邊小菜一次搞定！"}],"brands":["戀鳳爪"],"variants":[]},{"id":"p_labor_corp_bday_038_1761100000038","name":"臻味禮盒","brands":["萬益食品"],"brand":"萬益食品","price":"480","url":"https://www.wanyi.com.tw/","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjI0MDMtMy4xNjg0NjQzNjg%3D.png","note":"收錄萬益四大經典豆干，沙茶濃郁、蒜香回韻，適合尾牙抽獎、企業活動伴手禮與部門年終禮盒。","tags":["c_midautumn","c_corporate_gifts"],"themeTags":["t_鹹食","t_伴手禮","t_企業送禮","t_employee"],"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/moonfestivalgifts","title":"2026 中秋禮盒推薦：從送禮預算、對象到 10+ 款人氣禮盒一次整理"},{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/corporategifts","title":"2026 企業送禮推薦：預算分級＋避雷重點，精選 8 款禮盒特色一次看！"}],"variants":[],"createdAt":1752710400077,"status":"待評估"},{"name":"牙買加藍山 NO.1 克里斯戴爾咖啡豆","brand":"米久咖啡","price":"1800","url":"https://portaly.cc/","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjU3MzMtNC4xNjg2NjU0ODE%3D.png","tags":["c_midautumn"],"themeTags":["t_咖啡","t_送客戶"],"id":"p_raw_midautumn_wanyi_078","note":"嚴選牙買加藍山咖啡豆，來自藍山高海拔藍爵莊園，接單現烘保留新鮮風味，帶巧克力、焦糖與堅果香氣，適合精品咖啡愛好者與商務贈禮。","status":"待評估","createdAt":1752710400078,"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/moonfestivalgifts","title":"2026 中秋禮盒推薦：從送禮預算、對象到 10+ 款人氣禮盒一次整理"}],"brands":["米久咖啡"],"variants":[]},{"name":"麻將餅乾禮盒","brand":"米久咖啡","price":"650（大盒18入）／350（小盒9入）","url":"https://portaly.cc/","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjU3NTUtNS4xNjg2Njc2NTc%3D.png","tags":["c_midautumn"],"themeTags":["t_甜點","t_在地特色"],"id":"p_raw_midautumn_wanyi_079","note":"客製麻將餅乾禮盒以麻將牌造型結合客製化文字設計，可印上祝福或趣味金句，具創意話題性與節慶互動感。","status":"待評估","createdAt":1752710400079,"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/moonfestivalgifts","title":"2026 中秋禮盒推薦：從送禮預算、對象到 10+ 款人氣禮盒一次整理"}],"brands":["米久咖啡"],"variants":[]},{"name":"愛馬仕橘精品咖啡禮盒","brand":"8C 咖啡","price":"880","url":"https://www.8ccafe.com/","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjU5MDktNy4xNjg2NzUwODk%3D.png","tags":["c_midautumn"],"themeTags":["t_咖啡","t_送客戶"],"id":"p_raw_midautumn_wanyi_081","note":"愛馬仕橘禮盒以橘色包裝搭配皇家與戀人系列精品濾掛咖啡，從視覺到風味呈現精品感與生活美學。","status":"待評估","createdAt":1752710400081,"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/moonfestivalgifts","title":"2026 中秋禮盒推薦：從送禮預算、對象到 10+ 款人氣禮盒一次整理"}],"brands":["8C 咖啡"],"variants":[]},{"name":"枋山愛文芒果禮盒","brand":"賜果源","price":"350","url":"https://sky-fruit.tw/","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjU5NDQtOC4xNjg2Nzg1Mzg%3D.png","tags":["c_midautumn"],"themeTags":["t_水果","t_送長輩"],"id":"p_raw_midautumn_wanyi_082","note":"枋山愛文芒果以香甜多汁、果肉細緻為特色，精美包裝兼具份量感與台灣夏季水果代表性，適合注重健康飲食的長輩、朋友或客戶。","status":"待評估","createdAt":1752710400082,"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/moonfestivalgifts","title":"2026 中秋禮盒推薦：從送禮預算、對象到 10+ 款人氣禮盒一次整理"}],"brands":["賜果源"],"variants":[]},{"name":"溫室卡蜜拉哈密瓜","brand":"賜果源","price":"305","url":"https://sky-fruit.tw/","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNzAwMTEtOS4xNjg2ODExMTg%3D.png","tags":["c_midautumn"],"themeTags":["t_水果","t_送客戶"],"id":"p_raw_midautumn_wanyi_083","note":"頂級溫室卡蜜拉哈密瓜以細緻果肉、高甜度與漂亮網紋外型為特色，溫室栽培使品質穩定，適合作為高質感水果禮盒。","status":"待評估","createdAt":1752710400083,"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/moonfestivalgifts","title":"2026 中秋禮盒推薦：從送禮預算、對象到 10+ 款人氣禮盒一次整理"}],"brands":["賜果源"],"variants":[]},{"id":"p_raw_midautumn_feng_nomoon_088","name":"紫芽茶葉禮盒","brand":"小葉子","brands":["小葉子"],"price":"1000","url":"https://wangtain.com/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/06/image-3.png","note":"紫芽茶葉禮盒內容含紫芽紅茶 50g x 1 罐與紫芽綠茶 50g x 1 罐；茶葉零熱量、無糖無油，採友善耕作方式製茶，紫芽茶富含花青素，適合重視養生與生活品質的族群。","tags":["c_midautumn","c_duanwu"],"themeTags":["t_茶飲","t_伴手禮","t_送客戶"],"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/nomooncakes/","title":"中秋送禮不要月餅可以送什麼？2026 六款健康又有質感的中秋禮盒推薦！"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/2026-dragon-boat-festival-gift/","title":"2026 端午節禮盒推薦｜健康、永續、不踩雷的端午送禮清單"}],"status":"待評估","createdAt":1752710400088,"variants":[]},{"name":"極盛果物禮盒","brand":"講果語","price":"1039","url":"","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/06/image-1.png","tags":["c_midautumn"],"themeTags":["t_伴手禮","t_送長輩","t_送客戶","t_企業送禮","t_水果","t_在地特色"],"id":"p_raw_midautumn_feng_nomoon_089","note":"極盛果物禮盒嚴選台灣在地小農鮮果，採獨家低溫烘焙技術保留 35% 果汁水分，內容含芭樂果乾、番茄果乾、草莓果乾、鳳梨果乾、綜合果乾與愛文芒果乾各 70g；純天然、不添加香精、色素與防腐劑，常溫保存 6 個月。","status":"待評估","createdAt":1752710400089,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/nomooncakes/","title":"中秋送禮不要月餅可以送什麼？2026 六款健康又有質感的中秋禮盒推薦！"}],"brands":["講果語"],"variants":[]},{"name":"戶外 304 手沖咖啡套組","brand":"禮哇客 WoWGIFT","price":"","url":"","image":"https://www.wowgift.com.tw/archive/image/aW1hZ2UtMjAyNjA2MzAxNDEwNDYtMS4yNzk5ODQ3NTc%3D.png","tags":["c_midautumn"],"themeTags":["t_非食品禮品","t_咖啡","t_企業送禮"],"id":"p_raw_midautumn_wowgift_098","note":"戶外 304 手沖咖啡套組內含完整手沖配件，304 不鏽鋼濾網耐用抗鏽且可重複使用；套裝便攜好收納，適合露營、旅行或辦公室使用，也可評估壺身、濾網或外盒 LOGO 客製加工。","status":"待評估","createdAt":1752710400098,"appearances":[{"site":"禮哇客 WoWGIFT","url":"https://www.wowgift.com.tw/blog/moonfestivalgifts","title":"中秋節禮品不送吃的怎麼選？4 種禮品類型與中秋禮盒推薦！"}],"brands":["禮哇客 WoWGIFT"],"variants":[]},{"name":"木質威士忌酒杯禮盒套組","brand":"禮哇客 WoWGIFT","price":"","url":"","image":"https://www.wowgift.com.tw/archive/image/aW1hZ2UtMjAyNjA2MzAxNDExMTItMi4yNzk5ODc0NzE%3D.png","tags":["c_midautumn"],"themeTags":["t_非食品禮品","t_送客戶"],"id":"p_raw_midautumn_wowgift_099","note":"木質威士忌酒杯禮盒以復古實木外盒搭配分隔內襯設計，可完整收納酒杯、冰酒石、夾子等品飲配件；冰酒石可重複使用、快速降溫且不稀釋風味。","status":"待評估","createdAt":1752710400099,"appearances":[{"site":"禮哇客 WoWGIFT","url":"https://www.wowgift.com.tw/blog/moonfestivalgifts","title":"中秋節禮品不送吃的怎麼選？4 種禮品類型與中秋禮盒推薦！"}],"brands":["禮哇客 WoWGIFT"],"variants":[]},{"name":"高爾夫配件禮盒","brand":"禮哇客 WoWGIFT","price":"","url":"","image":"https://www.wowgift.com.tw/archive/image/aW1hZ2UtMjAyNjA2MzAxNDExNDEtMy4yNzk5OTAzNzQ%3D.png","tags":["c_midautumn"],"themeTags":["t_非食品禮品","t_送客戶"],"id":"p_raw_midautumn_wowgift_100","note":"高爾夫配件禮盒內含球位修復工具、球叉、球標與高爾夫球等常用配件；磁吸式硬盒包裝方便整齊收納，適合高爾夫愛好者使用與送禮。","status":"待評估","createdAt":1752710400100,"appearances":[{"site":"禮哇客 WoWGIFT","url":"https://www.wowgift.com.tw/blog/moonfestivalgifts","title":"中秋節禮品不送吃的怎麼選？4 種禮品類型與中秋禮盒推薦！"}],"brands":["禮哇客 WoWGIFT"],"variants":[]},{"name":"汽車用品禮盒","brand":"禮哇客 WoWGIFT","price":"","url":"","image":"https://www.wowgift.com.tw/archive/image/aW1hZ2UtMjAyNjA2MzAxNDEyMDQtNC4yNzk5OTI1MjA%3D.png","tags":["c_midautumn"],"themeTags":["t_非食品禮品","t_企業送禮"],"id":"p_raw_midautumn_wowgift_101","note":"汽車用品禮盒組合多款日常車用配件，可應用於行車、收納、清潔或臨時使用情境；質感禮盒包裝使送禮更完整體面。","status":"待評估","createdAt":1752710400101,"appearances":[{"site":"禮哇客 WoWGIFT","url":"https://www.wowgift.com.tw/blog/moonfestivalgifts","title":"中秋節禮品不送吃的怎麼選？4 種禮品類型與中秋禮盒推薦！"}],"brands":["禮哇客 WoWGIFT"],"variants":[]},{"name":"手繪花鳥陶瓷咖啡杯碟禮盒","brand":"禮哇客 WoWGIFT","price":"","url":"","image":"https://www.wowgift.com.tw/archive/image/aW1hZ2UtMjAyNjA2MzAxNDEyMjctNS4yNzk5OTQ4NTY%3D.png","tags":["c_midautumn"],"themeTags":["t_非食品禮品","t_送長輩"],"id":"p_raw_midautumn_wowgift_102","note":"手繪花鳥陶瓷咖啡杯碟禮盒以花鳥圖騰搭配黑白雙色盤面，杯身約 300–400ml，搭配同組杯盤與金色湯匙；可依需求於杯盤或外盒規劃 LOGO 客製。","status":"待評估","createdAt":1752710400102,"appearances":[{"site":"禮哇客 WoWGIFT","url":"https://www.wowgift.com.tw/blog/moonfestivalgifts","title":"中秋節禮品不送吃的怎麼選？4 種禮品類型與中秋禮盒推薦！"}],"brands":["禮哇客 WoWGIFT"],"variants":[]},{"name":"紅麴黑木耳禮盒","brand":"台酒","price":"260","url":"https://eshop.ttl.com.tw/","image":"https://www.kyj.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTYyMzA5MjgtNi4xNjIyNTY5NjE%3D.png","tags":["c_midautumn"],"themeTags":["t_養生"],"id":"p_raw_midautumn_kyj_108","note":"台酒紅麴黑木耳禮盒為 6 瓶入，完全不添加防腐劑、人工甘味料，以鮮嫩黑木耳細火熬煮並以黑糖取代傳統砂糖調味；口感滑順、有層次，不甜膩。","status":"待評估","createdAt":1752710400108,"appearances":[{"site":"康燕居","url":"https://www.kyj.com.tw/blog/moonfestivalgifts","title":"別再只送月餅！中秋伴手禮有這 6 個更體面、創意的選擇"}],"brands":["台酒"],"variants":[]},{"name":"桂花烏龍杏仁餅","brand":"hapidae","price":"","url":"","image":"https://xunmihoney.com/wp-content/uploads/2026/06/image-5-1024x1024.jpg","tags":["c_midautumn"],"themeTags":["t_甜點","t_茶飲"],"id":"p_raw_midautumn_xunmi_113","note":"桂花烏龍杏仁餅選用台灣在地烏龍茶，搭配杏仁粒與杏仁粉，出爐後撒上桂花，使餅香、堅果香與茶香融合，入口有杏仁香、桂花香與烏龍茶韻。","status":"待評估","createdAt":1752710400113,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/2026moonfestivalgifts","title":"2026 中秋送禮推薦｜挑選原則＋人氣禮盒清單，輕鬆送出滿分心意！"}],"brands":["hapidae"],"variants":[]},{"id":"p_raw_midautumn_hzfarm_119","name":"家釀梅酒 Jia Umeshu","brand":"神采國際","price":"980","url":"","image":"https://cdn.showmore.cc/shop/h4pkP2Y8g2G49TnejAPDL9.png","note":"100% 台灣釀造並熟成一年的梅酒，酒精濃度 14.5%，容量 500ml；以熟黃梅、玉山純淨水與台南 16 號越光米製作。","status":"待評估","tags":["c_midautumn"],"themeTags":["t_伴手禮","t_送客戶","t_企業送禮","t_酒品","t_烤肉聚會"],"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/moonfestivalgifts","title":"中秋伴手禮怎麼挑？挑選技巧與 6 款送禮推薦清單！"},{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"},{"site":"小葉子","url":"https://wangtain.com/news/moonfestivalgifts/","title":"2026 中秋送禮推薦：10 款絕不踩雷的中秋禮盒與送禮禁忌"},{"site":"心耘燕朝燕窩","url":"https://www.sinyunyanchao.com/articles/article-ravxfGxbkd2RdxWRbF75YR","title":"中秋企業送禮推薦懶人包｜10 款人氣中秋禮盒塑造好印象"},{"site":"採涎人燕窩","url":"https://www.savour.tw/blogs/%E7%87%95%E7%AA%A9%E5%B0%88%E6%AC%84/moonfestivalgifts","title":"2026 中秋送禮推薦，熱門 10 款中秋禮盒一次看！"}],"createdAt":1752710400027,"brands":["神采國際"],"variants":[]},{"id":"p_raw_midautumn_hzfarm_116","name":"山川精緻茶伴禮盒","brand":"山川製茶","brands":["山川製茶"],"price":"2390","url":"https://www.shanchuanchaye.com.tw/product/%E5%B1%B1%E5%B7%9D%E7%B2%BE%E7%B7%BB%E8%8C%B6%E4%BC%B4%E7%A6%AE%E7%9B%92","image":"https://www.shanchuanchaye.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTYyMjQ4MTMtMS4xNjIxMjk0NTA%3D.png","note":"集結佳陽、福壽山、合歡山與大禹嶺四大高山茶區風味，茶湯清亮、入口回甘；附專屬提袋，茶葉採真空獨立包裝。","tags":["c_midautumn","c_duanwu"],"themeTags":["t_茶飲","t_送客戶","t_送長輩","t_伴手禮"],"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/moonfestivalgifts","title":"中秋伴手禮怎麼挑？挑選技巧與 6 款送禮推薦清單！"},{"site":"康燕居","url":"https://www.kyj.com.tw/blog/moonfestivalgifts","title":"別再只送月餅！中秋伴手禮有這 6 個更體面、創意的選擇"},{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/moonfestivalgifts","title":"6 款中秋送禮推薦，挑禮盒前必看的完整攻略！"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/duanwugifts","title":"端午節禮盒推薦｜精選端午伴手禮與送禮指南"}],"status":"待評估","createdAt":1752710400009,"variants":[]},{"id":"p_raw_midautumn_xunmi_112","name":"乾膽相照禮盒","brand":"謝謝堅果","price":"1240","url":"","image":"https://xunmihoney.com/wp-content/uploads/2026/06/image-3-1024x1024.jpg","note":"三罐組設計，內含原味綜合五堅果、無糖鳳梨花乾與海苔堅果脆片；全系列純素，附專利密封罐。","status":"待評估","tags":["c_midautumn"],"themeTags":["t_伴手禮"],"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/2026moonfestivalgifts","title":"2026 中秋送禮推薦｜挑選原則＋人氣禮盒清單，輕鬆送出滿分心意！"},{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/moonfestivalgifts","title":"6 款中秋送禮推薦，挑禮盒前必看的完整攻略！"}],"createdAt":1752710400013,"brands":["謝謝堅果"],"variants":[]},{"id":"p_raw_midautumn_kyj_104","name":"團圓禮盒","brand":"萬益食品","brands":["萬益食品"],"price":"1180","url":"https://www.wanyi.com.tw/products/reunion-gift-box","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjU2MzEtMi4xNjg2NTkxMzA%3D.png","note":"內容包含切片肉干、沙茶益角與豬肉絲，屬於鹹香伴手禮；適合追劇、聊天與聚餐時搭配飲品。","tags":["c_midautumn","c_lunarnewyear","c_corporate_gifts"],"themeTags":["t_鹹食","t_送長輩","t_伴手禮","t_family","t_企業送禮","t_送客戶"],"appearances":[{"site":"康燕居","url":"https://www.kyj.com.tw/blog/moonfestivalgifts","title":"別再只送月餅！中秋伴手禮有這 6 個更體面、創意的選擇"},{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/moonfestivalgifts","title":"6 款中秋送禮推薦，挑禮盒前必看的完整攻略！"},{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"},{"site":"小葉子","url":"https://wangtain.com/news/moonfestivalgifts/","title":"2026 中秋送禮推薦：10 款絕不踩雷的中秋禮盒與送禮禁忌"},{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/moonfestivalgifts","title":"2026 中秋禮盒推薦：從送禮預算、對象到 10+ 款人氣禮盒一次整理"},{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/top9cnygifts","title":"2026 過年送禮推薦這 9 款！依預算、特色一次挑對！"},{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/corporategifts","title":"2026 企業送禮推薦：預算分級＋避雷重點，精選 8 款禮盒特色一次看！"}],"status":"待評估","createdAt":1752710400010,"variants":[]},{"id":"p_raw_midautumn_feng_nomoon_086","name":"中秋星空 FSC 永續禮盒","brands":["豐滄"],"brand":"豐滄","price":"425","url":"","image":"https://dayuan-feng-cang.com/wp-content/uploads/2024/06/01-7301518-%E6%96%B9%E5%BD%A2.jpg","note":"中秋星空米香以自產桃園三號芋香米膨發製成，搭配日本海藻糖降低甜度，非油炸、無化學香料與色素；可自選 3 入或 4 入，口味含純粹原味、香酥黑糖、龍泉包種、紅玉紅茶、台灣花生、台灣芝麻。","tags":["c_midautumn"],"themeTags":["t_ESG永續","t_甜點","t_企業送禮"],"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/nomooncakes/","title":"中秋送禮不要月餅可以送什麼？2026 六款健康又有質感的中秋禮盒推薦！"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/2026moonfestivalgifts","title":"2026 中秋送禮推薦｜挑選原則＋人氣禮盒清單，輕鬆送出滿分心意！"},{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/moonfestivalgifts","title":"6 款中秋送禮推薦，挑禮盒前必看的完整攻略！"},{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"}],"variants":[{"label":"三入","price":"425","url":"https://dayuan-feng-cang.com/product/fsc-ricepuff3-giftbox/","image":"","note":"","campaigns":[],"themeTags":[],"appearances":[]},{"label":"四入","price":"550","url":"https://dayuan-feng-cang.com/product/fsc-ricepuff4-giftbox/","image":"","note":"","campaigns":[],"themeTags":[],"appearances":[]}],"createdAt":1752710400012,"status":"待評估"},{"id":"p_raw_midautumn_sinyun_060","name":"法式蛋黃酥禮盒","brand":"齊食","price":"499","url":"","image":"https://cdn.showmore.cc/shop/k9ZRExnQrskjrNvGqqqRfY.png","note":"齊食法式蛋黃酥以法式甜點手法改良，外皮使用發酵奶油而非豬油，口感酥鬆，蛋奶素可食；每顆約 214 大卡，搭配減糖紅豆餡與彰化鹹蛋黃，並附專屬提袋與真空獨立包裝。","status":"待評估","tags":["c_midautumn"],"themeTags":["t_甜點","t_企業送禮"],"appearances":[{"site":"心耘燕朝燕窩","url":"https://www.sinyunyanchao.com/articles/article-ravxfGxbkd2RdxWRbF75YR","title":"中秋企業送禮推薦懶人包｜10 款人氣中秋禮盒塑造好印象"},{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/moonfestivalgifts","title":"6 款中秋送禮推薦，挑禮盒前必看的完整攻略！"},{"site":"小葉子","url":"https://wangtain.com/news/moonfestivalgifts/","title":"2026 中秋送禮推薦：10 款絕不踩雷的中秋禮盒與送禮禁忌"},{"site":"採涎人燕窩","url":"https://www.savour.tw/blogs/%E7%87%95%E7%AA%A9%E5%B0%88%E6%AC%84/moonfestivalgifts","title":"2026 中秋送禮推薦，熱門 10 款中秋禮盒一次看！"}],"createdAt":1752710400014,"brands":["齊食"],"variants":[]},{"id":"p_raw_midautumn_savour_051","name":"茶米窨香永續 ESG 禮盒","brand":"小葉子","price":"500","url":"","image":"https://cdn-general.cybassets.com/s/files/27634/ckeditor/pictures/content_08f86911-b2f2-4674-b8da-c20c3c406b74.png","note":"茶米窨香禮盒由小葉子與豐滄聯名推出，內容包含芳香萬壽菊烏龍茶包 4 包、佛手柑烏龍茶包 4 包與嚴選芋香米 1 包。茶湯清香潤喉，米粒飽滿香甜，整體包裝優雅大氣。","status":"待評估","tags":["c_midautumn"],"themeTags":["t_茶飲","t_ESG永續"],"appearances":[{"site":"採涎人燕窩","url":"https://www.savour.tw/blogs/%E7%87%95%E7%AA%A9%E5%B0%88%E6%AC%84/moonfestivalgifts","title":"2026 中秋送禮推薦，熱門 10 款中秋禮盒一次看！"},{"site":"心耘燕朝燕窩","url":"https://www.sinyunyanchao.com/articles/article-ravxfGxbkd2RdxWRbF75YR","title":"中秋企業送禮推薦懶人包｜10 款人氣中秋禮盒塑造好印象"},{"site":"小葉子","url":"https://wangtain.com/news/moonfestivalgifts/","title":"2026 中秋送禮推薦：10 款絕不踩雷的中秋禮盒與送禮禁忌"}],"createdAt":1752710400039,"brands":["小葉子"],"variants":[]},{"id":"p_raw_midautumn_csgc_015","name":"瑰蜜相伴禮盒","brand":"春水良品","price":"690","url":"https://www.csgcshop.com/products/%E3%80%90%E6%8B%8C%E6%98%A5%E6%B0%B4%E3%80%91%E7%91%B0%E8%9C%9C%E7%9B%B8%E4%BC%B4%E7%A6%AE%E7%9B%92%EF%BD%9C%E6%98%A5%E6%B0%B4%E5%A0%82%E7%9B%A3%E8%A3%BD","image":"https://img.shoplineapp.com/media/image_clips/6a4b2553797d660010e01afe/original.png?1783309650=&owner_id=650963b10f664a00827c6bec","note":"春水堂旗下品牌春水良品禮盒，內容包含玫瑰花瓣醬、蜜香紅茶，另附果醬匙與書籤卡；玫瑰花瓣醬未開封常溫可保存 18 個月。","status":"待評估","tags":["c_midautumn"],"themeTags":["t_茶飲","t_甜點","t_送客戶"],"appearances":[{"site":"春水良品","url":"https://www.csgcshop.com/blog/posts/moonfestivalgifts","title":"2026 中秋送禮排行榜：8 款實用又有質感的禮盒推薦，讓送禮不踩雷！"},{"site":"採涎人燕窩","url":"https://www.savour.tw/blogs/%E7%87%95%E7%AA%A9%E5%B0%88%E6%AC%84/moonfestivalgifts","title":"2026 中秋送禮推薦，熱門 10 款中秋禮盒一次看！"},{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/moonfestivalgifts","title":"2026 中秋送禮推薦：8 款台灣在地好物，送到對方心坎裡"}],"createdAt":1752710400005,"brands":["春水良品"],"variants":[]},{"id":"p_raw_midautumn_thankyou_023","name":"多謝滿豐3罐組附提袋(原味綜合五堅果/海苔堅果脆片/柚香果乾)(素食)","brand":"謝謝堅果","price":"580","url":"https://www.thankyounuts.com/products/mid-autumn-gift-box-thankyounuts-7","image":"https://shoplineimg.com/6709e33b1edfa70009674da7/6a3e3a54aec5e24407a385ab/3860x.webp?source_format=jpg","note":"外觀採深藍夜空與玉兔滿月側推袖套設計，內含原味綜合五堅果、海苔堅果脆片及柚香果乾，附提袋與感謝心意卡。","tags":["c_midautumn"],"themeTags":["t_送長輩","t_送客戶","t_企業送禮"],"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"}],"status":"待評估","createdAt":1752710400023,"brands":["謝謝堅果"],"variants":[]},{"id":"p_raw_midautumn_thankyou_025","name":"真純濃即食燕窩禮盒","brand":"康燕居","price":"2800","url":"","image":"https://www.kyj.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNzMzMTQtMS4xNjg4Nzk0MTQ%3D.png","note":"真純濃即食燕窩由創辦人親赴越南燕窩產地，經 5–7 道人工挑除雜質；不含結蘭膠、萃取物，每瓶喝得到燕窩絲。禮盒 10 瓶入，成分只有燕窩、水、冰糖，獨立包裝、開封即飲且保存期限長。","status":"待評估","tags":["c_midautumn"],"themeTags":["t_養生","t_送長輩"],"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"},{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/moonfestivalgifts","title":"6 款中秋送禮推薦，挑禮盒前必看的完整攻略！"},{"site":"康燕居","url":"https://www.kyj.com.tw/blog/moonfestivalgifts","title":"別再只送月餅！中秋伴手禮有這 6 個更體面、創意的選擇"}],"createdAt":1752710400011,"brands":["康燕居"],"variants":[]},{"name":"活氣人蔘飲禮盒","brand":"正官庄","price":"666","url":"https://www.kgcshop.com.tw/products/20019027a0","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2UtMjAyNjAyMTIyMTAzNTAtNS4wOTAxNDMxNjE%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送長輩","t_health"],"id":"p_cny_batch_005_1760000000005","note":"人蔘飲即開即飲，適合年節送給注重日常保養、希望方便補給的長輩。","status":"待評估","createdAt":1760000000005,"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/giftforelders","title":"過年送禮給長輩必看！10 款精選禮盒，教你避開送禮禁忌深得人心"}],"brands":["正官庄"],"variants":[]},{"name":"鮑魚干貝佛跳牆","brand":"老協珍","price":"1998","url":"https://lxz.com.tw/product/OBJ081","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2UtMjAyNjAyMTIyMTA0MTktNi4wOTAxNDYwMTY%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送長輩","t_family","t_鹹食"],"id":"p_cny_batch_006_1760000000006","note":"年菜型禮品，結合鮑魚、干貝等食材，適合送給重視團圓飯與實用性的家庭客。","status":"待評估","createdAt":1760000000006,"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/giftforelders","title":"過年送禮給長輩必看！10 款精選禮盒，教你避開送禮禁忌深得人心"}],"brands":["老協珍"],"variants":[]},{"name":"鳳梨酥與蘋果酥禮盒","brand":"微熱山丘","price":"1450","url":"https://shop.sunnyhills.com.tw/index","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2UtMjAyNjAyMTIyMTA0NDEtNy4wOTAxNDgyMzE%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送長輩","t_甜點"],"id":"p_cny_batch_007_1760000000007","note":"經典鳳梨酥與蘋果酥組合，品牌辨識度高，適合送親友或長輩的甜點伴手禮。","status":"待評估","createdAt":1760000000007,"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/giftforelders","title":"過年送禮給長輩必看！10 款精選禮盒，教你避開送禮禁忌深得人心"}],"brands":["微熱山丘"],"variants":[]},{"name":"即食野生烏魚子一口吃禮盒","brand":"李日勝","price":"888","url":"https://www.lrs1986.com/products/onebite25","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2UtMjAyNjAyMTIyMTA1MDAtOC4wOTAxNTAyNzY%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送長輩","t_鹹食"],"id":"p_cny_batch_008_1760000000008","note":"即食一口烏魚子，免切免煎，適合年節餐桌加菜或送給喜歡鹹食海味的長輩。","status":"待評估","createdAt":1760000000008,"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/giftforelders","title":"過年送禮給長輩必看！10 款精選禮盒，教你避開送禮禁忌深得人心"}],"brands":["李日勝"],"variants":[]},{"name":"花開梅好禮盒","brand":"郭元益","price":"680","url":"https://www.kuos.com/products/new-year-gift-20251207231416","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2UtMjAyNjAyMTIyMTA1MTktOS4wOTAxNTIwMTA%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送長輩","t_甜點"],"id":"p_cny_batch_009_1760000000009","note":"中式糕餅禮盒，包裝具年節喜氣，適合送長輩、親友與一般拜年場合。","status":"待評估","createdAt":1760000000009,"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/giftforelders","title":"過年送禮給長輩必看！10 款精選禮盒，教你避開送禮禁忌深得人心"}],"brands":["郭元益"],"variants":[]},{"name":"經典杏仁粉禮盒","brand":"林銀杏","price":"1550","url":"https://www.ginkgolin.com/SalePage/Index/6188209","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2UtMjAyNjAyMTIyMTA1MzktMTAuMDkwMTU0MTIy.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送長輩","t_health"],"id":"p_cny_batch_010_1760000000010","note":"杏仁粉禮盒，主打日常沖泡與養生感，適合重視保養、飲品習慣固定的長輩。","status":"待評估","createdAt":1760000000010,"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/giftforelders","title":"過年送禮給長輩必看！10 款精選禮盒，教你避開送禮禁忌深得人心"}],"brands":["林銀杏"],"variants":[]},{"name":"吉祥如意糕","brand":"陳允寶泉","price":"723","url":"https://www.chenyunpaochuan.com.tw/SalePage/Index/10422092","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2UtMjAyNjAyMTIyMTA1NTgtMTEuMDkwMTU1OTUx.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送長輩","t_甜點"],"id":"p_cny_batch_011_1760000000011","note":"傳統糕點禮盒，名稱帶有年節祝福感，適合送親友、長輩或拜年伴手禮。","status":"待評估","createdAt":1760000000011,"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/giftforelders","title":"過年送禮給長輩必看！10 款精選禮盒，教你避開送禮禁忌深得人心"}],"brands":["陳允寶泉"],"variants":[]},{"id":"p_cny_batch_012_1760000000012","name":"foison 蜂蜜兩入精裝禮盒 – 春日款","brand":"尋尋覓蜜","brands":["尋尋覓蜜"],"price":"950","url":"https://xunmihoney.com/product/twopackspring","image":"https://xunmihoney.com/wp-content/uploads/2026/01/image-2-1024x684.jpg","note":"台灣蜂蜜雙入禮盒，包裝精緻、甜度自然，適合送長輩、客戶或親友。","tags":["c_lunarnewyear","c_duanwu"],"themeTags":["t_伴手禮","t_送長輩","t_送客戶","t_health","mrmtt65xi7zwy"],"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/top10newyeargift","title":"過年送禮推薦｜TOP 10 年節伴手禮，送長輩、客戶、親友都體面"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/dragon-boat-festival-gifts","title":"端午節禮盒推薦｜8 款不只粽子的端午伴手禮"}],"status":"待評估","createdAt":1760000000012,"variants":[]},{"name":"經典手工餅乾禮盒","brand":"Aunt Stella 詩特莉","price":"","url":"https://auntstella.com/collections/newyearcollection/products/springtime","image":"https://xunmihoney.com/wp-content/uploads/2026/01/image-1.jpg","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_甜點","t_family"],"id":"p_cny_batch_017_1760000000017","note":"經典手工餅乾禮盒，品牌辨識度高，適合送親友、同事或交換禮物情境。","status":"待評估","createdAt":1760000000017,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/top10newyeargift","title":"過年送禮推薦｜TOP 10 年節伴手禮，送長輩、客戶、親友都體面"}],"brands":["Aunt Stella 詩特莉"],"variants":[]},{"name":"法式牛軋糖 – 經典包/夾鏈袋 406g","brand":"糖村","price":"450","url":"https://www.sugar.com.tw/products/french-nougat-not-provided-bag","image":"https://xunmihoney.com/wp-content/uploads/2026/01/image-1.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_甜點"],"id":"p_cny_batch_018_1760000000018","note":"法式牛軋糖經典款，適合年節分送、辦公室共享或甜食愛好者。","status":"待評估","createdAt":1760000000018,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/top10newyeargift","title":"過年送禮推薦｜TOP 10 年節伴手禮，送長輩、客戶、親友都體面"}],"brands":["糖村"],"variants":[]},{"name":"拾粹豐蘊禮盒（綜合堅果禮盒）","brand":"拾伴元氣堅果","price":"675 起","url":"https://shihban.waca.ec/product/detail/2313017","image":"https://xunmihoney.com/wp-content/uploads/2026/01/image-4.jpg","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送長輩","t_health"],"id":"p_cny_batch_019_1760000000019","note":"綜合堅果禮盒，適合想避開高糖甜點、送長輩或健康取向送禮。","status":"待評估","createdAt":1760000000019,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/top10newyeargift","title":"過年送禮推薦｜TOP 10 年節伴手禮，送長輩、客戶、親友都體面"}],"brands":["拾伴元氣堅果"],"variants":[]},{"name":"鳳梨酥 12入禮盒","brand":"舊振南","price":"600","url":"https://shop.jzn.com.tw/products/pineapple-cake-gift-box-12-pcs-1","image":"https://xunmihoney.com/wp-content/uploads/2026/01/image-5.jpg","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_甜點","t_送長輩"],"id":"p_cny_batch_020_1760000000020","note":"經典鳳梨酥 12 入，品牌知名度高，適合送長輩、親友與拜年場合。","status":"待評估","createdAt":1760000000020,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/top10newyeargift","title":"過年送禮推薦｜TOP 10 年節伴手禮，送長輩、客戶、親友都體面"}],"brands":["舊振南"],"variants":[]},{"name":"歡聚系列巧克力禮盒","brand":"Godiva","price":"1250 起","url":"https://www.godiva.com.tw/product/series_4/subseries_71","image":"https://xunmihoney.com/wp-content/uploads/2026/01/image-6-683x1024.jpg","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_甜點","t_送客戶"],"id":"p_cny_batch_021_1760000000021","note":"巧克力禮盒，包裝精緻，適合送朋友、客戶或喜歡西式甜點的對象。","status":"待評估","createdAt":1760000000021,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/top10newyeargift","title":"過年送禮推薦｜TOP 10 年節伴手禮，送長輩、客戶、親友都體面"}],"brands":["Godiva"],"variants":[]},{"name":"素食禮盒","brand":"萬益食品","price":"500","url":"https://www.wanyi.com.tw/products/classic-gift-box-20240919205920","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjAyMjMxNTIzNDQtMi4xODMxNDI1ODI%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_鹹食","t_vegetarian"],"id":"p_cny_batch_023_1760000000023","note":"素食可食的年節禮盒，適合送給茹素長輩、親友或有飲食限制的對象。","status":"待評估","createdAt":1760000000023,"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/top9cnygifts","title":"2026 過年送禮推薦這 9 款！依預算、特色一次挑對！"}],"brands":["萬益食品"],"variants":[]},{"name":"客製麻將餅乾禮盒","brand":"米久咖啡","price":"350 ~ 650","url":"https://shopee.tw/%E5%AE%A2%E8%A3%BD%E9%BA%BB%E5%B0%87%E9%A4%85%E4%B9%BE%EF%BC%88%E7%A6%AE%E7%9B%92%E3%80%81%E6%95%A3%E8%A3%9D%EF%BC%89%EF%BD%9E%E5%8F%AF%E4%BB%A5%E5%AE%A2%E8%A3%BD%E5%B0%88%E5%B1%AC%E6%96%87%E5%AD%97-i.1457721.29123792091","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjAyMjMxNTI0MDctMy4xODMxNDQ4NTE%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_甜點","t_creative"],"id":"p_cny_batch_024_1760000000024","note":"麻將造型餅乾，可客製文字，小盒與大盒價格不同，適合想送創意感年節禮的人。","status":"待評估","createdAt":1760000000024,"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/top9cnygifts","title":"2026 過年送禮推薦這 9 款！依預算、特色一次挑對！"}],"brands":["米久咖啡"],"variants":[]},{"id":"p_cny_batch_025_1760000000025","name":"尊品禮盒","brands":["萬益食品"],"brand":"萬益食品","price":"660","url":"https://www.wanyi.com.tw/products/premium-gift-box-20240919210335","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjAyMjMxNTI0MzItNC4xODMxNDcyOTQ%3D.png","note":"萬益食品經典禮盒，適合送長輩、親友或一般年節拜訪。","tags":["c_lunarnewyear","c_duanwu","c_corporate_gifts"],"themeTags":["t_伴手禮","t_鹹食","t_送長輩","t_企業送禮","t_送客戶","t_employee"],"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/top9cnygifts","title":"2026 過年送禮推薦這 9 款！依預算、特色一次挑對！"},{"site":"小葉子","url":"https://wangtain.com/news/duanwu-festival-gifts/","title":"2026 端午節禮盒推薦｜10 款送長輩、客戶、親友都體面的端午伴手禮"},{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/dbfgiftsets","title":"端午禮盒推薦｜精選端午伴手禮與送禮清單"},{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/corporategifts","title":"2026 企業送禮推薦：預算分級＋避雷重點，精選 8 款禮盒特色一次看！"}],"variants":[],"createdAt":1760000000025,"status":"待評估"},{"name":"納福禮盒","brand":"萬益食品","price":"820","url":"https://www.wanyi.com.tw/products/nafu-gift-box","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjAyMjMxNTI0NTYtNS4xODMxNDk2MTc%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_鹹食","t_family"],"id":"p_cny_batch_026_1760000000026","note":"年節感明顯的禮盒，適合拜年、親友送禮與家庭共享。","status":"待評估","createdAt":1760000000026,"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/top9cnygifts","title":"2026 過年送禮推薦這 9 款！依預算、特色一次挑對！"}],"brands":["萬益食品"],"variants":[]},{"name":"新年耳掛咖啡＋巧克力咖啡豆禮盒","brand":"8C咖啡","price":"720 ~ 960","url":"https://www.8ccafe.com/products.php?func=p_detail&p_id=135&pc_parent=7","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjAyMjMxNTI1MTYtNi4xODMxNTE2MjM%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_咖啡","t_送客戶"],"id":"p_cny_batch_027_1760000000027","note":"耳掛咖啡與巧克力咖啡豆組合，可選靜思、八吉祥、時光等款式，適合送咖啡愛好者。","status":"待評估","createdAt":1760000000027,"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/top9cnygifts","title":"2026 過年送禮推薦這 9 款！依預算、特色一次挑對！"}],"brands":["8C咖啡"],"variants":[]},{"name":"三寶禮盒","brand":"萬益食品","price":"1380","url":"https://www.wanyi.com.tw/products/%E4%B8%89%E5%AF%B6%E7%A6%AE%E7%9B%92","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjAyMjMxNTI2MDYtOC4xODMxNTY4Njk%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_鹹食","t_送長輩","t_送客戶"],"id":"p_cny_batch_029_1760000000029","note":"高單價年節禮盒，適合送長輩、重要親友或正式拜訪。","status":"待評估","createdAt":1760000000029,"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/top9cnygifts","title":"2026 過年送禮推薦這 9 款！依預算、特色一次挑對！"}],"brands":["萬益食品"],"variants":[]},{"name":"養生禮贈組／湯品組合","brand":"親寶貝養生餐","price":"","url":"https://www.kissbaby.com.tw/product/type/%E6%B9%AF%E5%93%81%E7%B5%84%E5%90%88","image":"https://www.kissbaby.com.tw/archive/image/aW1hZ2UtMjAyNjAyMTMxNTMwMTItMS4wOTY3ODE1NTg%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送長輩","t_health"],"id":"p_cny_batch_031_1760000000031","note":"可客製湯品組合，低溫宅配，文章建議作為送給體力較弱、術後調養或重視養生長輩的禮品。","status":"待評估","createdAt":1760000000031,"appearances":[{"site":"親寶貝養生餐","url":"https://www.kissbaby.com.tw/news/giftforelders","title":"2026 年節長輩送禮推薦：5 大口碑品牌清單，客製養生不踩雷！"}],"brands":["親寶貝養生餐"],"variants":[]},{"name":"AirPods Pro 3","brand":"Apple","price":"","url":"https://www.apple.com/tw/shop/buy-airpods/airpods-pro-3","image":"https://www.kissbaby.com.tw/archive/image/aW1hZ2UtMjAyNjAyMTMxNTMyMzQtNS4wOTY3OTU1MjQ%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_送長輩"],"id":"p_cny_batch_035_1760000000035","note":"科技型禮品，適合送給習慣使用手機、通話或聽音樂的長輩與家人。","status":"待評估","createdAt":1760000000035,"appearances":[{"site":"親寶貝養生餐","url":"https://www.kissbaby.com.tw/news/giftforelders","title":"2026 年節長輩送禮推薦：5 大口碑品牌清單，客製養生不踩雷！"}],"brands":["Apple"],"variants":[]},{"name":"月映池畔禮盒","brand":"日禾春 x 臺虎精釀","price":"699","url":"https://www.rihechun.tw/products/%E8%B7%A8%E7%95%8C%E8%81%AF%E5%90%8D%E7%A6%AE%E7%9B%92-mid-autumn-festival-co-branded-gift-box-2-1","image":"https://www.wanfuxuan.com.tw/archive/image/aW1hZ2UyLjU3NjUwOTY4Mw%3D%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_甜點","t_酒品","t_creative"],"id":"p_cny_batch_040_1760000000040","note":"跨界聯名禮盒，結合糕點與精釀啤酒，適合送給喜歡新鮮感與酒食搭配的朋友。","status":"待評估","createdAt":1760000000040,"appearances":[{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/2026newyearbox","title":"年節伴手禮推薦｜十款精選禮盒送親友、送長輩都體面！"}],"brands":["日禾春","臺虎精釀"],"variants":[]},{"name":"野生烏魚子大三元禮盒","brand":"大賞烏魚子","price":"1680","url":"https://oishii.tw/product/%E9%87%8E%E7%94%9F%E7%83%8F%E9%AD%9A%E5%AD%90%E5%A4%A7%E4%B8%89%E5%85%83%E7%A6%AE%E7%9B%924%E5%85%A9/","image":"https://www.wanfuxuan.com.tw/archive/image/aW1hZ2UxLjU3NjUxNDAzNA%3D%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送長輩","t_鹹食"],"id":"p_cny_batch_041_1760000000041","note":"野生烏魚子禮盒，含整片與一口烏魚子，適合年節餐桌、送長輩與海味愛好者。","status":"待評估","createdAt":1760000000041,"appearances":[{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/2026newyearbox","title":"年節伴手禮推薦｜十款精選禮盒送親友、送長輩都體面！"}],"brands":["大賞烏魚子"],"variants":[]},{"name":"6入馬卡龍禮盒","brand":"珠寶盒","price":"約520","url":"https://www.boitedebijou.com.tw/%E9%A6%AC%E5%8D%A1%E9%BE%8D%E7%A6%AE%E7%9B%92/6%E5%85%A5%E9%A6%AC%E5%8D%A1%E9%BE%8D%E7%A6%AE%E7%9B%92.html","image":"https://www.wanfuxuan.com.tw/archive/image/aW1hZ2U1LjU3NjUxODM2OQ%3D%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_甜點"],"id":"p_cny_batch_042_1760000000042","note":"馬卡龍甜點禮盒，外觀精緻，適合送朋友、年輕族群或甜點愛好者。","status":"待評估","createdAt":1760000000042,"appearances":[{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/2026newyearbox","title":"年節伴手禮推薦｜十款精選禮盒送親友、送長輩都體面！"}],"brands":["珠寶盒"],"variants":[]},{"name":"《紅日》典茶禮盒","brand":"淡然有味","price":"1380","url":"https://www.danran-tea.com/products/2025-cny-teabag-loosetea","image":"https://www.wanfuxuan.com.tw/archive/image/aW1hZ2U3LjU3NjUyNTA3MA%3D%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送長輩","t_送客戶","t_茶飲"],"id":"p_cny_batch_043_1760000000043","note":"茶葉與茶包組合，紅色年節包裝感明顯，適合送長輩、客戶與茶飲愛好者。","status":"待評估","createdAt":1760000000043,"appearances":[{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/2026newyearbox","title":"年節伴手禮推薦｜十款精選禮盒送親友、送長輩都體面！"}],"brands":["淡然有味"],"variants":[]},{"name":"茶織山光禮盒","brand":"百二歲","price":"約1350","url":"https://www.pahjihue.com.tw/products_detail/%E6%B0%B4%E6%9E%9C%E8%8C%B6%E7%B6%9C%E5%90%88%E7%A6%AE%E7%9B%92","image":"https://www.wanfuxuan.com.tw/archive/image/aW1hZ2UzLjU3NjUzMTk0NA%3D%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_茶飲","t_送長輩"],"id":"p_cny_batch_045_1760000000045","note":"水果茶系列禮盒，適合送給喜歡茶飲、花果香調與精緻包裝的對象。","status":"待評估","createdAt":1760000000045,"appearances":[{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/2026newyearbox","title":"年節伴手禮推薦｜十款精選禮盒送親友、送長輩都體面！"}],"brands":["百二歲"],"variants":[]},{"name":"紫海派綜合蛋捲禮盒","brand":"海邊走走","price":"1160","url":"https://www.hiwalk.co/products/purplegolden-goodgift","image":"https://dayuan-feng-cang.com/wp-content/uploads/2025/10/image11.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_甜點","t_送客戶"],"id":"p_cny_batch_049_1760000000049","note":"綜合蛋捲禮盒，包裝具視覺記憶點，適合送親友、客戶或甜點伴手禮。","status":"待評估","createdAt":1760000000049,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/chinese-new-year-gifts/","title":"2026過年送禮推薦：10款無負擔健康禮盒推薦！送禮不踩雷必看"}],"brands":["海邊走走"],"variants":[]},{"name":"人氣餡禮12入","brand":"三統漢菓子","price":"612","url":"https://www.suntone.com.tw/products/popular-giftbox-12","image":"https://dayuan-feng-cang.com/wp-content/uploads/2025/10/image2.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_甜點","t_送長輩"],"id":"p_cny_batch_051_1760000000051","note":"12 入漢菓子禮盒，口味包含鳳凰流心酥與芋泥流心酥，適合送喜歡傳統甜點的對象。","status":"待評估","createdAt":1760000000051,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/chinese-new-year-gifts/","title":"2026過年送禮推薦：10款無負擔健康禮盒推薦！送禮不踩雷必看"}],"brands":["三統漢菓子"],"variants":[]},{"name":"春漾禮盒","brand":"珠寶盒","price":"825","url":"https://www.boitedebijou.com.tw/%E5%93%81%E7%89%8C%E7%A6%AE%E7%9B%92/%E6%98%A5%E6%BC%BE%E7%A6%AE%E7%9B%92.html","image":"https://dayuan-feng-cang.com/wp-content/uploads/2025/10/image5.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_甜點"],"id":"p_cny_batch_053_1760000000053","note":"法式甜點禮盒，包裝節慶感強，適合送朋友、親友或甜點愛好者。","status":"待評估","createdAt":1760000000053,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/chinese-new-year-gifts/","title":"2026過年送禮推薦：10款無負擔健康禮盒推薦！送禮不踩雷必看"}],"brands":["珠寶盒"],"variants":[]},{"name":"富貴滿福★經典大禮盒","brand":"快車肉乾","price":"1560","url":"https://www.kuaiche.com.tw/SalePage/Index/6604535","image":"https://dayuan-feng-cang.com/wp-content/uploads/2025/10/image3.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_鹹食","t_family"],"id":"p_cny_batch_054_1760000000054","note":"肉乾大禮盒，適合送給喜歡鹹食零嘴、年節共享或家庭聚會的對象。","status":"待評估","createdAt":1760000000054,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/chinese-new-year-gifts/","title":"2026過年送禮推薦：10款無負擔健康禮盒推薦！送禮不踩雷必看"}],"brands":["快車肉乾"],"variants":[]},{"name":"濾掛精品咖啡十入 FSC環保禮盒","brand":"愚人之友基金會","price":"450","url":"https://dayuan-feng-cang.com/shop/%E6%84%9A%E4%BA%BAx%E8%B1%90%E6%BB%84-%E6%BF%BE%E6%8E%9B%E7%B2%BE%E5%93%81%E5%92%96%E5%95%A110%E5%85%A5fsc%E7%92%B0%E4%BF%9D%E7%A6%AE%E7%9B%92%E8%A3%9D/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2025/10/image8.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_咖啡","t_ESG永續"],"id":"p_cny_batch_055_1760000000055","note":"精品濾掛咖啡 10 入，公益與 FSC 環保包裝題材，適合小預算企業或同事送禮。","status":"待評估","createdAt":1760000000055,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/chinese-new-year-gifts/","title":"2026過年送禮推薦：10款無負擔健康禮盒推薦！送禮不踩雷必看"}],"brands":["愚人之友基金會"],"variants":[]},{"name":"熟成檸檬酥禮盒","brand":"鴻鼎菓子","price":"","url":"https://www.idodo.com.tw/product154.html","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2U0LjU3NjY4NzM4Mg%3D%3D.jpg","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_甜點"],"id":"p_cny_batch_060_1760000000060","note":"檸檬酥甜點禮盒，酸甜口味清爽，適合送親友或甜點伴手禮。","status":"待評估","createdAt":1760000000060,"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/2026newyearbox","title":"2026 過年送禮全攻略！送對人、送對時、送對禮都在這一篇"}],"brands":["鴻鼎菓子"],"variants":[]},{"name":"約翰走路 XR 23年","brand":"獵酒人","price":"","url":"https://www.9hunters.com/product/john-walker-xr-23-year-old/","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2U5LjU3NjY4OTg4MA%3D%3D.jpg","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送客戶","t_酒品"],"id":"p_cny_batch_061_1760000000061","note":"威士忌春節禮品，適合送給有飲酒習慣、收藏或正式商務送禮對象。","status":"待評估","createdAt":1760000000061,"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/2026newyearbox","title":"2026 過年送禮全攻略！送對人、送對時、送對禮都在這一篇"}],"brands":["獵酒人"],"variants":[]},{"id":"p_cny_batch_062_1760000000062","name":"頂奢堅果－小皇家禮盒","brand":"migoo 彌菓","price":"","url":"https://www.migoo.com.tw/products/%E9%87%91%E9%87%87%E6%82%85%E5%9C%93%E7%A6%AE%E7%9B%9218%E5%85%A5-20250709145936","image":"https://cdn-general.cybassets.com/media/W1siZiIsIjI2OTMzL3Byb2R1Y3RzLzU3MzQwMDcxLzE3NjUzNDk3NDVfZThhOGExMDBlNWVjNWQ1MWM4ODcucG5nIl0sWyJwIiwidGh1bWIiLCI2MDB4NjAwIl1d.png?sha=3b495ac10064609d","note":"堅果禮盒，適合想送低負擔零嘴、健康取向或長輩伴手禮。","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送長輩","t_health"],"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/2026newyearbox","title":"2026 過年送禮全攻略！送對人、送對時、送對禮都在這一篇"}],"status":"待評估","createdAt":1760000000062,"brands":["migoo 彌菓"],"variants":[]},{"name":"法式甜點禮盒","brand":"一百種味道","price":"","url":"https://www.100tastes.com.tw/categories/gift","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2U4LjU3NjY5Njc4Nw%3D%3D.png","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_甜點"],"id":"p_cny_batch_063_1760000000063","note":"法式甜點禮盒，適合送朋友、親友或重視甜點口味與質感包裝的對象。","status":"待評估","createdAt":1760000000063,"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/2026newyearbox","title":"2026 過年送禮全攻略！送對人、送對時、送對禮都在這一篇"}],"brands":["一百種味道"],"variants":[]},{"id":"p_raw_midautumn_hzfarm_114","name":"人生百態禮盒","brands":["宏展農場"],"brand":"宏展農場","price":"1299","url":"https://www.hzfarm.com.tw/product/Varieties_of_Life","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2UtMjAyNjA2MzAxNTIzMTYtMS4yODA0MTk4MzA%3D.png","note":"人生百態禮盒由百大青農契作白玉苦瓜，以低溫真空工法製成酥脆不膩的白玉酥，內含白玉酥 4 包（酸、甜、苦、辣各一）＋白玉漬物 2 瓶，以四種滋味呼應人生百態。","tags":["c_midautumn","c_lunarnewyear","c_duanwu","c_labor_day","c_corporate_gifts"],"themeTags":["t_在地特色","t_伴手禮","t_送長輩","t_health","t_not_zongzi","t_企業送禮","t_employee"],"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/moonfestivalgifts","title":"中秋伴手禮怎麼挑？挑選技巧與 6 款送禮推薦清單！"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/giftforelders","title":"過年送禮給長輩必看！10 款精選禮盒，教你避開送禮禁忌深得人心"},{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/2026newyearbox","title":"年節伴手禮推薦｜十款精選禮盒送親友、送長輩都體面！"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/chinese-new-year-gifts/","title":"2026過年送禮推薦：10款無負擔健康禮盒推薦！送禮不踩雷必看"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/2026newyearbox","title":"2026 過年送禮全攻略！送對人、送對時、送對禮都在這一篇"},{"site":"小葉子","url":"https://wangtain.com/news/duanwu-festival-gifts/","title":"2026 端午節禮盒推薦｜10 款送長輩、客戶、親友都體面的端午伴手禮"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/duanwugifts","title":"端午節禮盒推薦｜精選端午伴手禮與送禮指南"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/2026-mayday/","title":"勞動節禮品怎麼選？企業送禮策略、預算配置與6款實用推薦一次整理！"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/corporate-gifts/","title":"企業贈禮推薦這 10 款，體面且不平凡的選擇！"},{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/corporategifts","title":"企業贈禮怎麼挑？5 大關鍵原則、5 大企業贈禮品種類一次看"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/corporategifts","title":"企業贈禮推薦！4 款人氣禮品清單，送禮送進客戶心坎裡！"}],"variants":[],"createdAt":1752710400114,"status":"待評估"},{"id":"p_multi_gift_030_1761000000030","name":"大禹嶺金玉禮盒","brand":"山川製茶","brands":["山川製茶"],"price":"1580 ~ 6000","url":"https://www.shanchuanchaye.com.tw/product/%E5%A4%A7%E7%A6%B9%E5%B6%BA%E9%87%91%E7%8E%89%E7%A6%AE%E7%9B%92%28%E5%90%AB%E6%8F%90%E8%A2%8B%29","image":"https://www.shanchuanchaye.com.tw/archive/product/normal/6YeR546JLTEuNjQxMDg0NzM4.jpg","note":"高山茶禮盒，適合送長輩、客戶與重視茶葉品質的對象。","tags":["c_lunarnewyear","c_midautumn","c_duanwu"],"themeTags":["t_伴手禮","t_送長輩","t_茶飲","t_送客戶"],"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/2026newyearbox","title":"2026 過年送禮全攻略！送對人、送對時、送對禮都在這一篇"},{"site":"親寶貝養生餐","url":"https://www.kissbaby.com.tw/news/giftforelders","title":"2026 年節長輩送禮推薦：5 大口碑品牌清單，客製養生不踩雷！"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/giftforelders","title":"過年送禮給長輩必看！10 款精選禮盒，教你避開送禮禁忌深得人心"},{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/moonfestivalgifts","title":"2026 中秋送禮推薦：8 款台灣在地好物，送到對方心坎裡"},{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/top10newyeargift","title":"過年送禮推薦｜TOP 10 年節伴手禮，送長輩、客戶、親友都體面"},{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/dbfgiftsets","title":"端午禮盒推薦｜精選端午伴手禮與送禮清單"}],"status":"待評估","createdAt":1752710400006,"variants":[{"label":"含提袋","price":"1580~6000","url":"","image":"","note":"大禹嶺茶區茶葉，冬季手工摘採，球型狀、輕發酵、無烘焙；規格含一盒四兩、二盒半斤與四盒一斤等選擇，並含提袋。","campaigns":[],"themeTags":[],"appearances":[]}]},{"id":"p_cny_batch_030_1760000000030","name":"如魚得水咖啡酒禮盒","brand":"8C 咖啡","brands":["8C 咖啡"],"price":"1998","url":"https://www.8ccafe.com/news.php?func=n_show&n_id=41&nc_id=1","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjU4NDItNi4xNjg2NzIzOTg%3D.png","note":"如魚得水咖啡酒禮盒將精品咖啡香氣與酒香融合，含咖啡醇厚與微醺風味，並以「如魚得水」寓意強化節慶感；文章提醒本產品含酒精，未滿十八歲禁止飲酒。","tags":["c_lunarnewyear","c_midautumn","c_corporate_gifts"],"themeTags":["t_伴手禮","t_咖啡","t_酒品","t_送客戶","t_企業送禮","t_vip"],"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/top9cnygifts","title":"2026 過年送禮推薦這 9 款！依預算、特色一次挑對！"},{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/moonfestivalgifts","title":"2026 中秋禮盒推薦：從送禮預算、對象到 10+ 款人氣禮盒一次整理"},{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/corporategifts","title":"2026 企業送禮推薦：預算分級＋避雷重點，精選 8 款禮盒特色一次看！"}],"status":"待評估","createdAt":1752710400080,"variants":[]},{"id":"p_cny_batch_046_1760000000046","name":"馬上稻來米麴甘酒＋芋香米 FSC 永續禮盒","brand":"豐滄","price":"500","url":"https://dayuan-feng-cang.com/product/year-of-the-horse-mashang-daolai-rice-amazake-taro-scented-rice-fsc-sustainable-gift-box/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2025/10/image6.jpg","note":"米麴甘酒 175ml×4、芋香米 600g×1，純素，常溫保存 12 個月，主打銀髮友善與永續包裝。","status":"待評估","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_送長輩","t_health","t_ESG永續","t_vegetarian"],"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/chinese-new-year-gifts/","title":"2026過年送禮推薦：10款無負擔健康禮盒推薦！送禮不踩雷必看"},{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/2026newyearbox","title":"年節伴手禮推薦｜十款精選禮盒送親友、送長輩都體面！"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/2026newyearbox","title":"2026 過年送禮全攻略！送對人、送對時、送對禮都在這一篇"}],"createdAt":1760000000038,"brands":["豐滄"],"variants":[]},{"id":"p_cny_batch_014_1760000000014","name":"馬上米香 FSC永續禮盒","brand":"豐滄","price":"550","url":"https://dayuan-feng-cang.com/product/year-of-the-horse-mashang-rice-crisps-4-pack-fsc-sustainable-gift-box/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2025/10/image7.jpg","note":"米香禮盒，有 3 入與 4 入規格，結合馬年意象與 FSC 永續包裝。","status":"待評估","tags":["c_lunarnewyear"],"themeTags":["t_伴手禮","t_甜點","t_ESG永續"],"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/top10newyeargift","title":"過年送禮推薦｜TOP 10 年節伴手禮，送長輩、客戶、親友都體面"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/chinese-new-year-gifts/","title":"2026過年送禮推薦：10款無負擔健康禮盒推薦！送禮不踩雷必看"}],"createdAt":1760000000014,"brands":["豐滄"],"variants":[]},{"id":"p_raw_midautumn_sinyun_065","name":"橙悅禮盒-馥刻","brand":"湛盧咖啡","price":"2565","url":"https://www.zhanlu.com.tw/product/jim_gates_rhc/","image":"https://cdn.showmore.cc/shop/xZFDvANZmBCyjqQFpdqoKK.png","note":"湛盧橙悅禮盒為精品濾掛咖啡組合，適合搭配月餅、豆沙蛋黃酥等甜膩糕點；深藍與亮橙幾何包裝具現代感，適合辦公室、咖啡愛好者與企業送禮。","tags":["c_midautumn"],"themeTags":["t_咖啡","t_送客戶"],"appearances":[{"site":"心耘燕朝燕窩","url":"https://www.sinyunyanchao.com/articles/article-ravxfGxbkd2RdxWRbF75YR","title":"中秋企業送禮推薦懶人包｜10 款人氣中秋禮盒塑造好印象"},{"site":"小葉子","url":"https://wangtain.com/news/moonfestivalgifts/","title":"2026 中秋送禮推薦：10 款絕不踩雷的中秋禮盒與送禮禁忌"}],"status":"待評估","createdAt":1752710400048,"brands":["湛盧咖啡"],"variants":[]},{"id":"p_raw_midautumn_xunmi_109","name":"foison 金色饗宴精裝禮盒","brand":"尋尋覓蜜","brands":["尋尋覓蜜"],"price":"1280","url":"https://xunmihoney.com/product/goldenfeast","image":"https://xunmihoney.com/wp-content/uploads/2026/06/image-1-1024x1024.jpg","note":"內容包含蜂蜜、蜂蜜醋、台東埔鹽花粉與蜂蜜木棒，附牛皮紙袋；主打台灣在地純蜜，20 盒以上可企業客製。","tags":["c_midautumn","c_lunarnewyear","c_corporate_gifts"],"themeTags":["t_伴手禮","t_送客戶","mrmtt65xi7zwy","t_送長輩","t_health","t_企業送禮"],"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/2026moonfestivalgifts","title":"2026 中秋送禮推薦｜挑選原則＋人氣禮盒清單，輕鬆送出滿分心意！"},{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/moonfestivalgifts","title":"2026 中秋送禮推薦：8 款台灣在地好物，送到對方心坎裡"},{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/2026newyearbox","title":"年節伴手禮推薦｜十款精選禮盒送親友、送長輩都體面！"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/chinese-new-year-gifts/","title":"2026過年送禮推薦：10款無負擔健康禮盒推薦！送禮不踩雷必看"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/corporategifts","title":"企業贈禮怎麼挑？3大選購重點+實用禮品推薦一次看"}],"status":"待評估","createdAt":1752710400003,"variants":[]},{"name":"BRUNO 恆溫暖杯墊組","brand":"BRUNO","price":"1580","url":"https://www.pinkoi.com/product/HheP92pJ","image":"https://xunmihoney.com/wp-content/uploads/2026/02/image-10-1024x1024.jpg","tags":["c_valentines"],"themeTags":["t_practical","t_lifestyle"],"id":"p_multi_gift_002_1761000000002","note":"可維持飲品溫度的生活小物，適合送給常喝咖啡、茶飲或久坐辦公的對象。","status":"待評估","createdAt":1761000000002,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/valentinesgift","title":"情人節禮物推薦指南｜8 款質感情人節禮物推薦，甜蜜送禮不踩雷"}],"brands":["BRUNO"],"variants":[]},{"id":"p_labor_corp_bday_075_1761100000075","name":"蜂蜜居家療癒組","brands":["尋尋覓蜜"],"brand":"尋尋覓蜜","price":"480","url":"https://xunmihoney.com/product/soapgift","image":"https://xunmihoney.com/wp-content/uploads/2024/10/DSC8493-%E6%8B%B7%E8%B2%9D-1.jpg","note":"結合蜂蜜檸檬馬賽手工皂、蜂蠟捲片蠟燭、經典蜂蜜與木棒，可提供拍立得與吊卡客製服務。","tags":["c_valentines","c_corporate_gifts"],"themeTags":["t_伴手禮","mrmtt65xi7zwy","t_fragrance","t_lifestyle","t_企業送禮","t_custom"],"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/valentinesgift","title":"情人節禮物推薦指南｜8 款質感情人節禮物推薦，甜蜜送禮不踩雷"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/corporategifts","title":"企業贈禮怎麼挑？3大選購重點+實用禮品推薦一次看"}],"variants":[],"createdAt":1761000000003,"status":"待評估"},{"name":"雪松香氛蠟燭","brand":"FLORAL M","price":"980","url":"https://www.pinkoi.com/product/ziSE3P97","image":"https://xunmihoney.com/wp-content/uploads/2026/02/image-12-1024x1024.jpg","tags":["c_valentines"],"themeTags":["t_fragrance","t_lifestyle"],"id":"p_multi_gift_004_1761000000004","note":"雪松香氣蠟燭，適合營造放鬆氛圍，作為有質感的情人節香氛禮物。","status":"待評估","createdAt":1761000000004,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/valentinesgift","title":"情人節禮物推薦指南｜8 款質感情人節禮物推薦，甜蜜送禮不踩雷"}],"brands":["FLORAL M"],"variants":[]},{"name":"仿生燭台 Puff 夜燈","brand":"DAQI CONCEPT","price":"1100","url":"https://www.pinkoi.com/product/JBrv46Yf","image":"https://xunmihoney.com/wp-content/uploads/2026/02/image-13-1024x1024.jpg","tags":["c_valentines"],"themeTags":["t_practical","t_lifestyle"],"id":"p_multi_gift_005_1761000000005","note":"仿生燭台造型夜燈，兼具擺飾與照明功能，適合送給重視空間氛圍的人。","status":"待評估","createdAt":1761000000005,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/valentinesgift","title":"情人節禮物推薦指南｜8 款質感情人節禮物推薦，甜蜜送禮不踩雷"}],"brands":["DAQI CONCEPT"],"variants":[]},{"name":"PM 旅行小包","brand":"plain-me","price":"1280","url":"https://www.plain-me.com/men/product-detail/COP300843001","image":"https://xunmihoney.com/wp-content/uploads/2026/02/image-14-1024x1024.jpg","tags":["c_valentines"],"themeTags":["t_practical","t_lifestyle"],"id":"p_multi_gift_006_1761000000006","note":"小型隨身包款，適合日常外出、旅行或情侶實用禮物。","status":"待評估","createdAt":1761000000006,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/valentinesgift","title":"情人節禮物推薦指南｜8 款質感情人節禮物推薦，甜蜜送禮不踩雷"}],"brands":["plain-me"],"variants":[]},{"id":"p_multi_gift_007_1761000000007","name":"桌面暖風機","brands":["SOTHING 向物"],"brand":"SOTHING 向物","price":"899","url":"https://www.pinkoi.com/product/AYfqXemp","image":"https://xunmihoney.com/wp-content/uploads/2026/02/image-15-1024x1024.jpg","note":"桌面型暖風機，適合冬季辦公桌、房間或居家使用的實用小禮。","tags":["c_valentines"],"themeTags":["t_practical","t_lifestyle","t_girlfriend"],"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/valentinesgift","title":"情人節禮物推薦指南｜8 款質感情人節禮物推薦，甜蜜送禮不踩雷"}],"variants":[],"createdAt":1761000000007,"status":"待評估"},{"id":"p_multi_gift_010_1761000000010","name":"精巧蜂蜜三入禮盒 – 聖誕款","brands":["尋尋覓蜜"],"brand":"尋尋覓蜜","price":"260","url":"https://xunmihoney.com/product/3in1christmas","image":"https://xunmihoney.com/wp-content/uploads/2025/12/image.jpg","note":"三入小蜂蜜禮盒，包裝具聖誕感，適合預算較低的小禮、同事交換禮物。","tags":["c_exchange"],"themeTags":["t_伴手禮","mrmtt65xi7zwy","t_500"],"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/500exchangegifts","title":"500 元交換禮物怎麼挑？15+ 款 Dcard、PTT、Threads 交換禮物推薦"}],"variants":[],"createdAt":1761000000010,"status":"待評估"},{"id":"p_multi_gift_013_1761000000013","name":"紫芽禮盒","brands":["小葉子"],"brand":"小葉子","price":"1000","url":"","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/04/image-4.png","note":"紫芽紅茶與紫芽綠茶禮盒，茶湯可因檸檬產生變色效果，主打花青素與台灣特色茶品。","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_茶飲","t_送客戶"],"appearances":[{"site":"小葉子","url":"https://wangtain.com/news/duanwu-festival-gifts/","title":"2026 端午節禮盒推薦｜10 款送長輩、客戶、親友都體面的端午伴手禮"}],"variants":[],"createdAt":1761000000013,"status":"待評估"},{"id":"p_multi_gift_017_1761000000017","name":"燕朝斑蘭燕窩飲禮盒","brands":["心耘燕朝燕窩"],"brand":"心耘燕朝燕窩","price":"1200","url":"https://www.sinyunyanchao.com/products/product-3fngowpGUqU6RoSfuRP6NS","image":"https://wangtain.com/wp-content/uploads/2026/04/unnamed-1-2-1024x1024.png","note":"斑蘭風味燕窩飲禮盒，主打滋補與精緻包裝，適合送長輩、客戶與養生禮品。","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_health","t_送長輩","t_送客戶"],"appearances":[{"site":"小葉子","url":"https://wangtain.com/news/duanwu-festival-gifts/","title":"2026 端午節禮盒推薦｜10 款送長輩、客戶、親友都體面的端午伴手禮"}],"variants":[],"createdAt":1761000000017,"status":"待評估"},{"id":"p_multi_gift_018_1761000000018","name":"湖州鮮肉粽禮盒","brands":["鼎泰豐"],"brand":"鼎泰豐","price":"550","url":"https://www.dintaifung.com.tw/food_show.php?id=130","image":"https://wangtain.com/wp-content/uploads/2026/04/image-12-1024x1024.png","note":"湖州鮮肉粽禮盒，適合端午節傳統粽子送禮與家庭共享。","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_zongzi","t_鹹食"],"appearances":[{"site":"小葉子","url":"https://wangtain.com/news/duanwu-festival-gifts/","title":"2026 端午節禮盒推薦｜10 款送長輩、客戶、親友都體面的端午伴手禮"}],"variants":[],"createdAt":1761000000018,"status":"待評估"},{"id":"p_multi_gift_019_1761000000019","name":"金典 8 結禮盒","brands":["六月初一"],"brand":"六月初一","price":"540","url":"https://www.june1.com.tw/website/product_detail/193/243/244/1558","image":"https://wangtain.com/wp-content/uploads/2026/04/image-14-1024x1024.png","note":"8 結蛋捲禮盒，適合端午甜點伴手禮、辦公室分享與親友送禮。","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_甜點"],"appearances":[{"site":"小葉子","url":"https://wangtain.com/news/duanwu-festival-gifts/","title":"2026 端午節禮盒推薦｜10 款送長輩、客戶、親友都體面的端午伴手禮"}],"variants":[],"createdAt":1761000000019,"status":"待評估"},{"id":"p_multi_gift_020_1761000000020","name":"綜合水果禮盒 74","brands":["佳品水果"],"brand":"佳品水果","price":"2000","url":"https://jiapin.tw/product/assorted-74/","image":"https://wangtain.com/wp-content/uploads/2026/04/image-9-1024x1024.png","note":"高單價綜合水果禮盒，適合送長輩、客戶或正式拜訪場合。","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_水果","t_送長輩","t_送客戶"],"appearances":[{"site":"小葉子","url":"https://wangtain.com/news/duanwu-festival-gifts/","title":"2026 端午節禮盒推薦｜10 款送長輩、客戶、親友都體面的端午伴手禮"}],"variants":[],"createdAt":1761000000020,"status":"待評估"},{"id":"p_multi_gift_021_1761000000021","name":"島嶼珍藏 金采初粽 擴香石禮盒","brands":["瀚思"],"brand":"瀚思","price":"950","url":"https://www.hanschiu.com/products/hans-s250402","image":"https://wangtain.com/wp-content/uploads/2026/04/unnamed-2-1-1024x1024.png","note":"端午主題擴香石禮盒，屬非食品禮品，適合想避開粽子與食品的送禮情境。","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_fragrance","t_lifestyle","t_not_zongzi"],"appearances":[{"site":"小葉子","url":"https://wangtain.com/news/duanwu-festival-gifts/","title":"2026 端午節禮盒推薦｜10 款送長輩、客戶、親友都體面的端午伴手禮"}],"variants":[],"createdAt":1761000000021,"status":"待評估"},{"id":"p_multi_gift_022_1761000000022","name":"艾草淨身平安包 禮盒裝（4袋）","brands":["好漢草"],"brand":"好漢草","price":"1300","url":"https://www.heroherb.co/heroherb-Mugwort-4Gift","image":"https://wangtain.com/wp-content/uploads/2026/04/image-13-1024x1024.png","note":"艾草淨身平安包禮盒，具有端午節氣與平安祝福意象，適合非食品送禮。","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_lifestyle","t_not_zongzi"],"appearances":[{"site":"小葉子","url":"https://wangtain.com/news/duanwu-festival-gifts/","title":"2026 端午節禮盒推薦｜10 款送長輩、客戶、親友都體面的端午伴手禮"}],"variants":[],"createdAt":1761000000022,"status":"待評估"},{"name":"蜂蜜醋造型禮盒","brand":"尋尋覓蜜","price":"590","url":"https://xunmihoney.com/product/vinegargift","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/04/image-3.png","tags":["c_duanwu"],"themeTags":["t_伴手禮","mrmtt65xi7zwy","t_health"],"id":"p_multi_gift_026_1761000000026","note":"純蜂蜜釀造醋搭配日式木杓，酸甜清爽，適合夏季端午與健康感送禮。","status":"待評估","createdAt":1761000000026,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/2026-dragon-boat-festival-gift/","title":"2026 端午節禮盒推薦｜健康、永續、不踩雷的端午送禮清單"}],"brands":["尋尋覓蜜"],"variants":[]},{"name":"豐滄 x 大湖酒莊 草莓甘糀 5 入 ESG 永續禮盒","brand":"豐滄 x 大湖酒莊","price":"650","url":"https://dayuan-feng-cang.com/product/fengcang-dahu-strawberry-amazake-5pack-esg-giftbox/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/04/image-2.png","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_health","t_ESG永續"],"id":"p_multi_gift_027_1761000000027","note":"草莓甘糀五入禮盒，結合大湖草莓與米麴甘酒，具季節感與永續包裝概念。","status":"待評估","createdAt":1761000000027,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/2026-dragon-boat-festival-gift/","title":"2026 端午節禮盒推薦｜健康、永續、不踩雷的端午送禮清單"}],"brands":["豐滄","大湖酒莊"],"variants":[]},{"name":"干貝滷肉粽","brand":"欣葉台菜","price":"1220","url":"https://www.shinyeh.com.tw/event/zongzi/zongzi1.html","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/04/image-1.png","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_zongzi","t_鹹食"],"id":"p_multi_gift_029_1761000000029","note":"干貝滷肉粽端午禮盒，主打海陸風味與傳統粽子節慶感。","status":"待評估","createdAt":1761000000029,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/2026-dragon-boat-festival-gift/","title":"2026 端午節禮盒推薦｜健康、永續、不踩雷的端午送禮清單"}],"brands":["欣葉台菜"],"variants":[]},{"name":"16 入奢華禮盒－經典蛋捲禮盒","brand":"青鳥旅行","price":"660","url":"https://www.bluebirdtravel.com.tw/products/luxury-giftbox-16pcs","image":"https://www.shanchuanchaye.com.tw/archive/image/aW1hZ2UtMjAyNjA0MjIxNDQzMjYtNC42ODQwMjA3NTg%3D.png","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_甜點"],"id":"p_multi_gift_033_1761000000033","note":"16 入蛋捲禮盒，適合端午甜點伴手禮、親友分享與企業小禮。","status":"待評估","createdAt":1761000000033,"appearances":[{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/dbfgiftsets","title":"端午禮盒推薦｜精選端午伴手禮與送禮清單"}],"brands":["青鳥旅行"],"variants":[]},{"name":"柿柿如意禮盒組","brand":"以泰禮品","price":"615","url":"https://www.etai.com.tw/","image":"https://www.shanchuanchaye.com.tw/archive/image/aW1hZ2UtMjAyNjA0MjIxNDQzNTEtNS42ODQwMjMyNzg%3D.png","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_lifestyle"],"id":"p_multi_gift_034_1761000000034","note":"柿子橘色系禮盒，具祝福寓意，適合端午送禮與質感生活提案。","status":"待評估","createdAt":1761000000034,"appearances":[{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/dbfgiftsets","title":"端午禮盒推薦｜精選端午伴手禮與送禮清單"}],"brands":["以泰禮品"],"variants":[]},{"name":"多謝禮盒紅色 3 罐組","brand":"謝謝堅果","price":"610","url":"","image":"https://xunmihoney.com/wp-content/uploads/2026/04/image-10-1024x1024.jpg","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_health","t_送長輩"],"id":"p_multi_gift_038_1761000000038","note":"紅色三罐堅果禮盒，適合健康感伴手禮、長輩送禮與端午拜訪。","status":"待評估","createdAt":1761000000038,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/dragon-boat-festival-gifts","title":"端午節禮盒推薦｜8 款不只粽子的端午伴手禮"}],"brands":["謝謝堅果"],"variants":[]},{"name":"鳳梨酥蘋果酥禮盒","brand":"微熱山丘","price":"600","url":"https://shop.sunnyhills.com.tw/index","image":"https://xunmihoney.com/wp-content/uploads/2026/04/image-2-1-1024x1024.jpg","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_甜點"],"id":"p_multi_gift_039_1761000000039","note":"鳳梨酥與蘋果酥組合，品牌辨識度高，適合端午甜點伴手禮。","status":"待評估","createdAt":1761000000039,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/dragon-boat-festival-gifts","title":"端午節禮盒推薦｜8 款不只粽子的端午伴手禮"}],"brands":["微熱山丘"],"variants":[]},{"name":"手工愛餡肉鬆蛋捲禮盒","brand":"海邊走走","price":"500","url":"https://www.hiwalk.co/products/porkfloss-eggroll","image":"https://xunmihoney.com/wp-content/uploads/2026/04/image-9-1024x1024.jpg","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_甜點","t_鹹食"],"id":"p_multi_gift_040_1761000000040","note":"肉鬆蛋捲禮盒，鹹甜口味明確，適合喜歡蛋捲與鹹食零嘴的收禮者。","status":"待評估","createdAt":1761000000040,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/dragon-boat-festival-gifts","title":"端午節禮盒推薦｜8 款不只粽子的端午伴手禮"}],"brands":["海邊走走"],"variants":[]},{"name":"經典綠豆椪禮盒","brand":"舊振南","price":"500","url":"https://shop.jzn.com.tw/products/classic-gift-box-6pcs-standard","image":"https://xunmihoney.com/wp-content/uploads/2026/04/image-1-2-1024x1024.jpg","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_甜點","t_送長輩"],"id":"p_multi_gift_041_1761000000041","note":"綠豆椪經典禮盒，適合長輩、親友與傳統糕點送禮。","status":"待評估","createdAt":1761000000041,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/dragon-boat-festival-gifts","title":"端午節禮盒推薦｜8 款不只粽子的端午伴手禮"}],"brands":["舊振南"],"variants":[]},{"name":"鳳韻芳華十二入龍鬚糖禮盒","brand":"糖巢","price":"750","url":"https://dbcandy.com/item/12pcclassicbox","image":"https://xunmihoney.com/wp-content/uploads/2026/04/image-2-2-1024x1024.jpg","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_甜點"],"id":"p_multi_gift_042_1761000000042","note":"十二入龍鬚糖禮盒，結合傳統甜點與精緻包裝，適合端午送禮。","status":"待評估","createdAt":1761000000042,"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/dragon-boat-festival-gifts","title":"端午節禮盒推薦｜8 款不只粽子的端午伴手禮"}],"brands":["糖巢"],"variants":[]},{"name":"琥珀奶皇紅豆冰心粽","brand":"湯瑪仕肉鋪","price":"299","url":"https://www.thomasmeat.com.tw/","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2UtMjAyNjA1MjAxNzE0MDItNS45MjY4NDQzOTM%3D.png","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_zongzi","t_甜點"],"id":"p_multi_gift_047_1761000000047","note":"冰心甜粽類產品，結合奶皇、紅豆與琥珀色外觀，適合端午甜點禮。","status":"待評估","createdAt":1761000000047,"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/duanwugifts","title":"端午節禮盒推薦｜精選端午伴手禮與送禮指南"}],"brands":["湯瑪仕肉鋪"],"variants":[]},{"name":"端午粽夏熊水果乾禮盒","brand":"幸福果舖","price":"650","url":"https://www.happyfruits.com.tw/","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2UtMjAyNjA1MjAxNzE0MzQtNi45MjY4NDc1NTY%3D.png","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_水果","t_not_zongzi"],"id":"p_multi_gift_048_1761000000048","note":"端午主題水果乾禮盒，適合不送粽子、想送輕巧零食或水果風味禮盒的人。","status":"待評估","createdAt":1761000000048,"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/duanwugifts","title":"端午節禮盒推薦｜精選端午伴手禮與送禮指南"}],"brands":["幸福果舖"],"variants":[]},{"name":"米麴甘酒 4 入 + 芋香米 ESG 環保禮盒","brand":"豐滄","price":"500","url":"https://dayuan-feng-cang.com/product/%E8%B1%90%E6%BB%84%E7%B1%B3%E9%BA%B4%E7%94%98%E9%85%924%E5%85%A5%E8%8A%8B%E9%A6%99%E7%B1%B3%E7%A6%AE%E7%9B%92/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/03/image-5.png","tags":["c_labor_day"],"themeTags":["t_企業送禮","t_employee","t_ESG永續","t_health"],"id":"p_labor_corp_bday_001_1761100000001","note":"無酒精米麴甘酒搭配頂級芋香米，禮盒採 FSC 驗證紙材與環保設計，可做企業客製賀卡與外盒貼紙。","status":"待評估","createdAt":1761100000001,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/2026-mayday/","title":"勞動節禮品怎麼選？企業送禮策略、預算配置與6款實用推薦一次整理！"}],"brands":["豐滄"],"variants":[]},{"id":"p_labor_corp_bday_003_1761100000003","name":"玉米田好食禮盒","brand":"愛盲＆豐滄＆新浦樂","brands":["愛盲","豐滄","新浦樂"],"price":"450","url":"https://www.tfb8000.com/products/e1101060014","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/03/image-4.png","note":"內含 CNS 一等芋香米與 PLA 玉米生質材料環保餐具，兼顧食安、公益與減塑生活。","tags":["c_labor_day","c_corporate_gifts"],"themeTags":["t_企業送禮","t_employee","t_ESG永續","t_csr"],"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/2026-mayday/","title":"勞動節禮品怎麼選？企業送禮策略、預算配置與6款實用推薦一次整理！"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/corporate-gifts/","title":"企業贈禮推薦這 10 款，體面且不平凡的選擇！"}],"status":"待評估","createdAt":1761100000003,"variants":[]},{"name":"真摯禮盒","brand":"小茶栽堂","price":"865","url":"https://www.zenique.net/zh-TW/products/%E7%9C%9F%E6%91%AF%E7%A6%AE%E7%9B%92-%E7%A6%AE%E7%9B%92%E8%A8%AD%E8%A8%88%E6%9C%89%E6%8F%90%E6%8A%8A-%E6%95%85%E4%B8%8D%E9%99%84%E6%8F%90%E8%A2%8B","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/03/image-8.png","tags":["c_labor_day"],"themeTags":["t_企業送禮","t_employee","t_茶飲","t_lifestyle"],"id":"p_labor_corp_bday_005_1761100000005","note":"精選台灣在地烏龍茶與熟香紅茶，包裝雅緻，適合辦公室與居家日常飲用。","status":"待評估","createdAt":1761100000005,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/2026-mayday/","title":"勞動節禮品怎麼選？企業送禮策略、預算配置與6款實用推薦一次整理！"}],"brands":["小茶栽堂"],"variants":[]},{"id":"p_labor_corp_bday_006_1761100000006","name":"迷你插頭式行動電源","brands":["禮哇客"],"brand":"禮哇客","price":"","url":"https://www.wowgift.com.tw/product/minipowerbank","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/03/image-9.png","note":"迷你插頭式或無線充電行動電源，體積小、方便外出攜帶，產品表面可進行企業 Logo 客製化印刷。","tags":["c_labor_day"],"themeTags":["t_企業送禮","t_employee","t_custom"],"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/2026-mayday/","title":"勞動節禮品怎麼選？企業送禮策略、預算配置與6款實用推薦一次整理！"}],"variants":[],"createdAt":1761100000006,"status":"待評估"},{"id":"p_labor_corp_bday_007_1761100000007","name":"手持涼風扇","brands":["禮哇客"],"brand":"禮哇客","price":"","url":"https://www.wowgift.com.tw/product/cooling%EF%BC%8Dhandheld%EF%BC%8Dfan","image":"https://www.wowgift.com.tw/archive/image/aW1hZ2UtMjAyNjA0MTExNDA5MzQtMS41ODg3Nzc1NDI%3D.png","note":"制冷片與快速強風雙重降溫，適合夏日通勤、外勤、物流與戶外工作族群，可將 LOGO 印於握把。","tags":["c_labor_day"],"themeTags":["t_employee","t_practical","t_custom"],"appearances":[{"site":"禮哇客 WoWGIFT","url":"https://www.wowgift.com.tw/blog/labordaygifts","title":"2026 工會勞動節禮品推薦：精選 5 大類熱門清單，符合預算又不踩雷！"}],"variants":[],"createdAt":1761100000007,"status":"待評估"},{"id":"p_labor_corp_bday_008_1761100000008","name":"智能加濕器","brands":["禮哇客"],"brand":"禮哇客","price":"","url":"https://www.wowgift.com.tw/product/smart%EF%BC%8Daroma%EF%BC%8Dhumidifier","image":"https://www.wowgift.com.tw/archive/image/aW1hZ2UtMjAyNjA0MTExNDEwMDAtMi41ODg3ODAwMTU%3D.png","note":"適合辦公室冷氣房與居家睡眠，可連結 APP 設定模式與定時，也能作為小夜燈或桌面擺飾。","tags":["c_labor_day"],"themeTags":["t_employee","t_practical","t_lifestyle","t_wellness","t_custom"],"appearances":[{"site":"禮哇客 WoWGIFT","url":"https://www.wowgift.com.tw/blog/labordaygifts","title":"2026 工會勞動節禮品推薦：精選 5 大類熱門清單，符合預算又不踩雷！"}],"variants":[],"createdAt":1761100000008,"status":"待評估"},{"id":"p_labor_corp_bday_010_1761100000010","name":"辦公室文具組","brands":["禮哇客"],"brand":"禮哇客","price":"","url":"https://www.wowgift.com.tw/product/custom%EF%BC%8Dlogo%EF%BC%8Dusb%EF%BC%8Dcharger","image":"https://www.wowgift.com.tw/archive/image/aW1hZ2UtMjAyNjA0MTExNDEwMjktMy41ODg3ODMwMjI%3D.png","note":"包含質感筆記本、金屬鋼珠筆、便條紙或文件收納袋，可搭配品牌識別設計。","tags":["c_labor_day"],"themeTags":["t_employee","t_office","t_custom"],"appearances":[{"site":"禮哇客 WoWGIFT","url":"https://www.wowgift.com.tw/blog/labordaygifts","title":"2026 工會勞動節禮品推薦：精選 5 大類熱門清單，符合預算又不踩雷！"}],"variants":[],"createdAt":1761100000010,"status":"待評估"},{"name":"初霧微導儀 FristMist M-One","brand":"Nilin","price":"洽詢客服","url":"https://www.nilin.asia/","image":"https://www.nilin.asia/archive/image/aW1hZ2UtMjAyNjA1MjcyMTAwMTEtMS45ODg2ODEyNzI%3D.png","tags":["c_birthday_anniversary"],"themeTags":["t_girlfriend","t_beauty","t_lifestyle"],"id":"p_labor_corp_bday_017_1761100000017","note":"可搭配純露使用，具 42°C 智慧溫控、RF 熱感、EMS 拉提與 EP 電穿孔等模式，主打居家保養升級。","status":"待評估","createdAt":1761100000017,"appearances":[{"site":"霓霖美學","url":"https://www.nilin.asia/blog/gfbdaygift","title":"告別直男審美！10 款女友生日禮物推薦：實用與質感一次滿足"}],"brands":["Nilin"],"variants":[]},{"name":"燕選即飲 8 入禮盒","brand":"心耘燕朝燕窩","price":"3200","url":"https://www.sinyunyanchao.com/","image":"https://www.nilin.asia/archive/image/aW1hZ2UtMjAyNjA1MjcyMTAwNDAtMi45ODg2ODQxNjg%3D.png","tags":["c_birthday_anniversary"],"themeTags":["t_girlfriend","t_health","t_vip"],"id":"p_labor_corp_bday_018_1761100000018","note":"8 入即飲燕窩禮盒，包裝體面，適合送給熬夜、重視氣色與日常滋補的對象。","status":"待評估","createdAt":1761100000018,"appearances":[{"site":"霓霖美學","url":"https://www.nilin.asia/blog/gfbdaygift","title":"告別直男審美！10 款女友生日禮物推薦：實用與質感一次滿足"}],"brands":["心耘燕朝燕窩"],"variants":[]},{"name":"芳香精油 SPA 課程","brand":"樸道美寂 Wabigaku","price":"1200","url":"https://www.wabigaku.com.tw/","image":"https://www.nilin.asia/archive/image/aW1hZ2UtMjAyNjA1MjcyMTAxMDMtMy45ODg2ODY1MTg%3D.png","tags":["c_birthday_anniversary"],"themeTags":["t_girlfriend","t_wellness","t_lifestyle"],"id":"p_labor_corp_bday_019_1761100000019","note":"60 分鐘芳香精油 SPA，透過芳療師手法與植物精油舒緩肩頸與身心壓力。","status":"待評估","createdAt":1761100000019,"appearances":[{"site":"霓霖美學","url":"https://www.nilin.asia/blog/gfbdaygift","title":"告別直男審美！10 款女友生日禮物推薦：實用與質感一次滿足"}],"brands":["樸道美寂 Wabigaku"],"variants":[]},{"name":"英國梨與小蒼蘭香水","brand":"Jo Malone London","price":"5850","url":"https://www.jomalone.com.tw/","image":"https://www.nilin.asia/archive/image/aW1hZ2UtMjAyNjA1MjcyMTAxMjYtNC45ODg2ODg2MzM%3D.png","tags":["c_birthday_anniversary"],"themeTags":["t_girlfriend","t_fragrance","t_lifestyle"],"id":"p_labor_corp_bday_020_1761100000020","note":"經典清新花果香調，適合日常約會與上班使用。","status":"待評估","createdAt":1761100000020,"appearances":[{"site":"霓霖美學","url":"https://www.nilin.asia/blog/gfbdaygift","title":"告別直男審美！10 款女友生日禮物推薦：實用與質感一次滿足"}],"brands":["Jo Malone London"],"variants":[]},{"name":"奢華緞面絲絨唇膏（小金條）","brand":"YSL","price":"1650","url":"https://www.yslbeauty.com.tw/","image":"https://www.nilin.asia/archive/image/aW1hZ2UtMjAyNjA1MjcyMTAxNTEtNS45ODg2OTExODQ%3D.png","tags":["c_birthday_anniversary"],"themeTags":["t_girlfriend","t_beauty"],"id":"p_labor_corp_bday_021_1761100000021","note":"霧面絲絨質地與黑金包裝，適合送熱門百搭色號作為精緻美妝禮物。","status":"待評估","createdAt":1761100000021,"appearances":[{"site":"霓霖美學","url":"https://www.nilin.asia/blog/gfbdaygift","title":"告別直男審美！10 款女友生日禮物推薦：實用與質感一次滿足"}],"brands":["YSL"],"variants":[]},{"name":"Apple Watch Series 11","brand":"Apple","price":"12900 起","url":"https://www.apple.com/tw/watch/","image":"https://www.nilin.asia/archive/image/aW1hZ2UtMjAyNjA1MjcyMTAyMTAtNi45ODg2OTMwMTM%3D.png","tags":["c_birthday_anniversary"],"themeTags":["t_girlfriend","t_practical"],"id":"p_labor_corp_bday_022_1761100000022","note":"可追蹤健康數據、同步 iPhone 訊息與音樂控制，適合重視效率或運動習慣的對象。","status":"待評估","createdAt":1761100000022,"appearances":[{"site":"霓霖美學","url":"https://www.nilin.asia/blog/gfbdaygift","title":"告別直男審美！10 款女友生日禮物推薦：實用與質感一次滿足"}],"brands":["Apple"],"variants":[]},{"name":"經典水晶項鍊","brand":"施華洛世奇 Swarovski","price":"3800","url":"https://www.swarovski.com/","image":"https://www.nilin.asia/archive/image/aW1hZ2UtMjAyNjA1MjcyMTAyMzMtNy45ODg2OTUzNjg%3D.png","tags":["c_birthday_anniversary"],"themeTags":["t_girlfriend","t_lifestyle","t_vip"],"id":"p_labor_corp_bday_023_1761100000023","note":"精緻水晶項鍊，可點綴日常穿搭，屬經典飾品型生日禮物。","status":"待評估","createdAt":1761100000023,"appearances":[{"site":"霓霖美學","url":"https://www.nilin.asia/blog/gfbdaygift","title":"告別直男審美！10 款女友生日禮物推薦：實用與質感一次滿足"}],"brands":["施華洛世奇 Swarovski"],"variants":[]},{"name":"經典香氛蠟燭 玫瑰天竺葵","brand":"Diptyque","price":"2500","url":"https://1010online.com.tw/","image":"https://www.nilin.asia/archive/image/aW1hZ2UtMjAyNjA1MjcyMTAyNTMtOC45ODg2OTczMTE%3D.png","tags":["c_birthday_anniversary"],"themeTags":["t_girlfriend","t_fragrance","t_lifestyle"],"id":"p_labor_corp_bday_024_1761100000024","note":"玫瑰與天竺葵草本香氣，點燃後可營造高級療癒的居家氛圍。","status":"待評估","createdAt":1761100000024,"appearances":[{"site":"霓霖美學","url":"https://www.nilin.asia/blog/gfbdaygift","title":"告別直男審美！10 款女友生日禮物推薦：實用與質感一次滿足"}],"brands":["Diptyque"],"variants":[]},{"name":"復古光學雙焦三鏡底片相機","brand":"柯達 Kodak","price":"3899","url":"https://www.kodak.tw/","image":"https://www.nilin.asia/archive/image/aW1hZ2UtMjAyNjA1MjcyMTAzMTMtOS45ODg2OTkzNDk%3D.png","tags":["c_birthday_anniversary"],"themeTags":["t_girlfriend","t_lifestyle","t_practical"],"id":"p_labor_corp_bday_025_1761100000025","note":"復古外型相機，適合喜歡記錄旅行、生活與實體照片收藏的人。","status":"待評估","createdAt":1761100000025,"appearances":[{"site":"霓霖美學","url":"https://www.nilin.asia/blog/gfbdaygift","title":"告別直男審美！10 款女友生日禮物推薦：實用與質感一次滿足"}],"brands":["柯達 Kodak"],"variants":[]},{"name":"Align 瑜珈褲","brand":"Lululemon","price":"3480","url":"https://www.lululemon.com.hk/","image":"https://www.nilin.asia/archive/image/aW1hZ2UtMjAyNjA1MjcyMTAzMzItMTAuOTg4NzAxMjcy.png","tags":["c_birthday_anniversary"],"themeTags":["t_girlfriend","t_practical","t_lifestyle"],"id":"p_labor_corp_bday_026_1761100000026","note":"Nulu 裸感布料、高腰修身剪裁，適合瑜珈、健身與日常舒適穿搭。","status":"待評估","createdAt":1761100000026,"appearances":[{"site":"霓霖美學","url":"https://www.nilin.asia/blog/gfbdaygift","title":"告別直男審美！10 款女友生日禮物推薦：實用與質感一次滿足"}],"brands":["Lululemon"],"variants":[]},{"name":"謝謝情比金堅禮盒","brand":"謝謝堅果","price":"1100","url":"https://www.thankyounuts.com/","image":"https://img.shoplineapp.com/media/image_clips/6a590e2abcc4c530b1a786d5/original.png?1784221225","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_nuts","t_health","t_送客戶"],"id":"p_labor_corp_bday_027_1761100000027","note":"原味綜合五堅果、海苔堅果脆片與黑芝麻糕三品項，常溫保存 180 天，適合企業三節與合作廠商送禮。","status":"待評估","createdAt":1761100000027,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/corporate-gifts","title":"企業送禮推薦｜10 種熱門禮品一次看，客戶、員工都適合"}],"brands":["謝謝堅果"],"variants":[]},{"name":"鳳梨酥","brand":"微熱山丘","price":"345～825","url":"https://shop.sunnyhills.com.tw/","image":"https://img.shoplineapp.com/media/image_clips/6a590e4cc54ed19f7fdf8ac6/original.png?1784221260","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_甜點","t_伴手禮"],"id":"p_labor_corp_bday_028_1761100000028","note":"土鳳梨酥 6 入、10 入或 15 入，附品牌棉麻提袋，展現台灣特色伴手禮印象。","status":"待評估","createdAt":1761100000028,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/corporate-gifts","title":"企業送禮推薦｜10 種熱門禮品一次看，客戶、員工都適合"}],"brands":["微熱山丘"],"variants":[]},{"name":"漫步台灣餅乾禮盒","brand":"法朋烘焙甜點坊","price":"880","url":"https://lerubanpatisserie.com/","image":"https://img.shoplineapp.com/media/image_clips/6a590e6ea6d5a41adb045bb0/original.png?1784221293","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_甜點","t_送客戶"],"id":"p_labor_corp_bday_029_1761100000029","note":"內含多款台灣風味手工餅乾，搭配精緻鐵盒包裝與品牌提袋，適合辦公室分享與客戶拜訪。","status":"待評估","createdAt":1761100000029,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/corporate-gifts","title":"企業送禮推薦｜10 種熱門禮品一次看，客戶、員工都適合"}],"brands":["法朋烘焙甜點坊"],"variants":[]},{"name":"德傳特選茶葉禮盒","brand":"王德傳茶莊","price":"1880","url":"https://shop.dechuantea.com/","image":"https://img.shoplineapp.com/media/image_clips/6a590e8ebba9099853ca08e8/original.png?1784221325=&owner_id=6709e33b1edfa70009674da7","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_茶飲","t_送客戶","t_vip"],"id":"p_labor_corp_bday_030_1761100000030","note":"收錄金萱烏龍與凍頂烏龍兩款茶品，搭配大紅鐵罐與禮盒設計，適合傳統產業主管與海外合作夥伴。","status":"待評估","createdAt":1761100000030,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/corporate-gifts","title":"企業送禮推薦｜10 種熱門禮品一次看，客戶、員工都適合"}],"brands":["王德傳茶莊"],"variants":[]},{"name":"金裝巧克力禮盒","brand":"GODIVA","price":"1980","url":"https://www.godiva.com.tw/","image":"https://img.shoplineapp.com/media/image_clips/6a590ec5173841f7279686dd/original.png?1784221381=&owner_id=6709e33b1edfa70009674da7","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_甜點","t_vip","t_送客戶"],"id":"p_labor_corp_bday_032_1761100000032","note":"經典金裝夾心巧克力 15 顆裝，金色精緻禮盒，適合外商窗口與重視品牌質感的合作夥伴。","status":"待評估","createdAt":1761100000032,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/corporate-gifts","title":"企業送禮推薦｜10 種熱門禮品一次看，客戶、員工都適合"}],"brands":["GODIVA"],"variants":[]},{"name":"雙龍禮盒","brand":"老行家","price":"12210","url":"https://www.lohongka.com.tw/","image":"https://img.shoplineapp.com/media/image_clips/6a590edf536fd9009eea4b87/original.png?1784221407=&owner_id=6709e33b1edfa70009674da7","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_health","t_vip"],"id":"p_labor_corp_bday_033_1761100000033","note":"即食燕盞與牛蒡茶組合，高質感精裝禮盒，適合 VIP 客戶、董事長、總經理級窗口。","status":"待評估","createdAt":1761100000033,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/corporate-gifts","title":"企業送禮推薦｜10 種熱門禮品一次看，客戶、員工都適合"}],"brands":["老行家"],"variants":[]},{"name":"光羽－荔枝貴妃糖","brand":"CHA CHA THÉ 采采食茶","price":"580～1600","url":"https://www.chachathe.com/","image":"https://img.shoplineapp.com/media/image_clips/6a590ef9615ddf354d1dc641/original.png?1784221433=&owner_id=6709e33b1edfa70009674da7","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_甜點","t_vip"],"id":"p_labor_corp_bday_034_1761100000034","note":"荔枝貴妃糖 6 入、12 入或 20 入，金箔與玫瑰花瓣點綴，適合精品、美妝與設計產業客戶。","status":"待評估","createdAt":1761100000034,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/corporate-gifts","title":"企業送禮推薦｜10 種熱門禮品一次看，客戶、員工都適合"}],"brands":["CHA CHA THÉ 采采食茶"],"variants":[]},{"name":"綠意派對","brand":"Aesop","price":"3600","url":"https://tw.aesop.com/","image":"https://img.shoplineapp.com/media/image_clips/6a590f13590ab8027d89a1e8/original.png?1784221459=&owner_id=6709e33b1edfa70009674da7","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_lifestyle","t_beauty","t_vip"],"id":"p_labor_corp_bday_035_1761100000035","note":"收錄天竺葵身體潔膚露、去角質露與身體乳霜，適合重視美學與生活品味的客戶。","status":"待評估","createdAt":1761100000035,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/corporate-gifts","title":"企業送禮推薦｜10 種熱門禮品一次看，客戶、員工都適合"}],"brands":["Aesop"],"variants":[]},{"name":"經典黃銅鋼珠筆","brand":"物外 YSTUDIO","price":"","url":"https://www.ystudiostyle.com.tw/","image":"https://img.shoplineapp.com/media/image_clips/6a590f2c0fa71a13fdf6526f/original.png?1784221483=&owner_id=6709e33b1edfa70009674da7","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_office","t_vip","t_lifestyle"],"id":"p_labor_corp_bday_036_1761100000036","note":"黃銅材質鋼珠筆，會隨使用痕跡產生氧化色澤，適合商務紀念與高質感文具贈禮。","status":"待評估","createdAt":1761100000036,"appearances":[{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/corporate-gifts","title":"企業送禮推薦｜10 種熱門禮品一次看，客戶、員工都適合"}],"brands":["物外 YSTUDIO"],"variants":[]},{"name":"馬年限定精品濾掛禮盒","brand":"Mijo coffee 米久咖啡","price":"750","url":"https://forms.gle/","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjI1MzUtNi4xNjg0NzM2MTk%3D.png","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_咖啡","t_送客戶"],"id":"p_labor_corp_bday_041_1761100000041","note":"以「馬到成功」為寓意，選用熱銷單品豆，香氣濃郁回甘，適合合作夥伴與科技業企業。","status":"待評估","createdAt":1761100000041,"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/corporategifts","title":"2026 企業送禮推薦：預算分級＋避雷重點，精選 8 款禮盒特色一次看！"}],"brands":["Mijo coffee 米久咖啡"],"variants":[]},{"name":"御禮禮盒","brand":"萬益食品","price":"920","url":"https://www.wanyi.com.tw/","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjI1NTktNy4xNjg0NzYwMjI%3D.png","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_鹹食","t_送客戶","t_employee"],"id":"p_labor_corp_bday_042_1761100000042","note":"集結品牌熱門商品，口感層次鮮明，包裝精緻大器，適合節慶賀禮與績優員工獎勵。","status":"待評估","createdAt":1761100000042,"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/corporategifts","title":"2026 企業送禮推薦：預算分級＋避雷重點，精選 8 款禮盒特色一次看！"}],"brands":["萬益食品"],"variants":[]},{"id":"p_labor_corp_bday_047_1761100000047","name":"濾掛精品咖啡八入 FSC 環保禮盒裝","brand":"愚人之友基金會","brands":["愚人之友基金會"],"price":"370","url":"https://www.qif.org.tw/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2025/10/image12.png","note":"嚴選衣索比亞耶加雪菲咖啡豆，由基金會長輩人工挑豆，搭配 FSC 環保紙材包裝。","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_咖啡","t_ESG永續","t_csr"],"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/corporate-gifts/","title":"企業贈禮推薦這 10 款，體面且不平凡的選擇！"},{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/corporategifts","title":"企業贈禮怎麼挑？5 大關鍵原則、5 大企業贈禮品種類一次看"}],"status":"待評估","createdAt":1761100000047,"variants":[]},{"name":"纖蔬甘糀＋芋香米 ESG 環保禮盒","brand":"豐滄","price":"520","url":"https://dayuan-feng-cang.com/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2025/10/image11-1.png","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_ESG永續","t_health"],"id":"p_labor_corp_bday_050_1761100000050","note":"芋香米搭配纖蔬甘糀，甘糀以自產芋香米與六種蔬菜粉製成，無酒精、無添加糖。","status":"待評估","createdAt":1761100000050,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/corporate-gifts/","title":"企業贈禮推薦這 10 款，體面且不平凡的選擇！"}],"brands":["豐滄"],"variants":[]},{"name":"迎豐果年度版畫手部清潔雙入禮盒","brand":"茶籽堂","price":"1100","url":"https://www.chatzutang.com/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2025/10/image4.png","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_lifestyle","t_practical"],"id":"p_labor_corp_bday_053_1761100000053","note":"內含肖楠葉純淨洗手露與馬栗樹水潤洗手露，包裝具設計感，兼具日常實用與質感。","status":"待評估","createdAt":1761100000053,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/corporate-gifts/","title":"企業贈禮推薦這 10 款，體面且不平凡的選擇！"}],"brands":["茶籽堂"],"variants":[]},{"name":"東方美人茶包十二入禮盒","brand":"文新製茶廠","price":"350","url":"https://www.facebook.com/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2025/10/image9-1.png","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_茶飲"],"id":"p_labor_corp_bday_054_1761100000054","note":"低溫發酵烏龍茶十二入單包裝，外盒簡潔典雅，適合大量企業贈禮。","status":"待評估","createdAt":1761100000054,"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/corporate-gifts/","title":"企業贈禮推薦這 10 款，體面且不平凡的選擇！"}],"brands":["文新製茶廠"],"variants":[]},{"id":"p_labor_corp_bday_062_1761100000062","name":"筆記本禮盒","brands":["禮哇客"],"brand":"禮哇客","price":"","url":"https://www.wowgift.com.tw/","image":"https://www.wowgift.com.tw/archive/product/normal/MTYwOeW3peS9nOWNgOWfnyAxIOikh_acrCAxMC40ODEwNzgzODc=.webp","note":"適合商務往來、會議活動與品牌曝光，能搭配企業色彩、Logo 或包裝設計。","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_office","t_custom"],"appearances":[{"site":"禮哇客 WoWGIFT","url":"https://www.wowgift.com.tw/blog/top10corporategifts","title":"企業送禮推薦 Top 10 提升品牌好感度的滿分禮盒這樣選"}],"variants":[],"createdAt":1761100000062,"status":"待評估"},{"name":"大禹嶺竹息茶葉禮盒","brand":"山川製茶","price":"","url":"https://www.shanchuanchaye.com.tw/","image":"https://www.shanchuanchaye.com.tw/archive/image/aW1hZ2UtMjAyNjAxMTkxNjI2MTgtMS44ODExMTc4MjU%3D.jpeg","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_茶飲","t_送客戶"],"id":"p_labor_corp_bday_065_1761100000065","note":"嚴選大禹嶺茶區茶葉，揉合老師傅做茶手藝，茶香純淨、包裝典雅，適合客戶致贈與節慶送禮。","status":"待評估","createdAt":1761100000065,"appearances":[{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/corporategifts","title":"企業贈禮怎麼挑？5 大關鍵原則、5 大企業贈禮品種類一次看"}],"brands":["山川製茶"],"variants":[]},{"name":"大禹嶺金玉茶葉禮盒","brand":"山川製茶","price":"","url":"https://www.shanchuanchaye.com.tw/product/%E5%A4%A7%E7%A6%B9%E5%B6%BA%E9%87%91%E7%8E%89%E7%A6%AE%E7%9B%92%28%E5%90%AB%E6%8F%90%E8%A2%8B%29","image":"https://www.shanchuanchaye.com.tw/archive/product/normal/6YeR546JLTEuNjQxMDg0NzM4.jpg","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_茶飲","t_送客戶"],"id":"p_labor_corp_bday_066_1761100000066","note":"嚴選大禹嶺茶區茶葉，包裝典雅，能體現企業專業與品味。","status":"待評估","createdAt":1761100000066,"appearances":[{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/corporategifts","title":"企業贈禮怎麼挑？5 大關鍵原則、5 大企業贈禮品種類一次看"}],"brands":["山川製茶"],"variants":[]},{"name":"PU 便條盒","brand":"禮歐禮","price":"","url":"https://leogift99.com/","image":"https://www.shanchuanchaye.com.tw/archive/image/aW1hZ2UtMjAyNjAxMTkxNjI4MTgtNS44ODExMjk4MjU%3D.png","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_office","t_custom"],"id":"p_labor_corp_bday_070_1761100000070","note":"皮革質感便條盒，兼具實用與專業形象，可客製企業 Logo。","status":"待評估","createdAt":1761100000070,"appearances":[{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/corporategifts","title":"企業贈禮怎麼挑？5 大關鍵原則、5 大企業贈禮品種類一次看"}],"brands":["禮歐禮"],"variants":[]},{"name":"不銹鋼餐具禮盒組","brand":"禮哇客","price":"","url":"https://www.wowgift.com.tw/","image":"https://www.shanchuanchaye.com.tw/archive/image/aW1hZ2UtMjAyNjAxMTkxNjI4NDQtNi44ODExMzI0NDI%3D.png","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_ESG永續","t_practical"],"id":"p_labor_corp_bday_071_1761100000071","note":"不鏽鋼材質耐用、具質感，適合員工或客戶日常使用。","status":"待評估","createdAt":1761100000071,"appearances":[{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/corporategifts","title":"企業贈禮怎麼挑？5 大關鍵原則、5 大企業贈禮品種類一次看"}],"brands":["禮哇客"],"variants":[]},{"name":"便攜保鮮飯盒","brand":"千易禮贈品","price":"","url":"https://www.easygift.com.tw/","image":"https://www.shanchuanchaye.com.tw/archive/image/aW1hZ2UtMjAyNjAxMTkxNjI5MDYtNy44ODExMzQ2MzI%3D.jpeg","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_ESG永續","t_practical"],"id":"p_labor_corp_bday_072_1761100000072","note":"外觀簡約、方便攜帶，適合送給員工並傳遞減少一次性用品的環保理念。","status":"待評估","createdAt":1761100000072,"appearances":[{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/corporategifts","title":"企業贈禮怎麼挑？5 大關鍵原則、5 大企業贈禮品種類一次看"}],"brands":["千易禮贈品"],"variants":[]},{"id":"p_labor_corp_bday_078_1761100000078","name":"foison 蜂蜜麻油禮盒","brands":["尋尋覓蜜"],"brand":"尋尋覓蜜","price":"1099","url":"https://xunmihoney.com/product/honeysesame","image":"https://xunmihoney.com/wp-content/uploads/2024/07/DSC6667-%E8%BD%89%E6%AD%A3.jpg","note":"嚴選黑蔴油與國家認證蜂蜜兩款在地食材，兼具廚房實用與質感禮盒設計。","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","mrmtt65xi7zwy","t_送客戶"],"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/corporategifts","title":"企業贈禮推薦！4 款人氣禮品清單，送禮送進客戶心坎裡！"}],"variants":[],"createdAt":1761100000078,"status":"待評估"},{"id":"p_cny_batch_033_1760000000033","name":"經典禮盒","brands":["萬益食品"],"price":"550","url":"https://www.wanyi.com.tw/products/classic-gift-box-20240919205920","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjI0MzAtNC4xNjg0NjcwMzQ%3D.png","note":"集結千層、五香豆皮與蒜味豆絲，多元口感且具 CP 值，適合年終感謝、中秋替代禮與客戶統一採購。","brand":"萬益食品","tags":["c_lunarnewyear","c_corporate_gifts"],"themeTags":["t_伴手禮","t_送長輩","t_鹹食","t_企業送禮"],"appearances":[{"site":"親寶貝養生餐","url":"https://www.kissbaby.com.tw/news/giftforelders","title":"2026 年節長輩送禮推薦：5 大口碑品牌清單，客製養生不踩雷！"},{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/corporategifts","title":"2026 企業送禮推薦：預算分級＋避雷重點，精選 8 款禮盒特色一次看！"}],"variants":[],"createdAt":1760000000033},{"id":"p_cny_batch_022_1760000000022","name":"鐵鹿禮盒","brands":["萬益食品"],"price":"460～560","url":"https://www.wanyi.com.tw/products/tielu-friends","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjIzMjAtMi4xNjg0NjAwNjM%3D.png","note":"與臺中驛鐵道文化園區聯名，提供豆干、肉乾、果乾、素食、純豬肉、純牛肉等六種組合。","brand":"萬益食品","tags":["c_lunarnewyear","c_midautumn","c_corporate_gifts"],"themeTags":["t_伴手禮","t_鹹食","t_family","t_在地特色","t_企業送禮","t_送客戶"],"appearances":[{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/top9cnygifts","title":"2026 過年送禮推薦這 9 款！依預算、特色一次挑對！"},{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/moonfestivalgifts","title":"2026 中秋禮盒推薦：從送禮預算、對象到 10+ 款人氣禮盒一次整理"},{"site":"萬益食品","url":"https://www.wanyifood1954.com.tw/blog/corporategifts","title":"2026 企業送禮推薦：預算分級＋避雷重點，精選 8 款禮盒特色一次看！"}],"variants":[{"label":"豆干組合","price":"460","url":"","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjU1NTMtMS4xNjg2NTU0NzA%3D.png","note":"鐵鹿禮盒為萬益食品與臺中驛鐵道文化園區聯名限定款，以鐵鹿與臺中驛插畫打造外盒，結合台中在地文化意象與肉乾、豆干、果乾等人氣組合，適合企業送禮、返鄉伴手禮與外縣市親友。","campaigns":[],"themeTags":[],"appearances":[]},{"label":"肉乾組合","price":"560","url":"","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjU1NTMtMS4xNjg2NTU0NzA%3D.png","note":"鐵鹿禮盒為萬益食品與臺中驛鐵道文化園區聯名限定款，以鐵鹿與臺中驛插畫打造外盒，結合台中在地文化意象與肉乾、豆干、果乾等人氣組合，適合企業送禮、返鄉伴手禮與外縣市親友。","campaigns":[],"themeTags":[],"appearances":[]},{"label":"果乾組合","price":"530","url":"","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjU1NTMtMS4xNjg2NTU0NzA%3D.png","note":"鐵鹿禮盒為萬益食品與臺中驛鐵道文化園區聯名限定款，以鐵鹿與臺中驛插畫打造外盒，結合台中在地文化意象與肉乾、豆干、果乾等人氣組合，適合企業送禮、返鄉伴手禮與外縣市親友。","campaigns":[],"themeTags":[],"appearances":[]},{"label":"素食組合","price":"480","url":"","image":"https://www.wanyifood1954.com.tw/archive/image/aW1hZ2UtMjAyNjA2MTcxNjU1NTMtMS4xNjg2NTU0NzA%3D.png","note":"鐵鹿禮盒為萬益食品與臺中驛鐵道文化園區聯名限定款，以鐵鹿與臺中驛插畫打造外盒，結合台中在地文化意象與肉乾、豆干、果乾等人氣組合，適合企業送禮、返鄉伴手禮與外縣市親友。","campaigns":[],"themeTags":[],"appearances":[]}],"createdAt":1752710400072},{"id":"p_multi_gift_035_1761000000035","name":"臺南 60 大特色伴手禮｜紅玉覓蜜禮盒","brands":["尋尋覓蜜"],"brand":"尋尋覓蜜","price":"800","url":"https://xunmihoney.com/product/rubyhoney","image":"https://xunmihoney.com/wp-content/uploads/2026/04/image-7-1024x1024.jpg","note":"紅玉紅茶 50g 搭配台灣嚴選蜂蜜 250g 與日式茶匙，榮獲台南 60 大特色伴手禮。","tags":["c_duanwu","c_midautumn","c_corporate_gifts","c_exchange"],"themeTags":["t_伴手禮","mrmtt65xi7zwy","t_茶飲","t_送客戶","t_在地特色","t_企業送禮"],"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/dragon-boat-festival-gifts","title":"端午節禮盒推薦｜8 款不只粽子的端午伴手禮"},{"site":"春水良品","url":"https://www.csgcshop.com/blog/posts/moonfestivalgifts","title":"2026 中秋送禮排行榜：8 款實用又有質感的禮盒推薦，讓送禮不踩雷！"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/2026moonfestivalgifts","title":"2026 中秋送禮推薦｜挑選原則＋人氣禮盒清單，輕鬆送出滿分心意！"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/duanwugifts","title":"端午節禮盒推薦｜精選端午伴手禮與送禮指南"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/corporategifts","title":"企業贈禮怎麼挑？3大選購重點+實用禮品推薦一次看"}],"variants":[],"createdAt":1752710400020},{"id":"p_cny_batch_001_1760000000001","name":"白玉酥經典三味組","brands":["宏展農場"],"brand":"宏展農場","price":"599","url":"https://www.hzfarm.com.tw/product/%E4%BA%BA%E7%94%9F%E7%99%BE%E6%85%8B%E7%B6%93%E5%85%B8%E7%B5%84","image":"https://www.hzfarm.com.tw/archive/product/large/RFNDMDk2MTAuMTY0NTIxNDI3.jpg","note":"白玉酥(80g) 3入（鹽味 x1、胡椒 x1、芥末 x1），選用嘉義布袋白玉苦瓜低溫真空油炸製成。","tags":["c_lunarnewyear","c_corporate_gifts"],"themeTags":["t_伴手禮","t_送長輩","t_甜點","t_health","t_鹹食"],"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/giftforelders","title":"過年送禮給長輩必看！10 款精選禮盒，教你避開送禮禁忌深得人心"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/corporategifts","title":"企業贈禮推薦！4 款人氣禮品清單，送禮送進客戶心坎裡！"}],"variants":[],"createdAt":1760000000001},{"id":"p_cny_batch_059_1760000000059","name":"手工滴雞精禮盒","brands":["萬福軒"],"brand":"萬福軒","price":"1盒10入1250／2盒20入2550／3盒30入3750","url":"https://www.wanfuxuan.com.tw/product/product1_2","image":"https://www.wanfuxuan.com.tw/archive/image/aW1hZ2UtMjAyNjA3MTAyMDM2MTktMS4zNjg2OTc5MzU%3D.png","note":"台中在地品牌，主打手工慢燉、無加水、無添加物；選用有生產履歷的台灣黑羽及紅羽公雞，通過 SGS、JTS 食品安全檢驗並投保產品責任險。","tags":["c_lunarnewyear","c_midautumn"],"themeTags":["t_伴手禮","t_送長輩","t_health","t_養生","t_送客戶","t_企業送禮"],"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/2026newyearbox","title":"2026 過年送禮全攻略！送對人、送對時、送對禮都在這一篇"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/giftforelders","title":"過年送禮給長輩必看！10 款精選禮盒，教你避開送禮禁忌深得人心"},{"site":"親寶貝養生餐","url":"https://www.kissbaby.com.tw/news/giftforelders","title":"2026 年節長輩送禮推薦：5 大口碑品牌清單，客製養生不踩雷！"},{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/moonfestivalgifts","title":"2026 中秋送禮推薦：8 款台灣在地好物，送到對方心坎裡"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/moonfestivalgifts","title":"中秋伴手禮怎麼挑？挑選技巧與 6 款送禮推薦清單！"},{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/2026newyearbox","title":"年節伴手禮推薦｜十款精選禮盒送親友、送長輩都體面！"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/top10newyeargift","title":"過年送禮推薦｜TOP 10 年節伴手禮，送長輩、客戶、親友都體面"}],"variants":[{"label":"常態包裝","price":"","url":"https://www.wanfuxuan.com.tw/product/product1_2","image":"https://www.wanfuxuan.com.tw/archive/image/aW1hZ2UtMjAyNjA3MTAyMDM2MTktMS4zNjg2OTc5MzU%3D.png","note":"台中在地品牌，主打手工慢燉、無加水、無添加物；選用有生產履歷的台灣黑羽及紅羽公雞，通過 SGS、JTS 食品安全檢驗並投保產品責任險。","campaigns":[],"themeTags":[],"appearances":[]},{"label":"年節包裝","price":"","url":"https://www.joo.com.tw/wanfuxuan/index.php?action=product_detail&prod_no=P0126300341160","image":"https://www.wanfuxuan.com.tw/archive/image/aW1hZ2UxMC41NzY0OTQ5ODg%3D.jpg","note":"紅色年節包裝\n台中在地品牌，主打手工慢燉、無加水、無添加物；選用有生產履歷的台灣黑羽及紅羽公雞，通過 SGS、JTS 食品安全檢驗並投保產品責任險。","campaigns":[],"themeTags":[],"appearances":[]}],"createdAt":1752710400001},{"id":"p_labor_corp_bday_068_1761100000068","name":"春暖花開米香FSC驗證環保禮盒","brands":["豐滄"],"brand":"豐滄","price":"","url":"https://dayuan-feng-cang.com/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2023/10/IMG_1790.jpg","note":"內含多種口味米香，結合永續理念與環保包裝，適合年節送禮與活動伴手禮。","tags":["c_corporate_gifts"],"themeTags":["t_企業送禮","t_甜點","t_ESG永續"],"appearances":[{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/corporategifts","title":"企業贈禮怎麼挑？5 大關鍵原則、5 大企業贈禮品種類一次看"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/corporate-gifts/","title":"企業贈禮推薦這 10 款，體面且不平凡的選擇！"}],"variants":[{"label":"四入","price":"550","url":"https://dayuan-feng-cang.com/product/%e6%96%b0%e6%98%a5%e7%a6%ae%e7%9b%92%e7%b1%b3%e9%a6%99%e5%9b%9b%e5%85%a5fsc%e9%a9%97%e8%ad%89%e7%92%b0%e4%bf%9d%e7%a6%ae%e7%9b%92/","image":"","note":"米香可從原味、黑糖、龍泉茶、紅茶、花生、芝麻等口味擇四，使用芋香米膨發製成，具 FSC 永續包裝。","campaigns":[],"themeTags":[],"appearances":[]},{"label":"三入","price":"425","url":"https://dayuan-feng-cang.com/product/%e6%98%a5%e6%9a%96%e8%8a%b1%e9%96%8b%e7%b1%b3%e9%a6%99%e7%a6%ae%e7%9b%92/","image":"","note":"米香可從原味、黑糖、龍泉茶、紅茶、花生、芝麻等口味擇三，使用芋香米膨發製成，具 FSC 永續包裝。","campaigns":[],"themeTags":[],"appearances":[]}],"createdAt":1761100000045},{"id":"p_multi_gift_031_1761000000031","name":"端午安康頂級芋香米三入 ESG 永續禮盒","brands":["豐滄","愛盲"],"price":"350","url":"https://dayuan-feng-cang.com/product/dragon-boat-festival-rice/","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2UtMjAyNjA1MjAxNzEyMzMtMi45MjY4MzU1Mzk%3D.png","note":"芋香白米與芋香糙米三入組，純素、常溫保存，搭配 ESG 永續禮盒設計。","brand":"豐滄","tags":["c_duanwu"],"themeTags":["t_伴手禮","t_ESG永續","t_health","t_公益"],"appearances":[{"site":"山川製茶","url":"https://www.shanchuanchaye.com.tw/blog/dbfgiftsets","title":"端午禮盒推薦｜精選端午伴手禮與送禮清單"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/duanwugifts","title":"端午節禮盒推薦｜精選端午伴手禮與送禮指南"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/2026-dragon-boat-festival-gift/","title":"2026 端午節禮盒推薦｜健康、永續、不踩雷的端午送禮清單"}],"variants":[],"createdAt":1761000000023},{"id":"p_multi_gift_014_1761000000014","name":"曦望 FSC 永續禮盒","brands":["豐滄"],"brand":"豐滄","price":"1200","url":"https://dayuan-feng-cang.com/product/sunlight-hope-fsc-sustainable-gift-box/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/04/image-5.png","note":"愛盲基金會、謝謝堅果與豐滄聯名禮盒，結合米麴甘酒、堅果與 FSC 永續包裝。","tags":["c_duanwu","c_midautumn","c_lunarnewyear","c_labor_day","c_corporate_gifts"],"themeTags":["t_伴手禮","t_ESG永續","t_公益","t_health","t_企業送禮","t_送客戶","t_employee","t_csr","t_nuts"],"appearances":[{"site":"小葉子","url":"https://wangtain.com/news/duanwu-festival-gifts/","title":"2026 端午節禮盒推薦｜10 款送長輩、客戶、親友都體面的端午伴手禮"},{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/nomooncakes/","title":"中秋送禮不要月餅可以送什麼？2026 六款健康又有質感的中秋禮盒推薦！"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/chinese-new-year-gifts/","title":"2026過年送禮推薦：10款無負擔健康禮盒推薦！送禮不踩雷必看"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/2026-dragon-boat-festival-gift/","title":"2026 端午節禮盒推薦｜健康、永續、不踩雷的端午送禮清單"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/2026-mayday/","title":"勞動節禮品怎麼選？企業送禮策略、預算配置與6款實用推薦一次整理！"},{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/corporate-gifts","title":"企業送禮推薦｜10 種熱門禮品一次看，客戶、員工都適合"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/corporate-gifts/","title":"企業贈禮推薦這 10 款，體面且不平凡的選擇！"}],"variants":[{"label":"常態包裝","price":"1200","url":"https://dayuan-feng-cang.com/product/sunlight-hope-fsc-sustainable-gift-box/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/04/image-5.png","note":"愛盲基金會、謝謝堅果與豐滄聯名禮盒，結合米麴甘酒、堅果與 FSC 永續包裝。","campaigns":[],"themeTags":[],"appearances":[]},{"label":"中秋包裝","price":"1200","url":"https://www.tfb8000.com/products/e1103050034","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/06/midautumnfestival_product_img4.jpg","note":"曦望 FSC 永續禮盒結合纖蔬甘糀 175ml x 3、米麴甘酒 175ml x 2、綜合五堅果 150g x 1、海苔堅果脆片 95g x 1；甘酒無酒精、無添加砂糖，堅果低溫烘焙，並與愛盲基金會合作，採 FSC 認證環保紙材與大豆油墨印刷。","campaigns":[],"themeTags":[],"appearances":[]}],"createdAt":1752710400029},{"id":"p_multi_gift_024_1761000000024","name":"豐滄頂級米曲奇 FSC 永續禮盒","brands":["豐滄"],"brand":"豐滄","price":"700","url":"https://dayuan-feng-cang.com/product/fengcang-premium-rice-cookies/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/04/image.png","note":"以桃園三號芋香米取代麵粉，製作純粹奶香、龍泉包種、桃映紅茶三種米曲奇，採 FSC 永續紙材包裝。","tags":["c_duanwu","c_corporate_gifts"],"themeTags":["t_伴手禮","t_甜點","t_ESG永續","t_not_zongzi","t_企業送禮"],"appearances":[{"site":"豐滄","url":"https://dayuan-feng-cang.com/2026-dragon-boat-festival-gift/","title":"2026 端午節禮盒推薦｜健康、永續、不踩雷的端午送禮清單"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/dragon-boat-festival-gifts","title":"端午節禮盒推薦｜8 款不只粽子的端午伴手禮"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/corporategifts","title":"企業贈禮推薦！4 款人氣禮品清單，送禮送進客戶心坎裡！"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/corporate-gifts/","title":"企業贈禮推薦這 10 款，體面且不平凡的選擇！"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/500exchangegifts","title":"500 元交換禮物怎麼挑？15+ 款 Dcard、PTT、Threads 交換禮物推薦"}],"variants":[],"createdAt":1761000000024},{"id":"p_raw_midautumn_hzfarm_115","name":"月滿豐滄 ESG 永續禮盒","brands":["豐滄"],"brand":"豐滄","price":"500","url":"https://dayuan-feng-cang.com/product/moonlit-harvest-amazake-taro-aroma-rice-esg-gift-box/","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/06/01-7301449-%E6%96%B9%E5%BD%A2_blue.jpeg","note":"產品內容(以下7種組合擇一)：\n3入芋香米\n5入米麴甘酒\n4入米麴甘酒+芋香米\n5入水蜜桃甘糀\n4入水蜜桃甘糀+芋香米\n5入纖蔬甘糀\n4入纖蔬甘糀+芋香米","tags":["c_midautumn"],"themeTags":["t_ESG永續","t_養生","t_企業送禮","t_水果"],"appearances":[{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/moonfestivalgifts","title":"中秋伴手禮怎麼挑？挑選技巧與 6 款送禮推薦清單！"},{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/moonfestivalgifts","title":"2026 中秋送禮推薦：8 款台灣在地好物，送到對方心坎裡"},{"site":"採涎人燕窩","url":"https://www.savour.tw/blogs/%E7%87%95%E7%AA%A9%E5%B0%88%E6%AC%84/moonfestivalgifts","title":"2026 中秋送禮推薦，熱門 10 款中秋禮盒一次看！"},{"site":"心耘燕朝燕窩","url":"https://www.sinyunyanchao.com/articles/article-ravxfGxbkd2RdxWRbF75YR","title":"中秋企業送禮推薦懶人包｜10 款人氣中秋禮盒塑造好印象"},{"site":"豐滄","url":"https://dayuan-feng-cang.com/nomooncakes/","title":"中秋送禮不要月餅可以送什麼？2026 六款健康又有質感的中秋禮盒推薦！"}],"variants":[{"label":"甘酒+ 芋香米","price":"500","url":"https://dayuan-feng-cang.com/product/moonlit-harvest-amazake-taro-aroma-rice-esg-gift-box/","image":"https://www.hzfarm.com.tw/archive/image/aW1hZ2UtMjAyNjA2MzAxNTIzNDAtMi4yODA0MjIyNDE%3D.png","note":"米麴甘酒 175ml × 4 瓶，搭配 CNS 最高等級芋香米 600g × 1 包；無酒精純素配方，禮盒通過 FSC 認證，適合重視 ESG 的企業送禮。","campaigns":[],"themeTags":[],"appearances":[]},{"label":"水蜜桃甘糀 + 芋香米","price":"520","url":"","image":"https://dayuan-feng-cang.com/wp-content/uploads/2026/06/S__32456735.jpg","note":"月滿豐滄與復興區農會聯名，內容含水蜜桃甘糀 175ml x 4 與頂級芋香米 600g；水蜜桃甘糀使用拉拉山水蜜桃原汁製作，果汁含量 33%，無酒精、無添加糖，禮盒採 FSC 認證環保紙材與全蔬菜油墨印刷。","campaigns":[],"themeTags":[],"appearances":[]}],"createdAt":1752710400002},{"id":"p_raw_midautumn_kyj_107","name":"典藏蜂蜜三入禮盒","brands":["尋尋覓蜜"],"brand":"尋尋覓蜜","price":"600","url":"","image":"https://cdn.showmore.cc/shop/LypjGCCuhqYfnscw9n3N26.png","note":"典藏蜂蜜三入禮盒以「月圓蜜滿」為設計理念，精選龍眼蜜、荔枝蜜與百花蜜三種台灣特色蜂蜜，可搭配飲品或甜點，並提供企業客製吊牌、賀卡與 Logo 服務。","tags":["c_midautumn","c_valentines","c_exchange"],"themeTags":["t_伴手禮","t_送客戶","mrmtt65xi7zwy","t_企業送禮","t_送長輩","t_養生","t_甜點","t_500"],"appearances":[{"site":"康燕居","url":"https://www.kyj.com.tw/blog/moonfestivalgifts","title":"別再只送月餅！中秋伴手禮有這 6 個更體面、創意的選擇"},{"site":"心耘燕朝燕窩","url":"https://www.sinyunyanchao.com/articles/article-ravxfGxbkd2RdxWRbF75YR","title":"中秋企業送禮推薦懶人包｜10 款人氣中秋禮盒塑造好印象"},{"site":"宏展農場","url":"https://www.hzfarm.com.tw/farms/moonfestivalgifts","title":"中秋伴手禮怎麼挑？挑選技巧與 6 款送禮推薦清單！"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/valentinesgift","title":"情人節禮物推薦指南｜8 款質感情人節禮物推薦，甜蜜送禮不踩雷"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/500exchangegifts","title":"500 元交換禮物怎麼挑？15+ 款 Dcard、PTT、Threads 交換禮物推薦"}],"variants":[{"label":"中秋款","price":"600","url":"","image":"https://cdn.showmore.cc/shop/LypjGCCuhqYfnscw9n3N26.png","note":"典藏蜂蜜三入禮盒以「月圓蜜滿」為設計理念，精選龍眼蜜、荔枝蜜與百花蜜三種台灣特色蜂蜜，可搭配飲品或甜點，並提供企業客製吊牌、賀卡與 Logo 服務。","campaigns":[],"themeTags":[],"appearances":[]},{"label":"溫馨款","price":"600","url":"https://xunmihoney.com/product/3packwarmth","image":"https://xunmihoney.com/wp-content/uploads/2026/02/image-9-1024x1024.jpg","note":"禮盒內含龍眼蜜、荔枝蜜、百花蜜 66g 各一，附蜂蜜小木棒、小卡片與牛皮紙袋，可加購小卡代筆服務。","campaigns":[],"themeTags":[],"appearances":[]},{"label":"聖誕款","price":"600","url":"https://xunmihoney.com/product/3packchristmas","image":"https://xunmihoney.com/wp-content/uploads/2025/12/image-1.jpg","note":"內含龍眼蜜、荔枝蜜、百花蜜與蜂蜜小木棒，可加購小卡代筆，適合交換禮物或企業小禮。","campaigns":[],"themeTags":[],"appearances":[]}],"createdAt":1752710400064},{"id":"p_multi_gift_009_1761000000009","name":"蜂蜜瑪德蓮禮盒","brands":["尋尋覓蜜"],"brand":"尋尋覓蜜","price":"600","url":"https://xunmihoney.com/product/madeleineclassic","image":"https://xunmihoney.com/wp-content/uploads/2026/02/image-16-1024x1024.jpg","note":"蜂蜜瑪德蓮甜點禮盒，可搭配免費代筆服務，適合送給喜歡甜點與手寫心意的人。","tags":["c_exchange","c_valentines"],"themeTags":["t_伴手禮","t_甜點","mrmtt65xi7zwy","t_500"],"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/500exchangegifts","title":"500 元交換禮物怎麼挑？15+ 款 Dcard、PTT、Threads 交換禮物推薦"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/valentinesgift","title":"情人節禮物推薦指南｜8 款質感情人節禮物推薦，甜蜜送禮不踩雷"}],"variants":[{"label":"聖誕款","price":"600","url":"https://xunmihoney.com/product/madeleinexmas","image":"https://xunmihoney.com/wp-content/uploads/2025/12/image-3.jpg","note":"蜂蜜瑪德蓮聖誕款禮盒，可搭配小卡代筆，適合 500 元上下交換禮物與聖誕送禮。","campaigns":[],"themeTags":[],"appearances":[]},{"label":"經典款","price":"600","url":"https://xunmihoney.com/product/madeleineclassic","image":"https://xunmihoney.com/wp-content/uploads/2026/02/image-16-1024x1024.jpg","note":"蜂蜜瑪德蓮甜點禮盒，可搭配免費代筆服務，適合送給喜歡甜點與手寫心意的人。","campaigns":[],"themeTags":[],"appearances":[]}],"createdAt":1761000000008},{"id":"p_multi_gift_012_1761000000012","name":"紅玉覓蜜精巧禮盒","brands":["尋尋覓蜜"],"brand":"尋尋覓蜜","price":"390","url":"https://xunmihoney.com/product/rubygiftchristmas","image":"https://xunmihoney.com/wp-content/uploads/2026/01/image.jpg","note":"紅玉茶包搭配台灣蜂蜜，包裝具節慶感，適合送給喜歡茶飲與蜂蜜的對象。","tags":["c_exchange","c_lunarnewyear"],"themeTags":["t_伴手禮","mrmtt65xi7zwy","t_茶飲","t_500","t_送長輩"],"appearances":[{"site":"尋尋覓蜜","url":"https://xunmihoney.com/500exchangegifts","title":"500 元交換禮物怎麼挑？15+ 款 Dcard、PTT、Threads 交換禮物推薦"},{"site":"尋尋覓蜜","url":"https://xunmihoney.com/top10newyeargift","title":"過年送禮推薦｜TOP 10 年節伴手禮，送長輩、客戶、親友都體面"}],"variants":[{"label":"聖誕款","price":"420","url":"https://xunmihoney.com/product/rubygiftchristmas","image":"https://xunmihoney.com/wp-content/uploads/2025/12/image-2.jpg","note":"紅玉茶包搭配台灣蜂蜜，包裝具節慶感，適合送給喜歡茶飲與蜂蜜的對象。","campaigns":[],"themeTags":[],"appearances":[]},{"label":"春日款","price":"420","url":"https://xunmihoney.com/product/rubygiftspring","image":"https://xunmihoney.com/wp-content/uploads/2026/01/image.jpg","note":"紅玉紅茶與蜂蜜搭配的小型禮盒，價格親切，適合拜年、同事或親友小禮。","campaigns":[],"themeTags":[],"appearances":[]}],"createdAt":1760000000013},{"id":"p_cny_batch_044_1760000000044","name":"謝謝滿溢褚紅 3 罐組（附提袋）","brands":["謝謝堅果"],"brand":"謝謝堅果","price":"1295","url":"","image":"https://shoplineimg.com/6709e33b1edfa70009674da7/687303722b57cf0016e1ddad/3860x.webp?source_format=jpg","note":"附感謝心意卡與提袋；產品保存期限 180 天，採專利密封罐。","tags":["c_lunarnewyear","c_midautumn"],"themeTags":["t_伴手禮","t_送長輩","t_vegetarian","t_送客戶","t_nuts","mrolnem7ixnzo"],"appearances":[{"site":"萬福軒商行","url":"https://www.wanfuxuan.com.tw/blog/2026newyearbox","title":"年節伴手禮推薦｜十款精選禮盒送親友、送長輩都體面！"},{"site":"小葉子","url":"https://wangtain.com/news/moonfestivalgifts/","title":"2026 中秋送禮推薦：10 款絕不踩雷的中秋禮盒與送禮禁忌"},{"site":"謝謝堅果","url":"https://www.thankyounuts.com/blog/posts/moonfestivalgifts","title":"最新中秋送禮推薦16款：客戶、長輩禮盒清單與挑選技巧"}],"variants":[{"label":"原味綜合五堅果/海苔堅果脆片/無籽葡萄乾","price":"1000","url":"https://www.thankyounuts.com/products/%E3%80%8A%E8%AC%9D%E8%AC%9D%E6%BB%BF%E6%BA%A2%E7%A6%AE%E7%9B%92%E3%80%8B3%E7%BD%90%E7%B5%84%E9%99%84%E6%8F%90%E8%A2%8B-%E5%8E%9F%E5%91%B3%E7%B6%9C%E5%90%88%E4%BA%94%E5%A0%85%E6%9E%9C334%E5%85%8B%EF%BC%8C%E6%B5%B7%E8%8B%94%E5%A0%85%E6%9E%9C%E8%84%86%E7%89%87165%E5%85%8B%EF%BC%8C%E7%84%A1%E7%B1%BD%E8%91%A1%E8%90%84%E4%B9%BE386%E5%85%8B%E7%B4%A0%E9%A3%9F","image":"https://www.wanfuxuan.com.tw/archive/image/aW1hZ2U0LjU3NjUyODA3NA%3D%3D.png","note":"堅果、海苔堅果脆片與葡萄乾三罐組，附提袋，適合健康取向送禮。\n 2025台灣百大伴手禮獎","campaigns":[],"themeTags":[],"appearances":[]},{"label":"原味綜合五堅果/原味核桃/原味南瓜子","price":"1295","url":"","image":"https://shoplineimg.com/6709e33b1edfa70009674da7/687303722b57cf0016e1ddad/3860x.webp?source_format=jpg","note":"內容包含原味綜合五堅果、原味核桃與原味南瓜子，附感謝心意卡與提袋；產品保存期限 180 天，採專利密封罐。","campaigns":[],"themeTags":[],"appearances":[]}],"createdAt":1752710400034},{"id":"mromi63gt7o3f","name":"綻光賦活水凝露","brands":["Rénor 唯茉"],"brand":"Rénor 唯茉","price":"1080","url":"https://www.renor.com.tw/products/toner-of-radiance","image":"https://shoplineimg.com/69577e2e82c9450008df066d/69854c138e9e9037b66d22c2/800x.webp?source_format=jpg","note":"Rénor 瞬透植萃前導\n①瞬透引導\n②自然修復力\n③純素敏護","tags":["c_valentines","c_birthday_anniversary","c_exchange"],"themeTags":["t_girlfriend","t_beauty"],"appearances":[],"variants":[],"createdAt":1784273720668},{"id":"mromjw8fwk5nz","name":"潤彩質透煥顏精華","brands":["Rénor 唯茉"],"brand":"Rénor 唯茉","price":"1980","url":"https://www.renor.com.tw/products/essence-of-radiance","image":"https://img.shoplineapp.com/media/image_clips/698daec6863440050d2283af/original.jpg?1770892998=&amp;owner_id=69577e2e82c9450008df066d","note":"三大優勢\n① 3D 立體深層補水\n② 結構級彈力修復\n③ 清爽滲透長效防護","tags":["c_valentines","c_exchange","c_birthday_anniversary"],"themeTags":["t_girlfriend","t_beauty"],"appearances":[],"variants":[],"createdAt":1784273801199},{"id":"mrompskd70i1j","name":"定格修護儀式套組","brands":["Rénor 唯茉"],"brand":"Rénor 唯茉","price":"2680","url":"https://www.renor.com.tw/products/kit-of-radiance","image":"https://img.shoplineapp.com/media/image_clips/69a791f69b27b214d193cce3/original.jpg?1772589557=&amp;owner_id=69577e2e82c9450008df066d","note":"潤彩質透煥顏精華+綻光賦活水凝露套組","tags":["c_valentines","c_birthday_anniversary"],"themeTags":["t_beauty","t_girlfriend"],"appearances":[],"variants":[],"createdAt":1784274076381}]};
+const HIDE_CLIENT = true;
+let state = SNAP;
+let activeCampaign="all", activeThemeFilters=[], clientOnly=false, brandFilter=null, priceMin=null, priceMax=null, sortMode="newest", appearFilter="all", appearanceFilter=null, searchTerm="";
+function colorFor(name){
+  let hash = 0;
+  for(let i=0;i<name.length;i++) hash = (hash*31 + name.charCodeAt(i)) % 8;
+  return { var: COLORS[hash], hex: RAW_COLORS[hash] };
+}
+
+function escapeHtml(s){
+  return String(s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function escapeAttr(s){ return escapeHtml(s); }
+
+function splitBrands(str){
+  if(!str) return [];
+  // 支援：中英文逗號、頓號、x/X/× 分隔
+  return String(str)
+    .split(/[,，、]|\s*[xX×]\s*/)
+    .map(s => s.trim())
+    .filter(Boolean);
+}
+
+function parseNum(v){
+  if(v == null) return NaN;
+  const m = String(v).match(/[\d,]+/);
+  if(!m) return NaN;
+  return parseInt(m[0].replace(/,/g,''), 10);
+}
+
+function resolveVariant(p, vIdx){
+  const v = (p.variants || [])[vIdx];
+  const base = {
+    image: p.image || '',
+    note: p.note || '',
+    price: p.price || '',
+    url: p.url || '',
+    campaigns: p.tags || [],
+    appearances: p.appearances || [],
+    themeTags: p.themeTags || []
+  };
+  if(!v) return base;
+  return {
+    image: v.image || base.image,
+    note: v.note || base.note,
+    price: v.price || base.price,
+    url: v.url || base.url,
+    campaigns: (v.campaigns && v.campaigns.length) ? v.campaigns : base.campaigns,
+    appearances: (v.appearances && v.appearances.length) ? v.appearances : base.appearances,
+    themeTags: (v.themeTags && v.themeTags.length) ? v.themeTags : base.themeTags
+  };
+}
+
+function allCampaignsOf(p){
+  const set = new Set(p.tags || []);
+  (p.variants || []).forEach(v => (v.campaigns || []).forEach(c => set.add(c)));
+  return Array.from(set);
+}
+
+function allThemesOf(p){
+  const set = new Set(p.themeTags || []);
+  (p.variants || []).forEach(v => (v.themeTags || []).forEach(t => set.add(t)));
+  return Array.from(set);
+}
+
+function allAppearancesOf(p){
+  return [...(p.appearances || []), ...(p.variants || []).flatMap(v => v.appearances || [])];
+}
+
+function priceStats(p){
+  const nums = [];
+  if(p.price) { const n = parseNum(p.price); if(!isNaN(n)) nums.push(n); }
+  (p.variants || []).forEach(v => {
+    if(v.price){ const n = parseNum(v.price); if(!isNaN(n)) nums.push(n); }
+  });
+  if(nums.length === 0) return { min: NaN, max: NaN, hasRange: false };
+  return { min: Math.min(...nums), max: Math.max(...nums), hasRange: Math.min(...nums) !== Math.max(...nums) };
+}
+
+function pickInitialVariant(p){
+  const hasVariants = (p.variants || []).length > 0;
+  if(!hasVariants) return -1;
+  // 選了檔期
+  if(activeCampaign !== 'all'){
+    const i = p.variants.findIndex(v => (v.campaigns || []).includes(activeCampaign));
+    if(i >= 0) return i;
+  }
+  // 選了主題
+  if(activeThemeFilters.length){
+    const i = p.variants.findIndex(v => (v.themeTags || []).some(t => activeThemeFilters.includes(t)));
+    if(i >= 0) return i;
+  }
+  return 0;
+}
+
+function buildDetailHTML(p, vIdx){
+  const variants = p.variants || [];
+  const hasVariants = variants.length > 0;
+  const stats = priceStats(p);
+
+  // 主圖：優先用目前檢視版本的圖，沒有就用主商品圖
+  const cur = (hasVariants && vIdx >= 0) ? resolveVariant(p, vIdx) : null;
+  const heroImg = (cur && cur.image) || p.image || '';
+  const imgHtml = heroImg
+    ? `<img src="${escapeAttr(heroImg)}" alt="" onerror="this.parentElement.textContent='圖片無法載入'">`
+    : '無圖片';
+
+  const brands = p.brands || [];
+  const brandLine = brands.length
+    ? brands.map(b => escapeHtml(b)).join(' × ')
+    : '<span class="detail-empty">未填品牌</span>';
+
+  // 價格：目前版本的價 + 全系列區間
+  const shownPrice = (cur && cur.price) || p.price || '';
+  let priceLine = '';
+  if(shownPrice){
+    priceLine = `NT$ ${escapeHtml(shownPrice)}`;
+    if(hasVariants && stats.hasRange){
+      priceLine += `<span class="dp-range">全系列 NT$ ${stats.min.toLocaleString()} － ${stats.max.toLocaleString()}</span>`;
+    }
+  } else if(hasVariants && !isNaN(stats.min)){
+    priceLine = stats.hasRange
+      ? `NT$ ${stats.min.toLocaleString()} － ${stats.max.toLocaleString()}`
+      : `NT$ ${stats.min.toLocaleString()}`;
+  } else {
+    priceLine = '<span class="detail-empty" style="font-size:13px;">未填售價</span>';
+  }
+
+  // 檔期與主題（詳情頁顯示商品的「全部」檔期／主題，不只當前版本）
+  const campaignObjs = allCampaignsOf(p).map(tid => state.campaigns.find(c=>c.id===tid)).filter(Boolean);
+  const themeObjs = allThemesOf(p).map(tid => state.themes.find(t=>t.id===tid)).filter(Boolean);
+  const campaignHtml = campaignObjs.length
+    ? `<div class="card-tags">${campaignObjs.map(t=>`<span class="tag-pill" style="background:${colorFor(t.name).hex}">${escapeHtml(t.name)}</span>`).join('')}</div>`
+    : '<div class="detail-empty">未歸類任何檔期</div>';
+  const themeHtml = themeObjs.length
+    ? `<div class="card-tags">${themeObjs.map(t=>{const col=colorFor(t.name);return `<span class="theme-pill" style="border-color:${col.hex}; color:${col.hex};">${escapeHtml(t.name)}</span>`;}).join('')}</div>`
+    : '<div class="detail-empty">未加上主題標籤</div>';
+
+  // 規格切換 chips（放在 hero 區，切換後主圖／售價／備註跟著換）
+  const switchHtml = hasVariants ? `<div class="detail-variant-switch">
+      <div class="dvs-label">切換規格版本</div>
+      ${variants.map((v,i) => `<button class="variant-chip ${i===vIdx?'active':''}" data-dvidx="${i}">
+        <span>${escapeHtml(v.label || `版本 ${i+1}`)}</span>
+        ${v.price ? `<span class="vc-price">${escapeHtml(v.price)}</span>` : ''}
+      </button>`).join('')}
+    </div>` : '';
+
+  // 規格版本：全部列出，含各自的價格／備註／連結
+  const variantHtml = hasVariants ? variants.map((v, i) => {
+    const rv = resolveVariant(p, i);
+    const isCur = i === vIdx;
+    const vThumb = v.image
+      ? `<img src="${escapeAttr(v.image)}" alt="" onerror="this.parentElement.textContent='無圖'">`
+      : '無圖';
+    return `<div class="detail-variant ${isCur?'is-cur':''}" data-dvidx="${i}" title="點此切換到這個版本">
+      <div class="dv-thumb">${vThumb}</div>
+      <div class="dv-body">
+        <div class="dv-label">${escapeHtml(v.label || `版本 ${i+1}`)}${isCur?'<span style="font-size:10.5px; color:var(--meta); font-weight:400; margin-left:6px;">目前檢視</span>':''}</div>
+        <div class="dv-price">${rv.price ? 'NT$ ' + escapeHtml(rv.price) : '（沿用主商品售價）'}</div>
+        ${v.note ? `<div class="dv-note">${escapeHtml(v.note)}</div>` : ''}
+        ${v.url ? `<a class="dv-link" href="${escapeAttr(v.url)}" target="_blank" rel="noopener">這個版本的連結 ↗</a>` : ''}
+      </div>
+    </div>`;
+  }).join('') : '<div class="detail-empty">這件商品沒有分規格版本</div>';
+
+  // 出現紀錄：完整列出，不折疊
+  const apps = allAppearancesOf(p);
+  const appearHtml = apps.length ? apps.map(a => {
+    const site = a.site || '（未填站台）';
+    const title = a.title || '（未填標題）';
+    return `<div class="detail-appear">
+      <span class="da-site">${escapeHtml(site)}</span>
+      <span class="da-title">${escapeHtml(title)}${a.url?`<a href="${escapeAttr(a.url)}" target="_blank" rel="noopener">開文章 ↗</a>`:''}</span>
+    </div>`;
+  }).join('') : '<div class="detail-empty">尚未有任何出現紀錄</div>';
+
+  const shownNote = (cur && cur.note) || p.note || '';
+  const noteHtml = shownNote
+    ? `<div class="detail-note">${escapeHtml(shownNote)}</div>`
+    : '<div class="detail-empty">沒有備註</div>';
+
+  let created = '';
+  if(p.createdAt){
+    const d = new Date(p.createdAt);
+    if(!isNaN(d.getTime())){
+      created = `加入於 ${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
+    }
+  }
+
+  // 匯出分享頁時若選擇隱藏客戶資訊，這裡就不顯示客戶標記
+  const hideClient = (typeof HIDE_CLIENT !== 'undefined') && HIDE_CLIENT;
+
+  return `<div class="detail-hero">
+      <div class="detail-img">${imgHtml}</div>
+      <div class="detail-head">
+        ${(p.isClient && !hideClient) ? '<div class="detail-client-badge">🚩 客戶商品</div>' : ''}
+        <div class="detail-name">${escapeHtml(p.name)}</div>
+        <div class="detail-brand">${brandLine}</div>
+        <div class="detail-price">${priceLine}</div>
+        ${(cur && cur.url) || p.url ? `<a class="detail-link" href="${escapeAttr((cur && cur.url) || p.url)}" target="_blank" rel="noopener">前往商品頁 ↗</a>` : ''}
+        ${switchHtml}
+      </div>
+    </div>
+    <div class="detail-sec">
+      <div class="detail-sec-label">所屬檔期</div>
+      ${campaignHtml}
+    </div>
+    <div class="detail-sec">
+      <div class="detail-sec-label">主題標籤</div>
+      ${themeHtml}
+    </div>
+    <div class="detail-sec">
+      <div class="detail-sec-label">規格版本${hasVariants?`（${variants.length}）`:''}</div>
+      ${variantHtml}
+    </div>
+    <div class="detail-sec">
+      <div class="detail-sec-label">備註</div>
+      ${noteHtml}
+    </div>
+    <div class="detail-sec">
+      <div class="detail-sec-label">出現紀錄${apps.length?`（${apps.length} 筆）`:''}</div>
+      ${appearHtml}
+    </div>
+    ${created ? `<div class="detail-meta-foot">${created}</div>` : ''}`;
+}
+
+function sOpenDetail(id, vIdx){
+  const p = state.products.find(x => x.id === id);
+  if(!p) return;
+  const dov = document.getElementById('detailOverlay');
+  dov.dataset.pid = id;
+  document.getElementById('detailBody').innerHTML = buildDetailHTML(p, typeof vIdx === 'number' ? vIdx : -1);
+  dov.style.display = 'flex';
+}
+
+function sUpdateChips(){
+  const bc = document.getElementById('brandFilterChip');
+  if(brandFilter){ bc.style.display='inline-block'; bc.textContent = '品牌：' + brandFilter + ' ✕'; } else { bc.style.display='none'; }
+  const ac = document.getElementById('appearFilterChip');
+  if(appearanceFilter){ ac.style.display='inline-block'; ac.textContent = appearanceFilter.type==='site' ? ('📋 ' + appearanceFilter.site + ' ✕') : ('📋 ' + appearanceFilter.site + ' － ' + appearanceFilter.title + ' ✕'); } else { ac.style.display='none'; }
+}
+
+function sRenderTabs(){
+  const list = document.getElementById('tabList');
+  const counts = {};
+  state.products.forEach(p => allCampaignsOf(p).forEach(t => counts[t] = (counts[t]||0)+1));
+  let html = `<div class="tab ${activeCampaign==='all'?'active':''}" data-c="all"><span class="dot" style="background:var(--ink-soft)"></span><span class="name">全部</span><span class="cnt">${state.products.length}</span></div>`;
+  state.campaigns.forEach(c => { const col = colorFor(c.name); html += `<div class="tab ${activeCampaign===c.id?'active':''}" data-c="${c.id}"><span class="dot" style="background:${col.var}"></span><span class="name">${escapeHtml(c.name)}</span><span class="cnt">${counts[c.id]||0}</span></div>`; });
+  list.innerHTML = html;
+}
+
+function sRenderThemes(){
+  const wrap = document.getElementById('themeFilterList');
+  if(!state.themes.length){ wrap.innerHTML = '<span style="font-size:11px; color:var(--meta);">沒有主題標籤</span>'; return; }
+  wrap.innerHTML = state.themes.map(t => { const col = colorFor(t.name); const active = activeThemeFilters.includes(t.id); return `<span class="theme-chip ${active?'active':''}" data-tid="${t.id}" style="${active?`background:${col.hex}`:''}">${escapeHtml(t.name)}</span>`; }).join('');
+}
+
+function sRenderCard(p, vIdx){
+  const hasVariants = (p.variants || []).length > 0;
+  const useVariant = hasVariants && vIdx >= 0;
+  const r = useVariant ? resolveVariant(p, vIdx) : { image:p.image||'', note:p.note||'', price:p.price||'', url:p.url||'', campaigns:p.tags||[], appearances:p.appearances||[], themeTags:p.themeTags||[] };
+  const campaignTags = r.campaigns.map(tid => state.campaigns.find(c=>c.id===tid)).filter(Boolean);
+  const themeTagObjs = r.themeTags.map(tid => state.themes.find(t=>t.id===tid)).filter(Boolean);
+  const topBar = campaignTags.length ? campaignTags.map(t=>`<span style="background:${colorFor(t.name).hex}"></span>`).join('') : `<span style="background:var(--paper-line)"></span>`;
+  const img = r.image ? `<img src="${escapeAttr(r.image)}" alt="" onerror="this.parentElement.innerHTML='圖片無法載入'">` : '無圖片';
+  const brands = p.brands || [];
+  let brandHtml = '';
+  if(brands.length){
+    if(brands.length <= 3){ brandHtml = brands.map(b => `<span class="brand-item" data-brand="${escapeAttr(b)}" title="只看這個品牌">${escapeHtml(b)}</span>`).join('<span class="brand-sep">×</span>'); }
+    else { const shown = brands.slice(0,2); brandHtml = shown.map(b => `<span class="brand-item" data-brand="${escapeAttr(b)}" title="只看這個品牌">${escapeHtml(b)}</span>`).join('<span class="brand-sep">×</span>') + `<span class="brand-more" title="${escapeAttr(brands.slice(2).join('、'))}">+${brands.length-2}</span>`; }
+  }
+  const stats = priceStats(p);
+  let priceHtml = '';
+  if(r.price){ priceHtml = `NT$ ${escapeHtml(r.price)}`; if(hasVariants && stats.hasRange){ priceHtml += `<span class="price-suffix">・全系列 NT$ ${stats.min.toLocaleString()} 起</span>`; } }
+  else if(hasVariants && !isNaN(stats.min)){ priceHtml = `NT$ ${stats.min.toLocaleString()} 起`; }
+  const variantHtml = hasVariants ? `<div class="variant-row"><div class="variant-row-label">共 ${p.variants.length} 種版本</div>${p.variants.map((v,i)=>`<button class="variant-chip ${i===vIdx?'active':''}" data-vidx="${i}"><span>${escapeHtml(v.label||`版本 ${i+1}`)}</span>${v.price?`<span class="vc-price">${escapeHtml(v.price)}</span>`:''}</button>`).join('')}</div>` : '';
+  const appearances = r.appearances;
+  const shownAppear = appearances.slice(0,3);
+  const appearHtml = appearances.length ? `<div class="appear-list"><div class="appear-count-label">出現紀錄・共 ${appearances.length} 筆</div>${shownAppear.map(a=>{ const label=[a.site,a.title].filter(Boolean).join(' － ')||a.url||'未命名紀錄'; return a.url?`<div class="appear-list-item"><a href="${escapeAttr(a.url)}" target="_blank" rel="noopener">${escapeHtml(label)}</a></div>`:`<div class="appear-list-item">${escapeHtml(label)}</div>`; }).join('')}${appearances.length>3?`<div class="appear-more">還有 ${appearances.length-3} 筆</div>`:''}</div>` : '';
+  const hideC = (typeof HIDE_CLIENT !== 'undefined') && HIDE_CLIENT;
+  const showClient = p.isClient && !hideC;
+  return `<div class="card ${showClient?'is-client':''}" data-id="${p.id}" data-vidx="${vIdx}">${showClient?'<div class="client-ribbon">客戶商品</div>':''}<div class="card-top">${topBar}</div><div class="card-img note-fade clickable" data-detail="${p.id}" title="查看完整資訊">${img}</div><div class="card-body"><div class="card-name clickable" data-detail="${p.id}" title="查看完整資訊">${escapeHtml(p.name)}</div>${brandHtml?`<div class="card-brand">${brandHtml}</div>`:''}${priceHtml?`<div class="card-price">${priceHtml}</div>`:''}${variantHtml}<div class="card-tags">${campaignTags.map(t=>`<span class="tag-pill" style="background:${colorFor(t.name).hex}">${escapeHtml(t.name)}</span>`).join('')}</div>${themeTagObjs.length?`<div class="card-tags">${themeTagObjs.map(t=>{const col=colorFor(t.name);return `<span class="theme-pill" style="border-color:${col.hex}; color:${col.hex};">${escapeHtml(t.name)}</span>`;}).join('')}</div>`:''}${r.note?`<div class="card-note note-fade">${escapeHtml(r.note)}</div>`:''}${appearHtml}<div class="card-foot"><div style="display:flex; align-items:center; gap:6px;">${appearances.length?`<span class="appear-count-badge" title="出現紀錄筆數">${appearances.length}</span>`:''}</div><div class="card-actions">${r.url?`<a class="link-btn" href="${escapeAttr(r.url)}" target="_blank" rel="noopener">連結 ↗</a>`:''}</div></div></div></div>`;
+}
+
+function sRenderGrid(){
+  const grid = document.getElementById('grid');
+  let items = state.products.filter(p => {
+    if(activeCampaign!=='all' && !allCampaignsOf(p).includes(activeCampaign)) return false;
+    if(clientOnly && !p.isClient) return false;
+    if(activeThemeFilters.length && !allThemesOf(p).some(t=>activeThemeFilters.includes(t))) return false;
+    if(brandFilter && !(p.brands||[]).some(b => b === brandFilter)) return false;
+    if(appearanceFilter){ const apps = allAppearancesOf(p); if(appearanceFilter.type==='site'){ if(!apps.some(a=>(a.site||'')===appearanceFilter.site)) return false; } else if(appearanceFilter.type==='article'){ if(!apps.some(a=>(a.site||'')===appearanceFilter.site && (a.title||'')===appearanceFilter.title)) return false; } }
+    if(appearFilter!=='all'){ const cnt=allAppearancesOf(p).length; if(appearFilter==='none'&&cnt!==0) return false; if(appearFilter==='1-3'&&!(cnt>=1&&cnt<=3)) return false; if(appearFilter==='3-5'&&!(cnt>=4&&cnt<=5)) return false; if(appearFilter==='5-10'&&!(cnt>=6&&cnt<=10)) return false; if(appearFilter==='10plus'&&cnt<11) return false; }
+    if(priceMin!=null || priceMax!=null){ const stats=priceStats(p); if(isNaN(stats.min)) return false; const allNums=[]; if(p.price){const n=parseNum(p.price); if(!isNaN(n)) allNums.push(n);} (p.variants||[]).forEach(v=>{if(v.price){const n=parseNum(v.price); if(!isNaN(n)) allNums.push(n);}}); const anyMatch=allNums.some(n=>(priceMin==null||n>=priceMin)&&(priceMax==null||n<=priceMax)); if(!anyMatch) return false; }
+    if(searchTerm){ const s=searchTerm.toLowerCase(); const brandStr=(p.brands||[]).join(' '); const variantStr=(p.variants||[]).map(v=>`${v.label||''} ${v.note||''}`).join(' '); const appearStr=allAppearancesOf(p).map(a=>`${a.site||''} ${a.title||''}`).join(' '); const hay=`${p.name} ${brandStr} ${p.note||''} ${variantStr} ${appearStr}`.toLowerCase(); if(!hay.includes(s)) return false; }
+    return true;
+  }).sort((a,b) => {
+    if(sortMode==='name') return a.name.localeCompare(b.name,'zh-Hant');
+    if(sortMode==='price-asc'||sortMode==='price-desc'){ const va=priceStats(a).min, vb=priceStats(b).min; const ae=isNaN(va), be=isNaN(vb); if(ae&&be) return 0; if(ae) return 1; if(be) return -1; return sortMode==='price-asc'?va-vb:vb-va; }
+    if(sortMode==='appear-desc'||sortMode==='appear-asc'){ const ca=allAppearancesOf(a).length, cb=allAppearancesOf(b).length; if(ca===cb) return (b.createdAt||0)-(a.createdAt||0); return sortMode==='appear-desc'?cb-ca:ca-cb; }
+    return (b.createdAt||0)-(a.createdAt||0);
+  });
+  if(!items.length){ grid.innerHTML = '<div class="empty" style="grid-column:1/-1;"><b>沒有符合條件的商品</b>試試清除搜尋或篩選條件。</div>'; return; }
+  grid.innerHTML = items.map(p => sRenderCard(p, pickInitialVariant(p))).join('');
+}
+
+function sCollectAppearIndex(){
+  const idx = {};
+  state.products.forEach(p => { allAppearancesOf(p).forEach(a => { const site=(a.site||'（未填站台）').trim(); const title=(a.title||'（未填標題）').trim(); const url=(a.url||'').trim(); if(!idx[site]) idx[site]={titles:{},allProductIds:new Set()}; if(!idx[site].titles[title]) idx[site].titles[title]={productIds:new Set(),url}; if(url&&!idx[site].titles[title].url) idx[site].titles[title].url=url; idx[site].titles[title].productIds.add(p.id); idx[site].allProductIds.add(p.id); }); });
+  return idx;
+}
+
+function sRenderAppearOverview(term){
+  const list = document.getElementById('appearOverviewList');
+  const idx = sCollectAppearIndex();
+  const sites = Object.keys(idx).sort((a,b)=>idx[b].allProductIds.size-idx[a].allProductIds.size);
+  const s = (term||'').toLowerCase();
+  const groups = sites.map(site => { const titles=Object.keys(idx[site].titles).sort((a,b)=>idx[site].titles[b].productIds.size-idx[site].titles[a].productIds.size); const ft=s?titles.filter(t=>t.toLowerCase().includes(s)||site.toLowerCase().includes(s)):titles; if(s&&ft.length===0&&!site.toLowerCase().includes(s)) return null; return {site,titles:ft.length?ft:titles,siteCount:idx[site].allProductIds.size,idx}; }).filter(Boolean);
+  if(!groups.length){ list.innerHTML = '<div class="appear-overview-empty">沒有任何出現紀錄。</div>'; return; }
+  list.innerHTML = groups.map(g => `<div class="appear-group"><div class="appear-group-head" data-site="${escapeAttr(g.site)}" data-action="filter-site"><div class="appear-group-title">${escapeHtml(g.site)}<span class="agt-badge">${g.siteCount}</span></div><div style="font-size:10.5px; color:var(--meta);">點站台名 → 篩選整個站台</div></div><div class="appear-group-body">${g.titles.map(t=>{ const info=g.idx[g.site].titles[t]; const count=info.productIds.size; return `<div class="appear-item" data-site="${escapeAttr(g.site)}" data-title="${escapeAttr(t)}" data-action="filter-article"><div class="appear-item-title">${escapeHtml(t)}${info.url?`<a href="${escapeAttr(info.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation();">開文章 ↗</a>`:''}</div><div class="appear-item-count">${count} 個商品</div></div>`; }).join('')}</div></div>`).join('');
+}
+
+function sRenderAll(){
+  sRenderTabs(); sRenderThemes(); sRenderGrid();
+  const tc = document.getElementById('totalCount');
+  if(tc) tc.textContent = '共 ' + state.products.length + ' 件';
+}
+
+function sBind(){
+  const dov = document.getElementById('detailOverlay');
+  document.getElementById('closeDetailBtn').addEventListener('click', () => { dov.style.display='none'; });
+  dov.addEventListener('click', e => { if(e.target.id==='detailOverlay') dov.style.display='none'; });
+  document.addEventListener('keydown', e => { if(e.key==='Escape') dov.style.display='none'; });
+  document.getElementById('detailBody').addEventListener('click', e => {
+    const sw = e.target.closest('[data-dvidx]');
+    if(!sw || e.target.closest('a')) return;
+    sOpenDetail(dov.dataset.pid, parseInt(sw.dataset.dvidx,10));
+  });
+  document.getElementById('tabList').addEventListener('click', e => { const tab=e.target.closest('.tab'); if(!tab) return; activeCampaign=tab.dataset.c; sRenderAll(); });
+  document.getElementById('themeFilterList').addEventListener('click', e => { const chip=e.target.closest('.theme-chip'); if(!chip) return; const tid=chip.dataset.tid; if(activeThemeFilters.includes(tid)) activeThemeFilters=activeThemeFilters.filter(t=>t!==tid); else activeThemeFilters.push(tid); sRenderThemes(); sRenderGrid(); });
+  const grid = document.getElementById('grid');
+  grid.addEventListener('click', e => {
+    const det = e.target.closest('[data-detail]');
+    if(det){ const card=det.closest('.card'); const vi=card?parseInt(card.dataset.vidx,10):-1; sOpenDetail(det.dataset.detail, isNaN(vi)?-1:vi); return; }
+    const vchip = e.target.closest('.variant-chip');
+    if(vchip){ const card=vchip.closest('.card'); const p=state.products.find(x=>x.id===card.dataset.id); const idx=parseInt(vchip.dataset.vidx,10); const tmp=document.createElement('template'); tmp.innerHTML=sRenderCard(p,idx).trim(); card.replaceWith(tmp.content.firstElementChild); return; }
+    const brand = e.target.closest('.brand-item');
+    if(brand){ brandFilter=brand.dataset.brand; sUpdateChips(); sRenderGrid(); return; }
+  });
+  document.getElementById('searchBox').addEventListener('input', e => { searchTerm=e.target.value.trim(); sRenderGrid(); });
+  document.getElementById('priceMinInput').addEventListener('input', e => { const v=e.target.value.trim(); priceMin=v===''?null:parseInt(v,10); sRenderGrid(); });
+  document.getElementById('priceMaxInput').addEventListener('input', e => { const v=e.target.value.trim(); priceMax=v===''?null:parseInt(v,10); sRenderGrid(); });
+  document.getElementById('appearFilter').addEventListener('change', e => { appearFilter=e.target.value; sRenderGrid(); });
+  document.getElementById('sortSelect').addEventListener('change', e => { sortMode=e.target.value; sRenderGrid(); });
+  const co = document.getElementById('clientOnlyChip');
+  if(co) co.addEventListener('click', () => { clientOnly=!clientOnly; co.classList.toggle('active', clientOnly); sRenderGrid(); });
+  document.getElementById('brandFilterChip').addEventListener('click', () => { brandFilter=null; sUpdateChips(); sRenderGrid(); });
+  document.getElementById('appearFilterChip').addEventListener('click', () => { appearanceFilter=null; sUpdateChips(); sRenderGrid(); });
+  const ov = document.getElementById('appearOverviewOverlay');
+  document.getElementById('appearOverviewChip').addEventListener('click', () => { document.getElementById('appearOverviewSearch').value=''; sRenderAppearOverview(''); ov.style.display='flex'; });
+  document.getElementById('closeAppearOverviewBtn').addEventListener('click', () => { ov.style.display='none'; });
+  ov.addEventListener('click', e => { if(e.target.id==='appearOverviewOverlay') ov.style.display='none'; });
+  document.getElementById('appearOverviewSearch').addEventListener('input', e => sRenderAppearOverview(e.target.value));
+  document.getElementById('appearOverviewList').addEventListener('click', e => { const el=e.target.closest('[data-action]'); if(!el) return; if(el.dataset.action==='filter-site'){ appearanceFilter={type:'site',site:el.dataset.site}; } else { appearanceFilter={type:'article',site:el.dataset.site,title:el.dataset.title}; } sUpdateChips(); ov.style.display='none'; sRenderGrid(); });
+}
+sBind(); sRenderAll();
+</script>
+</body>
+</html>
