@@ -51,6 +51,11 @@
     font-size:11px; color:var(--meta); border:1px solid var(--paper-line);
     padding:3px 10px; border-radius:20px; background:var(--card-bg);
   }
+  .price-basis-chip{
+    font-size:11px; color:var(--meta); border:1px dashed var(--paper-line);
+    padding:3px 10px; border-radius:20px; background:var(--card-bg);
+    letter-spacing:.03em; white-space:nowrap;
+  }
   .btn{
     font-family:inherit; cursor:pointer; border:none; border-radius:var(--radius);
     padding:10px 18px; font-size:13.5px; font-weight:700; letter-spacing:.03em;
@@ -176,6 +181,40 @@
   .card-brand.clickable{ cursor:pointer; text-decoration:underline; text-decoration-style:dotted; text-underline-offset:2px; }
   .card-brand.clickable:hover{ color:var(--ink); }
   .card-price{ font-variant-numeric:tabular-nums; font-size:13.5px; color:var(--ink-soft); }
+  /* 客製化商品：不顯示價格，改顯示詢價提示 */
+  .ask-price{
+    display:inline-flex; align-items:center; gap:4px;
+    font-size:11.5px; font-weight:700; letter-spacing:.02em;
+    color:var(--gold); border:1px dashed var(--gold);
+    border-radius:20px; padding:2px 9px; background:transparent;
+    line-height:1.5;
+  }
+  .detail-price .ask-price{ font-size:12.5px; padding:3px 11px; }
+  .askprice-toggle{
+    font-family:inherit; font-size:11px; font-weight:700; cursor:pointer;
+    border:1px dashed var(--paper-line); background:transparent; color:var(--meta);
+    border-radius:20px; padding:2px 9px; white-space:nowrap; transition:.15s;
+  }
+  .askprice-toggle:hover{ border-color:var(--gold); color:var(--gold); }
+  .askprice-toggle.active{ border-style:solid; border-color:var(--gold); color:var(--gold); background:rgba(0,0,0,.02); }
+  .field.askprice-on input#fPrice{ opacity:.4; pointer-events:none; }
+  /* 價格基準說明：售價以品牌官網最新價格為主 */
+  .price-basis{
+    font-size:11.5px; color:var(--meta); line-height:1.7;
+    border-top:1px dashed var(--paper-line); margin-top:10px; padding-top:8px;
+  }
+  .detail-price-basis{ font-size:11.5px; color:var(--meta); margin-top:6px; line-height:1.6; }
+  #fsToast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(20px); z-index:120; background:var(--ink); color:#fff; font-size:12.5px; padding:9px 18px; border-radius:24px; box-shadow:0 6px 20px rgba(0,0,0,.22); opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; }
+  #fsToast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  #fsBanner{ position:fixed; left:16px; bottom:16px; z-index:120; background:var(--card-bg); border:1px solid var(--gold); color:var(--ink); font-size:12.5px; padding:9px 14px; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,.16); display:flex; gap:10px; align-items:center; }
+  #fsBanner button{ border:1px solid var(--ink); background:var(--ink); color:#fff; font-size:11.5px; padding:4px 10px; border-radius:20px; cursor:pointer; }
+  /* 價格取自品牌官網最新報價時的小標記 */
+  .price-live{
+    font-size:10.5px; font-weight:700; color:var(--c2); letter-spacing:.02em;
+    border:1px solid var(--c2); border-radius:20px; padding:0 6px; margin-left:6px;
+    white-space:nowrap; vertical-align:1px;
+  }
+  .dv-price .price-live{ font-size:10px; }
   .card-tags{ display:flex; gap:5px; flex-wrap:wrap; margin-top:2px; }
   .tag-pill{
     font-size:10.5px; padding:2px 8px; border-radius:20px; color:#fff; opacity:.88;
@@ -631,6 +670,7 @@
     <div class="title-block">
       <h1>檔期商品收藏簿</h1>
       <span class="subtitle">看到就存・提案不漏</span>
+      <span class="price-basis-chip">💰 售價以品牌官網最新價格為主</span>
     </div>
     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
       <span class="stamp-count" id="totalCount">共 0 件</span>
@@ -713,8 +753,11 @@
         <label>品牌（聯名可用「，」或「x」分隔多個）</label>
         <input type="text" id="fBrand" placeholder="例：曦望，或：豐濤 x 謝謝堅果 x 愛盲基金會">
       </div>
-      <div class="field">
-        <label>參考售價</label>
+      <div class="field" id="fPriceField">
+        <label style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+          <span>參考售價</span>
+          <button type="button" class="askprice-toggle" id="fAskPriceBtn" title="開啟後這件商品不顯示任何價格，改顯示「請向品牌詢價」">💬 客製化・詢價</button>
+        </label>
         <input type="text" id="fPrice" placeholder="例：1,280">
       </div>
     </div>
@@ -924,6 +967,8 @@ const STATUSES = ['待評估','已提案','已採用','已淘汰'];
 const DEFAULT_CAMPAIGNS = ['春節','情人節','母親節','端午','父親節','中元','中秋','雙十','萬聖節','聖誕節','尾牙/年終','週年慶','常態/全年'];
 const DEFAULT_THEMES = ['甜點','鹹食','伴手禮','交換禮物','送長輩','送客戶','質感生活提案'];
 const STORAGE_KEY = 'campaign-collector-data';
+/* 雲端即時同步用的狀態（實作在下方 startRemoteSync） */
+let fsLastStamp = 0, fsPendingRemote = null, fsUnsub = null;
 /* 主程式一律顯示客戶標記；匯出的唯讀頁會依使用者選擇覆寫成 true */
 const HIDE_CLIENT = false;
 
@@ -931,6 +976,8 @@ const HIDE_CLIENT = false;
    要啟用跨裝置同步，請到 Firebase 主控台 → 專案設定 → 一般 → 你的應用程式 →
    SDK 設定和設定，把裡面的設定值貼到下面取代這幾個 YOUR_ 開頭的值。
    沒有填的話這個工具照常運作，只是不能跨裝置同步。*/
+/* 公開版維持自己的 Firestore 專案，與開發版資料完全分開。
+   品牌官網報價（quotes）靠「匯入備份（JSON）」從開發版帶進來。 */
 const firebaseConfig = {
   apiKey: "AIzaSyBXIlhMg-21E-oddW1i-iZKyRpYX76rFS4",
   authDomain: "product-seo-59626.firebaseapp.com",
@@ -979,7 +1026,9 @@ const storageAdapter = {
       return window.storage.set(key, value, false);
     }
     if(db){
-      await firestoreDocRef().set({ value, updatedAt: Date.now() });
+      const stamp = Date.now();
+      fsLastStamp = stamp;                       // 記下自己寫的版本，onSnapshot 才不會把自己的寫入當成外部變動
+      await firestoreDocRef().set({ value, updatedAt: stamp });
       return { key, value, shared: false };
     }
     localStorage.setItem(key, value);
@@ -1025,6 +1074,41 @@ function parseNum(v){
   if(!m) return NaN;
   return parseInt(m[0].replace(/,/g,''), 10);
 }
+/* ============================================================
+   品牌官網報價（唯讀）
+   報價由開發版的「記一筆價／自動抓價」寫入，資料結構：
+   quotes: [{ channel, price, date, variant, promo, url, bot }]
+   公開版只負責「顯示最新的品牌官網報價」，不編輯報價。
+   ============================================================ */
+const OFFICIAL_CHANNEL = '品牌官網';
+function mmdd(s){ const a = String(s||'').split('-'); return a.length>=3 ? a[0]+'/'+a[1]+'/'+a[2] : (s||''); }
+/** 取某商品（可指定規格版本）最新一筆品牌官網報價
+ *  variantLabel 留空＝只看沒有指定規格的報價（全系列） */
+function officialQuote(p, variantLabel){
+  if(!p || isAskPrice(p)) return null;
+  const vl = variantLabel || '';
+  const list = (p.quotes || [])
+    .filter(q => q && q.channel === OFFICIAL_CHANNEL && q.price != null && String(q.price).trim() !== '')
+    .filter(q => !q.variant || q.variant === vl)
+    .filter(q => !isNaN(parseNum(q.price)))
+    .sort((a, b) => (String(a.date||'') < String(b.date||'')) ? 1 : -1);
+  if(!list.length) return null;
+  const q = list[0];
+  return { price: parseNum(q.price), date: q.date || '', url: q.url || '', bot: !!q.bot };
+}
+/** 實際顯示用的數字：官網最新報價優先，沒有才用參考定價 */
+function effPrice(p, variantLabel, fallbackRaw){
+  const q = officialQuote(p, variantLabel);
+  if(q) return q.price;
+  const n = parseNum(fallbackRaw);
+  return isNaN(n) ? NaN : n;
+}
+/** 客製化商品（不出現價格）用的文案 */
+const ASK_PRICE_TEXT = '客製化商品・請向品牌詢價';
+function isAskPrice(p){ return !!(p && p.askPrice); }
+function askPriceHTML(){ return '<span class="ask-price"> ' + ASK_PRICE_TEXT + '</span>'; }
+/** 價格基準：本頁售價僅供參考，一律以品牌官網最新價格為主 */
+const PRICE_BASIS_TEXT = '售價以品牌官網最新價格為主，本頁價格僅供參考。';
 /**
  * 取得某 variant 解析後的完整欄位（沒填就繼承主商品的值）
  */
@@ -1071,9 +1155,11 @@ function allAppearancesOf(p){
  */
 function priceStats(p){
   const nums = [];
-  if(p.price) { const n = parseNum(p.price); if(!isNaN(n)) nums.push(n); }
+  const mainEff = effPrice(p, '', p.price);
+  if(!isNaN(mainEff)) nums.push(mainEff);
   (p.variants || []).forEach(v => {
-    if(v.price){ const n = parseNum(v.price); if(!isNaN(n)) nums.push(n); }
+    const n = effPrice(p, v.label || '', v.price || '');
+    if(!isNaN(n)) nums.push(n);
   });
   if(nums.length === 0) return { min: NaN, max: NaN, hasRange: false };
   return { min: Math.min(...nums), max: Math.max(...nums), hasRange: Math.min(...nums) !== Math.max(...nums) };
@@ -1165,6 +1251,7 @@ async function loadData(){
   normalizeState();
   loaded = true;
   renderAll();
+  if(typeof startRemoteSync === 'function') startRemoteSync();
 }
 
 async function saveData(){
@@ -1396,8 +1483,18 @@ function renderCard(p, vIdx){
 
   // 價格：本 variant 價 + · 全系列區間
   const stats = priceStats(p);
+  const ask = isAskPrice(p);
+  const curLabel = (hasVariants && vIdx >= 0) ? ((p.variants[vIdx] || {}).label || '') : '';
+  const oq = ask ? null : officialQuote(p, curLabel);
   let priceHtml = '';
-  if(r.price){
+  if(ask){
+    priceHtml = askPriceHTML();
+  } else if(oq){
+    priceHtml = `NT$ ${oq.price.toLocaleString()}<span class="price-live">官網 ${mmdd(oq.date)}</span>`;
+    if(hasVariants && stats.hasRange){
+      priceHtml += `<span class="price-suffix">・全系列 NT$ ${stats.min.toLocaleString()} 起</span>`;
+    }
+  } else if(r.price){
     priceHtml = `NT$ ${escapeHtml(r.price)}`;
     if(hasVariants && stats.hasRange){
       priceHtml += `<span class="price-suffix">・全系列 NT$ ${stats.min.toLocaleString()} 起</span>`;
@@ -1412,7 +1509,7 @@ function renderCard(p, vIdx){
       ${p.variants.map((v, i) => `
         <button class="variant-chip ${i === vIdx ? 'active' : ''}" data-vidx="${i}">
           <span>${escapeHtml(v.label || `版本 ${i+1}`)}</span>
-          ${v.price ? `<span class="vc-price">${escapeHtml(v.price)}</span>` : ''}
+          ${(!ask && v.price) ? `<span class="vc-price">${escapeHtml(v.price)}</span>` : ''}
         </button>
       `).join('')}
     </div>` : '';
@@ -1481,8 +1578,18 @@ function buildDetailHTML(p, vIdx){
 
   // 價格：目前版本的價 + 全系列區間
   const shownPrice = (cur && cur.price) || p.price || '';
+  const ask = isAskPrice(p);
+  const curLabel = (hasVariants && vIdx >= 0) ? ((variants[vIdx] || {}).label || '') : '';
+  const detailOq = ask ? null : officialQuote(p, curLabel);
   let priceLine = '';
-  if(shownPrice){
+  if(ask){
+    priceLine = askPriceHTML();
+  } else if(detailOq){
+    priceLine = `NT$ ${detailOq.price.toLocaleString()}`;
+    if(hasVariants && stats.hasRange){
+      priceLine += `<span class="dp-range">全系列 NT$ ${stats.min.toLocaleString()} － ${stats.max.toLocaleString()}</span>`;
+    }
+  } else if(shownPrice){
     priceLine = `NT$ ${escapeHtml(shownPrice)}`;
     if(hasVariants && stats.hasRange){
       priceLine += `<span class="dp-range">全系列 NT$ ${stats.min.toLocaleString()} － ${stats.max.toLocaleString()}</span>`;
@@ -1510,7 +1617,7 @@ function buildDetailHTML(p, vIdx){
       <div class="dvs-label">切換規格版本</div>
       ${variants.map((v,i) => `<button class="variant-chip ${i===vIdx?'active':''}" data-dvidx="${i}">
         <span>${escapeHtml(v.label || `版本 ${i+1}`)}</span>
-        ${v.price ? `<span class="vc-price">${escapeHtml(v.price)}</span>` : ''}
+        ${(!ask && v.price) ? `<span class="vc-price">${escapeHtml(v.price)}</span>` : ''}
       </button>`).join('')}
     </div>` : '';
 
@@ -1525,7 +1632,12 @@ function buildDetailHTML(p, vIdx){
       <div class="dv-thumb">${vThumb}</div>
       <div class="dv-body">
         <div class="dv-label">${escapeHtml(v.label || `版本 ${i+1}`)}${isCur?'<span style="font-size:10.5px; color:var(--meta); font-weight:400; margin-left:6px;">目前檢視</span>':''}</div>
-        <div class="dv-price">${rv.price ? 'NT$ ' + escapeHtml(rv.price) : '（沿用主商品售價）'}</div>
+        <div class="dv-price">${(() => {
+          if(ask) return askPriceHTML();
+          const vq = officialQuote(p, v.label || '');
+          if(vq) return `NT$ ${vq.price.toLocaleString()}<span class="price-live">官網 ${mmdd(vq.date)}</span>`;
+          return rv.price ? 'NT$ ' + escapeHtml(rv.price) : '（沿用主商品售價）';
+        })()}</div>
         ${v.note ? `<div class="dv-note">${escapeHtml(v.note)}</div>` : ''}
         ${v.url ? `<a class="dv-link" href="${escapeAttr(v.url)}" target="_blank" rel="noopener">這個版本的連結 ↗</a>` : ''}
       </div>
@@ -1566,6 +1678,9 @@ function buildDetailHTML(p, vIdx){
         <div class="detail-name">${escapeHtml(p.name)}</div>
         <div class="detail-brand">${brandLine}</div>
         <div class="detail-price">${priceLine}</div>
+        ${ask ? '' : `<div class="detail-price-basis">${detailOq
+            ? `※ 品牌官網最新報價・${mmdd(detailOq.date)} 更新`
+            : `※ ${PRICE_BASIS_TEXT}`}</div>`}
         ${(cur && cur.url) || p.url ? `<a class="detail-link" href="${escapeAttr((cur && cur.url) || p.url)}" target="_blank" rel="noopener">前往商品頁 ↗</a>` : ''}
         ${switchHtml}
       </div>
@@ -1900,6 +2015,81 @@ function collectAppearances(){
   })).filter(a => a.site || a.url || a.title);
 }
 
+/* ============================================================
+   雲端即時同步
+   同一份資料在別台裝置或別的分頁被改動時，這裡會即時收到並更新畫面，
+   同時避免「開著沒動的舊分頁把新資料整份蓋掉」。
+   ============================================================ */
+function anyOverlayOpen(){
+  return Array.from(document.querySelectorAll('.overlay')).some(o => o.style.display === 'flex');
+}
+function fsToast(msg){
+  let t = document.getElementById('fsToast');
+  if(!t){ t = document.createElement('div'); t.id = 'fsToast'; document.body.appendChild(t); }
+  t.textContent = msg;
+  t.className = 'show';
+  clearTimeout(fsToast._t);
+  fsToast._t = setTimeout(() => { t.className = ''; }, 2600);
+}
+function fsApplyRemote(jsonStr){
+  try{
+    const next = JSON.parse(jsonStr);
+    if(!next || !Array.isArray(next.products)) return false;
+    state = next;
+    normalizeState();
+    renderAll();
+    return true;
+  }catch(e){ console.warn('同步資料解析失敗', e); return false; }
+}
+function fsShowBanner(){
+  let b = document.getElementById('fsBanner');
+  if(!b){
+    b = document.createElement('div');
+    b.id = 'fsBanner';
+    b.innerHTML = '☁️ 雲端有新資料 <button type="button">重新載入</button>';
+    b.querySelector('button').addEventListener('click', () => {
+      if(fsPendingRemote && fsApplyRemote(fsPendingRemote)) fsToast('已載入雲端最新資料');
+      fsPendingRemote = null;
+      b.remove();
+    });
+    document.body.appendChild(b);
+  }
+}
+function startRemoteSync(){
+  if(currentStorageMode() !== 'sync' || fsUnsub) return;
+  fsUnsub = firestoreDocRef().onSnapshot(snap => {
+    if(!snap.exists || snap.metadata.hasPendingWrites) return;
+    const d = snap.data();
+    if(!d || !d.value) return;
+    if(d.updatedAt && d.updatedAt === fsLastStamp) return;   // 自己剛寫的，略過
+    fsLastStamp = d.updatedAt || 0;
+    if(!loaded) return;
+    // 有彈窗開著（正在編輯）就不硬換資料，改成提示，讓使用者自己決定時機
+    if(anyOverlayOpen()){
+      fsPendingRemote = d.value;
+      fsShowBanner();
+    }else{
+      if(fsApplyRemote(d.value)) fsToast('☁️ 已同步雲端上的新資料');
+    }
+  }, err => console.warn('雲端同步監聽失敗', err));
+}
+
+/* ===== 客製化・詢價開關 =====
+   打開後這件商品完全不顯示價格，改顯示「客製化商品・請向品牌詢價」。 */
+let askPriceOn = false;
+function setAskPrice(on){
+  askPriceOn = !!on;
+  const btn = document.getElementById('fAskPriceBtn');
+  const field = document.getElementById('fPriceField');
+  const input = document.getElementById('fPrice');
+  if(!btn || !field || !input) return;
+  btn.classList.toggle('active', askPriceOn);
+  field.classList.toggle('askprice-on', askPriceOn);
+  input.placeholder = askPriceOn ? '（不顯示價格，改顯示詢價）' : '例：1,280';
+  if(askPriceOn) input.value = '';
+}
+document.getElementById('fAskPriceBtn').addEventListener('click', () => setAskPrice(!askPriceOn));
+
 /* ===== Modal ===== */
 function openModal(id){
   editingId = id || null;
@@ -1912,6 +2102,7 @@ function openModal(id){
   document.getElementById('fImg').value = p?.image || '';
   document.getElementById('fNote').value = p?.note || '';
   document.getElementById('fIsClient').checked = !!p?.isClient;
+  setAskPrice(!!(p && p.askPrice));
   document.getElementById('fSourcePaste').value = '';
   document.getElementById('fetchHint').style.display = 'none';
   selectedTagsInModal = p?.tags ? [...p.tags] : [];
@@ -2186,7 +2377,8 @@ async function saveProduct(){
     name,
     brands,
     brand: brands[0] || '', // 保留舊欄位以相容匯出／匯入
-    price: document.getElementById('fPrice').value.trim(),
+    price: askPriceOn ? '' : document.getElementById('fPrice').value.trim(),
+    askPrice: askPriceOn,
     url: document.getElementById('fUrl').value.trim(),
     image: document.getElementById('fImg').value.trim(),
     note: document.getElementById('fNote').value.trim(),
@@ -2202,7 +2394,9 @@ async function saveProduct(){
   if(existing && existing.status) data.status = existing.status;
   if(editingId){
     const idx = state.products.findIndex(x=>x.id===editingId);
-    state.products[idx] = data;
+    // 只覆蓋這張表單管得到的欄位，其餘（quotes 通路報價、已停產、內部註記…）
+    // 原樣留著，匯入進來的開發版欄位才不會在公開版編輯一次就消失
+    state.products[idx] = Object.assign({}, state.products[idx], data);
   } else {
     state.products.push(data);
   }
@@ -2340,7 +2534,7 @@ function parsePastedSource(){
   let gotSomething = false;
   if(name){ document.getElementById('fName').value = decodeEntities(name); gotSomething = true; }
   if(brand){ document.getElementById('fBrand').value = decodeEntities(brand); gotSomething = true; }
-  if(price){ document.getElementById('fPrice').value = price.replace(/NT\$?|[$元]/g,'').trim(); gotSomething = true; }
+  if(price && !askPriceOn){ document.getElementById('fPrice').value = price.replace(/NT\$?|[$元]/g,'').trim(); gotSomething = true; }
   if(image && !document.getElementById('fImg').value.trim()){ document.getElementById('fImg').value = image; }
 
   if(gotSomething){
@@ -2362,6 +2556,11 @@ function downloadFile(filename, content, mime){
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
+/* 備份檔名用的年月日時分 */
+function stampStr(){
+  const d = new Date(), z = n => String(n).padStart(2,'0');
+  return `${d.getFullYear()}${z(d.getMonth()+1)}${z(d.getDate())} ${z(d.getHours())}${z(d.getMinutes())}`;
+}
 function todayStr(){
   const d = new Date();
   return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
@@ -2382,12 +2581,12 @@ document.addEventListener('click', () => { dataMenu.style.display = 'none'; });
 dataMenu.addEventListener('click', (e) => e.stopPropagation());
 
 document.getElementById('exportJsonBtn').addEventListener('click', () => {
-  downloadFile(`檔期商品收藏簿-備份-${todayStr()}.json`, JSON.stringify(state, null, 2), 'application/json');
+  downloadFile(`Makarma 檔期商品收藏簿備份 ${stampStr()}.json`, JSON.stringify(state, null, 2), 'application/json');
   dataMenu.style.display = 'none';
 });
 
 document.getElementById('exportCsvBtn').addEventListener('click', () => {
-  const header = ['名稱','品牌','售價','連結','圖片網址','所屬檔期','主題標籤','規格版本','客戶商品','出現紀錄','備註'];
+  const header = ['名稱','品牌','售價','價格來源','連結','圖片網址','所屬檔期','主題標籤','規格版本','客戶商品','出現紀錄','備註'];
   const rows = [header.map(csvEscape).join(',')];
   state.products.forEach(p => {
     const tagNames = allCampaignsOf(p).map(tid => state.campaigns.find(c=>c.id===tid)?.name).filter(Boolean).join('、');
@@ -2395,7 +2594,10 @@ document.getElementById('exportCsvBtn').addEventListener('click', () => {
     const appearText = allAppearancesOf(p).map(a => [a.site, a.title, a.url].filter(Boolean).join(' / ')).join('；');
     const brandsStr = (p.brands||[]).join(' × ');
     const variantStr = (p.variants||[]).map(v => `${v.label||'（無標籤）'}${v.price?' NT$'+v.price:''}`).join('；');
-    rows.push([p.name, brandsStr, p.price, p.url, p.image, tagNames, themeNames, variantStr, p.isClient ? '是' : '', appearText, p.note].map(csvEscape).join(','));
+    const oq = officialQuote(p, '');
+    const priceCell = isAskPrice(p) ? '詢價（客製化商品）' : (oq ? String(oq.price) : (p.price || ''));
+    const priceFrom = isAskPrice(p) ? '客製化詢價' : (oq ? ('品牌官網最新報價 ' + mmdd(oq.date)) : (p.price ? '參考定價' : ''));
+    rows.push([p.name, brandsStr, priceCell, priceFrom, p.url, p.image, tagNames, themeNames, variantStr, p.isClient ? '是' : '', appearText, p.note].map(csvEscape).join(','));
   });
   downloadFile(`檔期商品收藏簿-${todayStr()}.csv`, '\uFEFF' + rows.join('\r\n'), 'text/csv;charset=utf-8');
   dataMenu.style.display = 'none';
@@ -2448,10 +2650,15 @@ function sRenderCard(p, vIdx){
     else { const shown = brands.slice(0,2); brandHtml = shown.map(b => `<span class="brand-item" data-brand="${escapeAttr(b)}" title="只看這個品牌">${escapeHtml(b)}</span>`).join('<span class="brand-sep">×</span>') + `<span class="brand-more" title="${escapeAttr(brands.slice(2).join('、'))}">+${brands.length-2}</span>`; }
   }
   const stats = priceStats(p);
+  const ask = isAskPrice(p);
+  const curLabel = (hasVariants && vIdx >= 0) ? ((p.variants[vIdx] || {}).label || '') : '';
+  const oq = ask ? null : officialQuote(p, curLabel);
   let priceHtml = '';
-  if(r.price){ priceHtml = `NT$ ${escapeHtml(r.price)}`; if(hasVariants && stats.hasRange){ priceHtml += `<span class="price-suffix">・全系列 NT$ ${stats.min.toLocaleString()} 起</span>`; } }
+  if(ask){ priceHtml = askPriceHTML(); }
+  else if(oq){ priceHtml = `NT$ ${oq.price.toLocaleString()}<span class="price-live">官網 ${mmdd(oq.date)}</span>`; if(hasVariants && stats.hasRange){ priceHtml += `<span class="price-suffix">・全系列 NT$ ${stats.min.toLocaleString()} 起</span>`; } }
+  else if(r.price){ priceHtml = `NT$ ${escapeHtml(r.price)}`; if(hasVariants && stats.hasRange){ priceHtml += `<span class="price-suffix">・全系列 NT$ ${stats.min.toLocaleString()} 起</span>`; } }
   else if(hasVariants && !isNaN(stats.min)){ priceHtml = `NT$ ${stats.min.toLocaleString()} 起`; }
-  const variantHtml = hasVariants ? `<div class="variant-row"><div class="variant-row-label">共 ${p.variants.length} 種版本</div>${p.variants.map((v,i)=>`<button class="variant-chip ${i===vIdx?'active':''}" data-vidx="${i}"><span>${escapeHtml(v.label||`版本 ${i+1}`)}</span>${v.price?`<span class="vc-price">${escapeHtml(v.price)}</span>`:''}</button>`).join('')}</div>` : '';
+  const variantHtml = hasVariants ? `<div class="variant-row"><div class="variant-row-label">共 ${p.variants.length} 種版本</div>${p.variants.map((v,i)=>`<button class="variant-chip ${i===vIdx?'active':''}" data-vidx="${i}"><span>${escapeHtml(v.label||`版本 ${i+1}`)}</span>${(!ask&&v.price)?`<span class="vc-price">${escapeHtml(v.price)}</span>`:''}</button>`).join('')}</div>` : '';
   const appearances = r.appearances;
   const shownAppear = appearances.slice(0,3);
   const appearHtml = appearances.length ? `<div class="appear-list"><div class="appear-count-label">出現紀錄・共 ${appearances.length} 筆</div>${shownAppear.map(a=>{ const label=[a.site,a.title].filter(Boolean).join(' － ')||a.url||'未命名紀錄'; return a.url?`<div class="appear-list-item"><a href="${escapeAttr(a.url)}" target="_blank" rel="noopener">${escapeHtml(label)}</a></div>`:`<div class="appear-list-item">${escapeHtml(label)}</div>`; }).join('')}${appearances.length>3?`<div class="appear-more">還有 ${appearances.length-3} 筆</div>`:''}</div>` : '';
@@ -2551,7 +2758,8 @@ function buildStaticHTML(hideClient, pageTitle, pageDesc){
   const genStr = `${g.getFullYear()}/${String(g.getMonth()+1).padStart(2,'0')}/${String(g.getDate()).padStart(2,'0')}`;
 
   // 把純顯示函式序列化成原始碼字串（用字串串接，避免範本字串內的反引號互相干擾）
-  const fns = [colorFor, escapeHtml, escapeAttr, splitBrands, parseNum, resolveVariant,
+  const fns = [colorFor, escapeHtml, escapeAttr, splitBrands, parseNum, isAskPrice, askPriceHTML,
+    mmdd, officialQuote, effPrice, resolveVariant,
     allCampaignsOf, allThemesOf, allAppearancesOf, priceStats, pickInitialVariant,
     buildDetailHTML, sOpenDetail,
     sUpdateChips, sRenderTabs, sRenderThemes, sRenderCard, sRenderGrid,
@@ -2562,6 +2770,9 @@ function buildStaticHTML(hideClient, pageTitle, pageDesc){
     'const COLORS = ' + JSON.stringify(COLORS) + ';',
     'const RAW_COLORS = ' + JSON.stringify(RAW_COLORS) + ';',
     'const SNAP = ' + JSON.stringify(snap) + ';',
+    'const ASK_PRICE_TEXT = ' + JSON.stringify(ASK_PRICE_TEXT) + ';',
+    'const OFFICIAL_CHANNEL = ' + JSON.stringify(OFFICIAL_CHANNEL) + ';',
+    'const PRICE_BASIS_TEXT = ' + JSON.stringify(PRICE_BASIS_TEXT) + ';',
     'const HIDE_CLIENT = ' + (hideClient ? 'true' : 'false') + ';',
     'let state = SNAP;',
     'let activeCampaign="all", activeThemeFilters=[], clientOnly=false, brandFilter=null, priceMin=null, priceMax=null, sortMode="newest", appearFilter="all", appearanceFilter=null, searchTerm="";',
@@ -2603,7 +2814,7 @@ function buildStaticHTML(hideClient, pageTitle, pageDesc){
 
   const clientChipHtml = hideClient ? '' : `<span class="chip" id="clientOnlyChip" style="border-color:var(--gold); color:var(--gold);">🚩 只看客戶商品</span>`;
 
-  const body = `<div class="app"><header><div class="title-block"><h1>${escapeHtml(pTitle)}</h1><span class="subtitle">${escapeHtml(pDesc)}</span></div><div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;"><span class="stamp-count" id="totalCount">共 ${snap.products.length} 件</span><span class="ro-note">${genStr}</span></div></header><div class="layout"><aside class="sidebar"><div class="sidebar-label">檔期分類</div><div class="tab-list" id="tabList"></div><div class="sidebar-label" style="margin-top:24px;">主題標籤</div><div class="theme-chip-list" id="themeFilterList"></div></aside><main><div class="filter-row"><input type="text" class="search-box" id="searchBox" placeholder="搜尋商品名稱、品牌或備註..."><div class="price-filter"><input type="number" id="priceMinInput" placeholder="最低價" min="0"><span class="price-sep">－</span><input type="number" id="priceMaxInput" placeholder="最高價" min="0"></div><select id="appearFilter" class="sort-select">${optAppear}</select><select id="sortSelect" class="sort-select">${optSort}</select>${clientChipHtml}<span class="chip" id="appearOverviewChip" style="border-color:var(--ink-soft); color:var(--ink-soft); cursor:pointer;">📋 出現紀錄總覽</span><span class="chip" id="appearFilterChip" style="display:none; border-color:var(--ink); color:var(--ink); font-weight:700;"></span><span class="chip" id="brandFilterChip" style="display:none; border-color:var(--ink); color:var(--ink); font-weight:700;"></span></div><div class="grid" id="grid"></div></main></div></div><div class="overlay" id="appearOverviewOverlay" style="display:none;"><div class="modal"><button class="close-x" id="closeAppearOverviewBtn">✕</button><h2>📋 出現紀錄總覽</h2><div class="appear-overview-hint">點站台名可篩選整個站台，點文章標題可只看那篇推薦過的商品。</div><input type="text" class="search-box appear-overview-search" id="appearOverviewSearch" placeholder="搜尋站台或文章標題..."><div id="appearOverviewList"></div></div></div><div class="overlay" id="detailOverlay" style="display:none;"><div class="modal detail-modal"><button class="close-x" id="closeDetailBtn">✕</button><div id="detailBody"></div></div></div>`;
+  const body = `<div class="app"><header><div class="title-block"><h1>${escapeHtml(pTitle)}</h1><span class="subtitle">${escapeHtml(pDesc)}</span><span class="price-basis-chip">💰 售價以品牌官網最新價格為主</span></div><div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;"><span class="stamp-count" id="totalCount">共 ${snap.products.length} 件</span><span class="ro-note">${genStr}</span></div></header><div class="layout"><aside class="sidebar"><div class="sidebar-label">檔期分類</div><div class="tab-list" id="tabList"></div><div class="sidebar-label" style="margin-top:24px;">主題標籤</div><div class="theme-chip-list" id="themeFilterList"></div></aside><main><div class="filter-row"><input type="text" class="search-box" id="searchBox" placeholder="搜尋商品名稱、品牌或備註..."><div class="price-filter"><input type="number" id="priceMinInput" placeholder="最低價" min="0"><span class="price-sep">－</span><input type="number" id="priceMaxInput" placeholder="最高價" min="0"></div><select id="appearFilter" class="sort-select">${optAppear}</select><select id="sortSelect" class="sort-select">${optSort}</select>${clientChipHtml}<span class="chip" id="appearOverviewChip" style="border-color:var(--ink-soft); color:var(--ink-soft); cursor:pointer;">📋 出現紀錄總覽</span><span class="chip" id="appearFilterChip" style="display:none; border-color:var(--ink); color:var(--ink); font-weight:700;"></span><span class="chip" id="brandFilterChip" style="display:none; border-color:var(--ink); color:var(--ink); font-weight:700;"></span></div><div class="grid" id="grid"></div></main></div></div><div class="overlay" id="appearOverviewOverlay" style="display:none;"><div class="modal"><button class="close-x" id="closeAppearOverviewBtn">✕</button><h2>📋 出現紀錄總覽</h2><div class="appear-overview-hint">點站台名可篩選整個站台，點文章標題可只看那篇推薦過的商品。</div><input type="text" class="search-box appear-overview-search" id="appearOverviewSearch" placeholder="搜尋站台或文章標題..."><div id="appearOverviewList"></div></div></div><div class="overlay" id="detailOverlay" style="display:none;"><div class="modal detail-modal"><button class="close-x" id="closeDetailBtn">✕</button><div id="detailBody"></div></div></div>`;
 
   // 注意：'<\/script>' 故意加反斜線，避免提前關掉主程式的 script 標籤
   return '<!DOCTYPE html>\n<html lang="zh-Hant">\n<head>\n' + head + '\n</head>\n<body>\n' + body + '\n<script>\n' + script + '\n<\/script>\n</body>\n</html>';
@@ -2840,11 +3051,12 @@ const MERGE_FIELDS = [
   { key: 'url', label: '商品連結（主商品預設）' },
   { key: 'image', label: '圖片網址（主商品預設）' },
   { key: 'note', label: '備註（主商品預設）' },
-  { key: 'isClient', label: '客戶商品' }
+  { key: 'isClient', label: '客戶商品' },
+  { key: 'askPrice', label: '客製化・詢價（不顯示價格）' }
 ];
 
 function mergeFieldDisplay(key, val){
-  if(key === 'isClient') return val ? '是' : '否';
+  if(key === 'isClient' || key === 'askPrice') return val ? '是' : '否';
   if(key === 'brands') return Array.isArray(val) ? val.join(' × ') : (val || '');
   return (val != null && String(val).trim() !== '') ? String(val) : '';
 }
@@ -3142,6 +3354,7 @@ document.getElementById('mergeConfirmBtn').addEventListener('click', async () =>
       brands: [...(mainProduct.brands || [])],
       brand: (mainProduct.brands || [])[0] || '',
       price: mainProduct.price || '',
+      askPrice: !!mainProduct.askPrice,
       url: mainProduct.url || '',
       image: mainProduct.image || '',
       note: mainProduct.note || '',
@@ -3166,7 +3379,7 @@ document.getElementById('mergeConfirmBtn').addEventListener('click', async () =>
       }
       const chosenProduct = group.find(p => p.id === chosenId) || group[0];
       const rawVal = chosenProduct[f.key];
-      if(f.key === 'isClient') merged[f.key] = !!rawVal;
+      if(f.key === 'isClient' || f.key === 'askPrice') merged[f.key] = !!rawVal;
       else if(f.key === 'brands') merged[f.key] = Array.isArray(rawVal) ? [...rawVal] : (rawVal ? [rawVal] : []);
       else merged[f.key] = rawVal || '';
     });
@@ -3178,6 +3391,8 @@ document.getElementById('mergeConfirmBtn').addEventListener('click', async () =>
     merged.createdAt = Math.min(...group.map(p => p.createdAt || Date.now()));
   }
 
+  // 合併時把各筆商品的通路報價一起帶進來，避免開發版記過的價格消失
+  merged.quotes = group.flatMap(p => p.quotes || []);
   state.products = state.products.filter(p => !groupIds.includes(p.id));
   state.products.push(merged);
   await saveData();
