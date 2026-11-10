@@ -744,8 +744,10 @@
     font-size: 11px;
     color: var(--text-soft);
     margin-top: 2px;
-    line-height: 1.4;
+    line-height: 1.5;
     word-break: break-word;
+    user-select: text; /* 讓使用者能選取診斷資訊複製 */
+    -webkit-user-select: text;
   }
   .conn-banner-detail:empty { display: none; }
   .conn-banner-retry {
@@ -2358,6 +2360,13 @@
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
+  // 自動偵測 long polling：若 WebChannel（長連線）連不上，就 fallback 到 HTTP long polling。
+  // 解決 LINE / Facebook / Instagram 等內建瀏覽器以及某些企業 proxy / VPN 擋長連線的情境。
+  try {
+    db.settings({ experimentalAutoDetectLongPolling: true });
+  } catch (e) {
+    console.warn('長連線 fallback 設定失敗:', e);
+  }
 
   // 啟用離線快取（瀏覽器關掉重開還能看舊資料、網路斷掉還能讀）
   db.enablePersistence({ synchronizeTabs: true }).catch(err => {
@@ -2497,10 +2506,46 @@ function init() {
   connectToFirebase();
 }
 
-// ===== 連線狀態 =====
+// ===== 連線狀態（階段追蹤版）=====
 
 let connTimeoutId = null;
 let connFirstSnapshotReceived = false;
+// 追蹤目前走到哪一步：init → auth_start → auth_done → done
+let connStage = 'init';
+let connStageTimes = {};
+const CONN_START = Date.now();
+
+function markStage(stage) {
+  connStage = stage;
+  connStageTimes[stage] = Date.now() - CONN_START;
+}
+
+function stageLabel(s) {
+  switch (s) {
+    case 'init': return '初始化';
+    case 'auth_start': return '呼叫匿名登入';
+    case 'auth_done': return '登入完成（等 Firestore）';
+    case 'done': return '完成';
+    default: return s;
+  }
+}
+
+// 把手機當下的環境資訊組成單行診斷字串
+function buildDiagnostics() {
+  const lines = [];
+  lines.push('卡在：' + stageLabel(connStage));
+  const stageList = Object.keys(connStageTimes);
+  if (stageList.length > 0) {
+    lines.push('已完成：' + stageList.map(s => stageLabel(s) + '(' + connStageTimes[s] + 'ms)').join('、'));
+  }
+  // 手機當下時間（手機時間不對會造成 TLS 失敗 → auth 卡死）
+  const now = new Date();
+  lines.push('手機時間：' + now.toISOString().replace('T', ' ').slice(0, 19) + ' UTC');
+  lines.push('線上：' + (navigator.onLine ? '是' : '否'));
+  const ua = (navigator.userAgent || '').slice(0, 80);
+  lines.push('UA：' + ua);
+  return lines.join(' ｜ ');
+}
 
 function setConnStatus(level, title, detail, showRetry) {
   const banner = document.getElementById('connBanner');
@@ -2522,29 +2567,78 @@ function detectEnvIssues() {
   } catch (e) {}
   try {
     localStorage.setItem('__t', '1'); localStorage.removeItem('__t');
-  } catch (e) { issues.push('localStorage 被封鎖（可能是無痕模式）'); }
+  } catch (e) { issues.push('localStorage 被封鎖（無痕模式常見）'); }
+  try {
+    if (!window.indexedDB) issues.push('IndexedDB 不可用');
+  } catch (e) { issues.push('IndexedDB 被封鎖'); }
+  if (!navigator.onLine) issues.push('瀏覽器判定為離線');
   return issues.join('；');
+}
+
+// 偵測 in-app browser（LINE、FB、IG 等的內建瀏覽器）
+// 回傳 app 名稱（'LINE' / 'Facebook' / 'Instagram' / 'Messenger' 等），不是就回傳 null
+function detectInAppBrowser() {
+  const ua = (navigator.userAgent || '').toLowerCase();
+  if (/\bline\b|line\//i.test(ua)) return 'LINE';
+  if (/fbav|fban|fb_iab/i.test(ua)) return 'Facebook';
+  if (/instagram/i.test(ua)) return 'Instagram';
+  if (/messenger/i.test(ua)) return 'Messenger';
+  if (/twitter/i.test(ua)) return 'Twitter/X';
+  // iOS 簡易判斷：WebKit 但沒有 Safari 字樣，常見 in-app
+  if (/iphone|ipad|ipod/.test(ua) && /applewebkit/.test(ua) && !/safari/.test(ua) && !/crios|fxios|edgios/.test(ua)) {
+    return '某個 App 的內建瀏覽器';
+  }
+  return null;
 }
 
 function connectToFirebase() {
   connFirstSnapshotReceived = false;
-  const envIssues = detectEnvIssues();
-  const envNote = envIssues ? '（偵測到：' + envIssues + '）' : '';
-  setConnStatus('info', '連線雲端中…', envNote || '首次載入可能需要幾秒', false);
+  connStage = 'init';
+  connStageTimes = {};
+  markStage('init');
 
-  // 10 秒總 timeout：若還沒收到任何 snapshot 就提示並允許重試
+  const inApp = detectInAppBrowser();
+  const envIssues = detectEnvIssues();
+
+  // 一偵測到 in-app browser 就直接警告（不等 timeout）
+  if (inApp) {
+    setConnStatus('warn',
+      '你正在用「' + inApp + '」內建瀏覽器開這個網站',
+      '內建瀏覽器會擋 Firebase 的長連線，資料可能拉不下來或變超慢。請點右上角「...」→「在 Safari / Chrome 開啟」，或長按下方網址複製到一般瀏覽器貼上。' +
+      (envIssues ? '｜偵測到：' + envIssues : ''),
+      false);
+  } else {
+    const envNote = envIssues ? '（偵測到：' + envIssues + '）' : '';
+    setConnStatus('info', '連線雲端中…', envNote || '首次載入可能需要幾秒', false);
+  }
+
+  // 10 秒總 timeout：根據卡在哪一階段給出針對性建議
   if (connTimeoutId) clearTimeout(connTimeoutId);
   connTimeoutId = setTimeout(() => {
     if (connFirstSnapshotReceived) return;
-    const hint = envIssues
-      ? '偵測到：' + envIssues + '。若在無痕/隱私模式，請改用一般模式。'
-      : '可能原因：網路不穩、Firebase 匿名登入未啟用、或瀏覽器擋 Cookie / IndexedDB。';
-    setConnStatus('warn', '連線逾時 10 秒', hint, true);
+    let title, hint;
+    if (inApp) {
+      // in-app browser 卡住 → 幾乎確定是這個原因
+      title = '「' + inApp + '」內建瀏覽器擋住了即時連線';
+      hint = '請改用 Safari（iPhone）或 Chrome（Android）打開：點 ' + inApp + ' 視窗右上角「...」或分享鍵 →「在瀏覽器開啟」。若沒有這選項，長按網址複製後貼到 Safari / Chrome。';
+    } else if (connStage === 'init' || connStage === 'auth_start') {
+      title = '登入卡住（Firebase Auth 未回應）';
+      hint = '最常見原因：(1) 手機日期時間不正確（TLS 會失敗）(2) VPN / 廣告阻擋 / DNS 過濾擋了 identitytoolkit.googleapis.com (3) 瀏覽器太舊。診斷：' + buildDiagnostics();
+    } else if (connStage === 'auth_done') {
+      title = '登入成功但 Firestore 連不上';
+      hint = 'firestore.googleapis.com 被擋。試試：(1) 關 VPN / 廣告阻擋 (2) 換 Wi-Fi 或行動網路 (3) 清除瀏覽器快取重開。診斷：' + buildDiagnostics();
+    } else {
+      title = '連線逾時 10 秒';
+      hint = (envIssues ? '偵測到：' + envIssues + '。' : '') + '請重試或檢查網路。診斷：' + buildDiagnostics();
+    }
+    setConnStatus('warn', title, hint, true);
   }, 10000);
 
   // 匿名登入
+  markStage('auth_start');
   auth.signInAnonymously()
     .then(() => {
+      markStage('auth_done');
       // 登入成功後啟動即時資料監聽（snapshot 第一次回來才算真的通）
       subscribeClients();
       subscribeRecords();
@@ -2558,7 +2652,7 @@ function connectToFirebase() {
       if (err && err.code === 'auth/admin-restricted-operation') {
         hint = '匿名登入未啟用。請到 Firebase Console → Authentication → Sign-in method 啟用 Anonymous。';
       } else if (err && err.code === 'auth/network-request-failed') {
-        hint = '網路請求失敗，請檢查網路連線後重試。';
+        hint = '網路請求失敗。檢查：(1) 手機日期時間 (2) VPN/DNS 過濾 (3) 網路連線。診斷：' + buildDiagnostics();
       } else if (err && err.code && err.code.startsWith('auth/operation-not-allowed')) {
         hint = '此登入方式未開放，請到 Firebase Console 啟用匿名登入。';
       }
@@ -2577,6 +2671,7 @@ function retryConnection() {
 function markConnectionOk() {
   if (connFirstSnapshotReceived) return;
   connFirstSnapshotReceived = true;
+  markStage('done');
   if (connTimeoutId) { clearTimeout(connTimeoutId); connTimeoutId = null; }
   setConnStatus('ok', '已連線', '', false);
 }
