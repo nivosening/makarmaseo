@@ -1,0 +1,5244 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO 排名達標紀錄</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+
+  :root {
+    --bg: #f8f5ee;
+    --surface: #fdfcf8;
+    --surface-elevated: #ffffff;
+    --border: #e6e1d4;
+    --border-soft: #efeae0;
+    --text: #2d2a24;
+    --text-soft: #756e62;
+    --text-mute: #a89f90;
+    --olive: #8b9166;
+    --olive-deep: #6b7050;
+    --olive-soft: #ecebe0;
+    --olive-tint: #f5f4ea;
+    --warm: #c4a373;
+    --warm-soft: #f5ede0;
+    --simei-bg: #e3e9d4;
+    --simei-text: #4d5a30;
+    --tracking-bg: #f3e6d2;
+    --tracking-text: #76551e;
+    --fail-bg: #efd9d3;
+    --fail-text: #76362d;
+    --auto-bg: #f5f4ea;
+    --auto-border: #d4d4b8;
+    --serif: "Cormorant Garamond", "Noto Serif TC", serif;
+    --sans: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "PingFang TC", sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    line-height: 1.65;
+    font-size: 15px;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .app {
+    max-width: 760px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+
+  .header {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .header-title {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    margin: 0;
+    line-height: 1.1;
+  }
+  .header-zh {
+    font-size: 14px;
+    color: var(--text-soft);
+    margin-top: 2px;
+    letter-spacing: 0.04em;
+  }
+  .header-divider {
+    width: 32px;
+    height: 1px;
+    background: var(--olive);
+    margin-top: 14px;
+    opacity: 0.5;
+  }
+
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0 28px;
+  }
+  .tab {
+    padding: 14px 0;
+    margin-right: 28px;
+    font-size: 14px;
+    color: var(--text-soft);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.18s;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active {
+    color: var(--text);
+    border-bottom-color: var(--olive);
+    font-weight: 500;
+  }
+  .tab-count {
+    color: var(--text-mute);
+    font-size: 12px;
+    margin-left: 4px;
+    font-feature-settings: "tnum";
+  }
+
+  .panel { padding: 28px; }
+  .panel.hidden { display: none; }
+
+  .form-section-label {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--olive-deep);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+    font-weight: 500;
+  }
+  .form-section-divider {
+    width: 24px;
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 22px;
+  }
+
+  /* === 大輸入框（智慧解析） === */
+  .smart-input-block {
+    background: var(--olive-tint);
+    border: 1px solid var(--auto-border);
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+  .smart-input-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .smart-input-label .title {
+    font-size: 13px;
+    color: var(--olive-deep);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .smart-input-label .hint {
+    font-size: 11.5px;
+    color: var(--text-mute);
+    letter-spacing: 0.02em;
+  }
+  .smart-input-block textarea {
+    background: var(--surface-elevated);
+    border-color: var(--border);
+    min-height: 70px;
+    margin-bottom: 8px;
+  }
+  .smart-input-syntax {
+    font-size: 11.5px;
+    color: var(--text-soft);
+    line-height: 1.7;
+    background: var(--surface-elevated);
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border-soft);
+  }
+  .smart-input-syntax code {
+    background: var(--olive-soft);
+    padding: 1px 5px;
+    border-radius: 2px;
+    font-size: 11px;
+    color: var(--olive-deep);
+    font-family: ui-monospace, SFMono-Regular, monospace;
+  }
+  .parse-result {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--surface-elevated);
+    border: 1px solid var(--auto-border);
+    border-radius: 4px;
+    font-size: 12.5px;
+    color: var(--text-soft);
+    display: none;
+  }
+  .parse-result.show { display: block; }
+  .parse-result strong {
+    color: var(--olive-deep);
+    font-weight: 500;
+  }
+  .parse-result .filled-list {
+    margin-top: 4px;
+    color: var(--text);
+  }
+  .parse-result .filled-tag {
+    display: inline-block;
+    background: var(--olive-soft);
+    color: var(--olive-deep);
+    padding: 1px 7px;
+    border-radius: 10px;
+    margin: 2px 4px 2px 0;
+    font-size: 11.5px;
+  }
+
+  /* === 表單 === */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .form-grid .full { grid-column: 1 / -1; }
+
+  .field-label {
+    display: block;
+    font-size: 12.5px;
+    color: var(--text-soft);
+    margin-bottom: 5px;
+    letter-spacing: 0.03em;
+  }
+  .field-label .required {
+    color: var(--olive);
+    margin-left: 2px;
+  }
+  .field-label .auto-tag {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 6px;
+    background: var(--olive-soft);
+    color: var(--olive-deep);
+    font-size: 10.5px;
+    border-radius: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="url"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    background: var(--surface-elevated);
+    color: var(--text);
+    transition: all 0.15s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--olive);
+  }
+  input.auto-filled, select.auto-filled {
+    background: var(--auto-bg);
+    border-color: var(--auto-border);
+  }
+
+  textarea {
+    min-height: 78px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23756e62' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 30px;
+  }
+
+  /* 客戶名稱建議下拉 */
+  .customer-input-wrap {
+    position: relative;
+  }
+  .suggest-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    z-index: 50;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .suggest-dropdown.show {
+    display: block;
+  }
+  .suggest-item {
+    padding: 8px 11px;
+    font-size: 13.5px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-soft);
+    transition: background 0.12s;
+  }
+  .suggest-item:last-child {
+    border-bottom: none;
+  }
+  .suggest-item:hover, .suggest-item.active {
+    background: var(--olive-tint);
+    color: var(--olive-deep);
+  }
+  .suggest-item .meta {
+    font-size: 11.5px;
+    color: var(--text-mute);
+    margin-left: 6px;
+  }
+
+  /* 工具列（匯出按鈕） */
+  /* 業主聚焦資訊條 */
+  .client-focus {
+    display: block;
+    padding: 14px 16px;
+    background: var(--olive-tint);
+    border: 1px solid var(--olive-soft);
+    border-left: 3px solid var(--olive);
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  .client-focus-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .client-focus-main {
+    flex: 1;
+    min-width: 0;
+  }
+  .client-focus-label {
+    font-family: var(--serif);
+    font-size: 10.5px;
+    color: var(--olive-deep);
+    letter-spacing: 0.18em;
+    margin-bottom: 4px;
+  }
+  .client-focus-name {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.2;
+    word-break: break-word;
+  }
+  .client-focus-meta {
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: var(--text-soft);
+    letter-spacing: 0.02em;
+  }
+  .client-focus-meta .sep { color: var(--text-mute); margin: 0 6px; }
+  .client-focus-meta .empty { color: var(--text-mute); font-style: italic; }
+  .client-focus-website {
+    margin-top: 4px;
+    font-size: 12px;
+    word-break: break-all;
+  }
+  .client-focus-website a {
+    color: var(--olive-deep);
+    text-decoration: none;
+  }
+  .client-focus-website a:hover { text-decoration: underline; }
+  .client-focus-website .empty {
+    color: var(--text-mute);
+    font-style: italic;
+  }
+  .client-focus-clear {
+    flex: 0 0 auto;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-mute);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .client-focus-clear:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
+  .client-focus-actions {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 6px;
+  }
+  .client-focus-edit {
+    flex: 0 0 auto;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-mute);
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .client-focus-edit:hover {
+    border-color: var(--olive);
+    color: var(--olive-deep);
+    background: rgba(255,255,255,0.4);
+  }
+
+  /* 業主聚焦：關鍵字狀態總覽 */
+  .client-focus-keywords {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--olive-soft);
+  }
+  .client-focus-keywords:empty {
+    display: none;
+  }
+  .focus-kw-section {
+    margin-bottom: 10px;
+  }
+  .focus-kw-section:last-child { margin-bottom: 0; }
+  .focus-kw-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .focus-kw-label {
+    font-size: 11px;
+    color: var(--olive-deep);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .focus-kw-count {
+    color: var(--text-mute);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+  .focus-kw-legend {
+    display: inline-flex;
+    gap: 10px;
+    font-size: 10.5px;
+    color: var(--text-mute);
+    letter-spacing: 0.02em;
+  }
+  .focus-kw-legend .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 3px;
+    vertical-align: middle;
+  }
+  .focus-kw-legend .dot.simei    { background: var(--simei-text); }
+  .focus-kw-legend .dot.simei-light {
+    background: rgba(255,255,255,0.6);
+    border: 1.5px dashed var(--simei-text);
+    width: 6px; height: 6px;
+  }
+  .focus-kw-legend .dot.fail     { background: var(--fail-text); }
+  .focus-kw-legend .dot.tracking { background: var(--text-mute); }
+  .focus-kw-legend .dot.none     { background: transparent; border: 1px dashed var(--border); width: 6px; height: 6px; }
+
+  .toolbar {
+    display: flex;
+    gap: 8px;
+    margin: 14px 0 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .add-client-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+  }
+  .add-client-row input { flex: 1; min-width: 0; }
+  .add-client-row .btn-primary {
+    flex: 0 0 auto;
+    padding: 9px 22px;
+  }
+  @media (max-width: 580px) {
+    .add-client-row { flex-wrap: wrap; }
+    .add-client-row input { flex: 1 1 100%; }
+    .add-client-row .btn-primary { flex: 1 1 100%; }
+  }
+  .sort-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: auto;
+  }
+  .sort-label {
+    font-size: 11.5px;
+    color: var(--text-soft);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  #sortSelect,
+  #clientSortSelect {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  #sortSelect:focus,
+  #clientSortSelect:focus {
+    outline: none;
+    border-color: var(--olive);
+  }
+
+  /* 業主篩選列：搜尋 + 排序 並排 */
+  .client-filters-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .client-filters-row .search-box {
+    flex: 1 1 240px;
+    min-width: 200px;
+  }
+  .client-filters-row .sort-wrap {
+    margin-right: 0;
+    margin-left: auto;
+  }
+  @media (max-width: 560px) {
+    .client-filters-row .sort-wrap {
+      margin-left: 0;
+    }
+  }
+  .btn-export {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-soft);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: all 0.15s;
+  }
+  .btn-export:hover {
+    border-color: var(--olive);
+    color: var(--olive-deep);
+  }
+  .btn-export::before {
+    content: "↓ ";
+    color: var(--olive);
+  }
+
+  /* Upload */
+  .upload-zone {
+    margin-top: 14px;
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    padding: 22px 16px;
+    text-align: center;
+    background: var(--surface-elevated);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .upload-zone:hover {
+    border-color: var(--olive);
+    background: var(--olive-soft);
+  }
+  .upload-zone.has-files {
+    border-style: solid;
+    border-color: var(--olive);
+    background: var(--olive-soft);
+  }
+  .upload-text {
+    font-size: 13px;
+    color: var(--text-soft);
+  }
+  .upload-text strong {
+    color: var(--olive-deep);
+    font-weight: 500;
+  }
+  .upload-hint {
+    font-size: 11.5px;
+    color: var(--text-mute);
+    margin-top: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  .file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .file-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--olive-soft);
+    border: 1px solid var(--border);
+  }
+  .file-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .file-remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    background: rgba(45, 42, 36, 0.7);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .actions {
+    margin-top: 22px;
+    display: flex;
+    gap: 10px;
+  }
+  .btn-primary, .btn-secondary {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+  }
+  .btn-primary {
+    background: var(--olive);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--olive-deep); }
+  .btn-primary:disabled { background: var(--text-mute); cursor: wait; }
+  .btn-secondary {
+    background: var(--surface-elevated);
+    color: var(--text-soft);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover {
+    color: var(--text);
+    border-color: var(--text-soft);
+  }
+
+  /* 連線狀態 banner — 固定在頂端，連線成功會自動滑走 */
+  .conn-banner {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--olive-tint);
+    border-bottom: 1px solid var(--olive-soft);
+    padding: 10px 16px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .conn-banner.ok {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .conn-banner.warn {
+    background: #fdf5e6;
+    border-bottom-color: #e8d9bd;
+  }
+  .conn-banner.error {
+    background: var(--fail-bg);
+    border-bottom-color: #e8beb3;
+  }
+  .conn-banner-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .conn-banner-icon {
+    font-size: 10px;
+    color: var(--olive-deep);
+    flex: 0 0 auto;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  .conn-banner.warn .conn-banner-icon { color: #b8860b; animation: none; }
+  .conn-banner.error .conn-banner-icon { color: var(--fail-text); animation: none; }
+  @keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+  .conn-banner-msg {
+    flex: 1;
+    min-width: 0;
+  }
+  .conn-banner-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .conn-banner-detail {
+    font-size: 11px;
+    color: var(--text-soft);
+    margin-top: 2px;
+    line-height: 1.5;
+    word-break: break-word;
+    user-select: text; /* 讓使用者能選取診斷資訊複製 */
+    -webkit-user-select: text;
+  }
+  .conn-banner-detail:empty { display: none; }
+  .conn-banner-retry {
+    flex: 0 0 auto;
+    padding: 6px 14px;
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .conn-banner-retry:hover {
+    border-color: var(--olive);
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--text);
+    color: var(--surface);
+    padding: 12px 22px;
+    border-radius: 4px;
+    font-size: 13.5px;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 200;
+    pointer-events: none;
+    letter-spacing: 0.05em;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Query page */
+  .filters-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+    padding: 9px 12px 9px 34px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 13.5px;
+    background: var(--surface-elevated) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 16 16' fill='%23a89f90'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E") no-repeat 11px center;
+    font-family: inherit;
+    color: var(--text);
+  }
+  .search-box:focus {
+    outline: none;
+    border-color: var(--olive);
+  }
+
+  .chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .chip {
+    font-size: 12px;
+    padding: 5px 11px;
+    border-radius: 3px;
+    background: var(--surface-elevated);
+    color: var(--text-soft);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.04em;
+  }
+  .chip:hover { border-color: var(--olive); }
+  .chip.active {
+    background: var(--olive);
+    color: white;
+    border-color: var(--olive);
+  }
+
+  /* 業主頁面篩選：多組 chips + label */
+  .client-filter-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .client-filter-chips:empty { display: none; }
+  .client-filter-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .client-filter-label {
+    font-size: 10.5px;
+    color: var(--text-mute);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    min-width: 42px;
+    font-weight: 500;
+  }
+  .client-filter-row .chip {
+    font-size: 11.5px;
+    padding: 4px 10px;
+  }
+
+  .records {
+    display: flex;
+    flex-direction: column;
+  }
+  .record {
+    display: flex;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-soft);
+    cursor: pointer;
+    transition: background 0.15s;
+    margin: 0 -10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 4px;
+  }
+  .record:hover { background: var(--olive-soft); }
+  .record:last-child { border-bottom: none; }
+
+  .thumb {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--olive-soft);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .thumb-empty {
+    font-size: 11px;
+    color: var(--text-mute);
+    letter-spacing: 0.04em;
+  }
+
+  .record-main { flex: 1; min-width: 0; }
+  .record-customer {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0 0 3px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .record-customer-link {
+    cursor: pointer;
+    border-bottom: 1px dashed transparent;
+    padding-bottom: 1px;
+    transition: all 0.15s;
+  }
+  .record-customer-link:hover {
+    color: var(--olive-deep);
+    border-bottom-color: var(--olive);
+  }
+
+  /* record 卡片位置 relative 才能放 L 按鈕 */
+  .record { position: relative; }
+
+  .record-line-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+    border: 1px solid var(--border);
+    color: var(--text-mute);
+    font-size: 11px;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.15s;
+    z-index: 2;
+  }
+  .record-line-btn:hover {
+    border-color: #06c755;
+    color: #06c755;
+    background: #fff;
+  }
+  .record-keyword {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-bottom: 6px;
+    font-feature-settings: "tnum";
+  }
+  .record-keyword .rank {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--olive-deep);
+    font-weight: 500;
+    margin-left: 4px;
+  }
+  .record-keyword .volume {
+    color: var(--text-mute);
+    font-size: 12px;
+    margin-left: 6px;
+  }
+  .record-meta {
+    font-size: 12px;
+    color: var(--text-soft);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .record-meta .dot {
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: var(--text-mute);
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .badge.simei { background: var(--simei-bg); color: var(--simei-text); }
+  .badge.tracking { background: var(--tracking-bg); color: var(--tracking-text); }
+  .badge.fail { background: var(--fail-bg); color: var(--fail-text); }
+  .badge.ai-badge {
+    background: transparent;
+    color: var(--olive-deep);
+    border: 1px solid var(--olive);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+  .badge.non-targeted {
+    background: transparent;
+    color: var(--text-soft);
+    border: 1px dashed var(--text-mute);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+  .badge.targeted {
+    background: var(--olive-soft);
+    color: var(--olive-deep);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-mute);
+    font-size: 13.5px;
+  }
+  .empty-state .em-icon {
+    font-family: var(--serif);
+    font-size: 32px;
+    margin-bottom: 8px;
+    color: var(--border);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 22px;
+  }
+  .stat {
+    background: var(--surface-elevated);
+    padding: 12px 8px;
+    text-align: center;
+  }
+  .stat-value {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1;
+    font-feature-settings: "tnum";
+  }
+  .stat-label {
+    font-size: 10.5px;
+    color: var(--text-soft);
+    margin-top: 4px;
+    letter-spacing: 0.06em;
+  }
+  @media (max-width: 580px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 42, 36, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+
+  /* Clients */
+  .clients-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .client-card {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    transition: all 0.15s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .client-card:hover {
+    border-color: var(--olive);
+    background: var(--olive-soft);
+  }
+  .client-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .client-name-wrap {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .client-name {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.2;
+    word-break: break-word;
+  }
+  .client-website {
+    font-size: 11.5px;
+    color: var(--olive-deep);
+    text-decoration: none;
+    word-break: break-all;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+  }
+  .client-website:hover { text-decoration: underline; }
+  .client-website-empty {
+    font-size: 11px;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+  .client-card-actions {
+    display: flex;
+    gap: 4px;
+    flex: 0 0 auto;
+  }
+  .client-edit {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-mute);
+    font-size: 11px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .client-edit:hover {
+    border-color: var(--olive);
+    color: var(--olive-deep);
+  }
+  .client-delete {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-mute);
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.15s;
+  }
+  .client-delete:hover {
+    border-color: var(--fail-text);
+    color: var(--fail-text);
+  }
+  .client-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    align-items: baseline;
+    font-size: 12px;
+    color: var(--text-soft);
+  }
+  .client-stat-num {
+    font-family: var(--serif);
+    font-size: 20px;
+    color: var(--olive-deep);
+    font-weight: 500;
+    font-feature-settings: "tnum";
+    line-height: 1;
+  }
+  .client-stat-label {
+    font-size: 10.5px;
+    color: var(--text-mute);
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+  .client-rate {
+    font-size: 11.5px;
+    color: var(--text-soft);
+    padding-top: 6px;
+    border-top: 1px solid var(--border-soft);
+    display: flex;
+    justify-content: space-between;
+  }
+  .client-rate .rate-value {
+    color: var(--olive-deep);
+    font-weight: 500;
+  }
+  .client-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--text-mute);
+    font-size: 13px;
+  }
+  .client-empty .em-icon {
+    font-family: var(--serif);
+    font-size: 30px;
+    margin-bottom: 6px;
+    color: var(--border);
+  }
+
+  /* 業主卡片：專案種類 badge + 匯出按鈕 */
+  .client-project-type {
+    display: inline-block;
+    font-size: 10.5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: var(--olive-tint);
+    color: var(--olive-deep);
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    margin-top: 4px;
+    align-self: flex-start;
+    border: 1px solid var(--border-soft);
+  }
+  .client-project-type.type-article   { background: var(--warm-soft);  color: var(--warm);        border-color: #e8d9bd; }
+  .client-project-type.type-general   { background: var(--olive-tint); color: var(--olive-deep); }
+  .client-project-type.type-guarantee { background: var(--fail-bg);    color: var(--fail-text);   border-color: #e8beb3; }
+
+  /* 已結束專案的類型 badge：淡化 + 附「已結束」小字 */
+  .client-project-type.project-type-ended {
+    opacity: 0.55;
+    filter: grayscale(0.4);
+  }
+  .client-project-type .ended-marker {
+    font-size: 9.5px;
+    margin-left: 3px;
+    opacity: 0.85;
+    letter-spacing: 0;
+  }
+
+  /* 業主編號 badge */
+  .client-number-badge {
+    display: inline-block;
+    font-family: var(--serif);
+    font-size: 11px;
+    color: var(--olive-deep);
+    background: var(--olive-tint);
+    padding: 1px 7px;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+    align-self: flex-start;
+    font-feature-settings: "tnum";
+    margin-bottom: 4px;
+    border: 1px solid var(--olive-soft);
+  }
+
+  /* 保證專案：整張卡片紅色外框 */
+  .client-card.project-guarantee {
+    border-color: #b85040;
+    box-shadow: inset 0 0 0 1px #b85040;
+  }
+  .client-card.project-guarantee:hover {
+    border-color: #9c3d30;
+    background: rgba(184, 80, 64, 0.04);
+    box-shadow: inset 0 0 0 1px #9c3d30;
+  }
+
+  /* 業主卡片：PM / 業務 meta 行 */
+  .client-card-meta {
+    font-size: 11.5px;
+    color: var(--text-soft);
+    line-height: 1.4;
+    margin-top: 4px;
+    letter-spacing: 0.02em;
+  }
+  .client-card-meta .k { color: var(--text-mute); margin-right: 2px; }
+  .client-card-meta .sep { color: var(--text-mute); margin: 0 6px; }
+
+  /* 業主卡片：底部網址 */
+  .client-card-website-bottom {
+    font-size: 11px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border-soft);
+    word-break: break-all;
+    line-height: 1.4;
+  }
+  .client-card-website-bottom a {
+    color: var(--olive-deep);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .client-card-website-bottom a:hover { text-decoration: underline; }
+  .client-card-website-bottom .empty {
+    color: var(--text-mute);
+    font-style: italic;
+  }
+
+  .client-export {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-mute);
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .client-export:hover {
+    border-color: var(--olive);
+    color: var(--olive-deep);
+  }
+
+  /* 業主編輯 modal：表單欄位 */
+  .client-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .client-edit-form .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .client-edit-form .field-group label {
+    font-size: 10.5px;
+    color: var(--text-soft);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .client-edit-form .field-group input,
+  .client-edit-form .field-group select,
+  .client-edit-form .field-group textarea {
+    width: 100%;
+  }
+  .client-edit-form .field-group textarea {
+    font-family: var(--sans);
+    font-size: 13px;
+    resize: vertical;
+    min-height: 88px;
+  }
+  .client-edit-form .field-hint {
+    font-size: 10.5px;
+    color: var(--text-mute);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    margin-top: -2px;
+  }
+  .client-edit-form .two-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 480px) {
+    .client-edit-form .two-cols { grid-template-columns: 1fr; }
+  }
+
+  /* 關鍵字狀態 tag */
+  .keyword-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .kw-tag {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    line-height: 1.3;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .kw-tag .kw-rank {
+    font-size: 10.5px;
+    opacity: 0.7;
+    margin-left: 4px;
+    font-feature-settings: "tnum";
+  }
+  .kw-tag.kw-simei    { background: var(--simei-bg);   color: var(--simei-text); }
+  .kw-tag.kw-simei-light {
+    /* 淡綠（快速達標）：白底 + 綠色虛線粗邊框 + 前置圈符號，跟 kw-simei 明顯區隔 */
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--simei-text);
+    border: 1.5px dashed var(--simei-text);
+    padding: 2.5px 9px 2.5px 7px;
+  }
+  .kw-tag.kw-simei-light::before {
+    content: '◌';
+    margin-right: 4px;
+    font-weight: 700;
+    opacity: 0.9;
+    font-size: 12px;
+  }
+  .kw-tag.kw-fail     { background: var(--fail-bg);    color: var(--fail-text); }
+  .kw-tag.kw-tracking { background: var(--border-soft); color: var(--text-mute); }
+  .kw-tag.kw-none {
+    background: transparent;
+    color: var(--text-mute);
+    border: 1px dashed var(--border);
+    padding: 3px 9px; /* 少 1px 補回 border */
+  }
+  /* 可點的 tag hover 效果 */
+  .kw-tag[onclick]:hover {
+    filter: brightness(0.95);
+    box-shadow: 0 0 0 1px var(--olive);
+  }
+  .kw-tag .kw-date {
+    font-size: 10.5px;
+    opacity: 0.75;
+    margin-left: 5px;
+    font-feature-settings: "tnum";
+    letter-spacing: 0.02em;
+  }
+
+  /* 快速紀錄 modal */
+  .quick-record-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .quick-record-form .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .quick-record-form .field-group label {
+    font-size: 10.5px;
+    color: var(--text-soft);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .quick-record-form .field-group input,
+  .quick-record-form .field-group select {
+    width: 100%;
+    padding: 8px 10px;
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .quick-record-form .field-group input:focus,
+  .quick-record-form .field-group select:focus {
+    outline: none;
+    border-color: var(--olive);
+  }
+  .quick-record-form .two-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 480px) {
+    .quick-record-form .two-cols { grid-template-columns: 1fr; }
+  }
+  .qr-upload-btn {
+    display: inline-block;
+    padding: 8px 14px;
+    background: transparent;
+    border: 1px dashed var(--olive);
+    color: var(--olive-deep);
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-align: center;
+    transition: all 0.15s;
+    align-self: flex-start;
+  }
+  .qr-upload-btn:hover {
+    background: var(--olive-soft);
+    border-style: solid;
+  }
+  .qr-file-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .qr-file-grid:empty { display: none; }
+  .qr-file-grid .file-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--olive-soft);
+  }
+  .qr-file-grid .file-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .qr-file-grid .file-remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0.55);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .quick-record-form .field-hint {
+    font-size: 10.5px;
+    color: var(--text-mute);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    padding-top: 4px;
+    border-top: 1px dashed var(--border-soft);
+  }
+  .qr-checkbox-group { padding: 4px 0; }
+  .qr-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text);
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 400;
+  }
+  .qr-checkbox-label input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    accent-color: var(--olive);
+    margin: 0;
+  }
+  /* 日期欄 + 「無日期」checkbox 同列 */
+  .qr-date-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .qr-date-row input[type="date"] { flex: 1; min-width: 0; }
+  .qr-date-row input[type="date"]:disabled {
+    opacity: 0.5;
+    background: var(--border-soft);
+    cursor: not-allowed;
+  }
+  .qr-inline-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--text-mute);
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+  .qr-inline-check input[type="checkbox"] {
+    width: 13px;
+    height: 13px;
+    cursor: pointer;
+    accent-color: var(--olive);
+    margin: 0;
+  }
+
+  /* 業主聚焦：專案 section */
+  .focus-kw-legend-row {
+    margin-bottom: 10px;
+  }
+  .focus-project-section {
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--olive-soft);
+  }
+  .focus-project-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .focus-project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .focus-project-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .focus-project-name {
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  /* 專案序號（per-client 的位置編號） */
+  .focus-project-ordinal {
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--olive-deep);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    font-feature-settings: "tnum";
+    padding: 1px 6px;
+    background: var(--olive-soft);
+    border-radius: 2px;
+    line-height: 1.3;
+  }
+  .focus-project-name-empty {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text-mute);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .focus-kw-hint {
+    font-size: 10.5px;
+    color: var(--text-mute);
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
+  .focus-project-section-orphan {
+    background: rgba(196, 163, 115, 0.06);
+    padding: 8px 10px;
+    border: 1px dashed var(--border);
+    border-radius: 3px;
+  }
+  .focus-project-section-orphan .focus-kw-label {
+    color: var(--warm);
+  }
+  /* 專案的補充資訊（開始日期、專案 PM） */
+  .focus-project-meta {
+    font-size: 11px;
+    color: var(--text-mute);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+    font-feature-settings: "tnum";
+  }
+  /* 已結束的 section：淡出 */
+  .focus-project-section-ended {
+    opacity: 0.55;
+  }
+  .project-ended-badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: var(--border-soft);
+    color: var(--text-mute);
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    border: 1px solid var(--border);
+  }
+
+  /* 業主編輯 modal：專案區塊 */
+  .btn-add-project {
+    background: transparent;
+    border: 1px dashed var(--olive);
+    color: var(--olive-deep);
+    font-family: inherit;
+    font-size: 11.5px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+  .btn-add-project:hover {
+    background: var(--olive-soft);
+    border-style: solid;
+  }
+  .project-block {
+    background: var(--olive-tint);
+    border: 1px solid var(--olive-soft);
+    border-radius: 4px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .project-block:last-child { margin-bottom: 0; }
+  /* 已結束的專案：淡出 */
+  .project-block-ended {
+    opacity: 0.6;
+    background: var(--border-soft);
+  }
+  .project-ended-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--text-mute);
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-weight: 400;
+    margin-left: 10px;
+  }
+  .project-ended-toggle input {
+    width: 13px;
+    height: 13px;
+    cursor: pointer;
+    accent-color: var(--olive);
+  }
+
+  /* 歷任 PM chips */
+  .pb-pm-history-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    min-height: 22px;
+    margin-bottom: 6px;
+  }
+  .pb-pm-history-list:empty {
+    padding: 4px 0;
+  }
+  .pb-pm-history-list:empty::before {
+    content: '（尚無歷任 PM）';
+    font-size: 11px;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+  .pm-history-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11.5px;
+    padding: 3px 4px 3px 9px;
+    background: var(--border-soft);
+    color: var(--text-soft);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    letter-spacing: 0.02em;
+  }
+  .pm-history-chip button {
+    background: transparent;
+    border: none;
+    color: var(--text-mute);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 3px;
+    font-family: inherit;
+    transition: color 0.15s;
+  }
+  .pm-history-chip button:hover {
+    color: var(--fail-text);
+  }
+  .pb-pm-history-add {
+    max-width: 200px;
+    font-size: 11.5px !important;
+    padding: 4px 22px 4px 8px !important;
+  }
+  .project-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .project-block-title {
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--olive-deep);
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+  .project-block-num {
+    color: var(--text-mute);
+    margin-left: 2px;
+    font-family: var(--sans);
+    font-feature-settings: "tnum";
+  }
+  .btn-project-remove {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-mute);
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .btn-project-remove:hover {
+    border-color: var(--fail-text);
+    color: var(--fail-text);
+  }
+  .project-block .field-group input,
+  .project-block .field-group select,
+  .project-block .field-group textarea {
+    background: var(--surface-elevated);
+  }
+  .project-block .field-group textarea {
+    min-height: 72px;
+    font-family: var(--sans);
+    font-size: 13px;
+    resize: vertical;
+  }
+
+  /* 業主卡片：多個專案種類 badge 排一排 */
+  .client-card-types-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+  }
+  .client-card-types-row .client-project-type {
+    margin-top: 0;
+  }
+  .kw-empty {
+    font-size: 12px;
+    color: var(--text-mute);
+    font-style: italic;
+    padding: 4px 0;
+  }
+
+  /* 編輯 modal 底部：兩排按鈕（第二排放危險操作） */
+  .modal-actions.two-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .modal-actions.two-row .row {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+  }
+  .modal-actions.two-row .row .btn-secondary,
+  .modal-actions.two-row .row .btn-primary { flex: 1 1 100px; padding: 10px; }
+  .modal-actions.two-row .row-danger {
+    justify-content: center;
+    padding-top: 4px;
+    border-top: 1px solid var(--border-soft);
+  }
+  .modal-actions.two-row .row-danger .btn-danger-outline {
+    background: transparent;
+    color: var(--fail-text);
+    border: 1px solid var(--fail-bg);
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    transition: all 0.15s;
+  }
+  .modal-actions.two-row .row-danger .btn-danger-outline:hover {
+    background: var(--fail-bg);
+  }
+  .modal-overlay.show { display: flex; }
+
+  /* 截圖放大 lightbox */
+  .lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 24px;
+  }
+  .lightbox-overlay.show { display: flex; }
+  .lightbox-image {
+    max-width: 100%;
+    max-height: 92vh;
+    object-fit: contain;
+    border-radius: 3px;
+    background: #fff;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+  .lightbox-actions {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    display: flex;
+    gap: 8px;
+    z-index: 201;
+  }
+  .lightbox-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    border: none;
+    color: #333;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-family: inherit;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .lightbox-btn:hover {
+    background: #fff;
+    transform: scale(1.05);
+  }
+
+  /* 讓 modal 內的截圖看起來可點 */
+  .modal-img { cursor: zoom-in; }
+  .modal-img:hover { opacity: 0.9; }
+  .modal {
+    background: var(--surface);
+    border-radius: 6px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 28px;
+  }
+  .modal-customer {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 0 4px;
+    line-height: 1.2;
+  }
+  .modal-meta {
+    font-size: 12.5px;
+    color: var(--text-soft);
+    margin-bottom: 20px;
+    letter-spacing: 0.04em;
+  }
+  .modal-section-label {
+    font-family: var(--serif);
+    font-size: 11.5px;
+    color: var(--olive-deep);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+    font-weight: 500;
+  }
+  .modal-imgs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .modal-img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 4px;
+    background: var(--olive-soft);
+  }
+  .modal-rows {
+    border-top: 1px solid var(--border-soft);
+  }
+  .modal-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 13.5px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .modal-row .label { color: var(--text-soft); }
+  .modal-row .value { color: var(--text); font-weight: 500; }
+  .modal-link {
+    color: var(--olive-deep);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .modal-link:hover { text-decoration: underline; }
+  .modal-note {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: var(--olive-soft);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.7;
+  }
+  .modal-actions {
+    margin-top: 22px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .modal-actions .btn-secondary { flex: 1 1 100px; padding: 10px; }
+  .modal-actions .btn-danger {
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid var(--fail-bg);
+    color: var(--fail-text);
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    flex: 0 0 auto;
+  }
+  .modal-actions .btn-danger:hover {
+    background: var(--fail-bg);
+  }
+
+  @media (max-width: 580px) {
+    .panel { padding: 22px 18px; }
+    .header { padding: 22px 18px 16px; }
+    .tabs { padding: 0 18px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .header-title { font-size: 22px; }
+    .modal { padding: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 連線狀態 banner（連線成功後自動隱藏） -->
+<div class="conn-banner" id="connBanner">
+  <div class="conn-banner-inner">
+    <div class="conn-banner-icon" id="connBannerIcon">●</div>
+    <div class="conn-banner-msg">
+      <div class="conn-banner-title" id="connBannerTitle">連線雲端中…</div>
+      <div class="conn-banner-detail" id="connBannerDetail"></div>
+    </div>
+    <button class="conn-banner-retry" id="connBannerRetry" onclick="retryConnection()" style="display:none;">重試</button>
+  </div>
+</div>
+
+<div class="app">
+
+  <header class="header">
+    <h1 class="header-title">SEO Ranking Records</h1>
+    <div class="header-zh">SEO 排名達標紀錄</div>
+    <div class="header-divider"></div>
+  </header>
+
+  <nav class="tabs">
+    <div class="tab active" data-tab="input" onclick="switchTab('input')">記一筆</div>
+    <div class="tab" data-tab="query" onclick="switchTab('query')">查紀錄<span class="tab-count" id="recordCount">(0)</span></div>
+    <div class="tab" data-tab="clients" onclick="switchTab('clients')">業主<span class="tab-count" id="clientCount">(0)</span></div>
+  </nav>
+
+  <!-- 輸入頁 -->
+  <section class="panel" id="panel-input">
+    <div class="form-section-label" id="formSectionLabel">New Entry</div>
+    <div class="form-section-divider"></div>
+
+    <!-- 大輸入框 + 自動解析 -->
+    <div class="smart-input-block">
+      <div class="smart-input-label">
+        <span class="title">快速貼上 · 自動拆欄位</span>
+        <span class="hint">貼完點「解析」會自動填入下方</span>
+      </div>
+      <textarea id="smartInput" placeholder="例如：115/5/8 kw:黃金豆 第3名 月搜尋量：8,080 佳昕事業 Alva AI 指定:是"></textarea>
+      <div class="smart-input-syntax">
+        <strong style="color: var(--text);">標記語法</strong>：
+        <code>kw:關鍵字</code> / <code>關鍵字 OOO</code>（含空白用 <code>kw:"台中 咖啡廳"</code>）·
+        <code>客戶:名稱</code> ·
+        <code>第3名</code> / <code>排名3</code> / <code>No.3</code> / <code>第三名</code> ·
+        <code>月搜1900</code> / <code>月搜尋量:8,080</code>（支援千分位）·
+        <code>含AI</code> / <code>AI摘要版位</code> / 獨立的 <code>AI</code> ·
+        <code>指定</code> / <code>非指定</code> / <code>無指定</code> / <code>指定:是</code> / <code>指定:否</code> ·
+        <code>https://...</code>（落地頁網址）<br>
+        <strong style="color: var(--text);">日期</strong>：
+        <code>20260508</code> / <code>2026.5.8</code> / <code>2026/5/8</code> / <code>115/5/8</code>（民國年）/ <code>5/8</code> / <code>5月8日</code> / <code>今天</code><br>
+        客戶與輸入人員若在名單裡會自動匹配，可省略前綴
+      </div>
+      <div class="parse-result" id="parseResult"></div>
+      <div style="margin-top: 10px; display: flex; gap: 8px;">
+        <button class="btn-secondary" style="flex: 0 0 auto; padding: 8px 16px;" onclick="parseSmartInput()">解析</button>
+        <button class="btn-secondary" style="flex: 0 0 auto; padding: 8px 16px;" onclick="clearSmartInput()">清空輸入框</button>
+      </div>
+    </div>
+
+    <!-- 結構化欄位 -->
+    <div class="form-grid">
+      <div>
+        <label class="field-label">日期 <span class="required">*</span></label>
+        <input type="date" id="f-date">
+      </div>
+      <div>
+        <label class="field-label">輸入人員</label>
+        <select id="f-recorder">
+          <option value="">（可留白）</option>
+        </select>
+      </div>
+
+      <div class="full">
+        <label class="field-label">客戶/案件 <span class="required">*</span></label>
+        <div class="customer-input-wrap">
+          <input type="text" id="f-customer" placeholder="例如:佳昕事業 官網" autocomplete="off"
+                 oninput="onCustomerInput(this.value)" onfocus="onCustomerInput(this.value)" onblur="hideCustomerSuggest()">
+          <div class="suggest-dropdown" id="customerSuggest"></div>
+        </div>
+      </div>
+
+      <div class="full">
+        <label class="field-label">關鍵字 <span class="required">*</span></label>
+        <input type="text" id="f-keyword" placeholder="例如:橡膠O型環">
+      </div>
+
+      <div>
+        <label class="field-label">排名 <span class="required">*</span></label>
+        <input type="number" id="f-rank" placeholder="第幾名" min="1">
+      </div>
+      <div>
+        <label class="field-label">月搜尋量</label>
+        <input type="text" id="f-volume" placeholder="例如:1900、40,500" inputmode="numeric"
+               oninput="formatVolumeInput(this)">
+      </div>
+
+      <div>
+        <label class="field-label">首頁頂端出價</label>
+        <input type="text" id="f-topbid" placeholder="例如:18.25" inputmode="decimal">
+      </div>
+
+      <div>
+        <label class="field-label">搜尋引擎</label>
+        <select id="f-engine">
+          <option value="Google">Google</option>
+          <option value="Yahoo">Yahoo</option>
+          <option value="Bing">Bing</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">狀態 <span class="required">*</span></label>
+        <select id="f-status">
+          <option value="simei">已達標</option>
+          <option value="tracking">追蹤中</option>
+          <option value="fail">未達標</option>
+        </select>
+      </div>
+
+      <div class="full">
+        <label class="field-label">AI 摘要</label>
+        <select id="f-aisummary">
+          <option value="no">否</option>
+          <option value="yes">是</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="field-label">是否為指定關鍵字</label>
+        <select id="f-targeted">
+          <option value="yes">是（指定）</option>
+          <option value="no">否（非指定）</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">落地頁網址</label>
+        <input type="url" id="f-landing" placeholder="https://example.com/page（選填）">
+      </div>
+
+      <div class="full">
+        <label class="field-label">備註/說明</label>
+        <textarea id="f-note" placeholder="補充說明（選填）"></textarea>
+      </div>
+    </div>
+
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-text">拖曳排名截圖到這裡，或 <strong>點擊上傳</strong></div>
+      <div class="upload-hint">壓縮後存雲端 · 最多 2 張</div>
+      <div class="file-grid" id="fileGrid"></div>
+    </div>
+    <input type="file" id="fileInput" accept="image/*" multiple style="display: none;" onchange="handleFiles(event)">
+
+    <div class="actions">
+      <button class="btn-secondary" id="cancelEditBtn" onclick="cancelEdit()" style="display:none;">取消編輯</button>
+      <button class="btn-secondary" onclick="resetForm()">清空</button>
+      <button class="btn-primary" id="submitBtn" onclick="submitRecord()">送出歸檔</button>
+    </div>
+  </section>
+
+  <!-- 查詢頁 -->
+  <section class="panel hidden" id="panel-query">
+    <div class="form-section-label">Records</div>
+    <div class="form-section-divider"></div>
+
+    <!-- 業主聚焦資訊（從業主卡片點進來才顯示） -->
+    <div class="client-focus" id="clientFocus" style="display:none;">
+      <div class="client-focus-header">
+        <div class="client-focus-main">
+          <div class="client-focus-label">CLIENT</div>
+          <div class="client-focus-name" id="clientFocusName"></div>
+          <div class="client-focus-meta" id="clientFocusPeople"></div>
+          <div class="client-focus-website" id="clientFocusWebsite"></div>
+        </div>
+        <div class="client-focus-actions">
+          <button class="client-focus-edit" id="clientFocusEditBtn" onclick="editFocusedClient()" title="編輯業主">✎</button>
+          <button class="client-focus-clear" onclick="clearClientFocus()" title="清除業主篩選">×</button>
+        </div>
+      </div>
+      <div class="client-focus-keywords" id="clientFocusKeywords"></div>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat">
+        <div class="stat-value" id="stat-total">0</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="stat-simei-targeted">0</div>
+        <div class="stat-label">指定 達標</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="stat-simei-non">0</div>
+        <div class="stat-label">非指定 達標</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="stat-rate">—</div>
+        <div class="stat-label">Rate</div>
+      </div>
+    </div>
+
+    <div class="filters-row">
+      <input type="text" class="search-box" placeholder="搜尋客戶（模糊比對）、關鍵字、人員..." id="searchInput" oninput="onSearchInput(this.value)">
+    </div>
+
+    <div class="toolbar">
+      <div class="sort-wrap">
+        <label class="sort-label">排序</label>
+        <select id="sortSelect" onchange="onSortChange(this.value)">
+          <option value="created_desc">建立時間（新→舊）</option>
+          <option value="created_asc">建立時間（舊→新）</option>
+          <option value="date_desc">日期（新→舊）</option>
+          <option value="date_asc">日期（舊→新）</option>
+        </select>
+      </div>
+      <button class="btn-export" onclick="exportFiltered()">本頁匯出</button>
+      <button class="btn-export" onclick="exportAll()">全部匯出</button>
+    </div>
+
+    <div class="chips" id="statusChips">
+      <span class="chip active" data-filter="all" onclick="setStatusFilter('all', this)">全部</span>
+      <span class="chip" data-filter="simei" onclick="setStatusFilter('simei', this)">已達標</span>
+      <span class="chip" data-filter="tracking" onclick="setStatusFilter('tracking', this)">追蹤中</span>
+      <span class="chip" data-filter="fail" onclick="setStatusFilter('fail', this)">未達標</span>
+    </div>
+
+    <div class="chips" id="recorderChips">
+      <span class="chip active" data-recorder="all" onclick="setRecorderFilter('all', this)">所有人員</span>
+    </div>
+
+    <div class="records" id="recordsList"></div>
+  </section>
+
+  <!-- 業主頁 -->
+  <section class="panel hidden" id="panel-clients">
+    <div class="form-section-label">Clients</div>
+    <div class="form-section-divider"></div>
+
+    <!-- 新增業主區塊 -->
+    <div class="smart-input-block" style="margin-bottom: 26px;">
+      <div class="smart-input-label">
+        <span class="title">新增業主</span>
+        <span class="hint">業主名稱會自動加進客戶名單，方便智慧解析比對</span>
+      </div>
+      <div class="add-client-row">
+        <input type="text" id="newClientName" placeholder="業主名稱（例如:佳昕事業）" onkeydown="if(event.key==='Enter') addClient()">
+        <input type="url" id="newClientWebsite" placeholder="網站網址（選填，例如：https://example.com）" onkeydown="if(event.key==='Enter') addClient()">
+        <button class="btn-primary" onclick="addClient()">新增</button>
+      </div>
+    </div>
+
+    <!-- 業主列表 -->
+    <div class="form-section-label" style="margin-top: 28px;">Client List</div>
+    <div class="form-section-divider"></div>
+
+    <div class="filters-row client-filters-row">
+      <input type="text" class="search-box" placeholder="搜尋業主名稱..." id="clientSearchInput" oninput="renderClients()">
+      <div class="sort-wrap">
+        <label class="sort-label">排序</label>
+        <select id="clientSortSelect" onchange="setClientSort(this.value)">
+          <option value="simei_desc">達標數（多→少）</option>
+          <option value="number_asc">業主編號（小→大）</option>
+          <option value="startdate_desc">開始時間（新→舊）</option>
+          <option value="startdate_asc">開始時間（舊→新）</option>
+          <option value="name_asc">業主名稱（A→Z）</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="client-filter-chips" id="clientFilterChips"></div>
+
+    <div class="clients-list" id="clientsList"></div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalIfBg(event)">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<!-- 截圖放大 lightbox -->
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightboxIfBg(event)">
+  <div class="lightbox-actions">
+    <a class="lightbox-btn" id="lightboxDownload" href="#" download="screenshot.png" onclick="event.stopPropagation()" title="下載">↓</a>
+    <button class="lightbox-btn" onclick="closeLightbox()" title="關閉">×</button>
+  </div>
+  <img id="lightboxImage" class="lightbox-image" src="" alt="" onclick="event.stopPropagation()">
+</div>
+
+<!-- Firebase SDK (compat 版本，全域 firebase 物件) -->
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script>
+  // ===== Firebase 設定 =====
+  const firebaseConfig = {
+    apiKey: "AIzaSyB-eOofAWwllFSyn9itk7IFrMwwKrocyy4",
+    authDomain: "makarma-seo.firebaseapp.com",
+    databaseURL: "https://makarma-seo-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "makarma-seo",
+    storageBucket: "makarma-seo.firebasestorage.app",
+    messagingSenderId: "405158918962",
+    appId: "1:405158918962:web:bbac146e95fb824083f52b"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  // 自動偵測 long polling：若 WebChannel（長連線）連不上，就 fallback 到 HTTP long polling。
+  // 解決 LINE / Facebook / Instagram 等內建瀏覽器以及某些企業 proxy / VPN 擋長連線的情境。
+  try {
+    db.settings({ experimentalAutoDetectLongPolling: true });
+  } catch (e) {
+    console.warn('長連線 fallback 設定失敗:', e);
+  }
+
+  // 啟用離線快取（瀏覽器關掉重開還能看舊資料、網路斷掉還能讀）
+  db.enablePersistence({ synchronizeTabs: true }).catch(err => {
+    console.warn('離線快取啟用失敗（多分頁開啟時正常）:', err.code);
+  });
+</script>
+
+<script>
+/* =========================================================================
+ * SEO 排名達標紀錄 — 前端邏輯（Firebase 版）
+ *
+ * 資料儲存：Firestore（records / clients collection）
+ * 截圖儲存：Base64 dataUrl 直接存進 Firestore 文件
+ * 登入機制：Anonymous Auth（自動登入）
+ * ========================================================================= */
+
+// ===== 設定區 =====
+
+// 輸入人員名單
+const RECORDER_LIST = ['Alva', 'Rita', 'Phoebe', '其他'];
+
+// 業主名單預設值（首次部署、Firestore 為空時自動寫入；之後在「業主」分頁動態管理）
+const DEFAULT_CLIENTS = ['佳昕', '佳昕事業', '詒瑋的貓舍', '親寶貝養生餐'];
+
+const STATUS_LABEL = {
+  simei: '已達標',
+  tracking: '追蹤中',
+  fail: '未達標'
+};
+
+const STORAGE_KEY = 'seo_ranking_records_v2';
+const CLIENTS_STORAGE_KEY = 'seo_ranking_clients_v2';
+
+// ===== 狀態 =====
+
+let records = [];
+let clients = [];          // 業主名單（動態管理）
+let uploadedFiles = [];
+let currentStatusFilter = 'all';
+let currentRecorderFilter = 'all';
+let currentClientTypeFilter = 'all';
+let currentClientPmFilter = 'all';
+let currentClientEndedFilter = 'all'; // all | active | completed
+let currentClientShowEnded = false;  // 預設隱藏「僅有已結束專案」的業主
+let currentClientSort = 'simei_desc';  // 業主頁面排序
+
+// ===== 模糊比對工具 =====
+
+// 把名稱正規化：移除空格、常見公司後綴、轉小寫、半形化
+function normalizeClientName(name) {
+  if (!name) return '';
+  let s = String(name).toLowerCase();
+  // 全形轉半形
+  s = s.replace(/[\uff01-\uff5e]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xfee0));
+  // 移除空白
+  s = s.replace(/\s+/g, '');
+  // 移除常見公司/組織後綴
+  s = s.replace(/(股份有限公司|有限公司|股份|事業|工作室|企業社|商行|商號|有限|公司)$/g, '');
+  // 移除標點
+  s = s.replace(/[、，,。\.\-_／\/]/g, '');
+  return s;
+}
+
+// 判斷兩個名稱是否「相似」（同一群業主）
+function isSimilarClient(a, b) {
+  const na = normalizeClientName(a);
+  const nb = normalizeClientName(b);
+  if (!na || !nb) return false;
+  if (na === nb) return true;
+  // 一方包含另一方（且短的至少 2 字以上，避免單字誤判）
+  if (na.length >= 2 && nb.includes(na)) return true;
+  if (nb.length >= 2 && na.includes(nb)) return true;
+  return false;
+}
+
+// 給定一個輸入詞，回傳 clients 中所有相似的業主名稱
+function findSimilarClients(query) {
+  const nq = normalizeClientName(query);
+  if (!nq) return [];
+  return clients.map(c => c.name).filter(name => {
+    const nc = normalizeClientName(name);
+    if (!nc) return false;
+    if (nc === nq) return true;
+    if (nq.length >= 1 && nc.includes(nq)) return true;
+    if (nc.length >= 2 && nq.includes(nc)) return true;
+    return false;
+  });
+}
+
+// 給定搜尋詞，判斷一筆紀錄是否符合（用於模糊搜尋）
+function recordMatchesFuzzy(record, query) {
+  if (!query) return true;
+  const nq = normalizeClientName(query);
+  if (!nq) {
+    // 完全是空白/標點，退回原本的字串比對
+    const q = query.toLowerCase();
+    return (record.customer || '').toLowerCase().includes(q) ||
+           (record.keyword || '').toLowerCase().includes(q) ||
+           (record.recorder || '').toLowerCase().includes(q) ||
+           (record.note || '').toLowerCase().includes(q);
+  }
+  const nc = normalizeClientName(record.customer);
+  // 業主用模糊；關鍵字、紀錄人、備註用原始包含比對
+  if (nc && (nc.includes(nq) || nq.includes(nc))) return true;
+  const q = query.toLowerCase();
+  return (record.keyword || '').toLowerCase().includes(q) ||
+         (record.recorder || '').toLowerCase().includes(q) ||
+         (record.note || '').toLowerCase().includes(q);
+}
+
+// ===== 初始化 =====
+
+function init() {
+  document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+
+  // 輸入人員下拉
+  const recorderSelect = document.getElementById('f-recorder');
+  RECORDER_LIST.forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    recorderSelect.appendChild(opt);
+  });
+
+  // 人員 chip
+  const chips = document.getElementById('recorderChips');
+  RECORDER_LIST.forEach(name => {
+    const chip = document.createElement('span');
+    chip.className = 'chip';
+    chip.dataset.recorder = name;
+    chip.textContent = name;
+    chip.onclick = () => setRecorderFilter(name, chip);
+    chips.appendChild(chip);
+  });
+
+  setupDragDrop();
+  connectToFirebase();
+}
+
+// ===== 連線狀態（階段追蹤版）=====
+
+let connTimeoutId = null;
+let connFirstSnapshotReceived = false;
+// 追蹤目前走到哪一步：init → auth_start → auth_done → done
+let connStage = 'init';
+let connStageTimes = {};
+const CONN_START = Date.now();
+
+function markStage(stage) {
+  connStage = stage;
+  connStageTimes[stage] = Date.now() - CONN_START;
+}
+
+function stageLabel(s) {
+  switch (s) {
+    case 'init': return '初始化';
+    case 'auth_start': return '呼叫匿名登入';
+    case 'auth_done': return '登入完成（等 Firestore）';
+    case 'done': return '完成';
+    default: return s;
+  }
+}
+
+// 把手機當下的環境資訊組成單行診斷字串
+function buildDiagnostics() {
+  const lines = [];
+  lines.push('卡在：' + stageLabel(connStage));
+  const stageList = Object.keys(connStageTimes);
+  if (stageList.length > 0) {
+    lines.push('已完成：' + stageList.map(s => stageLabel(s) + '(' + connStageTimes[s] + 'ms)').join('、'));
+  }
+  // 手機當下時間（手機時間不對會造成 TLS 失敗 → auth 卡死）
+  const now = new Date();
+  lines.push('手機時間：' + now.toISOString().replace('T', ' ').slice(0, 19) + ' UTC');
+  lines.push('線上：' + (navigator.onLine ? '是' : '否'));
+  const ua = (navigator.userAgent || '').slice(0, 80);
+  lines.push('UA：' + ua);
+  return lines.join(' ｜ ');
+}
+
+function setConnStatus(level, title, detail, showRetry) {
+  const banner = document.getElementById('connBanner');
+  if (!banner) return;
+  banner.classList.remove('ok', 'warn', 'error');
+  if (level === 'ok')    banner.classList.add('ok');
+  if (level === 'warn')  banner.classList.add('warn');
+  if (level === 'error') banner.classList.add('error');
+  document.getElementById('connBannerTitle').textContent = title || '';
+  document.getElementById('connBannerDetail').textContent = detail || '';
+  document.getElementById('connBannerRetry').style.display = showRetry ? '' : 'none';
+}
+
+// 檢查瀏覽器環境，回傳可能造成 Firebase 失敗的警告字串（或空字串）
+function detectEnvIssues() {
+  const issues = [];
+  try {
+    if (navigator.cookieEnabled === false) issues.push('Cookie 被封鎖');
+  } catch (e) {}
+  try {
+    localStorage.setItem('__t', '1'); localStorage.removeItem('__t');
+  } catch (e) { issues.push('localStorage 被封鎖（無痕模式常見）'); }
+  try {
+    if (!window.indexedDB) issues.push('IndexedDB 不可用');
+  } catch (e) { issues.push('IndexedDB 被封鎖'); }
+  if (!navigator.onLine) issues.push('瀏覽器判定為離線');
+  return issues.join('；');
+}
+
+// 偵測 in-app browser（LINE、FB、IG 等的內建瀏覽器）
+// 回傳 app 名稱（'LINE' / 'Facebook' / 'Instagram' / 'Messenger' 等），不是就回傳 null
+function detectInAppBrowser() {
+  const ua = (navigator.userAgent || '').toLowerCase();
+  if (/\bline\b|line\//i.test(ua)) return 'LINE';
+  if (/fbav|fban|fb_iab/i.test(ua)) return 'Facebook';
+  if (/instagram/i.test(ua)) return 'Instagram';
+  if (/messenger/i.test(ua)) return 'Messenger';
+  if (/twitter/i.test(ua)) return 'Twitter/X';
+  // iOS 簡易判斷：WebKit 但沒有 Safari 字樣，常見 in-app
+  if (/iphone|ipad|ipod/.test(ua) && /applewebkit/.test(ua) && !/safari/.test(ua) && !/crios|fxios|edgios/.test(ua)) {
+    return '某個 App 的內建瀏覽器';
+  }
+  return null;
+}
+
+function connectToFirebase() {
+  connFirstSnapshotReceived = false;
+  connStage = 'init';
+  connStageTimes = {};
+  markStage('init');
+
+  const inApp = detectInAppBrowser();
+  const envIssues = detectEnvIssues();
+
+  // 一偵測到 in-app browser 就直接警告（不等 timeout）
+  if (inApp) {
+    setConnStatus('warn',
+      '你正在用「' + inApp + '」內建瀏覽器開這個網站',
+      '內建瀏覽器會擋 Firebase 的長連線，資料可能拉不下來或變超慢。請點右上角「...」→「在 Safari / Chrome 開啟」，或長按下方網址複製到一般瀏覽器貼上。' +
+      (envIssues ? '｜偵測到：' + envIssues : ''),
+      false);
+  } else {
+    const envNote = envIssues ? '（偵測到：' + envIssues + '）' : '';
+    setConnStatus('info', '連線雲端中…', envNote || '首次載入可能需要幾秒', false);
+  }
+
+  // 10 秒總 timeout：根據卡在哪一階段給出針對性建議
+  if (connTimeoutId) clearTimeout(connTimeoutId);
+  connTimeoutId = setTimeout(() => {
+    if (connFirstSnapshotReceived) return;
+    let title, hint;
+    if (inApp) {
+      // in-app browser 卡住 → 幾乎確定是這個原因
+      title = '「' + inApp + '」內建瀏覽器擋住了即時連線';
+      hint = '請改用 Safari（iPhone）或 Chrome（Android）打開：點 ' + inApp + ' 視窗右上角「...」或分享鍵 →「在瀏覽器開啟」。若沒有這選項，長按網址複製後貼到 Safari / Chrome。';
+    } else if (connStage === 'init' || connStage === 'auth_start') {
+      title = '登入卡住（Firebase Auth 未回應）';
+      hint = '最常見原因：(1) 手機日期時間不正確（TLS 會失敗）(2) VPN / 廣告阻擋 / DNS 過濾擋了 identitytoolkit.googleapis.com (3) 瀏覽器太舊。診斷：' + buildDiagnostics();
+    } else if (connStage === 'auth_done') {
+      title = '登入成功但 Firestore 連不上';
+      hint = 'firestore.googleapis.com 被擋。試試：(1) 關 VPN / 廣告阻擋 (2) 換 Wi-Fi 或行動網路 (3) 清除瀏覽器快取重開。診斷：' + buildDiagnostics();
+    } else {
+      title = '連線逾時 10 秒';
+      hint = (envIssues ? '偵測到：' + envIssues + '。' : '') + '請重試或檢查網路。診斷：' + buildDiagnostics();
+    }
+    setConnStatus('warn', title, hint, true);
+  }, 10000);
+
+  // 匿名登入
+  markStage('auth_start');
+  auth.signInAnonymously()
+    .then(() => {
+      markStage('auth_done');
+      // 登入成功後啟動即時資料監聽（snapshot 第一次回來才算真的通）
+      subscribeClients();
+      subscribeRecords();
+    })
+    .catch(err => {
+      console.error('登入失敗:', err);
+      if (connTimeoutId) { clearTimeout(connTimeoutId); connTimeoutId = null; }
+      const code = err && err.code ? ' [' + err.code + ']' : '';
+      let hint = (err && err.message) ? err.message : '未知錯誤';
+      // 常見錯誤的解法提示
+      if (err && err.code === 'auth/admin-restricted-operation') {
+        hint = '匿名登入未啟用。請到 Firebase Console → Authentication → Sign-in method 啟用 Anonymous。';
+      } else if (err && err.code === 'auth/network-request-failed') {
+        hint = '網路請求失敗。檢查：(1) 手機日期時間 (2) VPN/DNS 過濾 (3) 網路連線。診斷：' + buildDiagnostics();
+      } else if (err && err.code && err.code.startsWith('auth/operation-not-allowed')) {
+        hint = '此登入方式未開放，請到 Firebase Console 啟用匿名登入。';
+      }
+      setConnStatus('error', '連線失敗' + code, hint, true);
+    });
+}
+
+function retryConnection() {
+  // 關掉之前的訂閱，再重新連線
+  if (recordsUnsubscribe) { try { recordsUnsubscribe(); } catch (e) {} recordsUnsubscribe = null; }
+  if (clientsUnsubscribe) { try { clientsUnsubscribe(); } catch (e) {} clientsUnsubscribe = null; }
+  if (connTimeoutId) { clearTimeout(connTimeoutId); connTimeoutId = null; }
+  connectToFirebase();
+}
+
+function markConnectionOk() {
+  if (connFirstSnapshotReceived) return;
+  connFirstSnapshotReceived = true;
+  markStage('done');
+  if (connTimeoutId) { clearTimeout(connTimeoutId); connTimeoutId = null; }
+  setConnStatus('ok', '已連線', '', false);
+}
+
+// ===== 資料層（Firestore）=====
+
+let recordsUnsubscribe = null;
+let clientsUnsubscribe = null;
+
+// 訂閱紀錄集合（即時同步：他人新增/刪除自動更新畫面）
+// 不設 limit，讀全部紀錄。若未來紀錄數變成數萬筆再考慮分頁。
+function subscribeRecords() {
+  if (recordsUnsubscribe) recordsUnsubscribe();
+  recordsUnsubscribe = db.collection('records')
+    .orderBy('createdAt', 'desc')
+    .onSnapshot(snapshot => {
+      records = snapshot.docs.map(doc => normalizeRecord({ id: doc.id, ...doc.data() }));
+      updateRecordCount();
+      renderRecords();
+      markConnectionOk();
+    }, err => {
+      console.error('讀取紀錄失敗:', err);
+      const code = err && err.code ? ' [' + err.code + ']' : '';
+      let hint = (err && err.message) ? err.message : '未知錯誤';
+      if (err && err.code === 'permission-denied') {
+        hint = 'Firestore 規則不允許讀取 records。請檢查 Firestore Rules。';
+      } else if (err && err.code === 'unavailable') {
+        hint = '雲端無法連線，請檢查網路。';
+      }
+      setConnStatus('error', '讀取紀錄失敗' + code, hint, true);
+    });
+}
+
+// 舊版欄位相容：把 isTargetKeyword / landingPageUrl 映射成 targeted / landing
+// 重要：舊版預設值「沒填 = 否（非指定）」要被尊重，不能用新版的「沒填 = 指定」吃掉
+function normalizeRecord(r) {
+  // 落地頁網址：舊欄位 landingPageUrl → 新欄位 landing
+  if (r.landing == null && r.landingPageUrl != null) {
+    r.landing = r.landingPageUrl;
+  }
+  // 是否為指定關鍵字：舊欄位 isTargetKeyword → 新欄位 targeted
+  // 來源優先順序：
+  //   1. 已有 targeted 直接用
+  //   2. 有 isTargetKeyword（不論值為何）→ 用它（包含舊版「沒填預設 no」存進去的 'no'）
+  //   3. 都沒有 → 真正的舊舊資料，當作「指定」（與本版預設一致）
+  if (r.targeted == null) {
+    if (r.isTargetKeyword != null) {
+      r.targeted = (r.isTargetKeyword === 'yes') ? 'yes' : 'no';
+    } else {
+      r.targeted = 'yes';
+    }
+  }
+  return r;
+}
+
+// 訂閱業主名單
+// 為新專案產生一個唯一 ID
+function generateProjectId() {
+  return 'p_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 6);
+}
+
+// 關鍵字比對用的正規化：英文大小寫 + 所有空白（含全形）視為相同
+// 例如 "30 萬可以開什麼店"、"30萬可以開什麼店"、"30　萬可以開什麼店" → 同一個
+// 例如 "OpenAI" 與 "openai" → 同一個
+function normalizeKw(s) {
+  return String(s || '').replace(/\s+/g, '').toLowerCase();
+}
+
+function subscribeClients() {
+  if (clientsUnsubscribe) clientsUnsubscribe();
+  clientsUnsubscribe = db.collection('clients')
+    .orderBy('name')
+    .onSnapshot(snapshot => {
+      // clients: [{ id, name, website, pm, sales, projects[] }]
+      // projects: [{ id, name, projectType, targetKeywordList[] }]
+      // 舊資料相容：若 doc 沒有 projects 但有舊的 projectType 或 targetKeywordList → 自動遷移成一個未命名的預設專案
+      clients = snapshot.docs.map(doc => {
+        const d = doc.data() || {};
+        let projects;
+        if (Array.isArray(d.projects)) {
+          projects = d.projects.map(p => ({
+            id: p.id || generateProjectId(),
+            name: p.name || '',
+            projectType: p.projectType || '',
+            targetKeywordList: Array.isArray(p.targetKeywordList) ? p.targetKeywordList : [],
+            pm: p.pm || '',
+            pmHistory: Array.isArray(p.pmHistory) ? p.pmHistory.filter(Boolean) : [],
+            startDate: p.startDate || '',
+            isEnded: !!p.isEnded
+          }));
+        } else if (d.projectType || (Array.isArray(d.targetKeywordList) && d.targetKeywordList.length > 0)) {
+          projects = [{
+            id: 'legacy',
+            name: '',
+            projectType: d.projectType || '',
+            targetKeywordList: Array.isArray(d.targetKeywordList) ? d.targetKeywordList : [],
+            pm: '',
+            pmHistory: [],
+            startDate: '',
+            isEnded: false
+          }];
+        } else {
+          projects = [];
+        }
+        return {
+          id: doc.id,
+          name: d.name || '',
+          clientNumber: d.clientNumber || '',
+          website: d.website || '',
+          pm: d.pm || '',
+          sales: d.sales || '',
+          projects,
+          // 舊欄位仍保留在 memory 裡（給 export 或其他舊路徑相容用）
+          projectType: d.projectType || '',
+          targetKeywordList: Array.isArray(d.targetKeywordList) ? d.targetKeywordList : []
+        };
+      });
+      // 第一次載入且 collection 為空 → 寫入預設業主
+      if (clients.length === 0 && !sessionStorage.getItem('clients_seeded')) {
+        sessionStorage.setItem('clients_seeded', '1');
+        seedDefaultClients();
+        return;
+      }
+      updateClientCount();
+      renderClients();
+      renderRecords(); // 業主清單變化可能影響顯示
+      markConnectionOk();
+    }, err => {
+      console.error('讀取業主失敗:', err);
+      const code = err && err.code ? ' [' + err.code + ']' : '';
+      let hint = (err && err.message) ? err.message : '未知錯誤';
+      if (err && err.code === 'permission-denied') {
+        hint = 'Firestore 規則不允許讀取 clients。請檢查 Firestore Rules。';
+      }
+      setConnStatus('error', '讀取業主失敗' + code, hint, true);
+    });
+}
+
+// 第一次使用時把預設業主寫進 Firestore
+async function seedDefaultClients() {
+  const batch = db.batch();
+  DEFAULT_CLIENTS.forEach(name => {
+    const ref = db.collection('clients').doc(); // 自動 ID
+    batch.set(ref, {
+      name,
+      website: '',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  });
+  try {
+    await batch.commit();
+  } catch (e) {
+    console.error('寫入預設業主失敗:', e);
+  }
+}
+
+async function dataSave(record) {
+  // 用 record.id 當 Firestore document ID，方便日後刪除
+  const docId = record.id;
+  const data = { ...record };
+  delete data.id; // ID 已當作 doc ID，內容不必再存
+  await db.collection('records').doc(docId).set(data);
+  return record;
+}
+
+async function dataDelete(id) {
+  try {
+    await db.collection('records').doc(id).delete();
+    // 不必手動更新 records 陣列，onSnapshot 會自動觸發
+  } catch (e) {
+    console.error('刪除失敗:', e);
+    showToast('刪除失敗：' + e.message);
+  }
+}
+
+// 保留空殼，避免舊呼叫點報錯
+function dataLoad() { /* 由 subscribeRecords 取代 */ }
+
+// ===== 智慧解析（規則式）=====
+
+function parseSmartInput() {
+  const text = document.getElementById('smartInput').value.trim();
+  if (!text) {
+    showToast('請先貼上內容');
+    return;
+  }
+
+  const result = parseText(text);
+  applyParsedResult(result);
+  showParseResult(result);
+}
+
+/**
+ * 規則式解析：
+ *  - 日期: YYYY/MM/DD、YYYY-MM-DD、YYYY.M.D、YYYYMMDD、MM/DD、M月D日、今天、昨天、前天
+ *  - 排名: 「第N名」「排名N」「N名」
+ *  - 搜尋量: 「月搜N」「搜量N」「搜尋量N」「N/月」、或剩餘的 3+ 位獨立數字
+ *  - 關鍵字: kw:XXX、關鍵字:XXX、#XXX
+ *  - 客戶: 客戶:XXX、案件:XXX，或匹配 clients 名單
+ *  - 輸入人員: 匹配 RECORDER_LIST
+ *  - 搜尋引擎: 文字裡出現 Google/Yahoo/Bing
+ */
+function parseText(text) {
+  const out = {
+    date: null,
+    recorder: null,
+    customer: null,
+    keyword: null,
+    rank: null,
+    volume: null,
+    engine: null,
+    aiSummary: null,
+    targeted: null,
+    landing: null,
+    matched: []  // 抓到的欄位清單（給 UI 顯示）
+  };
+
+  let remaining = text;
+
+  // 1. 日期
+  const todayObj = new Date();
+  const fmtDate = (d) => d.toISOString().split('T')[0];
+
+  // 今天 / 昨天 / 前天
+  if (/今天|今日/.test(text)) {
+    out.date = fmtDate(todayObj);
+    out.matched.push('日期');
+  } else if (/昨天|昨日/.test(text)) {
+    const d = new Date(todayObj); d.setDate(d.getDate() - 1);
+    out.date = fmtDate(d);
+    out.matched.push('日期');
+  } else if (/前天/.test(text)) {
+    const d = new Date(todayObj); d.setDate(d.getDate() - 2);
+    out.date = fmtDate(d);
+    out.matched.push('日期');
+  } else {
+    // 民國年 YYY/MM/DD、YYY-MM-DD、YYY.MM.DD（3 位數年，自動 +1911）
+    let m = text.match(/(?:^|[\s,，])(\d{3})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})(?![\d\.\-\/])/);
+    if (m) {
+      const rocYear = parseInt(m[1]);
+      const month = parseInt(m[2]);
+      const day = parseInt(m[3]);
+      if (rocYear >= 100 && rocYear <= 200 && month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+        const y = rocYear + 1911;
+        out.date = `${y}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+        out.matched.push('日期');
+      }
+    }
+    // YYYY/MM/DD、YYYY-MM-DD、YYYY.MM.DD
+    if (!out.date) {
+      m = text.match(/(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})/);
+      if (m) {
+        out.date = `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+        out.matched.push('日期');
+      }
+    }
+    if (!out.date) {
+      // YYYYMMDD（8 位數連寫）
+      m = text.match(/(?:^|[\s,，])(\d{8})(?!\d)/);
+      if (m) {
+        const y = parseInt(m[1].slice(0, 4));
+        const mo = parseInt(m[1].slice(4, 6));
+        const d = parseInt(m[1].slice(6, 8));
+        if (y >= 2020 && y <= 2099 && mo >= 1 && mo <= 12 && d >= 1 && d <= 31) {
+          out.date = `${y}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+          out.matched.push('日期');
+        }
+      }
+    }
+    if (!out.date) {
+      // M/D、M-D、M.D（不接其他數字）
+      m = text.match(/(?:^|[\s,，])(\d{1,2})[\/\-\.](\d{1,2})(?![\d\.\-\/])/);
+      if (m) {
+        const month = parseInt(m[1]), day = parseInt(m[2]);
+        if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+          out.date = `${todayObj.getFullYear()}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+          out.matched.push('日期');
+        }
+      } else {
+        // M月D日
+        m = text.match(/(\d{1,2})月(\d{1,2})日?/);
+        if (m) {
+          out.date = `${todayObj.getFullYear()}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+          out.matched.push('日期');
+        }
+      }
+    }
+  }
+
+  // 2. 關鍵字
+  // 優先順序：
+  //   (a) 引號包裹: kw:"台中 咖啡廳" 或 kw:「台中 咖啡廳」 或 kw:'台中 咖啡廳'
+  //   (b) 標記後接內容到下個結構化標記: kw:台中咖啡廳 ...
+  //   (c) #XXX（不支援含空白）
+
+  // (a) 引號包裹（半形/全形/中文引號）
+  let kwMatch = text.match(/(?:kw|關鍵字|keyword)[\s:：]*["「『'']([^"」』'']+)["」』'']/i);
+  if (kwMatch) {
+    out.keyword = kwMatch[1].trim();
+    out.matched.push('關鍵字');
+  } else {
+    // (b) 標記模式：抓到下一個結構化標記前的全部內容（用 [\s\S] 支援跨行）
+    const kwStopPattern = '(?:客戶|業主|案件|client|排名|目前排名|第\\s*\\d|第\\s*[一二三四五六七八九十]|No\\.|\\d+\\s*名|月搜|搜量|搜尋量|月搜尋量|查詢時間|volume|vol|google|yahoo|bing|#|kw[\\s:：]|關鍵字[\\s:：]|keyword[\\s:：]|[,，]|\\n|\\r|\\s{2,})';
+    kwMatch = text.match(new RegExp(`(?:kw|關鍵字|keyword)[\\s:：]+([\\s\\S]+?)(?=${kwStopPattern}|$)`, 'i'));
+    if (kwMatch) {
+      out.keyword = kwMatch[1].trim();
+      out.matched.push('關鍵字');
+    } else {
+      // (c) # 開頭：不含空白，碰到空白或標點就斷
+      kwMatch = text.match(/#([^\s,，#]+)/);
+      if (kwMatch) {
+        out.keyword = kwMatch[1].trim();
+        out.matched.push('關鍵字');
+      }
+    }
+  }
+  // 後處理：超過 30 字截斷
+  if (out.keyword && out.keyword.length > 30) {
+    out.keyword = out.keyword.substring(0, 30).trim();
+  }
+
+  // 3. 客戶/業主
+  let customerMatch = text.match(/(?:客戶|業主|案件|client)[\s:：]+([^\s,，\n\r]+)/i);
+  if (customerMatch) {
+    out.customer = customerMatch[1].trim();
+    out.matched.push('客戶');
+  } else {
+    // 從名單比對：長名稱優先（避免「佳昕」搶在「佳昕事業」前面匹配）
+    const sortedClients = clients.map(c => c.name).sort((a, b) => b.length - a.length);
+    for (const c of sortedClients) {
+      if (text.includes(c)) {
+        out.customer = c;
+        out.matched.push('客戶');
+        break;
+      }
+    }
+  }
+
+  // 4. 輸入人員（從名單比對）
+  for (const r of RECORDER_LIST) {
+    // 用空白邊界，避免 "Ning" 誤中 "Lining"
+    const re = new RegExp(`(^|[\\s,，:：])${r}([\\s,，]|$)`, 'i');
+    if (re.test(text)) {
+      out.recorder = r;
+      out.matched.push('輸入人員');
+      break;
+    }
+  }
+
+  // 5. 排名（先抽出來避免被當搜尋量）
+  // 支援格式：第3名、第3、排名3、排名:3、排名：3、3名、第三名、第三、No.3、No 3、Number 3
+  let rankMatch = text.match(/(?:排名|第)[\s:：]*(\d{1,4})\s*名?/);
+  if (!rankMatch) rankMatch = text.match(/(?:^|[\s,，])(\d{1,4})\s*名/);
+  if (!rankMatch) rankMatch = text.match(/(?:^|[\s,，：:])(?:No|Number|#)\s*\.\s*(\d{1,4})(?![\d名])/i);
+  if (rankMatch) {
+    const v = parseInt(rankMatch[1]);
+    if (v >= 1 && v <= 1000) {
+      out.rank = v;
+      out.matched.push('排名');
+    }
+  }
+  // 中文數字排名（一到十、十一到二十）
+  if (!out.rank) {
+    const cnNum = {
+      '一': 1, '二': 2, '三': 3, '四': 4, '五': 5,
+      '六': 6, '七': 7, '八': 8, '九': 9, '十': 10
+    };
+    // 先試「十一」「十二」… 到「二十」
+    let cnMatch = text.match(/(?:排名|第)\s*(十[一二三四五六七八九]?|[二三]十[一二三四五六七八九]?)\s*名?/);
+    if (cnMatch) {
+      const s = cnMatch[1];
+      let v = 0;
+      if (s === '十') v = 10;
+      else if (s.startsWith('十')) v = 10 + cnNum[s[1]];
+      else if (s.endsWith('十')) v = cnNum[s[0]] * 10;
+      else { // 二十一、三十五 之類
+        v = cnNum[s[0]] * 10 + cnNum[s[2]];
+      }
+      if (v >= 1 && v <= 100) {
+        out.rank = v;
+        out.matched.push('排名');
+      }
+    } else {
+      // 一到九
+      cnMatch = text.match(/(?:排名|第)\s*([一二三四五六七八九])\s*名?/);
+      if (cnMatch) {
+        out.rank = cnNum[cnMatch[1]];
+        out.matched.push('排名');
+      }
+    }
+  }
+
+  // 6. 月搜尋量（範圍：10 以上的整數，支援千分位逗號如 8,080 / 40,500）
+  // 標記模式：月搜8,080 / 搜尋量:8,080 / 月搜尋量 40,500
+  let volMatch = text.match(/(?:月搜尋量|月搜|搜量|搜尋量|volume|vol)[\s:：]?\s*(\d{1,3}(?:,\d{3})+|\d{1,7})/i);
+  if (!volMatch) volMatch = text.match(/(\d{1,3}(?:,\d{3})+|\d{2,7})\s*(?:\/月|每月)/);
+  if (volMatch) {
+    // 移除逗號後再轉數字
+    const v = parseInt(volMatch[1].replace(/,/g, ''));
+    if (v >= 10) {
+      out.volume = v;
+      out.matched.push('搜尋量');
+    }
+  } else if (out.rank !== null) {
+    // 把已抓到的日期、排名整段移除，剩餘的 2+ 位獨立數字才當搜尋量
+    let cleanedText = text;
+    cleanedText = cleanedText
+      .replace(/\d{4}[\/\-\.]\d{1,2}[\/\-\.]\d{1,2}/g, '')
+      .replace(/(?:^|[\s,，])\d{8}(?!\d)/g, '')
+      .replace(/(?:^|[\s,，])\d{3}[\/\-\.]\d{1,2}[\/\-\.]\d{1,2}(?![\d\.\-\/])/g, '')
+      .replace(/(?:^|[\s,，])\d{1,2}[\/\-\.]\d{1,2}(?![\d\.\-\/])/g, '')
+      .replace(/\d{1,2}月\d{1,2}日?/g, '');
+    cleanedText = cleanedText
+      .replace(/(?:排名|第)\s*\d{1,4}\s*名?/g, '')
+      .replace(/(?:^|[\s,，])\d{1,4}\s*名/g, '')
+      .replace(/(?:^|[\s,，])(?:No|Number)[\s\.\:：]*\d{1,4}/gi, '');
+    // 含千分位的數字優先（如 8,080、40,500），再退回純 2~7 位數字
+    let bigNum = cleanedText.match(/(?:^|[\s,，])(\d{1,3}(?:,\d{3})+)(?![\d\/月\-\.])/);
+    if (!bigNum) bigNum = cleanedText.match(/(?:^|[\s,，])(\d{2,7})(?![\d\/月\-\.])/);
+    if (bigNum) {
+      const v = parseInt(bigNum[1].replace(/,/g, ''));
+      if (v >= 10) {
+        out.volume = v;
+        out.matched.push('搜尋量(推測)');
+      }
+    }
+  }
+
+  // 7. 搜尋引擎
+  if (/google/i.test(text)) { out.engine = 'Google'; }
+  else if (/yahoo/i.test(text)) { out.engine = 'Yahoo'; out.matched.push('搜尋引擎'); }
+  else if (/bing/i.test(text)) { out.engine = 'Bing'; out.matched.push('搜尋引擎'); }
+
+  // 8. AI 摘要
+  // 偵測 yes：有AI摘要 / AI摘要:有 / AI摘要:是 / 含AI / +AI / AI:yes / AI摘要版位 / 獨立的 AI
+  // 偵測 no：無AI摘要 / 沒AI摘要 / AI摘要:無
+  // 先判 no（避免 "無AI摘要" 中的 "AI" 被當成 yes）
+  if (/(?:無\s*ai\s*摘要|沒\s*ai\s*摘要|ai\s*摘要[\s:：]*[無否沒nN0]|ai\s*[:：]\s*(?:no|n|0|無|否|沒))/i.test(text)) {
+    out.aiSummary = 'no';
+    out.matched.push('AI 摘要');
+  } else if (/(?:有\s*ai\s*摘要|ai\s*摘要版位|ai\s*摘要[\s:：]*[有是yY1]|含\s*ai|＋\s*ai|\+\s*ai|ai\s*[:：]\s*(?:yes|y|1|有|是))/i.test(text)) {
+    out.aiSummary = 'yes';
+    out.matched.push('AI 摘要');
+  } else if (/(?:^|[\s,，、])AI(?=[\s,，、]|$)/.test(text)) {
+    // 獨立的 AI（前後為邊界）也視為有 AI 摘要
+    out.aiSummary = 'yes';
+    out.matched.push('AI 摘要');
+  }
+
+  // 9. 是否為指定關鍵字
+  // 「指定」「指定字」「指定KW」/ 「非指定」「無指定」「不指定」/ targeted:yes / targeted:no
+  // 「指定:是」「指定:否」「指定關鍵字:是」「指定關鍵字:否」（明確標記 + 是/否）
+  // 先判 no（避免「非指定」「無指定」被「指定」搶先匹配）
+  if (/(?:非指定(?:關鍵字|字|kw)?|無指定(?:關鍵字|字|kw)?|不指定|非\s*target|targeted?\s*[:：]\s*(?:no|n|0|否|無)|指定(?:關鍵字|字|kw)?\s*[:：]\s*(?:no|n|0|否|無|沒))/i.test(text)) {
+    out.targeted = 'no';
+    out.matched.push('非指定');
+  } else if (/(?:指定(?:關鍵字|字|kw)?\s*[:：]\s*(?:yes|y|1|是|有)|target(?:ed)?\s*[:：]\s*(?:yes|y|1|是|有)|targeted?關鍵字|指定(?:關鍵字|字|kw)?(?![\s:：]*[否無沒no0nN]))/i.test(text)) {
+    out.targeted = 'yes';
+    out.matched.push('指定');
+  }
+
+  // 10. 落地頁網址：抓 https://... 或 http://...
+  // 行內第一個 URL 就好（避免抓到一堆）
+  const urlMatch = text.match(/https?:\/\/[^\s,，「」"'）)】\]]+/i);
+  if (urlMatch) {
+    out.landing = urlMatch[0];
+    out.matched.push('落地頁');
+  }
+
+  return out;
+}
+
+function applyParsedResult(r) {
+  const set = (id, val) => {
+    if (val === null || val === undefined || val === '') return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = val;
+    el.classList.add('auto-filled');
+  };
+
+  set('f-date', r.date);
+  set('f-recorder', r.recorder);
+  set('f-customer', r.customer);
+  set('f-keyword', r.keyword);
+  set('f-rank', r.rank);
+  // 搜尋量：先寫入再格式化（顯示 1,900）
+  if (r.volume !== null && r.volume !== undefined && r.volume !== '') {
+    const volEl = document.getElementById('f-volume');
+    volEl.value = String(r.volume);
+    formatVolumeInput(volEl);
+    volEl.classList.add('auto-filled');
+  }
+  set('f-engine', r.engine);
+  set('f-aisummary', r.aiSummary);
+  set('f-targeted', r.targeted);
+  set('f-landing', r.landing);
+}
+
+function showParseResult(r) {
+  const box = document.getElementById('parseResult');
+  if (r.matched.length === 0) {
+    box.innerHTML = `<strong>沒抓到任何欄位。</strong> 請嘗試使用標記語法（如 <code>kw:</code>），或手動填入下方。`;
+    box.classList.add('show');
+    return;
+  }
+  const tags = r.matched.map(m => `<span class="filled-tag">${m}</span>`).join('');
+  box.innerHTML = `<strong>已自動填入 ${r.matched.length} 個欄位</strong><div class="filled-list">${tags}</div><div style="margin-top: 4px; color: var(--text-mute);">請檢查下方欄位是否正確，未抓到的請手動補。</div>`;
+  box.classList.add('show');
+}
+
+function clearSmartInput() {
+  document.getElementById('smartInput').value = '';
+  document.getElementById('parseResult').classList.remove('show');
+}
+
+// ===== Tab 切換 =====
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.getElementById('panel-input').classList.toggle('hidden', tab !== 'input');
+  document.getElementById('panel-query').classList.toggle('hidden', tab !== 'query');
+  document.getElementById('panel-clients').classList.toggle('hidden', tab !== 'clients');
+  if (tab === 'query') renderRecords();
+  if (tab === 'clients') renderClients();
+}
+
+// ===== 客戶名稱自動建議 =====
+
+let _hideSuggestTimer = null;
+
+function onCustomerInput(value) {
+  const dropdown = document.getElementById('customerSuggest');
+  if (!dropdown) return;
+
+  const matches = findSimilarClients(value);
+  // 過濾掉跟輸入完全一樣的（避免「你打了什麼就建議什麼」的廢話）
+  const filtered = matches.filter(m => m !== value);
+
+  if (filtered.length === 0) {
+    dropdown.classList.remove('show');
+    dropdown.innerHTML = '';
+    return;
+  }
+
+  // 為每個建議加上「這個業主有 X 筆紀錄」的小資訊
+  dropdown.innerHTML = filtered.slice(0, 8).map(name => {
+    const count = records.filter(r => r.customer === name).length;
+    const meta = count > 0 ? `<span class="meta">${count} 筆</span>` : '';
+    return `<div class="suggest-item" onmousedown="pickCustomerSuggest('${escapeHtml(name).replace(/'/g, "\\'")}')">${escapeHtml(name)}${meta}</div>`;
+  }).join('');
+  dropdown.classList.add('show');
+}
+
+function pickCustomerSuggest(name) {
+  const input = document.getElementById('f-customer');
+  input.value = name;
+  hideCustomerSuggest();
+}
+
+function hideCustomerSuggest() {
+  // 用 setTimeout 避免 onmousedown 還沒觸發就被 blur 隱藏
+  clearTimeout(_hideSuggestTimer);
+  _hideSuggestTimer = setTimeout(() => {
+    const dropdown = document.getElementById('customerSuggest');
+    if (dropdown) dropdown.classList.remove('show');
+  }, 150);
+}
+
+// ===== 上傳 =====
+
+// 壓縮圖片：最大寬高 1600px、JPEG 品質 0.82，回傳壓縮後 dataUrl
+function compressImage(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 1600;
+        let { width, height } = img;
+        if (width > MAX || height > MAX) {
+          if (width > height) {
+            height = Math.round(height * MAX / width);
+            width = MAX;
+          } else {
+            width = Math.round(width * MAX / height);
+            height = MAX;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+        resolve(dataUrl);
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handleFiles(event) {
+  const files = Array.from(event.target.files);
+  for (const file of files) {
+    if (uploadedFiles.length >= 2) {
+      showToast('最多 2 張');
+      break;
+    }
+    try {
+      const dataUrl = await compressImage(file);
+      // 檢查大小（Base64 字串長度 ≈ 實際 bytes × 1.33）
+      if (dataUrl.length > 800000) {
+        showToast('圖片過大，請挑小一點的');
+        continue;
+      }
+      uploadedFiles.push({ name: file.name, dataUrl, file });
+      renderFileGrid();
+    } catch (err) {
+      showToast('圖片處理失敗');
+      console.error(err);
+    }
+  }
+  event.target.value = '';
+}
+
+function renderFileGrid() {
+  const zone = document.getElementById('uploadZone');
+  const grid = document.getElementById('fileGrid');
+  zone.classList.toggle('has-files', uploadedFiles.length > 0);
+  grid.innerHTML = uploadedFiles.map((f, i) => `
+    <div class="file-item">
+      <img src="${f.dataUrl}" alt="">
+      <div class="file-remove" onclick="event.stopPropagation(); removeFile(${i})">×</div>
+    </div>
+  `).join('');
+}
+
+function removeFile(idx) {
+  uploadedFiles.splice(idx, 1);
+  renderFileGrid();
+}
+
+function setupDragDrop() {
+  const zone = document.getElementById('uploadZone');
+  ['dragenter', 'dragover'].forEach(ev => {
+    zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.add('has-files'); });
+  });
+  ['dragleave', 'drop'].forEach(ev => {
+    zone.addEventListener(ev, e => {
+      e.preventDefault();
+      if (uploadedFiles.length === 0) zone.classList.remove('has-files');
+    });
+  });
+  zone.addEventListener('drop', async e => {
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+    for (const file of files) {
+      if (uploadedFiles.length >= 2) {
+        showToast('最多 2 張');
+        break;
+      }
+      try {
+        const dataUrl = await compressImage(file);
+        if (dataUrl.length > 800000) {
+          showToast('圖片過大，請挑小一點的');
+          continue;
+        }
+        uploadedFiles.push({ name: file.name, dataUrl, file });
+        renderFileGrid();
+      } catch (err) {
+        showToast('圖片處理失敗');
+      }
+    }
+  });
+}
+
+// ===== 送出 =====
+
+// editingRecordId: 不為 null 表示目前是「編輯既有紀錄」模式
+let editingRecordId = null;
+
+async function submitRecord() {
+  const date = document.getElementById('f-date').value;
+  const recorder = document.getElementById('f-recorder').value;
+  const customer = document.getElementById('f-customer').value.trim();
+  const keyword = document.getElementById('f-keyword').value.trim();
+  const targeted = document.getElementById('f-targeted').value;
+  const rank = document.getElementById('f-rank').value;
+  const volumeStr = document.getElementById('f-volume').value;
+  const volume = parseVolumeInput(volumeStr);
+  const topBidStr = (document.getElementById('f-topbid').value || '').trim();
+  // 保留使用者輸入的字串（已包含幣值精度），只把千分位逗號清掉
+  const topBid = topBidStr ? topBidStr.replace(/,/g, '') : null;
+  const engine = document.getElementById('f-engine').value;
+  const landing = document.getElementById('f-landing').value.trim();
+  const status = document.getElementById('f-status').value;
+  const aiSummary = document.getElementById('f-aisummary').value;
+  const note = document.getElementById('f-note').value.trim();
+
+  if (!date || !customer || !keyword || !rank) {
+    showToast('請填寫必填欄位（日期、客戶、關鍵字、排名）');
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = editingRecordId ? '儲存中...' : '歸檔中...';
+
+  // FIREBASE: 改成上傳圖到 Storage，imageUrls 改用真實 URL
+  const imageUrls = uploadedFiles.map(f => f.dataUrl);
+
+  let record;
+  if (editingRecordId) {
+    // 編輯：保留原本的 id 與 createdAt
+    const original = records.find(r => r.id === editingRecordId);
+    record = {
+      ...(original || {}),
+      id: editingRecordId,
+      date,
+      recorder,
+      customer,
+      keyword,
+      targeted,
+      // 同步寫入舊欄位，讓舊版本也能正確顯示
+      isTargetKeyword: targeted,
+      rank: parseInt(rank),
+      volume: volume,
+      topBid: topBid,
+      engine,
+      landing,
+      // 同步寫入舊欄位
+      landingPageUrl: landing,
+      status,
+      aiSummary,
+      note,
+      imageUrls,
+      updatedAt: new Date().toISOString(),
+      createdAt: (original && original.createdAt) || new Date().toISOString()
+    };
+  } else {
+    record = {
+      id: 'r_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+      date,
+      recorder,
+      customer,
+      keyword,
+      targeted,
+      // 同步寫入舊欄位，讓舊版本也能正確顯示
+      isTargetKeyword: targeted,
+      rank: parseInt(rank),
+      volume: volume,
+      topBid: topBid,
+      engine,
+      landing,
+      // 同步寫入舊欄位
+      landingPageUrl: landing,
+      status,
+      aiSummary,
+      note,
+      imageUrls,
+      createdAt: new Date().toISOString()
+    };
+  }
+
+  await dataSave(record);
+
+  // 如果是新業主（且沒有相似的）才自動加進 Firestore
+  if (customer && findSimilarClients(customer).length === 0) {
+    try {
+      await db.collection('clients').add({
+        name: customer,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } catch (e) {
+      console.warn('自動新增業主失敗:', e);
+    }
+  }
+
+  showToast(editingRecordId ? '已更新' : '已歸檔');
+  const wasEditing = !!editingRecordId;
+  editingRecordId = null;
+  resetForm();
+  updateRecordCount();
+  btn.disabled = false;
+  btn.textContent = '送出歸檔';
+
+  // 編輯完直接跳回查紀錄頁
+  if (wasEditing) {
+    switchTab('query');
+  }
+}
+
+function resetForm() {
+  editingRecordId = null;
+  document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('f-recorder').value = '';
+  document.getElementById('f-customer').value = '';
+  document.getElementById('f-keyword').value = '';
+  document.getElementById('f-targeted').value = 'yes';
+  document.getElementById('f-rank').value = '';
+  document.getElementById('f-volume').value = '';
+  document.getElementById('f-topbid').value = '';
+  document.getElementById('f-engine').value = 'Google';
+  document.getElementById('f-landing').value = '';
+  document.getElementById('f-status').value = 'simei';
+  document.getElementById('f-aisummary').value = 'no';
+  document.getElementById('f-note').value = '';
+  document.getElementById('smartInput').value = '';
+  document.getElementById('parseResult').classList.remove('show');
+  uploadedFiles = [];
+  renderFileGrid();
+  // 還原表單頂端標題與送出按鈕
+  document.getElementById('formSectionLabel').textContent = 'New Entry';
+  document.getElementById('submitBtn').textContent = '送出歸檔';
+  document.getElementById('cancelEditBtn').style.display = 'none';
+  // 移除自動填入標記
+  document.querySelectorAll('.auto-filled').forEach(el => el.classList.remove('auto-filled'));
+}
+
+// 取消編輯
+function cancelEdit() {
+  editingRecordId = null;
+  resetForm();
+  switchTab('query');
+}
+
+// 進入編輯模式：把資料填回表單，切到輸入頁
+function startEditRecord(id) {
+  const r = records.find(x => x.id === id);
+  if (!r) return;
+
+  closeModal();
+  editingRecordId = id;
+
+  // 切到輸入頁
+  switchTab('input');
+
+  // 填回欄位
+  document.getElementById('f-date').value = r.date || '';
+  document.getElementById('f-recorder').value = r.recorder || '';
+  document.getElementById('f-customer').value = r.customer || '';
+  document.getElementById('f-keyword').value = r.keyword || '';
+  document.getElementById('f-targeted').value = r.targeted || 'yes';
+  document.getElementById('f-rank').value = r.rank != null ? r.rank : '';
+  document.getElementById('f-volume').value = r.volume != null ? Number(r.volume).toLocaleString('en-US') : '';
+  document.getElementById('f-topbid').value = r.topBid != null ? r.topBid : '';
+  document.getElementById('f-engine').value = r.engine || 'Google';
+  document.getElementById('f-landing').value = r.landing || '';
+  document.getElementById('f-status').value = r.status || 'simei';
+  document.getElementById('f-aisummary').value = r.aiSummary || 'no';
+  document.getElementById('f-note').value = r.note || '';
+
+  // 截圖
+  uploadedFiles = (r.imageUrls || []).map((url, i) => ({
+    name: `existing_${i}.jpg`,
+    dataUrl: url,
+    file: null
+  }));
+  renderFileGrid();
+
+  // 變更表單標題與按鈕
+  document.getElementById('formSectionLabel').textContent = 'Editing Entry · 編輯紀錄';
+  document.getElementById('submitBtn').textContent = '儲存變更';
+  document.getElementById('cancelEditBtn').style.display = '';
+
+  // 滑到頁首讓人看到「編輯中」
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showToast('編輯模式：修改後按「儲存變更」');
+}
+
+// ===== 查詢 =====
+
+function setStatusFilter(value, el) {
+  currentStatusFilter = value;
+  document.querySelectorAll('#statusChips .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderRecords();
+}
+
+function setRecorderFilter(value, el) {
+  currentRecorderFilter = value;
+  document.querySelectorAll('#recorderChips .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderRecords();
+}
+
+// 目前排序方式
+let currentSort = 'created_desc';
+
+function onSortChange(value) {
+  currentSort = value;
+  renderRecords();
+}
+
+function renderRecords() {
+  const search = document.getElementById('searchInput').value;
+
+  // 若業主聚焦條顯示中，順帶刷新該業主的關鍵字狀態總覽
+  const focusEl = document.getElementById('clientFocus');
+  if (focusEl && focusEl.style.display !== 'none') {
+    const focusedName = document.getElementById('clientFocusName').textContent;
+    if (focusedName) renderClientFocusKeywords(focusedName);
+  }
+
+  let filtered = [...records];
+
+  if (currentStatusFilter !== 'all') {
+    filtered = filtered.filter(r => r.status === currentStatusFilter);
+  }
+  if (currentRecorderFilter !== 'all') {
+    filtered = filtered.filter(r => r.recorder === currentRecorderFilter);
+  }
+  if (search) {
+    filtered = filtered.filter(r => recordMatchesFuzzy(r, search));
+  }
+
+  // 暴露給匯出功能取目前篩選結果
+  window._currentFilteredRecords = filtered;
+
+  // 排序
+  applySort(filtered, currentSort);
+
+  // 統計：指定 / 非指定 達標
+  document.getElementById('stat-total').textContent = filtered.length;
+  const simeiList = filtered.filter(r => r.status === 'simei');
+  const simeiTargeted = simeiList.filter(r => (r.targeted ?? 'yes') === 'yes').length;
+  const simeiNonTargeted = simeiList.filter(r => (r.targeted ?? 'yes') === 'no').length;
+  document.getElementById('stat-simei-targeted').textContent = simeiTargeted;
+  document.getElementById('stat-simei-non').textContent = simeiNonTargeted;
+  document.getElementById('stat-rate').textContent = filtered.length > 0
+    ? Math.round(simeiList.length / filtered.length * 100) + '%'
+    : '—';
+
+  const list = document.getElementById('recordsList');
+  if (filtered.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="em-icon">∅</div>
+        <div>${records.length === 0 ? '還沒有任何紀錄' : '沒有符合條件的紀錄'}</div>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(r => {
+    const dateShort = formatDateShort(r.date) || '—';
+    const thumb = (r.imageUrls && r.imageUrls.length > 0)
+      ? `<img src="${escapeHtml(r.imageUrls[0])}" alt="">`
+      : `<span class="thumb-empty">無圖</span>`;
+    const volStr = r.volume ? `<span class="volume">月搜 ${Number(r.volume).toLocaleString('en-US')}</span>` : '';
+    const aiBadge = r.aiSummary === 'yes' ? `<span class="badge ai-badge">AI</span>` : '';
+    // 指定 / 非指定 都顯示標籤，舊資料 (undefined) 預設視為「指定」
+    const targetedBadge = (r.targeted ?? 'yes') === 'yes'
+      ? `<span class="badge targeted">指定</span>`
+      : `<span class="badge non-targeted">非指定</span>`;
+    return `
+      <div class="record" onclick="showDetail('${r.id}')">
+        <button class="record-line-btn" onclick="copyLineText('${r.id}', event)" title="複製為 Line 貼文">L</button>
+        <div class="thumb">${thumb}</div>
+        <div class="record-main">
+          <div class="record-customer"><span class="record-customer-link" onclick="event.stopPropagation(); filterByClient('${escapeHtml(r.customer || '').replace(/'/g, "\\'")}')" title="只看這個業主的紀錄">${escapeHtml(r.customer)}</span></div>
+          <div class="record-keyword">
+            ${escapeHtml(r.keyword)} <span class="rank">${r.rank != null && r.rank !== '' ? r.rank : '—'}</span>
+            ${volStr}
+          </div>
+          <div class="record-meta">
+            <span>${dateShort}</span>
+            <span class="dot"></span>
+            <span>${escapeHtml(r.recorder)}</span>
+            <span class="dot"></span>
+            <span>${escapeHtml(r.engine || 'Google')}</span>
+            <span class="badge ${r.status}">${STATUS_LABEL[r.status]}</span>
+            ${targetedBadge}
+            ${aiBadge}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// 共用排序：在 sortType 中切換
+function applySort(arr, sortType) {
+  switch (sortType) {
+    case 'created_asc':
+      arr.sort((a, b) => (a.createdAt || '').localeCompare(b.createdAt || ''));
+      break;
+    case 'date_desc':
+      arr.sort((a, b) => {
+        const cmp = (b.date || '').localeCompare(a.date || '');
+        if (cmp !== 0) return cmp;
+        // 同一天：用建立時間新→舊作為次要排序
+        return (b.createdAt || '').localeCompare(a.createdAt || '');
+      });
+      break;
+    case 'date_asc':
+      arr.sort((a, b) => {
+        const cmp = (a.date || '').localeCompare(b.date || '');
+        if (cmp !== 0) return cmp;
+        return (a.createdAt || '').localeCompare(b.createdAt || '');
+      });
+      break;
+    case 'created_desc':
+    default:
+      arr.sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+      break;
+  }
+}
+
+function updateRecordCount() {
+  document.getElementById('recordCount').textContent = `(${records.length})`;
+}
+
+// ===== 業主管理（Firestore）=====
+
+// loadClients / saveClients 改為由 subscribeClients 統一處理
+function loadClients() { /* 由 subscribeClients 取代 */ }
+function saveClients() { /* 由 addClient/removeClient 直接寫 Firestore 取代 */ }
+
+function updateClientCount() {
+  const el = document.getElementById('clientCount');
+  if (el) el.textContent = `(${clients.length})`;
+}
+
+async function addClient() {
+  const input = document.getElementById('newClientName');
+  const websiteInput = document.getElementById('newClientWebsite');
+  const name = input.value.trim();
+  const website = (websiteInput?.value || '').trim();
+  if (!name) {
+    showToast('請輸入業主名稱');
+    return;
+  }
+  if (clients.some(c => c.name === name)) {
+    showToast('此業主已存在');
+    return;
+  }
+  // 模糊比對：找出可能相似的既有業主
+  const similar = findSimilarClients(name).filter(c => c !== name);
+  if (similar.length > 0) {
+    const ok = confirm(`偵測到可能相似的業主：\n${similar.map(s => '・' + s).join('\n')}\n\n仍要新增「${name}」當作獨立業主嗎？`);
+    if (!ok) return;
+  }
+  try {
+    await db.collection('clients').add({
+      name,
+      website,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    input.value = '';
+    if (websiteInput) websiteInput.value = '';
+    showToast('已新增業主');
+    // onSnapshot 會自動觸發畫面更新
+  } catch (e) {
+    showToast('新增失敗：' + e.message);
+  }
+}
+
+async function removeClient(name) {
+  if (!confirm(`確定刪除業主「${name}」？\n（已有的紀錄不會被刪除，只是名單裡移除）`)) return;
+  try {
+    const snap = await db.collection('clients').where('name', '==', name).get();
+    const batch = db.batch();
+    snap.docs.forEach(doc => batch.delete(doc.ref));
+    await batch.commit();
+    showToast('已刪除');
+  } catch (e) {
+    showToast('刪除失敗：' + e.message);
+  }
+}
+
+// 編輯業主：改為 modal 版
+async function editClient(originalName) {
+  openClientEditModal(originalName);
+}
+
+// ===== 業主編輯 modal =====
+
+const PROJECT_TYPES = ['文章', '一般', '保證'];
+const PM_LIST = ['Rita', 'Alva', 'Phoebe', 'Sally'];
+
+function projectTypeClass(type) {
+  if (type === '文章') return 'type-article';
+  if (type === '一般') return 'type-general';
+  if (type === '保證') return 'type-guarantee';
+  return '';
+}
+
+// 蒐集此業主的關鍵字狀態，按專案分組
+// 比對規則：英文大小寫 + 所有空白視為相同（normalizeKw）
+// 顯示規則：若有紀錄可對應，顯示以「紀錄中的原字」為準；若無紀錄，顯示以「預先輸入」為準
+function getClientKeywordStatuses(clientName) {
+  const client = clients.find(c => c.name === clientName);
+  const projectsRaw = (client && client.projects) || [];
+  const related = records.filter(r => r.customer === clientName);
+
+  // 建 index：normalizedKey → 該業主的所有相關 records
+  const relatedByNorm = new Map();
+  related.forEach(r => {
+    const norm = normalizeKw(r.keyword);
+    if (!norm) return;
+    if (!relatedByNorm.has(norm)) relatedByNorm.set(norm, []);
+    relatedByNorm.get(norm).push(r);
+  });
+
+  // 根據 normalized key 取狀態；displayKw 優先用第一筆紀錄的原字，否則 fallback keyword
+  // light=true: 「快速標記為達標」但無 rank、無圖片的紀錄（顯示為淡綠）
+  const statusForNorm = (normKey, fallbackKeyword) => {
+    const kwRecords = relatedByNorm.get(normKey) || [];
+    const displayKw = kwRecords.length > 0 ? kwRecords[0].keyword : fallbackKeyword;
+    const pickLatest = (list) => list.reduce((a, b) => (a.date || '') > (b.date || '') ? a : b);
+    const hasInfo = (r) => (r.rank != null && r.rank !== '') || (r.imageUrls && r.imageUrls.length > 0);
+
+    const s = kwRecords.filter(r => r.status === 'simei');
+    if (s.length > 0) {
+      // 只要有一筆達標紀錄含有排名或圖片 → 用那筆（優先取最新的）
+      const withInfo = s.filter(hasInfo);
+      if (withInfo.length > 0) {
+        const l = pickLatest(withInfo);
+        return { keyword: displayKw, status: 'simei', date: l.date, rank: l.rank, light: false };
+      }
+      // 全部都是「快速標記」（無 rank 無圖）→ 淡綠
+      const l = pickLatest(s);
+      return { keyword: displayKw, status: 'simei', date: l.date, rank: null, light: true };
+    }
+    const f = kwRecords.filter(r => r.status === 'fail');
+    if (f.length > 0) { const l = pickLatest(f); return { keyword: displayKw, status: 'fail',    date: l.date, rank: l.rank, light: false }; }
+    const t = kwRecords.filter(r => r.status === 'tracking');
+    if (t.length > 0) { const l = pickLatest(t); return { keyword: displayKw, status: 'tracking', date: l.date, rank: l.rank, light: false }; }
+    return { keyword: displayKw, status: 'none', date: null, rank: null, light: false };
+  };
+
+  const sortByStatus = (a, b) => {
+    const order = { simei: 0, fail: 1, tracking: 2, none: 3 };
+    const d = (order[a.status] ?? 9) - (order[b.status] ?? 9);
+    return d !== 0 ? d : String(a.keyword).localeCompare(String(b.keyword), 'zh-Hant');
+  };
+
+  // 全部專案裡的關鍵字（normalized 用於歸屬判斷）
+  const allProjectNormSet = new Set();
+  projectsRaw.forEach(p => (p.targetKeywordList || []).forEach(kw => {
+    const norm = normalizeKw(kw);
+    if (norm) allProjectNormSet.add(norm);
+  }));
+
+  // 各專案的關鍵字狀態
+  const projectsOut = projectsRaw.map(p => {
+    // 用 normalized 去重（避免同專案填了「30萬」和「30 萬」重複）
+    const seen = new Set();
+    const uniqueKws = [];
+    (p.targetKeywordList || []).forEach(k => {
+      const t = (k || '').trim();
+      if (!t) return;
+      const norm = normalizeKw(t);
+      if (seen.has(norm)) return;
+      seen.add(norm);
+      uniqueKws.push(t);
+    });
+    const keywords = uniqueKws.map(k => statusForNorm(normalizeKw(k), k)).sort(sortByStatus);
+    return {
+      id: p.id,
+      name: p.name || '',
+      projectType: p.projectType || '',
+      pm: p.pm || '',
+      startDate: p.startDate || '',
+      isEnded: !!p.isEnded,
+      keywords
+    };
+  });
+
+  // 未歸屬（紀錄中 targeted=yes、但 normalized 不在任何專案清單裡）
+  const orphanNormSet = new Set();
+  related.filter(r => (r.targeted ?? 'yes') === 'yes').forEach(r => {
+    const norm = normalizeKw(r.keyword);
+    if (norm && !allProjectNormSet.has(norm)) orphanNormSet.add(norm);
+  });
+  const orphanKeywords = Array.from(orphanNormSet)
+    .map(norm => statusForNorm(norm, norm))
+    .sort(sortByStatus);
+
+  // 非指定但已達標
+  const excludeNormSet = new Set(allProjectNormSet);
+  orphanNormSet.forEach(n => excludeNormSet.add(n));
+  const bMap = new Map();
+  related.filter(r => (r.targeted ?? 'yes') === 'no' && r.status === 'simei').forEach(r => {
+    const norm = normalizeKw(r.keyword);
+    if (!norm || excludeNormSet.has(norm)) return;
+    const prev = bMap.get(norm);
+    if (!prev || (r.date || '') > (prev.date || '')) bMap.set(norm, r);
+  });
+  const bonusKeywords = Array.from(bMap.entries())
+    .map(([, r]) => ({ keyword: r.keyword, status: r.status, date: r.date, rank: r.rank }))
+    .sort((a, b) => String(a.keyword).localeCompare(String(b.keyword), 'zh-Hant'));
+
+  return { projects: projectsOut, orphanKeywords, bonusKeywords };
+}
+
+function renderKeywordTag({ keyword, status, rank, date, light }, customer) {
+  let cls = 'kw-tracking';
+  let titleText = STATUS_LABEL[status] || '';
+  if (status === 'simei') {
+    cls = light ? 'kw-simei-light' : 'kw-simei';
+    if (light) titleText = '已達標（快速標記，無詳細資料）';
+  } else if (status === 'fail') cls = 'kw-fail';
+  else if (status === 'none') { cls = 'kw-none'; titleText = '無紀錄'; }
+
+  let extra = '';
+  if (rank != null) extra += `<span class="kw-rank">#${rank}</span>`;
+  // 已達標的關鍵字同時顯示達標日期
+  if (status === 'simei' && date) {
+    extra += `<span class="kw-date">${formatDateForTag(date)}</span>`;
+  }
+
+  // 若有 customer → 點擊開啟快速紀錄 modal
+  let clickAttr = '';
+  if (customer) {
+    const custEsc = escapeHtml(customer).replace(/'/g, "\\'");
+    const kwEsc = escapeHtml(keyword).replace(/'/g, "\\'");
+    clickAttr = ` onclick="event.stopPropagation(); openQuickRecordModal('${custEsc}', '${kwEsc}')" style="cursor:pointer;"`;
+    titleText = titleText + '｜點擊快速新增紀錄';
+  }
+  return `<span class="kw-tag ${cls}"${clickAttr} title="${titleText}">${escapeHtml(keyword)}${extra}</span>`;
+}
+
+// tag 內用的短日期：同年 → M/D；跨年 → YY/M/D
+function formatDateForTag(dateStr) {
+  if (!dateStr) return '';
+  const parts = dateStr.split('-');
+  if (parts.length !== 3) return dateStr;
+  const [y, m, d] = parts;
+  const currYear = String(new Date().getFullYear());
+  const md = `${parseInt(m)}/${parseInt(d)}`;
+  return y === currYear ? md : `${y.slice(2)}/${md}`;
+}
+
+function openClientEditModal(originalName) {
+  const client = clients.find(c => c.name === originalName);
+  if (!client) return;
+
+  // PM 下拉：若現有值不在 PM_LIST 內，額外附加該值當選項以保留舊資料
+  const pmOptionsArr = ['<option value="">未指定</option>'];
+  PM_LIST.forEach(p => {
+    pmOptionsArr.push(`<option value="${p}"${client.pm === p ? ' selected' : ''}>${p}</option>`);
+  });
+  if (client.pm && !PM_LIST.includes(client.pm)) {
+    pmOptionsArr.push(`<option value="${escapeHtml(client.pm)}" selected>${escapeHtml(client.pm)}（舊資料）</option>`);
+  }
+  const pmOptions = pmOptionsArr.join('');
+
+  const nameEscaped = escapeHtml(originalName).replace(/'/g, "\\'");
+
+  // 現有專案（若完全沒有專案就開一個空的讓使用者填）
+  const initialProjects = (client.projects && client.projects.length > 0)
+    ? client.projects
+    : [{ id: generateProjectId(), name: '', projectType: '', targetKeywordList: [] }];
+  const projectsHTML = initialProjects.map((p, i) => projectBlockHTML(i, p)).join('');
+
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-customer">編輯業主</div>
+    <div class="modal-meta">${escapeHtml(originalName)}</div>
+
+    <div class="modal-section-label">基本資料</div>
+    <div class="client-edit-form">
+      <div class="two-cols">
+        <div class="field-group">
+          <label>業主編號</label>
+          <input type="text" id="ce-number" value="${escapeHtml(client.clientNumber || '')}" placeholder="例如：001 / A-01" autocomplete="off">
+        </div>
+        <div class="field-group">
+          <label>名稱</label>
+          <input type="text" id="ce-name" value="${escapeHtml(client.name || '')}" autocomplete="off">
+        </div>
+      </div>
+      <div class="field-group">
+        <label>網站網址</label>
+        <input type="url" id="ce-website" value="${escapeHtml(client.website || '')}" placeholder="https://example.com" autocomplete="off">
+      </div>
+      <div class="two-cols">
+        <div class="field-group">
+          <label>負責 PM</label>
+          <select id="ce-pm">${pmOptions}</select>
+        </div>
+        <div class="field-group">
+          <label>負責業務</label>
+          <input type="text" id="ce-sales" value="${escapeHtml(client.sales || '')}" placeholder="例如：Ning" autocomplete="off">
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section-label" style="display:flex; justify-content:space-between; align-items:center;">
+      <span>專案</span>
+      <button type="button" class="btn-add-project" onclick="addProjectBlock()">+ 新增專案</button>
+    </div>
+    <div id="ce-projects-list">${projectsHTML}</div>
+
+    <div class="modal-actions two-row">
+      <div class="row">
+        <button class="btn-secondary" onclick="closeModal()">取消</button>
+        <button class="btn-secondary" onclick="exportClient('${nameEscaped}')">匯出此業主</button>
+        <button class="btn-primary" onclick="saveClientEdit('${nameEscaped}')">儲存</button>
+      </div>
+      <div class="row row-danger">
+        <button class="btn-danger-outline" onclick="removeClientFromModal('${nameEscaped}')">刪除業主</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+// 產生一個專案編輯區塊的 HTML
+function projectBlockHTML(idx, project) {
+  const projectTypeOptions = ['<option value="">未指定</option>']
+    .concat(PROJECT_TYPES.map(t => `<option value="${t}"${project.projectType === t ? ' selected' : ''}>${t}</option>`))
+    .join('');
+
+  // 專案 PM 下拉（沿用 PM_LIST；空 = 沿用業主層 PM）
+  const pmArr = ['<option value="">沿用業主 PM</option>'];
+  PM_LIST.forEach(p => {
+    pmArr.push(`<option value="${p}"${project.pm === p ? ' selected' : ''}>${p}</option>`);
+  });
+  if (project.pm && !PM_LIST.includes(project.pm)) {
+    pmArr.push(`<option value="${escapeHtml(project.pm)}" selected>${escapeHtml(project.pm)}（舊資料）</option>`);
+  }
+  const projectPmOptions = pmArr.join('');
+
+  const kwText = escapeHtml((project.targetKeywordList || []).join('\n'));
+  const pid = escapeHtml(project.id || generateProjectId());
+  const startDate = escapeHtml(project.startDate || '');
+  const isEndedChecked = project.isEnded ? 'checked' : '';
+  const blockClass = 'project-block' + (project.isEnded ? ' project-block-ended' : '');
+  return `
+    <div class="${blockClass}" data-project-id="${pid}" data-idx="${idx}">
+      <div class="project-block-header">
+        <div class="project-block-title">
+          專案 <span class="project-block-num">#${idx + 1}</span>
+          <label class="project-ended-toggle">
+            <input type="checkbox" class="pb-ended" ${isEndedChecked} onchange="this.closest('.project-block').classList.toggle('project-block-ended', this.checked)">
+            已結束
+          </label>
+        </div>
+        <button type="button" class="btn-project-remove" onclick="removeProjectBlock(this)" title="刪除此專案">×</button>
+      </div>
+      <div class="two-cols">
+        <div class="field-group">
+          <label>專案名稱</label>
+          <input type="text" class="pb-name" value="${escapeHtml(project.name || '')}" placeholder="例如：官網SEO" autocomplete="off">
+        </div>
+        <div class="field-group">
+          <label>專案種類</label>
+          <select class="pb-type">${projectTypeOptions}</select>
+        </div>
+      </div>
+      <div class="two-cols">
+        <div class="field-group">
+          <label>開始日期</label>
+          <input type="date" class="pb-startdate" value="${startDate}">
+        </div>
+        <div class="field-group">
+          <label>負責 PM（目前）</label>
+          <select class="pb-pm">${projectPmOptions}</select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>歷任 PM（已卸任）</label>
+        <div class="pb-pm-history-list">${pmHistoryChipsHTML(project.pmHistory || [])}</div>
+        <select class="pb-pm-history-add" onchange="addPmHistoryChip(this)">
+          <option value="">+ 加入歷任 PM...</option>
+          ${PM_LIST.map(p => `<option value="${p}">${p}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field-group">
+        <label>指定關鍵字清單</label>
+        <textarea class="pb-keywords" placeholder="每行一個關鍵字（或用逗號分隔）">${kwText}</textarea>
+      </div>
+    </div>`;
+}
+
+function pmHistoryChipsHTML(list) {
+  return (list || []).map(name => {
+    const esc = escapeHtml(name);
+    return `<span class="pm-history-chip" data-name="${esc}">${esc}<button type="button" onclick="removePmHistoryChip(this)">×</button></span>`;
+  }).join('');
+}
+
+function addPmHistoryChip(selectEl) {
+  const value = (selectEl.value || '').trim();
+  if (!value) return;
+  const block = selectEl.closest('.project-block');
+  if (!block) return;
+  const listEl = block.querySelector('.pb-pm-history-list');
+  const existing = Array.from(listEl.querySelectorAll('.pm-history-chip')).map(el => el.dataset.name);
+  if (existing.includes(value)) {
+    showToast('已經在歷任名單裡了');
+  } else {
+    listEl.insertAdjacentHTML('beforeend', pmHistoryChipsHTML([value]));
+  }
+  selectEl.value = '';
+}
+
+function removePmHistoryChip(btn) {
+  const chip = btn.closest('.pm-history-chip');
+  if (chip) chip.remove();
+}
+
+// 「+ 新增專案」按下時追加一個空白區塊
+// 名稱欄留空（使用者要命名就命名）；區塊 header 已顯示「專案 #N」序號
+function addProjectBlock() {
+  const list = document.getElementById('ce-projects-list');
+  if (!list) return;
+  const idx = list.querySelectorAll('.project-block').length;
+  const p = {
+    id: generateProjectId(),
+    name: '',
+    projectType: '',
+    targetKeywordList: [],
+    pm: '',
+    pmHistory: [],
+    startDate: '',
+    isEnded: false
+  };
+  list.insertAdjacentHTML('beforeend', projectBlockHTML(idx, p));
+}
+
+// 刪除一個專案區塊
+function removeProjectBlock(btn) {
+  const block = btn.closest('.project-block');
+  if (!block) return;
+  block.remove();
+  // 重編號
+  document.querySelectorAll('#ce-projects-list .project-block').forEach((el, i) => {
+    el.dataset.idx = i;
+    const numEl = el.querySelector('.project-block-num');
+    if (numEl) numEl.textContent = '#' + (i + 1);
+  });
+}
+
+async function saveClientEdit(originalName) {
+  const client = clients.find(c => c.name === originalName);
+  if (!client) { showToast('業主不存在'); return; }
+
+  const finalName = (document.getElementById('ce-name').value || '').trim() || client.name;
+  const finalClientNumber = (document.getElementById('ce-number').value || '').trim();
+  const finalWebsite = (document.getElementById('ce-website').value || '').trim();
+  const finalPM = (document.getElementById('ce-pm').value || '').trim();
+  const finalSales = (document.getElementById('ce-sales').value || '').trim();
+
+  // 收集所有專案區塊
+  const projectBlocks = document.querySelectorAll('#ce-projects-list .project-block');
+  const projects = Array.from(projectBlocks).map(block => {
+    const rawKws = block.querySelector('.pb-keywords').value || '';
+    const targetKeywordList = Array.from(new Set(
+      rawKws.split(/[\n\r,，]/).map(s => s.trim()).filter(Boolean)
+    ));
+    // 歷任 PM chips
+    const pmHistoryEls = block.querySelectorAll('.pb-pm-history-list .pm-history-chip');
+    const pmHistory = Array.from(pmHistoryEls).map(el => el.dataset.name).filter(Boolean);
+    return {
+      id: block.dataset.projectId || generateProjectId(),
+      name: (block.querySelector('.pb-name').value || '').trim(),
+      projectType: (block.querySelector('.pb-type').value || '').trim(),
+      pm: (block.querySelector('.pb-pm').value || '').trim(),
+      pmHistory,
+      startDate: (block.querySelector('.pb-startdate').value || '').trim(),
+      isEnded: block.querySelector('.pb-ended').checked,
+      targetKeywordList
+    };
+  });
+  // 過濾掉完全空白的專案
+  const finalProjects = projects.filter(p =>
+    p.name || p.projectType || p.pm || (p.pmHistory && p.pmHistory.length > 0) || p.startDate || p.targetKeywordList.length > 0
+  );
+
+  // 檢查重名
+  if (finalName !== client.name && clients.some(c => c.name === finalName && c.id !== client.id)) {
+    showToast('已有同名業主，請改別的名稱');
+    return;
+  }
+
+  try {
+    await db.collection('clients').doc(client.id).update({
+      name: finalName,
+      clientNumber: finalClientNumber,
+      website: finalWebsite,
+      pm: finalPM,
+      sales: finalSales,
+      projects: finalProjects,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // 名稱變更 → 同步 records.customer
+    if (finalName !== client.name) {
+      const snap = await db.collection('records').where('customer', '==', client.name).get();
+      if (!snap.empty) {
+        const batch = db.batch();
+        snap.docs.forEach(doc => batch.update(doc.ref, { customer: finalName }));
+        await batch.commit();
+      }
+    }
+    closeModal();
+    showToast('已更新');
+  } catch (e) {
+    showToast('更新失敗：' + e.message);
+  }
+}
+
+// 從編輯 modal 內按下「刪除業主」
+async function removeClientFromModal(name) {
+  const ok = confirm(`確定刪除業主「${name}」？\n（已有的紀錄不會被刪除，只是名單裡移除）`);
+  if (!ok) return;
+  closeModal();
+  // 直接執行刪除邏輯（不重複 confirm）
+  try {
+    const snap = await db.collection('clients').where('name', '==', name).get();
+    const batch = db.batch();
+    snap.docs.forEach(doc => batch.delete(doc.ref));
+    await batch.commit();
+    showToast('已刪除');
+  } catch (e) {
+    showToast('刪除失敗：' + e.message);
+  }
+}
+
+// 匯出單一業主的所有紀錄
+function exportClient(name) {
+  const related = records.filter(r => r.customer === name);
+  if (related.length === 0) {
+    showToast(`「${name}」目前沒有紀錄可匯出`);
+    return;
+  }
+  doExport(related, name);
+}
+
+function getClientStats(clientName) {
+  const related = records.filter(r => r.customer === clientName);
+  const simei = related.filter(r => r.status === 'simei');
+  const tracking = related.filter(r => r.status === 'tracking').length;
+  const fail = related.filter(r => r.status === 'fail').length;
+
+  // 達標紀錄裡：指定關鍵字 vs 非指定關鍵字
+  // 沒有 targeted 欄位的舊紀錄（undefined）→ 預設視為「指定」
+  const simeiTargeted = simei.filter(r => (r.targeted ?? 'yes') === 'yes').length;
+  const simeiNonTargeted = simei.filter(r => (r.targeted ?? 'yes') === 'no').length;
+
+  const rate = related.length > 0 ? Math.round(simei.length / related.length * 100) : null;
+  return {
+    total: related.length,
+    simei: simei.length,
+    simeiTargeted,
+    simeiNonTargeted,
+    tracking,
+    fail,
+    rate
+  };
+}
+
+// ===== 業主頁面篩選 chips =====
+
+function renderClientFilterChips() {
+  const container = document.getElementById('clientFilterChips');
+  if (!container) return;
+
+  // 蒐集這個空間裡所有實際出現過的 PM（業主 PM + 專案 PM 現任 + 專案歷任 PM）
+  const pmSet = new Set();
+  clients.forEach(c => {
+    if (c.pm) pmSet.add(c.pm);
+    (c.projects || []).forEach(p => {
+      if (p.pm) pmSet.add(p.pm);
+      (p.pmHistory || []).forEach(h => { if (h) pmSet.add(h); });
+    });
+  });
+  // 讓 PM_LIST 順序在前，其他名字（如舊資料）排後面
+  const pmListArr = [];
+  PM_LIST.forEach(p => { if (pmSet.has(p)) pmListArr.push(p); });
+  Array.from(pmSet).forEach(p => { if (!PM_LIST.includes(p)) pmListArr.push(p); });
+  const hasUnassigned = clients.some(c => {
+    const active = (c.projects || []).filter(p => !p.isEnded);
+    const effectivePMs = active.map(p => p.pm || c.pm || '');
+    if (active.length === 0) effectivePMs.push(c.pm || '');
+    return effectivePMs.some(v => !v);
+  });
+
+  // 類型 chips（只有 PROJECT_TYPES）
+  const typeChips = ['<span class="chip' + (currentClientTypeFilter === 'all' ? ' active' : '') + '" onclick="setClientTypeFilter(\'all\')">全部</span>']
+    .concat(PROJECT_TYPES.map(t =>
+      `<span class="chip${currentClientTypeFilter === t ? ' active' : ''}" onclick="setClientTypeFilter('${t}')">${escapeHtml(t)}</span>`
+    ))
+    .join('');
+
+  // PM chips
+  const pmChips = ['<span class="chip' + (currentClientPmFilter === 'all' ? ' active' : '') + '" onclick="setClientPmFilter(\'all\')">全部</span>']
+    .concat(pmListArr.map(p =>
+      `<span class="chip${currentClientPmFilter === p ? ' active' : ''}" onclick="setClientPmFilter('${escapeHtml(p).replace(/'/g, "\\'")}')">${escapeHtml(p)}</span>`
+    ))
+    .concat(hasUnassigned ? [
+      `<span class="chip${currentClientPmFilter === '__none__' ? ' active' : ''}" onclick="setClientPmFilter('__none__')">未指定</span>`
+    ] : [])
+    .join('');
+
+  container.innerHTML = `
+    <div class="client-filter-row">
+      <span class="client-filter-label">類型</span>
+      ${typeChips}
+    </div>
+    <div class="client-filter-row">
+      <span class="client-filter-label">PM</span>
+      ${pmChips}
+    </div>
+    <div class="client-filter-row">
+      <span class="client-filter-label">狀態</span>
+      <span class="chip${currentClientEndedFilter === 'all' ? ' active' : ''}" onclick="setClientEndedFilter('all')">全部</span>
+      <span class="chip${currentClientEndedFilter === 'active' ? ' active' : ''}" onclick="setClientEndedFilter('active')">進行中</span>
+      <span class="chip${currentClientEndedFilter === 'completed' ? ' active' : ''}" onclick="setClientEndedFilter('completed')">已完成</span>
+    </div>`;
+}
+
+function setClientTypeFilter(v) {
+  currentClientTypeFilter = v;
+  renderClients();
+}
+function setClientPmFilter(v) {
+  currentClientPmFilter = v;
+  renderClients();
+}
+function setClientEndedFilter(v) {
+  currentClientEndedFilter = v;
+  renderClients();
+}
+function setClientSort(v) {
+  currentClientSort = v;
+  renderClients();
+}
+
+// 取此業主所有專案中最新 / 最早的開始日期（空字串=沒設定）
+function getClientLatestStartDate(c) {
+  const dates = (c.projects || []).map(p => p.startDate || '').filter(Boolean);
+  return dates.length > 0 ? dates.reduce((a, b) => a > b ? a : b) : '';
+}
+function getClientEarliestStartDate(c) {
+  const dates = (c.projects || []).map(p => p.startDate || '').filter(Boolean);
+  return dates.length > 0 ? dates.reduce((a, b) => a < b ? a : b) : '';
+}
+
+function sortClients(arr, mode) {
+  // 空值一律排最後的比較器
+  const cmpEmptyLast = (aEmpty, bEmpty) => {
+    if (aEmpty && bEmpty) return 0;
+    if (aEmpty) return 1;
+    if (bEmpty) return -1;
+    return null;
+  };
+  switch (mode) {
+    case 'number_asc':
+      arr.sort((a, b) => {
+        const av = (a.clientNumber || '').trim();
+        const bv = (b.clientNumber || '').trim();
+        const e = cmpEmptyLast(!av, !bv);
+        if (e !== null) return e;
+        return av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' });
+      });
+      break;
+    case 'startdate_desc':
+      arr.sort((a, b) => {
+        const av = getClientLatestStartDate(a);
+        const bv = getClientLatestStartDate(b);
+        const e = cmpEmptyLast(!av, !bv);
+        if (e !== null) return e;
+        return bv.localeCompare(av);
+      });
+      break;
+    case 'startdate_asc':
+      arr.sort((a, b) => {
+        const av = getClientEarliestStartDate(a);
+        const bv = getClientEarliestStartDate(b);
+        const e = cmpEmptyLast(!av, !bv);
+        if (e !== null) return e;
+        return av.localeCompare(bv);
+      });
+      break;
+    case 'name_asc':
+      arr.sort((a, b) => (a.name || '').localeCompare((b.name || ''), 'zh-Hant'));
+      break;
+    case 'simei_desc':
+    default:
+      // 達標數（多→少），tie-breaker: 總數
+      arr.sort((a, b) => (b.stats.simei - a.stats.simei) || (b.stats.total - a.stats.total));
+      break;
+  }
+}
+
+function renderClients() {
+  // 先渲染篩選 chips（每次呼叫都刷新，因為專案類型/PM 集合會變）
+  renderClientFilterChips();
+  const search = (document.getElementById('clientSearchInput')?.value || '');
+  let filtered;
+  if (!search) {
+    filtered = clients.slice();
+  } else {
+    const nq = normalizeClientName(search);
+    if (!nq) {
+      // 純標點/空白，退回原始包含比對
+      const q = search.toLowerCase();
+      filtered = clients.filter(c => c.name.toLowerCase().includes(q));
+    } else {
+      filtered = clients.filter(c => {
+        const nc = normalizeClientName(c.name);
+        return nc.includes(nq) || nq.includes(nc);
+      });
+    }
+  }
+
+  // 專案類型 / PM 篩選
+  const typeFilter = currentClientTypeFilter;
+  const pmFilter = currentClientPmFilter;
+  const endedFilter = currentClientEndedFilter;
+  if (typeFilter !== 'all' || pmFilter !== 'all' || endedFilter !== 'all') {
+    filtered = filtered.filter(c => {
+      const projs = c.projects || [];
+      const active = projs.filter(p => !p.isEnded);
+      // 狀態：進行中 = 有未結束專案 OR 完全沒專案；已完成 = 有任一結束的專案
+      if (endedFilter === 'active') {
+        if (projs.length > 0 && active.length === 0) return false;
+      } else if (endedFilter === 'completed') {
+        if (!projs.some(p => p.isEnded)) return false;
+      }
+      // 類型：任一未結束專案是這個類型
+      if (typeFilter !== 'all' && !active.some(p => p.projectType === typeFilter)) return false;
+      // PM 篩選：涵蓋所有專案（含已結束）的現任 PM + 歷任 PM + 業主層 PM
+      // 「曾經負責過的」都會被篩到
+      if (pmFilter !== 'all') {
+        const allPMs = [];
+        if (c.pm) allPMs.push(c.pm);
+        (c.projects || []).forEach(p => {
+          if (p.pm) allPMs.push(p.pm);
+          (p.pmHistory || []).forEach(h => { if (h) allPMs.push(h); });
+          // 若這個專案沒有指定 pm 也沒歷任，才視為沿用業主層 PM（若業主層也沒有 = 未指定）
+          if (!p.pm && (!p.pmHistory || p.pmHistory.length === 0)) {
+            allPMs.push(c.pm || '');
+          }
+        });
+        // 若業主無專案，用業主層 PM
+        if ((c.projects || []).length === 0) allPMs.push(c.pm || '');
+
+        if (pmFilter === '__none__') {
+          if (!allPMs.some(v => !v)) return false;
+        } else if (!allPMs.includes(pmFilter)) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }
+
+  const list = document.getElementById('clientsList');
+
+  if (filtered.length === 0) {
+    list.innerHTML = `
+      <div class="client-empty">
+        <div class="em-icon">∅</div>
+        <div>${clients.length === 0 ? '還沒有業主，請從上方新增' : '沒有符合的業主'}</div>
+      </div>`;
+    return;
+  }
+
+  // 排序（依使用者選擇；預設達標數多→少）
+  const withStats = filtered.map(c => ({ ...c, stats: getClientStats(c.name) }));
+  sortClients(withStats, currentClientSort);
+
+  list.innerHTML = withStats.map(({ name, clientNumber, website, projects, pm, sales, stats }) => {
+    const rateText = stats.rate !== null ? `${stats.rate}%` : '—';
+
+    // 底部網址
+    const websiteBottomHTML = website
+      ? `<div class="client-card-website-bottom"><a href="${escapeHtml(website)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${escapeHtml(formatWebsiteDisplay(website))}</a></div>`
+      : `<div class="client-card-website-bottom"><span class="empty">尚未設定網址</span></div>`;
+
+    // 業主編號
+    const clientNumberHTML = clientNumber
+      ? `<span class="client-number-badge">${escapeHtml(clientNumber)}</span>`
+      : '';
+
+    // 專案種類 badges：
+    //   1. 未結束的專案：先列出唯一類型（一般 badge 樣式）
+    //   2. 只有已結束專案的類型：後列出，附「已結束」標記（淡出樣式）
+    const projList = projects || [];
+    const activeProjects = projList.filter(p => !p.isEnded);
+    const endedProjects  = projList.filter(p => p.isEnded);
+    const activeTypeSet = new Set();
+    const typeBadges = [];
+    activeProjects.forEach(p => {
+      if (p.projectType && !activeTypeSet.has(p.projectType)) {
+        activeTypeSet.add(p.projectType);
+        typeBadges.push(`<span class="client-project-type ${projectTypeClass(p.projectType)}">${escapeHtml(p.projectType)}</span>`);
+      }
+    });
+    const endedTypeSet = new Set();
+    endedProjects.forEach(p => {
+      if (p.projectType && !activeTypeSet.has(p.projectType) && !endedTypeSet.has(p.projectType)) {
+        endedTypeSet.add(p.projectType);
+        typeBadges.push(`<span class="client-project-type ${projectTypeClass(p.projectType)} project-type-ended">${escapeHtml(p.projectType)}<span class="ended-marker">（已結束）</span></span>`);
+      }
+    });
+    const projectTypeHTML = typeBadges.length
+      ? `<div class="client-card-types-row">${typeBadges.join('')}</div>`
+      : '';
+
+    // PM 集合：業主層 PM + 各未結束專案的 PM（去重）
+    const pmSet = new Set();
+    if (pm) pmSet.add(pm);
+    activeProjects.forEach(p => { if (p.pm) pmSet.add(p.pm); });
+    const pmDisplay = Array.from(pmSet).join('、');
+
+    // 專案數：全部（含已結束）
+    const metaParts = [];
+    if (projList.length > 1) metaParts.push(`<span class="k">${projList.length}</span>個專案`);
+    if (pmDisplay) metaParts.push(`<span class="k">PM</span> ${escapeHtml(pmDisplay)}`);
+    if (sales)     metaParts.push(`<span class="k">業務</span> ${escapeHtml(sales)}`);
+    const metaHTML = metaParts.length
+      ? `<div class="client-card-meta">${metaParts.join('<span class="sep">·</span>')}</div>`
+      : '';
+
+    // 任一「未結束」的專案是保證 → 卡片紅框（已結束的保證不算）
+    const hasGuarantee = activeProjects.some(p => p.projectType === '保證');
+    const cardClasses = ['client-card'];
+    if (hasGuarantee) cardClasses.push('project-guarantee');
+
+    const nameEsc = escapeHtml(name).replace(/'/g, "\\'");
+    return `
+      <div class="${cardClasses.join(' ')}" onclick="filterByClient('${nameEsc}')">
+        <div class="client-card-header">
+          <div class="client-name-wrap">
+            ${clientNumberHTML}
+            <div class="client-name">${escapeHtml(name)}</div>
+            ${projectTypeHTML}
+            ${metaHTML}
+          </div>
+          <div class="client-card-actions">
+            <button class="client-export" onclick="event.stopPropagation(); exportClient('${nameEsc}')" title="匯出此業主的紀錄">↓</button>
+            <button class="client-edit" onclick="event.stopPropagation(); editClient('${nameEsc}')" title="編輯">✎</button>
+            <button class="client-delete" onclick="event.stopPropagation(); removeClient('${nameEsc}')" title="刪除">×</button>
+          </div>
+        </div>
+        <div class="client-stats">
+          <div>
+            <div class="client-stat-num">${stats.total}</div>
+            <div class="client-stat-label">TOTAL</div>
+          </div>
+          <div>
+            <div class="client-stat-num">${stats.simeiTargeted}</div>
+            <div class="client-stat-label">指定 達標</div>
+          </div>
+          <div>
+            <div class="client-stat-num">${stats.simeiNonTargeted}</div>
+            <div class="client-stat-label">非指定 達標</div>
+          </div>
+        </div>
+        <div class="client-rate">
+          <span>達標率（合計）</span>
+          <span class="rate-value">${rateText}</span>
+        </div>
+        ${websiteBottomHTML}
+      </div>
+    `;
+  }).join('');
+}
+
+// 把網址化為比較好閱讀的短字串：去掉 protocol、結尾斜線
+function formatWebsiteDisplay(url) {
+  if (!url) return '';
+  return String(url).replace(/^https?:\/\//, '').replace(/\/$/, '');
+}
+
+// 從業主分頁點擊業主 → 跳到查紀錄頁、用該業主搜尋、頂部顯示業主資訊
+function filterByClient(name) {
+  const client = clients.find(c => c.name === name);
+  switchTab('query');
+  document.getElementById('searchInput').value = name;
+
+  // 顯示業主聚焦條
+  const focus = document.getElementById('clientFocus');
+  document.getElementById('clientFocusName').textContent = name;
+
+  // PM / 業務 / 專案 meta
+  const peopleEl = document.getElementById('clientFocusPeople');
+  if (client) {
+    const parts = [];
+    const projs = client.projects || [];
+    if (projs.length === 1) {
+      // 只有一個專案 → 顯示它的種類
+      const p0 = projs[0];
+      if (p0.projectType) parts.push(`<span class="k">類型</span> ${escapeHtml(p0.projectType)}`);
+    } else if (projs.length > 1) {
+      // 多個專案 → 顯示數量
+      parts.push(`<span class="k">${projs.length}</span>個專案`);
+    }
+    if (client.pm)    parts.push(`<span class="k">PM</span> ${escapeHtml(client.pm)}`);
+    if (client.sales) parts.push(`<span class="k">業務</span> ${escapeHtml(client.sales)}`);
+    peopleEl.innerHTML = parts.length ? parts.join('<span class="sep">·</span>') : '';
+    peopleEl.style.display = parts.length ? '' : 'none';
+  } else {
+    peopleEl.innerHTML = '';
+    peopleEl.style.display = 'none';
+  }
+
+  const websiteEl = document.getElementById('clientFocusWebsite');
+  if (client && client.website) {
+    websiteEl.innerHTML = `<a href="${escapeHtml(client.website)}" target="_blank" rel="noopener">${escapeHtml(formatWebsiteDisplay(client.website))} ↗</a>`;
+  } else {
+    websiteEl.innerHTML = `<span class="empty">尚未設定網址</span>`;
+  }
+
+  focus.style.display = '';
+  renderClientFocusKeywords(name);
+  renderRecords();
+}
+
+// 清除業主聚焦
+function clearClientFocus() {
+  document.getElementById('clientFocus').style.display = 'none';
+  document.getElementById('clientFocusKeywords').innerHTML = '';
+  document.getElementById('searchInput').value = '';
+  renderRecords();
+}
+
+// 從業主聚焦條打開編輯 modal
+function editFocusedClient() {
+  const focusedName = document.getElementById('clientFocusName').textContent;
+  if (focusedName) editClient(focusedName);
+}
+
+// 搜尋框輸入：若使用者把搜尋字清空或改掉業主名稱，自動隱藏業主聚焦條
+function onSearchInput(value) {
+  const focus = document.getElementById('clientFocus');
+  if (focus.style.display !== 'none') {
+    const focusedName = document.getElementById('clientFocusName').textContent;
+    if (value.trim() !== focusedName) {
+      focus.style.display = 'none';
+      document.getElementById('clientFocusKeywords').innerHTML = '';
+    }
+  }
+  renderRecords();
+}
+
+// 渲染業主聚焦區塊裡的關鍵字狀態總覽
+//  - 只有 1 個（或 0 個）專案 → 平面顯示，不加專案 header、不顯示未歸屬區塊
+//  - 2 個以上專案 → 每個專案獨立 section；每個顯示 #N 序號（per-client 位置）
+function renderClientFocusKeywords(name) {
+  const container = document.getElementById('clientFocusKeywords');
+  if (!container) return;
+  const client = clients.find(c => c.name === name);
+  const { projects, orphanKeywords, bonusKeywords } = getClientKeywordStatuses(name);
+
+  const totalCount = projects.reduce((s, p) => s + p.keywords.length, 0) + orphanKeywords.length + bonusKeywords.length;
+  if (totalCount === 0) {
+    container.innerHTML = '';
+    return;
+  }
+
+  const legendHTML = `
+    <div class="focus-kw-legend-row">
+      <span class="focus-kw-legend">
+        <span><span class="dot simei"></span>已達標</span>
+        <span><span class="dot simei-light"></span>快速達標</span>
+        <span><span class="dot fail"></span>未達標</span>
+        <span><span class="dot tracking"></span>追蹤中</span>
+        <span><span class="dot none"></span>無紀錄</span>
+      </span>
+    </div>`;
+
+  const sortByStatus = (a, b) => {
+    const order = { simei: 0, fail: 1, tracking: 2, none: 3 };
+    const d = (order[a.status] ?? 9) - (order[b.status] ?? 9);
+    return d !== 0 ? d : a.keyword.localeCompare(b.keyword, 'zh-Hant');
+  };
+
+  let mainHTML = '';
+
+  if (projects.length <= 1) {
+    // 單一（或無）專案：合併專案關鍵字 + 未歸屬關鍵字，成一個平面清單
+    const singleProjectKws = projects.length === 1 ? projects[0].keywords : [];
+    const mergedKws = [...singleProjectKws, ...orphanKeywords];
+    mergedKws.sort(sortByStatus);
+    if (mergedKws.length > 0) {
+      mainHTML += `
+        <div class="focus-project-section">
+          <div class="focus-project-header">
+            <div class="focus-project-title">
+              <span class="focus-kw-label">指定關鍵字</span>
+            </div>
+            <span class="focus-kw-count">(${mergedKws.length})</span>
+          </div>
+          <div class="keyword-tags">${mergedKws.map(k => renderKeywordTag(k, name)).join('')}</div>
+        </div>`;
+    }
+  } else {
+    // 多專案：每個專案獨立 section；#N 為主要序號（per-client 的位置）
+    const clientPM = (client && client.pm) || '';
+    projects.forEach((p, i) => {
+      const ordinal = `#${i + 1}`;
+      const nameHTML = p.name
+        ? `<span class="focus-project-name">${escapeHtml(p.name)}</span>`
+        : '';
+      const typeHTML = p.projectType
+        ? `<span class="client-project-type ${projectTypeClass(p.projectType)}">${escapeHtml(p.projectType)}</span>`
+        : '';
+      const endedBadge = p.isEnded
+        ? `<span class="project-ended-badge">已結束</span>`
+        : '';
+      // 專案 meta：開始日期、專案 PM（若跟業主 PM 不同才顯示）
+      const metaParts = [];
+      if (p.startDate) metaParts.push('開始 ' + p.startDate);
+      if (p.pm && p.pm !== clientPM) metaParts.push('PM ' + p.pm);
+      const projectMeta = metaParts.length
+        ? `<div class="focus-project-meta">${metaParts.map(escapeHtml).join(' · ')}</div>`
+        : '';
+      const tagsHTML = p.keywords.length
+        ? `<div class="keyword-tags">${p.keywords.map(k => renderKeywordTag(k, name)).join('')}</div>`
+        : `<div class="kw-empty">這個專案還沒有指定關鍵字</div>`;
+      mainHTML += `
+        <div class="focus-project-section${p.isEnded ? ' focus-project-section-ended' : ''}">
+          <div class="focus-project-header">
+            <div class="focus-project-title">
+              <span class="focus-project-ordinal">${ordinal}</span>
+              ${nameHTML}
+              ${typeHTML}
+              ${endedBadge}
+            </div>
+            <span class="focus-kw-count">(${p.keywords.length})</span>
+          </div>
+          ${projectMeta}
+          ${tagsHTML}
+        </div>`;
+    });
+    // 未歸屬區塊（只在多專案時出現）
+    if (orphanKeywords.length) {
+      mainHTML += `
+        <div class="focus-project-section focus-project-section-orphan">
+          <div class="focus-project-header">
+            <div class="focus-project-title">
+              <span class="focus-kw-label">其他指定關鍵字</span>
+              <span class="focus-kw-hint">未歸屬到任何專案</span>
+            </div>
+            <span class="focus-kw-count">(${orphanKeywords.length})</span>
+          </div>
+          <div class="keyword-tags">${orphanKeywords.map(k => renderKeywordTag(k, name)).join('')}</div>
+        </div>`;
+    }
+  }
+
+  // 非指定但已達標（單/多都顯示）
+  if (bonusKeywords.length) {
+    mainHTML += `
+      <div class="focus-project-section">
+        <div class="focus-project-header">
+          <div class="focus-project-title">
+            <span class="focus-kw-label">非指定但已達標</span>
+          </div>
+          <span class="focus-kw-count">(${bonusKeywords.length})</span>
+        </div>
+        <div class="keyword-tags">${bonusKeywords.map(k => renderKeywordTag(k, name)).join('')}</div>
+      </div>`;
+  }
+
+  container.innerHTML = legendHTML + mainHTML;
+}
+
+// ===== 快速紀錄 modal（點聚焦頁的關鍵字 tag 時彈出）=====
+
+let quickRecordFiles = []; // 快速紀錄 modal 的暫存圖片（跟主表單的 uploadedFiles 分開）
+
+function openQuickRecordModal(customer, keyword) {
+  quickRecordFiles = [];
+
+  const today = new Date().toISOString().split('T')[0];
+  const recorderOptions = RECORDER_LIST.map(n =>
+    `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`
+  ).join('');
+
+  const custEsc = escapeHtml(customer).replace(/'/g, "\\'");
+  const kwEsc = escapeHtml(keyword).replace(/'/g, "\\'");
+
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-customer">快速紀錄</div>
+    <div class="modal-meta">${escapeHtml(customer)} · ${escapeHtml(keyword)}</div>
+
+    <div class="quick-record-form">
+      <div class="two-cols">
+        <div class="field-group">
+          <label>日期</label>
+          <div class="qr-date-row">
+            <input type="date" id="qr-date" value="${today}">
+            <label class="qr-inline-check">
+              <input type="checkbox" id="qr-nodate" onchange="onQrNoDateToggle()">
+              <span>無日期</span>
+            </label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>記錄者</label>
+          <select id="qr-recorder">
+            <option value="">選擇...</option>
+            ${recorderOptions}
+          </select>
+        </div>
+      </div>
+
+      <div class="two-cols">
+        <div class="field-group">
+          <label>排名（選填）</label>
+          <input type="number" id="qr-rank" placeholder="第幾名" min="1" inputmode="numeric">
+        </div>
+        <div class="field-group">
+          <label>狀態</label>
+          <select id="qr-status">
+            <option value="simei" selected>已達標</option>
+            <option value="tracking">追蹤中</option>
+            <option value="fail">未達標</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="two-cols">
+        <div class="field-group">
+          <label>月搜尋量（選填）</label>
+          <input type="text" id="qr-volume" placeholder="例如:720" inputmode="numeric">
+        </div>
+        <div class="field-group">
+          <label>首頁頂端出價（選填）</label>
+          <input type="text" id="qr-topbid" placeholder="例如:18.25" inputmode="decimal">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>落地頁網址（選填）</label>
+        <input type="url" id="qr-landing" placeholder="https://example.com/page">
+      </div>
+
+      <div class="field-group qr-checkbox-group">
+        <label class="qr-checkbox-label">
+          <input type="checkbox" id="qr-aisummary">
+          <span>AI 摘要版位</span>
+        </label>
+      </div>
+
+      <div class="field-group">
+        <label>截圖（選填，最多 2 張）</label>
+        <label class="qr-upload-btn" for="qr-file-input">
+          <span>+ 選擇圖片</span>
+          <input type="file" id="qr-file-input" accept="image/*" multiple onchange="qrHandleFiles(event)" style="display:none;">
+        </label>
+        <div id="qrFileGrid" class="qr-file-grid"></div>
+      </div>
+
+      <div class="field-hint">
+        提示：狀態選「已達標」但不填日期、排名跟截圖，會顯示為「快速達標 ◌」（表示有標為達標但無詳細資料）。
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">取消</button>
+      <button class="btn-primary" onclick="submitQuickRecord('${custEsc}', '${kwEsc}')">送出</button>
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+async function qrHandleFiles(event) {
+  const files = Array.from(event.target.files);
+  for (const file of files) {
+    if (quickRecordFiles.length >= 2) {
+      showToast('最多 2 張');
+      break;
+    }
+    try {
+      const dataUrl = await compressImage(file);
+      if (dataUrl.length > 800000) {
+        showToast('圖片過大，請挑小一點的');
+        continue;
+      }
+      quickRecordFiles.push({ name: file.name, dataUrl });
+      renderQrFileGrid();
+    } catch (err) {
+      showToast('圖片處理失敗');
+    }
+  }
+  event.target.value = '';
+}
+
+function renderQrFileGrid() {
+  const grid = document.getElementById('qrFileGrid');
+  if (!grid) return;
+  grid.innerHTML = quickRecordFiles.map((f, i) => `
+    <div class="file-item">
+      <img src="${f.dataUrl}" alt="">
+      <div class="file-remove" onclick="qrRemoveFile(${i})">×</div>
+    </div>
+  `).join('');
+}
+
+function qrRemoveFile(idx) {
+  quickRecordFiles.splice(idx, 1);
+  renderQrFileGrid();
+}
+
+async function submitQuickRecord(customer, keyword) {
+  const noDate = document.getElementById('qr-nodate').checked;
+  const date = noDate ? null : ((document.getElementById('qr-date').value || '').trim() || null);
+  const recorder = document.getElementById('qr-recorder').value;
+  const rankStr = (document.getElementById('qr-rank').value || '').trim();
+  const status = document.getElementById('qr-status').value;
+  const landing = (document.getElementById('qr-landing').value || '').trim();
+  const aiSummary = document.getElementById('qr-aisummary').checked ? 'yes' : 'no';
+  const volumeStr = (document.getElementById('qr-volume').value || '').trim();
+  const volume = volumeStr ? parseInt(volumeStr.replace(/,/g, '')) : null;
+  const topBidStr = (document.getElementById('qr-topbid').value || '').trim();
+  const topBid = topBidStr ? topBidStr.replace(/,/g, '') : null;
+
+  if (!recorder) { showToast('請選記錄者'); return; }
+
+  const rank = rankStr ? parseInt(rankStr) : null;
+  const imageUrls = quickRecordFiles.map(f => f.dataUrl);
+
+  const record = {
+    id: 'r_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    date,                   // 可能是 null（無日期）
+    recorder,
+    customer,
+    keyword,
+    targeted: 'yes',
+    isTargetKeyword: 'yes',
+    rank,                   // 可能是 null（快速標記）
+    volume,
+    topBid,
+    engine: 'Google',
+    landing,
+    landingPageUrl: landing,
+    status,
+    aiSummary,
+    note: '',
+    imageUrls,
+    createdAt: new Date().toISOString()
+  };
+
+  try {
+    await db.collection('records').doc(record.id).set(record);
+    quickRecordFiles = [];
+    closeModal();
+    const isQuickMark = (status === 'simei' && rank == null && imageUrls.length === 0);
+    showToast(isQuickMark ? '已快速標記為達標' : '已新增紀錄');
+  } catch (e) {
+    showToast('儲存失敗：' + e.message);
+  }
+}
+
+// 「無日期」checkbox 切換：勾了就 disable + 清空日期欄
+function onQrNoDateToggle() {
+  const check = document.getElementById('qr-nodate');
+  const dateEl = document.getElementById('qr-date');
+  if (check.checked) {
+    if (dateEl.value) dateEl.dataset.savedValue = dateEl.value;
+    dateEl.value = '';
+    dateEl.disabled = true;
+  } else {
+    dateEl.disabled = false;
+    if (dateEl.dataset.savedValue) dateEl.value = dateEl.dataset.savedValue;
+  }
+}
+
+// ===== Modal =====
+
+function showDetail(id) {
+  const r = records.find(x => x.id === id);
+  if (!r) return;
+
+  const imgsHTML = (r.imageUrls && r.imageUrls.length > 0)
+    ? `<div class="modal-section-label">截圖</div>
+       <div class="modal-imgs">${r.imageUrls.map((u, i) => {
+         const safeName = String((r.customer || '') + '_' + (r.keyword || '') + '_' + (i + 1)).replace(/[\\\/:*?"<>|\s]/g, '_');
+         return `<img src="${escapeHtml(u)}" class="modal-img" alt="" data-filename="${escapeHtml(safeName)}.png" onclick="event.stopPropagation(); openLightboxFromImg(this)" title="點擊放大">`;
+       }).join('')}</div>`
+    : '';
+
+  const noteHTML = r.note
+    ? `<div class="modal-note">${escapeHtml(r.note)}</div>`
+    : '';
+
+  // 落地頁：如果有就顯示成可點連結；否則顯示「—」
+  const landingHTML = r.landing
+    ? `<a href="${escapeHtml(r.landing)}" target="_blank" rel="noopener" class="modal-link">${escapeHtml(formatWebsiteDisplay(r.landing))}</a>`
+    : '—';
+
+  // targeted 沒填的舊紀錄預設視為「指定」
+  const targetedText = (r.targeted ?? 'yes') === 'yes' ? '是（指定）' : '否（非指定）';
+
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-customer">${escapeHtml(r.customer)}</div>
+    <div class="modal-meta">${r.date ? formatDateLong(r.date) + ' · ' : ''}${escapeHtml(r.recorder)}</div>
+
+    ${imgsHTML}
+
+    <div class="modal-section-label">資料</div>
+    <div class="modal-rows">
+      <div class="modal-row"><span class="label">關鍵字</span><span class="value">${escapeHtml(r.keyword)}</span></div>
+      <div class="modal-row"><span class="label">指定關鍵字</span><span class="value">${targetedText}</span></div>
+      <div class="modal-row"><span class="label">排名</span><span class="value">${r.rank != null && r.rank !== '' ? '第 ' + r.rank + ' 名' : '—'}</span></div>
+      <div class="modal-row"><span class="label">月搜尋量</span><span class="value">${r.volume ? Number(r.volume).toLocaleString('en-US') : '—'}</span></div>
+      <div class="modal-row"><span class="label">首頁頂端出價</span><span class="value">${r.topBid != null && r.topBid !== '' ? escapeHtml(r.topBid) : '—'}</span></div>
+      <div class="modal-row"><span class="label">搜尋引擎</span><span class="value">${escapeHtml(r.engine || 'Google')}</span></div>
+      <div class="modal-row"><span class="label">落地頁</span><span class="value">${landingHTML}</span></div>
+      <div class="modal-row"><span class="label">狀態</span><span class="value">${STATUS_LABEL[r.status]}</span></div>
+      <div class="modal-row"><span class="label">AI 摘要</span><span class="value">${r.aiSummary === 'yes' ? '有' : '無'}</span></div>
+    </div>
+
+    ${noteHTML}
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">關閉</button>
+      <button class="btn-secondary" onclick="copyLineText('${r.id}', event)">複製 Line 貼文</button>
+      <button class="btn-secondary" onclick="startEditRecord('${r.id}')">編輯</button>
+      <button class="btn-danger" onclick="confirmDelete('${r.id}')">刪除</button>
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+
+// ===== Lightbox =====
+function openLightboxFromImg(imgEl) {
+  const src = imgEl.currentSrc || imgEl.src;
+  const filename = imgEl.dataset.filename || 'screenshot.png';
+  const overlay = document.getElementById('lightboxOverlay');
+  const imgOut = document.getElementById('lightboxImage');
+  const dl = document.getElementById('lightboxDownload');
+  imgOut.src = src;
+  dl.href = src;
+  dl.download = filename;
+  overlay.classList.add('show');
+}
+function closeLightbox() {
+  document.getElementById('lightboxOverlay').classList.remove('show');
+  // 釋放 img src 避免留在 DOM
+  const imgOut = document.getElementById('lightboxImage');
+  if (imgOut) imgOut.src = '';
+}
+function closeLightboxIfBg(event) {
+  if (event.target.id === 'lightboxOverlay') closeLightbox();
+}
+
+// ===== Line 貼文格式 =====
+
+// 將一筆紀錄格式化為 Line 群組貼文，格式：
+//   業主:...
+//   關鍵字:...
+//   搜尋量:... (無資料就略過)
+//   排名:... [& AI 摘要]
+//   查詢日期:YYYY.M.D
+function formatRecordForLine(r) {
+  const lines = [];
+  if (r.customer) lines.push('業主:' + r.customer);
+  if (r.keyword)  lines.push('關鍵字:' + r.keyword);
+  if (r.volume != null && r.volume !== '') lines.push('搜尋量:' + r.volume);
+  if (r.topBid != null && r.topBid !== '') lines.push('首頁頂端出價:' + r.topBid);
+  if (r.rank != null && r.rank !== '') {
+    const rankLine = '排名:' + r.rank + (r.aiSummary === 'yes' ? ' & AI 摘要' : '');
+    lines.push(rankLine);
+  }
+  if (r.date) {
+    const parts = r.date.split('-');
+    if (parts.length === 3) {
+      lines.push('查詢日期:' + parts[0] + '.' + parseInt(parts[1]) + '.' + parseInt(parts[2]));
+    }
+  }
+  return lines.join('\n');
+}
+
+// 複製一筆紀錄到剪貼簿，格式為 Line 貼文
+async function copyLineText(id, event) {
+  if (event) event.stopPropagation();
+  const r = records.find(x => x.id === id);
+  if (!r) return;
+  const text = formatRecordForLine(r);
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('已複製 Line 貼文');
+  } catch (e) {
+    // 舊瀏覽器 / iframe 內 fallback
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('已複製 Line 貼文');
+    } catch (e2) {
+      prompt('複製以下文字:', text);
+    }
+  }
+}
+
+// ESC 關閉 lightbox
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('lightboxOverlay').classList.contains('show')) {
+    closeLightbox();
+  }
+});
+
+function closeModalIfBg(event) {
+  if (event.target.id === 'modalOverlay') closeModal();
+}
+
+function confirmDelete(id) {
+  if (confirm('確定刪除這筆紀錄？')) {
+    dataDelete(id);
+    closeModal();
+    showToast('已刪除');
+  }
+}
+
+// ===== 匯出 CSV =====
+
+function exportFiltered() {
+  const filtered = window._currentFilteredRecords || [];
+  if (filtered.length === 0) {
+    showToast('目前沒有可匯出的紀錄');
+    return;
+  }
+  doExport(filtered, '本頁');
+}
+
+function exportAll() {
+  if (records.length === 0) {
+    showToast('目前沒有可匯出的紀錄');
+    return;
+  }
+  doExport(records, '全部');
+}
+
+function doExport(list, scopeLabel) {
+  const includeImage = confirm(`要在 CSV 裡包含截圖（Base64 字串）嗎？\n\n・選「確定」：會包含，但檔案會變很大（每筆紀錄多 ~100KB）\n・選「取消」：只匯出文字欄位（推薦）`);
+
+  // 套用目前畫面上的排序選擇（讓匯出順序跟畫面一致）
+  const sorted = [...list];
+  applySort(sorted, currentSort);
+
+  const headers = [
+    '日期', '紀錄人', '客戶/案件', '關鍵字', '指定關鍵字',
+    '排名', '月搜尋量', '首頁頂端出價', '搜尋引擎', '落地頁', '狀態', 'AI摘要', '備註', '建立時間', '更新時間'
+  ];
+  if (includeImage) headers.push('截圖1(Base64)', '截圖2(Base64)');
+
+  const rows = sorted.map(r => {
+    const targetedText = (r.targeted ?? 'yes') === 'yes' ? '指定' : '非指定';
+    const row = [
+      r.date || '',
+      r.recorder || '',
+      r.customer || '',
+      r.keyword || '',
+      targetedText,
+      r.rank != null ? r.rank : '',
+      r.volume != null ? r.volume : '',
+      r.topBid != null && r.topBid !== '' ? r.topBid : '',
+      r.engine || '',
+      r.landing || '',
+      STATUS_LABEL[r.status] || r.status || '',
+      r.aiSummary === 'yes' ? '有' : '無',
+      r.note || '',
+      r.createdAt || '',
+      r.updatedAt || ''
+    ];
+    if (includeImage) {
+      row.push((r.imageUrls && r.imageUrls[0]) || '');
+      row.push((r.imageUrls && r.imageUrls[1]) || '');
+    }
+    return row;
+  });
+
+  const csv = [headers, ...rows].map(row =>
+    row.map(cell => csvEscape(cell)).join(',')
+  ).join('\r\n');
+
+  // 加 UTF-8 BOM 讓 Excel 用 UTF-8 開啟，中文不亂碼
+  const BOM = '\uFEFF';
+  const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8;' });
+
+  const today = new Date().toISOString().split('T')[0];
+  // 檔名 sanitize：把 Windows/macOS 不允許的字元換成底線
+  const safeLabel = String(scopeLabel).replace(/[\\\/:*?"<>|]/g, '_').trim() || '匯出';
+  const filename = `SEO紀錄_${safeLabel}_${today}.csv`;
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+  showToast(`已匯出 ${sorted.length} 筆`);
+}
+
+function csvEscape(value) {
+  if (value == null) return '';
+  const s = String(value);
+  // 如果包含逗號、雙引號、換行，要用雙引號包起來，並把內部雙引號變兩個
+  if (/[",\r\n]/.test(s)) {
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+  return s;
+}
+
+// ===== 工具 =====
+
+// 月搜尋量輸入即時格式化（千分位逗號）：1900 → 1,900；40500 → 40,500
+function formatVolumeInput(el) {
+  const raw = el.value;
+  // 只留下數字
+  const digits = raw.replace(/[^\d]/g, '');
+  if (!digits) {
+    el.value = '';
+    return;
+  }
+  el.value = Number(digits).toLocaleString('en-US');
+}
+
+// 將千分位字串轉成數字（送出時用）
+function parseVolumeInput(str) {
+  if (str == null || str === '') return null;
+  const digits = String(str).replace(/[^\d]/g, '');
+  if (!digits) return null;
+  const n = parseInt(digits, 10);
+  return isNaN(n) ? null : n;
+}
+
+function formatDateShort(dateStr) {
+  if (!dateStr) return '';
+  const [, m, d] = dateStr.split('-');
+  return `${parseInt(m)}/${d}`;
+}
+
+function formatDateLong(dateStr) {
+  if (!dateStr) return '';
+  const [y, m, d] = dateStr.split('-');
+  return `${y} 年 ${parseInt(m)} 月 ${parseInt(d)} 日`;
+}
+
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+init();
+</script>
+
+</body>
+</html>
