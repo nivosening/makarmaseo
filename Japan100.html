@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日本自然 100 選（日本の自然 100 選） </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;800&family=Noto+Serif+TC:wght@700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{color-scheme:light dark}:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}html,body{margin:0;background:light-dark(#fff,#0d1612)}</style>
+<style id="nl-css">/* VOICE everyday: a calm field guide; in edit mode a quiet admin layer on top of the same page
+   IDEA a pocket nature-guide index: a stamped number, a name, where, and why it was chosen
+   PICTURE a tile map of Japan's 47 prefectures shaded by matches, also the main filter
+   COLOUR forest green header, white pages, vermilion seal-stamp accent
+   TYPE Noto Serif JP 800 for headings and numbers (as on NivoseLab), Noto Sans TC for text
+   LAYOUT green header with ridges; sticky map + filters left, list right; stacks in narrow containers */
+.nl{color-scheme:light dark;--bg:light-dark(#ffffff,#0d1612);--ink:light-dark(#15241c,#e5eee8);--mute:light-dark(#56675d,#9db2a5);--line:light-dark(#e2e9e4,#213229);--panel:light-dark(#f3f7f4,#14211b);--edge:light-dark(#c9d5cd,#2c4237);--g:#1b4a35;--g3:#2f6b4f;--red:#cf3f27;--t0:light-dark(#eef2ef,#18241e);--t1:light-dark(#c4dccd,#24443a);--t2:light-dark(#7fb196,#2f6b4f);--t3:light-dark(#3f8063,#4f9a75);--t4:light-dark(#1f5a40,#7cc49d);--serif:"Noto Serif JP","Noto Serif TC",serif;container:nl/inline-size;background:var(--bg);color:var(--ink);font:16px/1.65 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;overflow-x:clip;text-align:start}
+:root[data-theme=light] .nl{color-scheme:light}
+:root[data-theme=dark] .nl{color-scheme:dark}
+.nl.light{color-scheme:light}
+.nl *{box-sizing:border-box;min-width:0}
+.nl h1,.nl h2,.nl h3{font-family:var(--serif);font-weight:800;margin:0;letter-spacing:-.01em;color:inherit;background:none;border:0;padding:0;display:block}
+.nl p{margin:0;padding:0}
+.nl ul{margin:0}
+.nl button{font-family:inherit}
+.nl .band{padding-block:clamp(28px,4vw,56px);padding-left:max(5vw,16px);padding-right:max(5vw,16px)}
+.nl .wrap{max-width:1240px;margin:0 auto}
+.nl .hero{background:var(--g);color:#eef6f0;padding-bottom:0}
+.nl .hero h1{font-size:clamp(38px,6vw,60px);line-height:1.1;text-wrap:balance}
+.nl .sub{font-family:var(--serif);font-weight:700;font-size:clamp(18px,2.2vw,23px);margin-top:12px;color:#cfe6d7}
+.nl .lede{max-width:62ch;margin-top:16px;color:#d9ebdf}
+.nl .lede p+p{margin-top:8px}
+.nl .figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(9em,1fr));gap:4px 24px;margin-top:28px;max-width:820px}
+.nl .fig1{border-top:1px solid #ffffff33;padding-top:10px;position:relative}
+.nl .fig1 b{display:block;font:800 clamp(26px,3vw,34px)/1.15 var(--serif);color:#fff;white-space:nowrap}
+.nl .fig1 span{display:block;font-size:14px;color:#bcd8c6}
+.nl .ridge{display:block;width:calc(100% + 2*max(5vw,16px));max-width:none;height:130px;margin:8px calc(-1*max(5vw,16px)) 0}
+.nl .mapbox{max-width:520px}
+.nl .main{display:grid;gap:32px;padding-top:8px}
+@container nl (min-width:900px){.nl .main{grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:48px}.nl .side{position:sticky;top:16px;align-self:start;max-height:calc(100svh - 32px);overflow:auto;padding-bottom:8px}.nl.editing .side{top:76px;max-height:calc(100svh - 92px)}}
+.nl .side h2{font-size:22px}
+.nl .hint{color:var(--mute);font-size:14px;margin:4px 0 12px}
+.nl .mapbox{container:map/inline-size;background:var(--panel);border-radius:14px;padding:14px}
+.nl .map{display:grid;grid-template-columns:repeat(26,minmax(0,1fr));grid-template-rows:repeat(29,minmax(0,1fr));gap:0;aspect-ratio:26/29}
+.nl .t{border:0;border-radius:5px;background:var(--t0);color:var(--ink);font:500 13px/1 "Noto Sans TC",sans-serif;cursor:pointer;display:grid;place-items:center;padding:0;margin:1.5px;font-size:clamp(9px,3cqi,13px);white-space:nowrap;overflow:hidden;transition:background .25s,transform .15s}
+.nl .t[data-n="1"]{background:var(--t1)}.nl .t[data-n="2"]{background:var(--t2);color:#fff}.nl .t[data-n="3"]{background:var(--t3);color:#fff}.nl .t[data-n="4"]{background:var(--t4);color:light-dark(#fff,#0d1612)}
+.nl .t[data-n="0"]{color:var(--mute);cursor:default}
+.nl .t.s3{font-size:clamp(7px,2.15cqi,12px);letter-spacing:-.05em}
+.nl .t:hover:not([data-n="0"]){transform:scale(1.08)}
+.nl .t.on{background:var(--red);color:#fff}
+@container map (max-width:380px){.nl .t span{display:none}}
+.nl :is(.t,.chip,.btn,.no,.ebtn,.reset,.close):focus-visible,.nl :is(select,input,textarea):focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.nl .legend{display:flex;align-items:center;gap:6px;margin-top:12px;font-size:13px;color:var(--mute);flex-wrap:wrap}
+.nl .legend i{width:16px;height:16px;border-radius:3px;display:inline-block}
+.nl .ctl{display:grid;gap:12px;margin-top:18px}
+.nl .chips{display:flex;flex-wrap:wrap;gap:6px}
+.nl .chip{min-height:40px;padding:6px 14px;border-radius:99px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:500 15px "Noto Sans TC",sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.nl .chip[aria-pressed=true]{background:var(--g);border-color:var(--g);color:#fff}
+.nl .dot{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block}
+.nl .row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.nl .lab{display:block;color:var(--mute);font-size:14px;margin:0 0 4px}
+.nl select,.nl input:not([type=checkbox]):not([type=color]):not([type=file]),.nl textarea{width:100%;min-height:44px;font:16px/1.5 "Noto Sans TC",sans-serif;color:var(--ink);background:var(--bg);border:1px solid var(--edge);border-radius:10px;padding:8px 12px;margin:0}
+.nl textarea{resize:vertical}
+.nl .status{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:15px;color:var(--mute)}
+.nl .status b{color:var(--ink);font-variant-numeric:tabular-nums}
+.nl .reset{border:0;background:none;color:var(--red);font:500 15px "Noto Sans TC",sans-serif;cursor:pointer;min-height:44px;padding:0 4px}
+.nl .pref{display:flex;align-items:baseline;gap:10px;border-bottom:2px solid var(--ink);padding:26px 0 8px}
+.nl .pref:first-child{padding-top:0}
+.nl .pref h2{font-size:26px}
+.nl .pref small{color:var(--mute);font-size:14px}
+.nl .item{display:grid;grid-template-columns:52px minmax(0,1fr) minmax(0,240px);gap:4px 20px;padding:20px 0;border-bottom:1px solid var(--line)}
+.nl .body{position:relative}
+.nl .item h3{font-size:22px;line-height:1.3}
+.nl .jp{display:block;margin-top:3px;font-size:14px;line-height:1.5;color:var(--mute);font-family:"Noto Sans TC",sans-serif;font-weight:400;letter-spacing:0}
+.nl .meta{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:14px;color:var(--mute);margin:6px 0}
+.nl .meta .k{display:inline-flex;align-items:center;gap:6px;color:var(--ink)}
+.nl .item p{max-width:62ch;line-height:1.9;text-align:justify}
+.nl .note{display:block;margin-top:6px;font-size:14px;color:var(--red)}
+.nl .side-fig{display:grid;gap:8px;align-content:start}
+.nl .mini{display:block;width:100%;aspect-ratio:13/14.5;background:var(--panel);border-radius:8px;padding:8px;color:var(--t1)}
+.nl .mini .hi{fill:var(--red)}
+.nl .photo{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;background:var(--panel)}
+.nl .gm{display:block;width:100%;aspect-ratio:4/3;border:0;border-radius:10px;background:var(--panel)}
+.nl .gmfb{display:grid;align-content:center;gap:6px;aspect-ratio:4/3;border-radius:10px;background:var(--panel);border:1px dashed var(--edge);padding:14px;font-size:14px;color:var(--mute);line-height:1.5}
+.nl .gmfb b{color:var(--ink);font-weight:500}
+.nl .gmfb a{color:var(--g3);font-weight:500}
+.nl .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:6px 16px;border-radius:99px;border:1px solid var(--edge);background:var(--bg);color:var(--ink);font:500 15px/1.2 "Noto Sans TC",sans-serif;text-decoration:none;text-align:center;cursor:pointer;white-space:nowrap}
+.nl .btn:hover{border-color:var(--g3)}
+.nl .btn.pri{background:var(--g);border-color:var(--g);color:#fff}
+.nl .btn.warn{color:var(--red);border-color:color-mix(in srgb,var(--red) 40%,transparent)}
+.nl .btn[disabled]{opacity:.45;cursor:default}
+.nl .stamp{position:relative;align-self:start}
+.nl .no{width:48px;height:48px;border-radius:50%;border:2px solid var(--red);color:var(--red);background:var(--bg);padding:0;cursor:pointer;display:grid;place-items:center;font:800 17px/1 var(--serif);font-variant-numeric:tabular-nums;transform:rotate(-6deg)}
+.nl .no:hover,.nl .no:focus-visible{background:var(--red);color:#fff}
+.nl .pop{position:absolute;left:56px;top:-8px;width:210px;z-index:5;background:var(--bg);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgb(0 0 0/.16);padding:8px;opacity:0;visibility:hidden;transform:translateY(4px);transition:opacity .18s,transform .18s,visibility .18s;pointer-events:none}
+.nl .pop small{display:block;font-size:13px;color:var(--mute);padding:6px 2px 0;line-height:1.4}
+.nl .stamp:hover .pop,.nl .stamp:focus-within .pop{opacity:1;visibility:visible;transform:none}
+.nl .empty{padding:40px 0;color:var(--mute)}
+.nl .about{background:var(--panel);margin-top:48px}
+.nl .cols{display:grid;gap:24px 48px}
+@container nl (min-width:760px){.nl .cols{grid-template-columns:repeat(auto-fit,minmax(0,1fr))}}
+.nl .col{position:relative}
+.nl .about h2{font-size:24px;margin-bottom:8px}
+.nl .about p,.nl .about li{max-width:62ch;color:light-dark(#2a3a31,#cddbd2)}
+.nl .about p+p{margin-top:10px}
+.nl .about ul{padding-left:1.2em}
+.nl .src{font-size:14px;color:var(--mute);margin-top:24px}
+/* edit layer */
+.nl .bar{position:sticky;top:0;z-index:30;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px max(5vw,16px);background:light-dark(#fffdf7,#16201b);border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgb(0 0 0/.06)}
+.nl .bar .who{font-weight:700;margin-right:4px}
+.nl .bar .st{font-size:14px;color:var(--mute);margin-right:auto}
+.nl .bar .st.dirty{color:var(--red)}
+.nl .bar .btn{min-height:40px;padding:4px 14px;font-size:14px}
+.nl .fab{position:fixed;right:16px;bottom:16px;z-index:30;box-shadow:0 6px 18px rgb(0 0 0/.2)}
+.nl .notice{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:10px max(5vw,16px);background:light-dark(#fdf0e8,#2a1b14);font-size:15px}
+.nl.editing [data-k]{outline:1px dashed color-mix(in srgb,currentColor 35%,transparent);outline-offset:4px;border-radius:4px;cursor:text;min-height:1.2em}
+.nl.editing [data-k]:hover{outline-color:currentColor}
+.nl.editing [data-k]:focus{outline:2px solid var(--red)}
+.nl.editing [data-multi]{white-space:pre-wrap}
+.nl [data-k]:empty::before{content:attr(data-ph);opacity:.5}
+.nl .ebtn{min-height:36px;padding:2px 12px;border-radius:99px;border:1px solid var(--edge);background:var(--bg);color:var(--ink);font:500 14px "Noto Sans TC",sans-serif;cursor:pointer}
+.nl .ebtn:hover{border-color:var(--red);color:var(--red)}
+.nl .body .ebtn{position:absolute;top:-4px;right:0}
+.nl.editing .body h3{padding-right:64px}
+.nl .x{position:absolute;top:6px;right:0;width:32px;height:32px;min-height:0;padding:0;border-radius:50%;border:0;background:#ffffff22;color:inherit;cursor:pointer;font-size:18px;line-height:1}
+.nl .about .x{background:var(--line)}
+.nl .addrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.nl .hero .ebtn{background:transparent;color:#fff;border-color:#ffffff66}
+.nl .addit{width:100%;margin-top:20px;min-height:56px;border:2px dashed var(--edge);border-radius:12px;background:none;color:var(--ink);font:500 16px "Noto Sans TC",sans-serif;cursor:pointer}
+.nl .modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgb(10 20 15/.45)}
+.nl .modal[hidden]{display:none}
+.nl .mbox{width:min(680px,100%);max-height:calc(100svh - 32px);overflow:auto;background:var(--bg);color:var(--ink);border-radius:16px;padding:clamp(18px,3vw,28px);box-shadow:0 20px 50px rgb(0 0 0/.3);position:relative}
+.nl .mbox h2{font-size:24px;margin-bottom:16px;padding-right:44px}
+.nl .close{position:absolute;top:14px;right:14px;width:44px;height:44px;border:0;border-radius:50%;background:var(--panel);color:var(--ink);font-size:22px;cursor:pointer}
+.nl .fgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.nl .fgrid>.w{grid-column:1/-1}
+.nl .fgrid label{display:block}
+.nl .imgbox{display:grid;grid-template-columns:140px minmax(0,1fr);gap:12px;align-items:start}
+.nl .imgbox .pv{width:140px;aspect-ratio:4/3;border-radius:8px;background:var(--panel);display:grid;place-items:center;overflow:hidden;font-size:13px;color:var(--mute);text-align:center}
+.nl .imgbox .pv img{width:100%;height:100%;object-fit:cover}
+.nl .imgbox .acts2{display:flex;flex-wrap:wrap;gap:8px}
+.nl .small{font-size:14px;color:var(--mute);margin-top:6px}
+.nl .err{color:var(--red);font-size:14px;min-height:1.4em;margin-top:10px}
+.nl .mact{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.nl .mact .sp{flex:1}
+.nl .catrow{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:8px;align-items:center;margin-bottom:8px}
+.nl .catrow input[type=color]{width:44px;height:44px;border:1px solid var(--edge);border-radius:10px;padding:2px;background:var(--bg)}
+.nl .xopts{display:grid;grid-template-columns:repeat(auto-fit,minmax(14em,1fr));gap:12px}
+.nl .xo{border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:8px;align-content:start}
+.nl .xo h3{font-size:19px}
+.nl .xo p{font-size:14px;color:var(--mute)}
+.nl .xo .row{display:flex;flex-wrap:wrap;gap:8px}
+.nl .code{margin-top:12px;font:13px/1.5 ui-monospace,Menlo,monospace;min-height:120px}
+.nl .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-size:15px;max-width:calc(100% - 32px)}
+@container nl (max-width:600px){.nl .item{grid-template-columns:44px minmax(0,1fr);gap:4px 12px}.nl .side-fig{grid-column:2;margin-top:12px}.nl .gm,.nl .gmfb{aspect-ratio:16/10}.nl .pop{left:46px;width:170px}.nl .no{width:40px;height:40px;font-size:15px}.nl .item h3{font-size:20px}.nl .fgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.nl .fgrid>.n3{grid-column:1/-1}.nl .imgbox{grid-template-columns:minmax(0,1fr)}.nl .bar .st{flex-basis:100%;order:-1}}
+@media(prefers-reduced-motion:reduce){.nl .pop,.nl .t{transition:none}.nl .t:hover:not([data-n="0"]){transform:none}}
+</style>
+</head>
+<body>
+<div class="nl" id="nl-app" data-mode="edit"></div>
+<script type="application/json" id="nl-state">{"v":1,"title":"日本自然 100 選（日本の自然 100 選） ","sub":"想留給 21 世紀的日本自然環境","lede":"1982年，森林文化協會與朝日新聞社向全日本徵集「想留給 21 世紀的自然環境」。由於國家公園等已受保護的地方不在評選範圍內，因此許多提名地點都是人們熟知的地點或面臨破壞風險的自然區域。\n100 處入選地於 1983 年元旦在朝日新聞上公布。公布後曾進行為期 17 年的定點觀測，進入 21 世紀後則以「想永遠守護的日本自然」為主題延續相關攝影與保育推廣。\n","figs":[{"n":"45,000+","l":"件應徵投稿"},{"n":"2,000+","l":"處候選地"},{"n":"100","l":"處入選，遍及 47 都道府縣"},{"n":"17 年","l":"於 10 個地點定點觀測"}],"mapTitle":"依地圖與類型瀏覽","mapHint":"點選縣份只看當地；顏色越深，符合條件的地點越多。","cats":[{"id":"f","name":"森林","color":"#2f7a52"},{"id":"m","name":"山岳・丘陵","color":"#8a6d45"},{"id":"v","name":"溪谷・瀑布","color":"#2f8f8c"},{"id":"w","name":"濕原","color":"#8fa13a"},{"id":"r","name":"河川・湖沼","color":"#2f6fae"},{"id":"c","name":"海岸・島嶼","color":"#c98a25"}],"items":[{"id":"i1","no":1,"pref":"北海道","name":"知床半島的天然林","jp":"知床半島の自然林","loc":"斜里郡斜里町・目梨郡羅臼町","desc":"知床連峰西側被譽為日本最原始的景觀。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i2","no":2,"pref":"北海道","name":"釧路濕原","jp":"釧路湿原","loc":"釧路市・釧路郡釧路町・川上郡標茶町・阿寒郡鶴居村","desc":"以丹頂鶴棲息地聞名，是日本國內最大的低位濕原。","cat":"w","note":"","url":"","img":null,"gq":""},{"id":"i3","no":3,"pref":"北海道","name":"富良野的樹海","jp":"富良野の樹海","loc":"空知郡上富良野町・中富良野町・南富良野町","desc":"以東京大學演習林為中心，綿延約23,000公頃的廣大林地。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i4","no":4,"pref":"北海道","name":"函館山","jp":"函館山","loc":"函館市西部","desc":"雖是觀光名勝，卻能看到北海道三分之一的植物種類，堪稱寶庫。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i5","no":5,"pref":"青森","name":"屏風山濕原","jp":"屏風山湿原","loc":"西津輕郡木造町","desc":"從高位到低位，可以觀察各類濕原逐年演變的樣貌。","cat":"w","note":"","url":"","img":null,"gq":""},{"id":"i6","no":6,"pref":"青森","name":"蔦溫泉的天然林","jp":"蔦温泉の自然林","loc":"上北郡十和田湖町奧瀨","desc":"山毛櫸、七葉樹等天然林，還有只長得出低矮灌木的典型雪田。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i7","no":7,"pref":"岩手","name":"櫃取濕原","jp":"櫃取湿原","loc":"下閉伊郡岩泉町","desc":"位於海拔約1,000公尺的國有林谷底，水芭蕉成片群生。","cat":"w","note":"","url":"","img":null,"gq":""},{"id":"i8","no":8,"pref":"岩手","name":"五葉山","jp":"五葉山","loc":"大船渡市・釜石市・氣仙郡住田町","desc":"杜鵑花科的「五葉山瓔珞」（ゴヨウザンヨウラク）是此山特有種，動物也多。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i9","no":9,"pref":"秋田","name":"白神山地的山毛櫸林","jp":"白神山地のブナ林","loc":"秋田縣山本郡藤里町・峰濱村、青森縣西津輕郡鰺澤町","desc":"山毛櫸、水楢的天然林，是日本國內規模最大的山毛櫸密集區之一。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i10","no":10,"pref":"秋田","name":"能代海岸的防砂林","jp":"能代海岸の砂防林","loc":"能代市後谷地","desc":"82萬棵黑松綿延約10公里，有野鳥棲息，也是市民休憩的地方。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i11","no":11,"pref":"山形","name":"今神山","jp":"今神山","loc":"最上郡戶澤村・大藏村","desc":"今神御池裡群生著珍稀的沉水植物「姬水韭」（ヒメミズニラ）。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i12","no":12,"pref":"山形","name":"寒河江川・朝日川上游的山毛櫸林","jp":"寒河江川・朝日川上流のブナ林","loc":"西村山郡西川町・大江町・朝日町","desc":"有直徑超過1公尺的巨木，是狐狸、褐頭山雀等動物與野鳥的天堂。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i13","no":13,"pref":"宮城","name":"伊豆沼・內沼","jp":"伊豆沼・内沼","loc":"栗原郡築館町","desc":"日本數一數二的天鵝、雁、鴨類度冬地。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i14","no":14,"pref":"宮城","name":"廣瀨川","jp":"広瀬川","loc":"仙台市","desc":"流經仙台市區，以在市區就能釣到香魚等魚類聞名。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i15","no":15,"pref":"福島","name":"信夫山","jp":"信夫山","loc":"福島市","desc":"赤松、楢樹、麻櫟等組成的雜木林是市民休憩的地方。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i16","no":16,"pref":"福島","name":"新舞子濱的黑松林","jp":"新舞子浜のクロマツ林","loc":"磐城市","desc":"約300年前由平藩藩主種植的防潮保安林，綿延約10公里。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i17","no":17,"pref":"茨城","name":"奧久慈溪谷","jp":"奥久慈渓谷","loc":"日立市","desc":"流域內的袋田瀑布被列為日本三大瀑布之一。","cat":"v","note":"","url":"","img":null,"gq":""},{"id":"i18","no":18,"pref":"茨城","name":"涸沼","jp":"涸沼","loc":"東茨城郡大洗町・茨城町","desc":"海水魚與淡水魚共存的半鹹水湖沼，是鯡魚分布的最南端與產卵地。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i19","no":19,"pref":"栃木","name":"鷲子山","jp":"鷲子山","loc":"那須郡馬頭町","desc":"南方系與北方系植物的交會點，山毛櫸、日本榧、櫟樹等混生。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i20","no":20,"pref":"栃木","name":"西之湖","jp":"西ノ湖","loc":"日光市中宮祠","desc":"北岸到西岸有寬廣的沙灘，以及水曲柳等樹林。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i21","no":21,"pref":"群馬","name":"丸沼・菅沼","jp":"丸沼・菅沼","loc":"利根郡片品村大字東小川字丸沼","desc":"日光白根山噴發時流出的熔岩堵住河川而形成的湖沼。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i22","no":22,"pref":"群馬","name":"赤城山粗山高原","jp":"赤城山粗山高原","loc":"勢多郡富士見村・宮城村","desc":"赤城山外輪山一角的高地，擁有豐富的天然林與草原。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i23","no":23,"pref":"埼玉","name":"名栗川溪谷","jp":"名栗川渓谷","loc":"入間郡名栗村・飯能市飯能","desc":"群山環繞，子持岩、弁天岩等奇岩接連出現。","cat":"v","note":"","url":"","img":null,"gq":""},{"id":"i24","no":24,"pref":"埼玉","name":"狹山丘陵","jp":"狭山丘陵","loc":"所澤市・入間市","desc":"狹山湖、多摩湖有野鳥棲息，也是昔蜓（ムカシヤンマ）的棲息地。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i25","no":25,"pref":"埼玉","name":"平林寺的雜木林","jp":"平林寺の雑木林","loc":"新座市野火止","desc":"麻櫟、栗樹、赤松等構成白天也很幽暗的樹林。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i26","no":26,"pref":"千葉","name":"小櫃川河口的潮灘","jp":"小櫃川河口の干潟","loc":"木更津市","desc":"東京灣內唯一背後有植物群落的潮灘，是候鳥的休息地。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i27","no":27,"pref":"千葉","name":"清澄山","jp":"清澄山","loc":"安房郡天津小湊町","desc":"山頂一帶清澄寺境內的池塘有森樹蛙棲息。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i28","no":28,"pref":"東京","name":"多摩川","jp":"多摩川","loc":"東京都","desc":"從奧秩父流向東京港，是東京代表性的河川，上游仍保有清流。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i29","no":29,"pref":"東京","name":"高尾山","jp":"高尾山","loc":"八王子市高尾町","desc":"溫帶林與暖帶林混生，也是東海自然步道的起點。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i30","no":30,"pref":"東京","name":"秋川溪谷","jp":"秋川渓谷","loc":"西多摩郡檜原村","desc":"瀑布與綠意交織的景觀，仍留有春蘭等多摩地區的野草。","cat":"v","note":"","url":"","img":null,"gq":""},{"id":"i31","no":31,"pref":"神奈川","name":"高麗山","jp":"高麗山","loc":"中郡大磯町","desc":"保有長果錐、紅楠等關東少見的臨海性常綠闊葉林。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i32","no":32,"pref":"神奈川","name":"箱根舊街道的杉樹林蔭道","jp":"箱根旧街道の杉並木","loc":"足柄下郡箱根町箱根・湯本","desc":"歌中唱的「白晝依然昏暗……」，430棵大樹沿著道路延伸。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i33","no":33,"pref":"新潟","name":"福島潟","jp":"福島潟","loc":"豐榮市東部","desc":"有芡實等珍貴的植物與魚類，也是候鳥的度冬地。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i34","no":34,"pref":"新潟","name":"天水越的山毛櫸林","jp":"天水越のブナ林","loc":"東頸城郡松之山町","desc":"位於關田山系一角，受積雪影響，山毛櫸長得矮而樹幹粗壯。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i35","no":35,"pref":"長野","name":"木曾・赤澤的天然林","jp":"木曽・赤沢の自然林","loc":"木曾郡上松町","desc":"江戶時代以來的保護政策守住的大片天然檜木林。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i36","no":36,"pref":"長野","name":"奧裾花溪谷","jp":"奥裾花渓谷","loc":"上水內郡鬼無里村土倉","desc":"從4月下旬起約一個月間，約80萬株水芭蕉盛開。","cat":"v","note":"","url":"","img":null,"gq":""},{"id":"i37","no":37,"pref":"山梨","name":"青木原樹海","jp":"青木ヶ原樹海","loc":"西八代郡上九一色村・南都留郡鳴澤村","desc":"茂密的大片樹林至今仍讓人難以進入，動物種類也很多樣。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i38","no":38,"pref":"山梨","name":"西澤溪谷","jp":"西沢渓谷","loc":"東山梨郡三富村","desc":"典型的V字形溪谷，以石楠花為首，植物也很豐富。","cat":"v","note":"","url":"","img":null,"gq":""},{"id":"i39","no":39,"pref":"靜岡","name":"寸又峽","jp":"寸又峡","loc":"榛原郡本川根町犬間","desc":"春天有山櫻，在林道上也可能遇到日本鬣羚或鹿。","cat":"v","note":"","url":"","img":null,"gq":""},{"id":"i40","no":40,"pref":"靜岡","name":"柿田川湧泉群","jp":"柿田川湧水群","loc":"駿東郡清水町伏見","desc":"富士山的雨水與融雪匯集成的地下水在此湧出。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i41","no":41,"pref":"愛知","name":"汐川潮灘","jp":"汐川干潟","loc":"豐橋市・渥美郡田原町","desc":"典型的V字形溪谷，以石楠花為首，植物也很豐富。","cat":"c","note":"原文說明與 No.38 相同，疑為誤植。","url":"","img":null,"gq":""},{"id":"i42","no":42,"pref":"愛知","name":"葦毛濕原","jp":"葦毛湿原","loc":"豐橋市岩崎町","desc":"有250種濕原植物，附近森林中也有鼯鼠和兔子出沒。","cat":"w","note":"","url":"","img":null,"gq":""},{"id":"i43","no":43,"pref":"岐阜","name":"宇津江四十八瀑","jp":"宇津江四十八滝","loc":"吉城郡國府町","desc":"步道穿梭在闊葉林間，新綠、紅葉、冰瀑各有風情。","cat":"v","note":"","url":"","img":null,"gq":""},{"id":"i44","no":44,"pref":"岐阜","name":"金華山","jp":"金華山","loc":"岐阜市","desc":"有櫟樹、栲樹等700種以上的暖溫帶闊葉樹，也有松鼠棲息。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i45","no":45,"pref":"三重","name":"御在所岳・江野高原","jp":"御在所岳・江野高原","loc":"三重郡菰野町・滋賀縣神崎郡永源寺町","desc":"自古以杜鵑花聞名，也有狐狸、貉、野猴。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i46","no":46,"pref":"三重","name":"七里御濱","jp":"七里御浜","loc":"熊野市・御濱町・紀寶町・鵜殿村","desc":"鋪滿稱為「御濱小石」的石子，海濱植物也很豐富。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i47","no":47,"pref":"富山","name":"吳羽丘陵","jp":"呉羽丘陵","loc":"富山市吳羽山","desc":"可以看到枹櫟、柃木群落等多樣植物相的綠色丘陵。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i48","no":48,"pref":"富山","name":"繩池","jp":"縄ヶ池","loc":"東礪波郡城端町蓑谷","desc":"水芭蕉群生地，立有刻著昭和天皇所詠和歌的歌碑。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i49","no":49,"pref":"石川","name":"內灘沙丘","jp":"内灘砂丘","loc":"河北郡內灘町","desc":"可以看到玫瑰（濱梨）、濱旋花等約60種沙丘植物。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i50","no":50,"pref":"石川","name":"鉢伏山","jp":"鉢伏山","loc":"鳳至郡柳田村","desc":"以山毛櫸林為中心，日本楓楊等大樹遍布，是山岳信仰的聖山。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i51","no":51,"pref":"福井","name":"冠山","jp":"冠山","loc":"今立郡池田町","desc":"5月岩壁上開滿石楠花，冠平則變成高山植物花田。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i52","no":52,"pref":"福井","name":"氣比松原","jp":"気比の松原","loc":"敦賀市松原町","desc":"日本三大松原之一，約12,000棵黑松等茂密生長。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i53","no":53,"pref":"滋賀","name":"余吳湖","jp":"余呉湖","loc":"伊香郡余吳町","desc":"背倚古戰場賤岳，又稱「鏡湖」，是一座寧靜的小湖。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i54","no":54,"pref":"滋賀","name":"御池岳大板屋名月楓群落","jp":"御池岳オオイタヤメイゲツ群落","loc":"神崎郡永源寺町","desc":"群生在最高峰丸山。這是一種楓樹，有的高達20公尺。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i55","no":55,"pref":"京都","name":"京都・北山杉","jp":"京都・北山杉","loc":"京都市北區小野下町","desc":"觀光客雖多，但幾乎沒有人工設施，保有寧靜。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i56","no":56,"pref":"京都","name":"蘆生的天然林","jp":"芦生の自然林","loc":"北桑田郡美山町","desc":"大部分屬於京都大學演習林，新綠與紅葉都很美，動物也多。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i57","no":57,"pref":"大阪","name":"千里丘陵的竹林","jp":"千里丘陵の竹林","loc":"吹田市・豐中市","desc":"千里新市鎮一角約90公頃的孟宗竹林。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i58","no":58,"pref":"大阪","name":"淀川灣處群","jp":"淀川ワンド群","loc":"大阪市旭區等","desc":"河川高灘地上散布著明治初期治水工程遺留的大型水塘。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i59","no":59,"pref":"兵庫","name":"再度山","jp":"再度山","loc":"神戶市中央區・北區","desc":"北側山腰的修法原有池塘與樹林組成的廣場公園，以及外國人墓地。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i60","no":60,"pref":"兵庫","name":"冰之山","jp":"氷ノ山","loc":"養父郡關宮町・鳥取縣八頭郡若櫻町","desc":"日本海型氣候與瀨戶內型氣候的交界地帶，針闊葉混合林多。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i61","no":61,"pref":"奈良","name":"大和三山","jp":"大和三山","loc":"橿原市中部","desc":"畝傍山、耳成山、香久山，出現在古籍與古歌中、充滿歷史與浪漫的山。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i62","no":62,"pref":"奈良","name":"玉置山","jp":"玉置山","loc":"吉野郡十津川村","desc":"玉置神社境內有樹齡超過500年的巨大杉木。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i63","no":63,"pref":"和歌山","name":"天神崎","jp":"天神崎","loc":"田邊市元町","desc":"面向黑潮的岬角，森林、礁岩與海洋融為一體的自然。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i64","no":64,"pref":"和歌山","name":"串本・大島的海金剛","jp":"串本・大島の海金剛","loc":"西牟婁郡串本町樫野","desc":"巨岩奇岩林立，是海水長年侵蝕形成的自然造形之美。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i65","no":65,"pref":"香川","name":"津田松原","jp":"津田の松原","loc":"大川郡津田町津田","desc":"約2公里長的海岸線上黑松林不斷，也能觀察野鳥。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i66","no":66,"pref":"香川","name":"寒霞溪","jp":"寒霞渓","loc":"小豆郡內海町神懸通","desc":"集塊岩奇岩連綿的溪谷，初夏有新綠，秋季有40種紅葉。","cat":"v","note":"","url":"","img":null,"gq":""},{"id":"i67","no":67,"pref":"德島","name":"眉山","jp":"眉山","loc":"德島市眉山町","desc":"德島市的「綠色屏風」，針葉樹與闊葉樹覆蓋整座山。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i68","no":68,"pref":"德島","name":"吉野川河口的潮灘","jp":"吉野川河口の干潟","loc":"德島市","desc":"西日本數一數二的水鳥樂園，也有「夢幻之魚」青鱚。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i69","no":69,"pref":"愛媛","name":"面河溪","jp":"面河渓","loc":"上浮穴郡面河村","desc":"陰生植物的寶庫，奇岩、溪流與周邊的天然林也很美。","cat":"v","note":"","url":"","img":null,"gq":""},{"id":"i70","no":70,"pref":"愛媛","name":"岩屋寺的天然林","jp":"岩屋寺の自然林","loc":"上浮穴郡美川村","desc":"七葉樹、杉樹等樹木與巨岩共同構成雄偉的景觀。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i71","no":71,"pref":"高知","name":"四萬十川","jp":"四万十川","loc":"中村市","desc":"被稱為「日本最後的清流」的大河，支流眾多。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i72","no":72,"pref":"高知","name":"魚梁瀨千本山","jp":"魚梁瀬千本山","loc":"安藝郡馬路村","desc":"林野廳指定的天然杉學術保存林，是日本國內首屈一指的美林。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i73","no":73,"pref":"岡山","name":"百間川","jp":"百間川","loc":"岡山市","desc":"流域分布超過500種植物，也有珍稀魚類「オヤニラミ」棲息。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i74","no":74,"pref":"岡山","name":"臥牛山","jp":"臥牛山","loc":"高梁市山下","desc":"山毛櫸等樹木235種、花草315種繁茂，也有狐狸、猴子棲息。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i75","no":75,"pref":"廣島","name":"帝釋峽","jp":"帝釈峡","loc":"比婆郡東城町・神石郡神石町","desc":"有「帝釋板屋楓」等許多以地名命名的珍稀植物。","cat":"v","note":"","url":"","img":null,"gq":""},{"id":"i76","no":76,"pref":"廣島","name":"八幡濕原","jp":"八幡湿原","loc":"山縣郡藝北町八幡地區（2005年起為北廣島町）","desc":"規模雖小，但四季都有花開，周邊是赤楊林。","cat":"w","note":"","url":"","img":null,"gq":""},{"id":"i77","no":77,"pref":"鳥取","name":"久松山","jp":"久松山","loc":"鳥取市","desc":"常綠樹與落葉樹混生的天然林，有許多珍稀蝴蝶。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i78","no":78,"pref":"鳥取","name":"諸鹿川溪谷","jp":"諸鹿川渓谷","loc":"八頭郡若櫻町","desc":"熔岩流形成的岩石，以及「諸鹿七瀑」等瀑布接連出現。","cat":"v","note":"","url":"","img":null,"gq":""},{"id":"i79","no":79,"pref":"島根","name":"宍道湖","jp":"宍道湖","loc":"八束郡宍道町","desc":"連小泉八雲也讚嘆其美，是水都松江的象徵。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i80","no":80,"pref":"島根","name":"日御碕","jp":"日御碕","loc":"簸川郡大社町日御碕","desc":"黑尾鷗飛舞，位於島根半島最西端，奇岩與斷崖連綿。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i81","no":81,"pref":"山口","name":"十種峰","jp":"十種ヶ峰","loc":"阿武郡阿東町德佐下","desc":"又稱「長門富士」的秀麗山峰，有大片矮竹群落。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i82","no":82,"pref":"山口","name":"長門峽","jp":"長門峡","loc":"山口市阿東・萩市川上","desc":"位於阿武川中游，有各種闊葉樹林，蕨類超過120種。","cat":"v","note":"","url":"","img":null,"gq":""},{"id":"i83","no":83,"pref":"福岡","name":"寶滿山","jp":"宝満山","loc":"太宰府市・筑紫野市","desc":"聳立在太宰府天滿宮後方，天然林保存良好。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i84","no":84,"pref":"福岡","name":"英彥山","jp":"英彦山","loc":"田川郡添田町・大分縣下毛郡山國町","desc":"以修驗道聖山聞名，有筑紫石楠花等豐富的植物相。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i85","no":85,"pref":"福岡","name":"豐前海岸","jp":"豊前海岸","loc":"豐前市・行橋市","desc":"面向周防灘的淺灘海岸，也是「環境權」觀念的發源地。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i86","no":86,"pref":"佐賀","name":"虹之松原","jp":"虹の松原","loc":"唐津市東唐津・東松浦郡濱玉町","desc":"綿延約5公里、共100萬棵的黑松林，是「白砂青松」的典型。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i87","no":87,"pref":"佐賀","name":"黑髮山","jp":"黒髪山","loc":"杵島郡山內町・西松浦郡有田町","desc":"奇岩聳立，約有1,000種植物，珍稀物種也多。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i88","no":88,"pref":"佐賀","name":"多良岳","jp":"多良岳","loc":"藤津郡太良町","desc":"海拔983公尺的山頂附近清水豐沛湧出，動植物眾多。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i89","no":89,"pref":"長崎","name":"千千石海岸","jp":"千々石海岸","loc":"南高來郡千千石町","desc":"位於有油輪儲油的橘灣深處，白沙與松綠十分美麗。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i90","no":90,"pref":"熊本","name":"江津湖","jp":"江津湖","loc":"熊本市江津・江津町","desc":"水生植物的寶庫，西側留有據說是加藤清正修築的堤防。","cat":"r","note":"","url":"","img":null,"gq":""},{"id":"i91","no":91,"pref":"熊本","name":"市房山","jp":"市房山","loc":"球磨郡水上村・宮崎縣兒湯郡西米良町","desc":"針葉與闊葉樹組成的豐富天然林，動物多樣，野鳥有150種。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i92","no":92,"pref":"大分","name":"文殊仙寺的天然林","jp":"文殊仙寺の自然林","loc":"東國東郡國東町大字恩寺","desc":"位於「佛之鄉」國東半島，以寺院境內為中心展開的濃密綠意。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i93","no":93,"pref":"大分","name":"黑岳","jp":"黒岳","loc":"直入郡久住町","desc":"春天登山步道沿線形成花之隧道，山腰有風穴，夏天也還有冰。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i94","no":94,"pref":"宮崎","name":"綾溪谷的照葉樹林","jp":"綾渓谷の照葉樹林","loc":"東諸縣郡綾町・西諸縣郡須木村","desc":"沿著綾北川、綾南川，分布著世界最大規模的照葉樹林。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i95","no":95,"pref":"宮崎","name":"祝子川溪谷","jp":"祝子川渓谷","loc":"東臼杵郡北川町","desc":"被稱為「杜鵑花標本室」，天然林中也有日本鬣羚棲息。","cat":"v","note":"","url":"","img":null,"gq":""},{"id":"i96","no":96,"pref":"鹿兒島","name":"高隈山的照葉樹林","jp":"高隈山の照葉樹林","loc":"垂水市・鹿屋市","desc":"可以看到長果錐、蚊母樹、赤皮青岡林的垂直分布。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i97","no":97,"pref":"鹿兒島","name":"屋久島的天然林","jp":"屋久島の自然林","loc":"熊毛郡屋久町・上屋久町","desc":"瀨切川右岸有照葉樹林的垂直分布，海岸一帶有亞熱帶植物。","cat":"f","note":"","url":"","img":null,"gq":""},{"id":"i98","no":98,"pref":"沖繩","name":"八重岳","jp":"八重岳","loc":"國頭郡本部町","desc":"約4公里的山路兩旁種著緋寒櫻，也有沖繩特有的野生動物。","cat":"m","note":"","url":"","img":null,"gq":""},{"id":"i99","no":99,"pref":"沖繩","name":"石垣島・川平灣","jp":"石垣島・川平湾","loc":"石垣市川平","desc":"灣內有隆起珊瑚礁形成的小島，海面上漂著黑珍珠養殖筏。","cat":"c","note":"","url":"","img":null,"gq":""},{"id":"i100","no":100,"pref":"沖繩","name":"西表島","jp":"西表島","loc":"八重山郡竹富町西表","desc":"被稱為「東洋的加拉巴哥群島」，保有沖繩最原始的自然。","cat":"c","note":"","url":"","img":null,"gq":""}],"about":[{"h":"日本自然 100 選（日本の自然 100 選）名單的由來","body":"1982 年的徵選共收到超過 4 萬 5000 件投稿，候選地多達 2000 處以上，最終入選的 100 個地點於 1983 年元旦在《朝日新聞》上公佈。。\n森林文化協會在迎接 21 世紀前的 17 年間，持續在其中 10 個地點做定點觀測，記錄自然的變化。由於國家公園等已受保護區域被排除在外，因此許多提名地點都是人們熟知的自然區域或面臨破壞風險的自然區域。\n進入21世紀後，活動更名為「想永遠守護的日本自然」（いつまでも守り続けたい日本の自然），對象擴大到入選地與國家公園在內的日本所有自然環境。\n"},{"h":"注意事項","body":"・所在地為 1983 年元旦當時的地名，之後經市町村合併，部分地名已經改變。\n・概要（選定理由）描述的是選定當時的狀況。\n"}],"src":"資料來源：森林文化協會「日本の自然100選」。中文為翻譯整理。"}</script>
+<script id="nl-js">{
+const root=document.getElementById('nl-app');
+const stEl=document.getElementById('nl-state');
+if(root&&stEl){
+const MODE=root.dataset.mode==='edit'?'edit':'view';
+const CSS=(document.getElementById('nl-css')||{}).textContent||'';
+const JS=(document.getElementById('nl-js')||{}).textContent||'';
+const FONTS='https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;800&family=Noto+Serif+TC:wght@700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap';
+const SC='<'+'/script>';
+let S=JSON.parse(stEl.textContent);
+let savedJSON=JSON.stringify(S);
+const undo=[];
+let editing=false,ART=null,ASSETS=null,DL=null,readOnly=false;
+const LOCAL=!(window.claude&&typeof window.claude.use==='function');
+const fileDL=(text,name)=>{try{const u=URL.createObjectURL(new Blob([text],{type:'text/html'}));const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),5000);return true}catch(e){return false}};
+const ui={cat:'',pf:'',q:''};
+/* 47 prefectures: [name, col, row] in tile units on a 13 x 14.5 board; .5 = half-tile offset */
+const T=[['北海道',12,0],['青森',12,1.5],['秋田',11,2.5],['岩手',12,2.5],['山形',11,3.5],['宮城',12,3.5],['新潟',11,4.5],['福島',12,4.5],
+['富山',10,5.5],['群馬',11,5.5],['栃木',12,5.5],['石川',9,6.5],['山梨',10,6.5],['埼玉',11,6.5],['茨城',12,6.5],
+['福井',8,7.5],['岐阜',9,7.5],['長野',10,7.5],['東京',11,7.5],['千葉',12,7.5],
+['島根',4,8.5],['鳥取',5,8.5],['兵庫',6,8.5],['京都',7,8.5],['滋賀',8,8.5],['愛知',9,8.5],['靜岡',10,8.5],['神奈川',11,8.5],
+['山口',3,9.5],['廣島',4,9.5],['岡山',5,9.5],['大阪',6,9.5],['奈良',7,9.5],['三重',8,9.5],['福岡',1.5,10],['和歌山',7,10.5],
+['長崎',.5,11],['佐賀',1.5,11],['大分',2.5,11],['愛媛',4,11],['香川',5,11],['熊本',1.5,12],['宮崎',2.5,12],['高知',4,12],['德島',5,12],
+['鹿兒島',1.5,13],['沖繩',0,13.5]];
+const GV='0 0 13 14.5';
+const gpos=(c,r)=>`grid-column:${c*2+1}/span 2;grid-row:${r*2+1}/span 2`;
+const tcls=n=>'t'+(n.length>2?' s3':'');
+const PREFS=['北海道','青森','岩手','秋田','山形','宮城','福島','茨城','栃木','群馬','埼玉','千葉','東京','神奈川','新潟','長野','山梨','靜岡','愛知','岐阜','三重','富山','石川','福井','滋賀','京都','大阪','兵庫','奈良','和歌山','香川','德島','愛媛','高知','岡山','廣島','鳥取','島根','山口','福岡','佐賀','長崎','熊本','大分','宮崎','鹿兒島','沖繩'];
+const PI=Object.fromEntries(PREFS.map((p,i)=>[p,i]));
+const full=p=>p==='北海道'?p:p==='東京'?'東京都':(p==='京都'||p==='大阪')?p+'府':p+'縣';
+const JPP={'靜岡':'静岡','廣島':'広島','德島':'徳島','鹿兒島':'鹿児島','沖繩':'沖縄'};
+const jpFull=p=>{const j=JPP[p]||p;return p==='北海道'?j:p==='東京'?j+'都':(p==='京都'||p==='大阪')?j+'府':j+'県'};
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=t=>{let h='',ul=false;for(const l of String(t||'').split(/\n+/).map(s=>s.trim()).filter(Boolean)){const m=l.match(/^[・•\-]\s*(.*)$/);if(m){if(!ul){h+='<ul>';ul=true}h+=`<li>${esc(m[1])}</li>`}else{if(ul){h+='</ul>';ul=false}h+=`<p>${esc(l)}</p>`}}return h+(ul?'</ul>':'')};
+const $=s=>root.querySelector(s);
+const catOf=id=>S.cats.find(c=>c.id===id)||{name:'未分類',color:'#999999'};
+const safeColor=c=>/^#[0-9a-f]{6}$/i.test(c)?c:'#999999';
+const imgSrc=im=>!im?'':im.k==='asset'&&/^[\w-]+$/.test(im.id)?'/_blob/'+im.id:im.k==='data'&&/^data:image\//.test(im.src)?im.src:im.k==='url'&&/^https:\/\//.test(im.src)?im.src:'';
+const gq=d=>encodeURIComponent(d.gq||(jpFull(d.pref)+' '+String(d.jp||d.name).replace(/の(自然林|ブナ林|照葉樹林)$/,'')));
+const gmapLink=d=>'https://www.google.com/maps/search/?api=1&query='+gq(d);
+let STATIC=false;
+let EMBED=!/claude|anthropic/i.test(location.hostname+' '+document.referrer+' '+[...(location.ancestorOrigins||[])].join(' '));
+const sorted=()=>S.items.slice().sort((a,b)=>(PI[a.pref]??99)-(PI[b.pref]??99)||a.no-b.no);
+const prefsOf=d=>{const s=new Set([d.pref]);T.forEach(t=>{if(String(d.loc).includes(t[0]+'縣'))s.add(t[0])});return [...s]};
+const rect=([n,c,r],cls)=>`<rect${cls?` class="${cls}"`:''} x="${c+.08}" y="${r+.08}" width=".84" height=".84" rx=".18"/>`;
+const mini=d=>{const ps=prefsOf(d);return `<svg class="mini" viewBox="${GV}" role="img" aria-label="${esc(ps.map(full).join('、'))}的位置"><use href="#nl-jp"/>${T.filter(t=>ps.includes(t[0])).map(t=>rect(t,'hi')).join('')}</svg>`};
+const field=(k,tag,cls,ph,multi)=>{const v=k.split('.').reduce((o,p)=>o==null?o:o[p],S);
+  if(editing)return `<${tag} class="${cls}" data-k="${k}"${multi?' data-multi':''} data-ph="${esc(ph)}" contenteditable="plaintext-only" spellcheck="false">${esc(v)}</${tag}>`;
+  if(multi)return `<div class="${cls}">${fmt(v)}</div>`;
+  return v?`<${tag} class="${cls}">${esc(v)}</${tag}>`:''};
+/* ---------- regions ---------- */
+function shell(){
+  root.innerHTML=`${MODE==='edit'?'<div id="nl-notice"></div><div id="nl-bar"></div>':''}
+<header class="hero band" id="nl-hero"></header>
+<main class="band wrap main"><aside class="side" id="nl-side"></aside><section id="nl-list" aria-live="polite"></section></main>
+<section class="band about" id="nl-about"></section>
+${MODE==='edit'?'<button type="button" class="btn pri fab" id="nl-fab">編輯頁面</button><div class="modal" id="nl-modal" hidden><div class="mbox" role="dialog" aria-modal="true"><button type="button" class="close" aria-label="關閉">×</button><div id="nl-mbody"></div></div></div>':''}
+${SYM()}`;
+}
+function heroHTML(){
+  const figs=S.figs.map((f,i)=>editing?`<div class="fig1">${field(`figs.${i}.n`,'b','','數字')}${field(`figs.${i}.l`,'span','','說明')}<button type="button" class="x" data-act="delfig" data-i="${i}" aria-label="刪除這個數字">×</button></div>`:(f.n||f.l)?`<div class="fig1"><b>${esc(f.n)}</b><span>${esc(f.l)}</span></div>`:'').join('');
+  let trees='',s=7;const rnd=()=>(s=s*16807%2147483647)/2147483647;
+  for(let i=0;i<90;i++){const x=rnd()*1200,k=.7+rnd()*1.1,y=96+rnd()*16-(x>600&&x<1100?10:0);trees+=`<use href="#nl-tr" transform="translate(${x.toFixed(1)} ${(y-16*k).toFixed(1)}) scale(${k.toFixed(2)})"/>`}
+  return `<div class="wrap">${field('title','h1','','頁面標題')}${field('sub','p','sub','副標題')}${field('lede','div','lede','介紹文字（每行一段）',true)}
+<div class="figs">${figs}</div>${editing?'<div class="addrow"><button type="button" class="ebtn" data-act="addfig">＋ 新增數字</button></div>':''}</div>
+<svg class="ridge" viewBox="0 0 1200 130" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs><linearGradient id="nl-gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a7a5a"/><stop offset="1" stop-color="#2a6249"/></linearGradient><linearGradient id="nl-gm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b6a4c"/><stop offset="1" stop-color="#1f5239"/></linearGradient><path id="nl-tr" d="M0 0 L7 16 H-7 Z"/></defs>
+<circle cx="960" cy="44" r="24" fill="#cf3f27" opacity=".92"/><path d="M0 78 Q120 34 250 62 T520 48 T800 58 T1060 36 T1200 52 V130 H0Z" fill="url(#nl-gb)" opacity=".75"/><path d="M0 98 Q170 62 360 90 T720 80 T1020 70 T1200 84 V130 H0Z" fill="url(#nl-gm)"/><g fill="#163f2c">${trees}</g><path d="M0 118 Q260 96 540 114 T1000 106 T1200 110 V130 H0Z" style="fill:var(--bg)"/></svg>`;
+}
+function renderHero(){$('#nl-hero').innerHTML=heroHTML()}
+function sideHTML(){
+  const present=PREFS.filter(p=>S.items.some(d=>d.pref===p));
+  if(ui.pf&&!present.includes(ui.pf))ui.pf='';
+  if(ui.cat&&!S.cats.some(c=>c.id===ui.cat))ui.cat='';
+  const counts=countsOf(),shown=sorted().filter(d=>match(d,false)).length;
+  if(STATIC)return staticSide(present);
+  return `${field('mapTitle','h2','','地圖標題')}${field('mapHint','p','hint','地圖說明')}
+<div class="mapbox"><div class="map" id="nl-map" role="group" aria-label="都道府縣地圖">${T.map(([n,c,r])=>`<button type="button" class="${tcls(n)}${ui.pf===n?' on':''}" data-n="${Math.min(counts[n]||0,4)}" data-p="${esc(n)}" style="${gpos(c,r)}" aria-label="${esc(full(n))}"><span>${esc(n)}</span></button>`).join('')}</div>
+<div class="legend" aria-hidden="true"><span>符合地點數</span><i style="background:var(--t0)"></i>0<i style="background:var(--t1)"></i>1<i style="background:var(--t2)"></i>2<i style="background:var(--t3)"></i>3<i style="background:var(--t4)"></i>4+<i style="background:var(--red);margin-left:6px"></i>已選取</div></div>
+<div class="ctl"><div class="chips" id="nl-chips" role="group" aria-label="類型"><button type="button" class="chip" data-c="" aria-pressed="${ui.cat===''}">全部</button>${S.cats.map(c=>`<button type="button" class="chip" data-c="${esc(c.id)}" aria-pressed="${ui.cat===c.id}"><i class="dot" style="background:${safeColor(c.color)}"></i>${esc(c.name)}</button>`).join('')}</div>
+<div class="row2"><label><span class="lab">都道府縣</span><select id="nl-pf"><option value="">全部</option>${present.map(p=>`<option value="${esc(p)}">${esc(full(p))}</option>`).join('')}</select></label><label><span class="lab">關鍵字</span><input id="nl-q" type="search" placeholder="例：山毛櫸、水芭蕉" value="${esc(ui.q)}"></label></div>
+<div class="status"><span>顯示 <b id="nl-cnt">${shown}</b> / ${S.items.length} 處</span><button class="reset" type="button" data-act="reset">清除篩選</button></div></div>`;
+}
+function renderSide(){$('#nl-side').innerHTML=sideHTML()}
+/* no-JS version: radio buttons + CSS :has() so filters still work where a site blocks scripts */
+function staticSide(present){
+  const cnt=(p,cid)=>S.items.filter(d=>d.pref===p&&(cid==null||d.cat===cid)).length;
+  const tiles=T.map(([n,c,r])=>{const st=`style="${gpos(c,r)}"`,cls=tcls(n);
+    if(!present.includes(n))return `<span class="${cls}" data-n="0" ${st} title="${esc(full(n))}"><span>${esc(n)}</span></span>`;
+    const per=S.cats.map((c,k)=>` data-n${k}="${Math.min(cnt(n,c.id),4)}"`).join('');
+    return `<label class="${cls}" for="nl-p-${PI[n]}" data-n="${Math.min(cnt(n),4)}"${per} ${st} title="${esc(full(n))}：${cnt(n)} 處"><span>${esc(n)}</span></label>`}).join('');
+  return `${field('mapTitle','h2','','')}${field('mapHint','p','hint','')}
+<div class="mapbox"><div class="map" role="group" aria-label="都道府縣地圖">${tiles}</div>
+<div class="legend" aria-hidden="true"><span>符合地點數</span><i style="background:var(--t0)"></i>0<i style="background:var(--t1)"></i>1<i style="background:var(--t2)"></i>2<i style="background:var(--t3)"></i>3<i style="background:var(--t4)"></i>4+<i style="background:var(--red);margin-left:6px"></i>已選取</div></div>
+<div class="ctl"><div class="chips" role="group" aria-label="類型"><label class="chip" for="nl-c-all">全部</label>${S.cats.map((c,k)=>`<label class="chip" for="nl-c-${k}"><i class="dot" style="background:${safeColor(c.color)}"></i>${esc(c.name)}</label>`).join('')}</div>
+<div class="status"><span>共 <b>${S.items.length}</b> 處</span><label class="reset" for="nl-p-all">顯示全部縣份</label></div></div>`;
+}
+function staticRules(present){
+  let c='.nl .sr{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;margin:0}.nl label.t,.nl label.chip,.nl label.reset{cursor:pointer;user-select:none}.nl label.reset{display:inline-flex;align-items:center}.nl .nomatch{display:none}';
+  const on=(id,sel,dec)=>`.nl:has(#${id}:checked) ${sel}{${dec}}`;
+  const ring=id=>`.nl:has(#${id}:focus-visible) label[for="${id}"]{outline:3px solid var(--red);outline-offset:2px}`;
+  c+=on('nl-c-all','label[for="nl-c-all"]','background:var(--g);border-color:var(--g);color:#fff')+ring('nl-c-all')+ring('nl-p-all');
+  const tc=['var(--mute)','var(--ink)','#fff','#fff','light-dark(#fff,#0d1612)'];
+  S.cats.forEach((cat,k)=>{const id='nl-c-'+k;
+    c+=on(id,`.item:not([data-c="${k}"]),.nl:has(#${id}:checked) .grp:not(:has(.item[data-c="${k}"]))`,'display:none');
+    c+=on(id,`label[for="${id}"]`,'background:var(--g);border-color:var(--g);color:#fff')+ring(id);
+    for(let n=0;n<5;n++)c+=on(id,`.t[data-n${k}="${n}"]`,`background:var(--t${n});color:${tc[n]}`);
+    c+=on(id,'.pref small','display:none');});
+  present.forEach(p=>{const i=PI[p],id='nl-p-'+i;
+    c+=on(id,`.grp:not([data-p="${i}"])`,'display:none')+on(id,`label[for="${id}"]`,'background:var(--red);color:#fff')+ring(id);
+    S.cats.forEach((cat,k)=>{if(!S.items.some(d=>d.pref===p&&d.cat===cat.id))c+=`.nl:has(#${id}:checked):has(#nl-c-${k}:checked) .nomatch{display:block}`});});
+  return c;
+}
+const countsOf=()=>{const c={};S.items.forEach(d=>{if(match(d,true))c[d.pref]=(c[d.pref]||0)+1});return c};
+const match=(d,ignorePf)=>(!ui.cat||d.cat===ui.cat)&&(ignorePf||!ui.pf||d.pref===ui.pf)&&(!ui.q||[d.name,d.jp,d.loc,d.desc,d.pref,d.note].join(' ').includes(ui.q));
+function renderList(){
+  const counts=countsOf();
+  root.querySelectorAll('#nl-map .t').forEach(b=>{const p=b.dataset.p,n=counts[p]||0;b.dataset.n=Math.min(n,4);b.classList.toggle('on',ui.pf===p);b.setAttribute('aria-pressed',ui.pf===p);b.title=`${full(p)}：${n} 處`});
+  root.querySelectorAll('#nl-chips .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.c===ui.cat));
+  const pf=$('#nl-pf');if(pf)pf.value=ui.pf;
+  $('#nl-cnt').textContent=sorted().filter(d=>match(d,false)).length;
+  $('#nl-list').innerHTML=listHTML();
+  root.querySelectorAll('.pop img').forEach(im=>im.addEventListener('error',()=>{const it=S.items.find(x=>'nl-n'+x.id===im.closest('.item').id);if(it){im.parentElement.innerHTML=`${mini(it)}<small>照片在這裡無法顯示（外部網址會在網站上顯示）</small>`}},{once:true}));
+}
+function listHTML(){
+  const rows=sorted().filter(d=>match(d,false));
+  let html='',cur='';
+  rows.forEach(d=>{
+    if(d.pref!==cur){if(STATIC&&cur)html+='</section>';cur=d.pref;if(STATIC)html+=`<section class="grp" data-p="${PI[cur]}">`;html+=`<div class="pref"><h2>${esc(full(cur))}</h2><small>${rows.filter(x=>x.pref===cur).length} 處</small></div>`}
+    const c=catOf(d.cat),src=imgSrc(d.img);
+    const pop=src?`<img class="photo" src="${esc(src)}" alt="${esc(d.name)}" loading="lazy"><small>${esc(d.name)}</small>`:`${mini(d)}<small>${esc(prefsOf(d).map(full).join('、'))}的位置</small>`;
+    const gm=EMBED?`<iframe class="gm" src="https://www.google.com/maps?q=${gq(d)}&hl=zh-TW&z=11&output=embed" title="${esc(d.name)} Google 地圖" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`:`<div class="gmfb"><b>Google 地圖嵌入區</b><span>放到網站上會在這裡顯示地圖。</span><a href="${esc(gmapLink(d))}" target="_blank" rel="noopener">開啟 Google 地圖</a></div>`;
+    const art=/^https?:\/\//.test(d.url||'')?`<a class="btn pri" href="${esc(d.url)}" target="_blank" rel="noopener">閱讀文章</a>`:'';
+    html+=`<article class="item" id="nl-n${esc(d.id)}"${STATIC?` data-c="${S.cats.findIndex(c=>c.id===d.cat)}"`:''}><div class="stamp"><button type="button" class="no" aria-label="第${d.no}號，顯示${src?'照片':'位置'}">${d.no}</button><div class="pop" role="tooltip">${pop}</div></div>
+<div class="body">${editing?`<button type="button" class="ebtn" data-act="edit" data-id="${esc(d.id)}">編輯</button>`:''}<h3>${esc(d.name)}<span class="jp" lang="ja">${esc(d.jp)}</span></h3><div class="meta"><span class="k"><i class="dot" style="background:${safeColor(c.color)}"></i>${esc(c.name)}</span><span>${esc(d.loc)}</span></div><p>${esc(d.desc)}${d.note?`<span class="note">※ ${esc(d.note)}</span>`:''}</p></div>
+<div class="side-fig">${gm}${art}</div></article>`;
+  });
+  if(STATIC&&cur)html+='</section><p class="empty nomatch">沒有符合條件的地點，換個類型或縣份試試。</p>';
+  if(!rows.length)html=`<p class="empty">沒有符合條件的地點。試試其他類型或清除篩選。</p>`;
+  if(editing)html+=`<button type="button" class="addit" data-act="add">＋ 新增地點</button>`;
+  return html;
+}
+function aboutHTML(){
+  const cols=S.about.map((a,i)=>editing?`<div class="col">${field(`about.${i}.h`,'h2','','欄位標題')}${field(`about.${i}.body`,'div','','內容（每行一段，行首加「・」變成條列）',true)}<button type="button" class="x" data-act="delcol" data-i="${i}" aria-label="刪除這一欄">×</button></div>`:(a.h||a.body)?`<div class="col">${a.h?`<h2>${esc(a.h)}</h2>`:''}${fmt(a.body)}</div>`:'').join('');
+  return `<div class="wrap cols">${cols}</div>${editing?'<div class="wrap addrow"><button type="button" class="ebtn" data-act="addcol">＋ 新增一欄</button></div>':''}<div class="wrap">${field('src','p','src','資料來源')}</div>`;
+}
+function renderAbout(){$('#nl-about').innerHTML=aboutHTML()}
+const SYM=()=>`<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="nl-jp" viewBox="${GV}"><g fill="currentColor">${T.map(t=>rect(t)).join('')}</g></symbol></svg>`;
+function renderBar(){
+  if(MODE!=='edit')return;
+  const dirty=JSON.stringify(S)!==savedJSON;
+  const fab=$('#nl-fab');fab.hidden=editing;fab.textContent=dirty?'編輯頁面（未儲存）':'編輯頁面';
+  root.classList.toggle('editing',editing);
+  const bar=$('#nl-bar');
+  if(!editing){bar.innerHTML='';return}
+  const st=LOCAL?(dirty?'離線編輯：有未存檔的變更，按「下載存檔」存成新的 .html':'離線編輯：改完按「下載存檔」存成新的 .html'):readOnly?'這個檢視無法儲存，變更暫存在這個瀏覽器':!ART?'正在連線儲存功能…':dirty?'有未儲存的變更':'所有變更已儲存';
+  bar.className='bar';
+  bar.innerHTML=`<span class="who">編輯模式</span><span class="st${dirty?' dirty':''}">${st}</span>
+<button type="button" class="btn" data-act="undo"${undo.length?'':' disabled'}>復原</button>
+<button type="button" class="btn" data-act="cats">類型設定</button>
+<button type="button" class="btn" data-act="add">＋ 新增地點</button>
+<button type="button" class="btn" data-act="export">匯出頁面</button>
+${LOCAL?'<button type="button" class="btn pri" data-act="savelocal">下載存檔</button>':`<button type="button" class="btn pri" data-act="save"${dirty&&ART&&!readOnly?'':' disabled'}>儲存</button>`}
+<button type="button" class="btn" data-act="done">完成編輯</button>`;
+}
+function renderAll(){renderHero();renderSide();renderList();renderAbout();renderBar()}
+/* ---------- state ---------- */
+const DKEY='nl-draft:'+location.pathname;
+function pushUndo(){const j=JSON.stringify(S);if(undo[undo.length-1]!==j){undo.push(j);if(undo.length>60)undo.shift()}}
+function changed(){try{localStorage.setItem(DKEY,JSON.stringify(S))}catch(e){}renderBar()}
+function setPath(k,v){const ps=k.split('.');let o=S;for(let i=0;i<ps.length-1;i++)o=o[ps[i]];o[ps[ps.length-1]]=v}
+function toast(m){const t=document.createElement('div');t.className='toast';t.setAttribute('role','status');t.textContent=m;root.appendChild(t);setTimeout(()=>t.remove(),2600)}
+/* ---------- modal ---------- */
+let onClose=null;
+function openModal(html,mount){const m=$('#nl-modal');$('#nl-mbody').innerHTML=html;m.hidden=false;if(mount)mount($('#nl-mbody'));const f=$('#nl-mbody').querySelector('input,select,textarea,button');if(f)f.focus()}
+function closeModal(){const m=$('#nl-modal');if(!m||m.hidden)return;m.hidden=true;$('#nl-mbody').innerHTML='';if(onClose){const f=onClose;onClose=null;f()}}
+async function shrink(file,max,q){const url=URL.createObjectURL(file);try{const im=await new Promise((r,j)=>{const i=new Image();i.onload=()=>r(i);i.onerror=j;i.src=url});const s=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight));const c=document.createElement('canvas');c.width=Math.round(im.naturalWidth*s);c.height=Math.round(im.naturalHeight*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);return await new Promise(r=>c.toBlob(r,'image/jpeg',q))}finally{URL.revokeObjectURL(url)}}
+const toData=b=>new Promise((r,j)=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.onerror=j;fr.readAsDataURL(b)});
+function editItem(id){
+  const isNew=!id;
+  const d=isNew?{id:'i'+Date.now().toString(36),no:Math.max(0,...S.items.map(x=>x.no))+1,pref:ui.pf||'北海道',name:'',jp:'',loc:'',desc:'',cat:(S.cats[0]||{}).id||'',note:'',url:'',img:null,gq:''}:JSON.parse(JSON.stringify(S.items.find(x=>x.id===id)));
+  let img=d.img,armed=false;
+  const pv=()=>{const s=imgSrc(img);return s?`<img src="${esc(s)}" alt="">`:'尚無照片<br>滑過編號時顯示位置小地圖'};
+  openModal(`<h2>${isNew?'新增地點':'編輯地點'}</h2>
+<div class="fgrid">
+<label><span class="lab">編號</span><input id="f-no" type="number" min="1" inputmode="numeric" value="${d.no}"></label>
+<label><span class="lab">都道府縣</span><select id="f-pref">${PREFS.map(p=>`<option value="${esc(p)}"${p===d.pref?' selected':''}>${esc(full(p))}</option>`).join('')}</select></label>
+<label class="n3"><span class="lab">類型</span><select id="f-cat">${S.cats.map(c=>`<option value="${esc(c.id)}"${c.id===d.cat?' selected':''}>${esc(c.name)}</option>`).join('')}</select></label>
+<label class="w"><span class="lab">名稱</span><input id="f-name" value="${esc(d.name)}"></label>
+<label class="w"><span class="lab">日文名稱</span><input id="f-jp" lang="ja" value="${esc(d.jp)}"></label>
+<label class="w"><span class="lab">所在地</span><input id="f-loc" value="${esc(d.loc)}"></label>
+<label class="w"><span class="lab">概要</span><textarea id="f-desc" rows="3">${esc(d.desc)}</textarea></label>
+<label class="w"><span class="lab">註記（選填，會以 ※ 顯示）</span><textarea id="f-note" rows="2">${esc(d.note)}</textarea></label>
+<label class="w"><span class="lab">文章網址（選填，有填才會出現「閱讀文章」按鈕）</span><input id="f-url" type="url" inputmode="url" placeholder="https://nivoselab.com/..." value="${esc(d.url)}"></label>
+<div class="w"><span class="lab">照片（滑過編號時顯示）</span><div class="imgbox"><div class="pv" id="f-pv">${pv()}</div><div><div class="acts2"><label class="btn">上傳照片<input id="f-file" type="file" accept="image/*" hidden></label><button type="button" class="btn" id="f-rm">移除照片</button></div>
+<input id="f-imgurl" type="url" inputmode="url" placeholder="或貼上圖片網址 https://…" value="${img&&img.k==='url'?esc(img.src):''}" style="margin-top:8px"><p class="small" id="f-imsg">上傳的照片會縮到 1200px 寬並一起存進頁面。</p></div></div></div>
+<label class="w"><span class="lab">Google 地圖搜尋字詞（選填，空白時自動用日文縣名＋日文名稱）</span><input id="f-gq" value="${esc(d.gq)}" placeholder="${esc(decodeURIComponent(gq({...d,gq:''})))}"></label>
+</div><p class="err" id="f-err"></p>
+<div class="mact">${isNew?'':'<button type="button" class="btn warn" id="f-del">刪除此地點</button>'}<span class="sp"></span><button type="button" class="btn" id="f-cancel">取消</button><button type="button" class="btn pri" id="f-ok">完成</button></div>`,b=>{
+    const g=s=>b.querySelector(s);
+    g('#f-file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;g('#f-imsg').textContent='處理中…';
+      try{const blob=await shrink(f,1200,.82);
+        if(ASSETS){try{const up=await ASSETS.upload(blob,{type:'image/jpeg'});img={k:'asset',id:up.id};g('#f-imsg').textContent=`已上傳（${Math.round(up.sizeBytes/1024)} KB）`}catch(err){img={k:'data',src:await toData(blob)};g('#f-imsg').textContent='已存成內嵌照片'}}
+        else{img={k:'data',src:await toData(blob)};g('#f-imsg').textContent=`已存成內嵌照片（${Math.round(blob.size/1024)} KB）`}
+        g('#f-imgurl').value='';g('#f-pv').innerHTML=pv();
+        if(img.k==='asset'){const i=g('#f-pv img');if(i)i.src=URL.createObjectURL(blob)}
+      }catch(err){g('#f-imsg').textContent='這個檔案無法讀取，請換一張 JPG 或 PNG。'}});
+    g('#f-rm').addEventListener('click',()=>{img=null;g('#f-imgurl').value='';g('#f-pv').innerHTML=pv();g('#f-imsg').textContent='已移除照片。'});
+    g('#f-imgurl').addEventListener('change',e=>{const v=e.target.value.trim();if(!v){return}if(!/^https:\/\//.test(v)){g('#f-imsg').textContent='圖片網址要以 https:// 開頭。';return}img={k:'url',src:v};g('#f-pv').innerHTML=pv();g('#f-imsg').textContent='外部圖片在這裡的預覽可能看不到，放到網站上會正常顯示。'});
+    g('#f-cancel').addEventListener('click',closeModal);
+    if(!isNew)g('#f-del').addEventListener('click',e=>{if(!armed){armed=true;e.target.textContent='再按一次確認刪除';return}pushUndo();S.items=S.items.filter(x=>x.id!==d.id);closeModal();renderSide();renderList();changed();toast('已刪除，按「復原」可以找回來')});
+    g('#f-ok').addEventListener('click',()=>{
+      const v=s=>g(s).value.trim();const err=g('#f-err');
+      const no=parseInt(v('#f-no'),10),url=v('#f-url');
+      if(!v('#f-name')){err.textContent='請填寫名稱。';g('#f-name').focus();return}
+      if(!(no>0)){err.textContent='編號要是正整數。';g('#f-no').focus();return}
+      if(url&&!/^https?:\/\//.test(url)){err.textContent='文章網址要以 https:// 開頭。';g('#f-url').focus();return}
+      pushUndo();
+      Object.assign(d,{no,pref:v('#f-pref'),cat:v('#f-cat'),name:v('#f-name'),jp:v('#f-jp'),loc:v('#f-loc'),desc:g('#f-desc').value.trim(),note:g('#f-note').value.trim(),url,gq:v('#f-gq'),img});
+      if(isNew){S.items.push(d);ui.cat='';ui.pf='';ui.q=''}else S.items[S.items.findIndex(x=>x.id===d.id)]=d;
+      closeModal();renderSide();renderList();changed();
+      const el=root.querySelector('#nl-n'+CSS_ID(d.id));if(el&&el.scrollIntoView)el.scrollIntoView({block:'center'});
+      toast(isNew?'已新增地點':'已更新');
+    });
+  });
+}
+const txt=el=>el.innerText!=null?el.innerText:el.textContent;
+const CSS_ID=s=>String(s).replace(/[^\w-]/g,'');
+function editCats(){
+  let cats=JSON.parse(JSON.stringify(S.cats));
+  const used=id=>S.items.filter(x=>x.cat===id).length;
+  const rows=()=>cats.map((c,i)=>`<div class="catrow"><input type="color" value="${safeColor(c.color)}" data-i="${i}" data-f="color" aria-label="顏色"><input value="${esc(c.name)}" data-i="${i}" data-f="name" aria-label="類型名稱"><button type="button" class="btn warn" data-del="${i}"${used(c.id)?` disabled title="還有 ${used(c.id)} 個地點使用這個類型"`:''}>刪除</button></div>`).join('');
+  openModal(`<h2>類型設定</h2><p class="small" style="margin:-8px 0 14px">有地點使用的類型不能刪除，要先把那些地點改成別的類型。</p><div id="c-rows">${rows()}</div><button type="button" class="btn" id="c-add">＋ 新增類型</button><div class="mact" style="margin-top:18px"><span class="sp"></span><button type="button" class="btn" id="c-cancel">取消</button><button type="button" class="btn pri" id="c-ok">完成</button></div>`,b=>{
+    const box=b.querySelector('#c-rows');
+    box.addEventListener('input',e=>{const t=e.target;if(t.dataset.f)cats[+t.dataset.i][t.dataset.f]=t.value});
+    box.addEventListener('click',e=>{const t=e.target.closest('[data-del]');if(!t||t.disabled)return;cats.splice(+t.dataset.del,1);box.innerHTML=rows()});
+    b.querySelector('#c-add').addEventListener('click',()=>{cats.push({id:'c'+Date.now().toString(36),name:'新類型',color:'#6b7f73'});box.innerHTML=rows();box.querySelector('.catrow:last-child input:not([type=color])').select()});
+    b.querySelector('#c-cancel').addEventListener('click',closeModal);
+    b.querySelector('#c-ok').addEventListener('click',()=>{pushUndo();S.cats=cats.map(c=>({...c,name:c.name.trim()||'未命名'}));closeModal();renderSide();renderList();changed()});
+  });
+}
+/* ---------- build & export ---------- */
+const jsonIn=s=>JSON.stringify(s).replace(/</g,'\\u003c');
+const tight=s=>s.replace(/\n[ \t]*(?=\n)/g,'').replace(/^\n+/,'');
+function staticBody(st){const keep={S,editing,EMBED,ui:{...ui}};S=st;editing=false;EMBED=true;STATIC=true;ui.cat='';ui.pf='';ui.q='';
+  try{const present=PREFS.filter(p=>S.items.some(d=>d.pref===p));
+  const radios=`<input type="radio" class="sr" name="nl-c" id="nl-c-all" checked aria-label="全部類型">${S.cats.map((c,k)=>`<input type="radio" class="sr" name="nl-c" id="nl-c-${k}" aria-label="${esc(c.name)}">`).join('')}<input type="radio" class="sr" name="nl-p" id="nl-p-all" checked aria-label="全部縣份">${present.map(p=>`<input type="radio" class="sr" name="nl-p" id="nl-p-${PI[p]}" aria-label="${esc(full(p))}">`).join('')}`;
+  return `<style>${staticRules(present)}</style>${radios}<header class="hero band" id="nl-hero">${heroHTML()}</header><main class="band wrap main"><aside class="side" id="nl-side">${sideHTML()}</aside><section id="nl-list" aria-live="polite">${listHTML()}</section></main><section class="band about" id="nl-about">${aboutHTML()}</section>${SYM()}`.replace(/\n/g,' ')}
+  finally{S=keep.S;editing=keep.editing;EMBED=keep.EMBED;STATIC=false;Object.assign(ui,keep.ui)}}
+function buildDoc(st,mode,pre){return `<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(st.title||'主題頁面')}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="${FONTS}" rel="stylesheet">
+<style>:root{color-scheme:light dark}:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}html,body{margin:0;background:light-dark(#fff,#0d1612)}</style>
+<style id="nl-css">${tight(CSS)}</style>
+</head>
+<body>
+<div class="nl" id="nl-app" data-mode="${mode}">${pre||''}</div>
+<script type="application/json" id="nl-state">${jsonIn(st)}${SC}
+<script id="nl-js">${tight(JS)}${SC}
+</body>
+</html>
+`}
+function buildFrag(st,pre){return `<link href="${FONTS}" rel="stylesheet">
+<style id="nl-css">${tight(CSS)}</style>
+<div class="nl light" id="nl-app" data-mode="view">${pre||''}</div>
+<script type="application/json" id="nl-state">${jsonIn(st)}${SC}
+<script id="nl-js">${tight(JS)}${SC}
+`}
+const dataCache={};
+async function exportState(){
+  const st=JSON.parse(JSON.stringify(S));let n=0,lost=0;
+  for(const it of st.items){const im=it.img;if(!im)continue;
+    if(im.k==='asset'){try{if(!dataCache[im.id]){const r=await fetch('/_blob/'+im.id);if(!r.ok)throw 0;dataCache[im.id]=await toData(await r.blob())}it.img={k:'data',src:dataCache[im.id]};n++}catch(e){it.img=null;lost++}}
+    else if(im.k==='data')n++;}
+  return {st,n,lost};
+}
+const slug=()=>String(S.title||'page').replace(/[\\/:*?"<>|\s]+/g,'-').slice(0,60)||'page';
+function openExport(){
+  openModal(`<h2>匯出頁面</h2><p class="small" style="margin:-8px 0 16px">匯出的是目前畫面上的內容（包含還沒儲存的變更），不含編輯功能；上傳的照片會一起嵌進去。</p>
+<div class="xopts"><div class="xo"><h3>完整網頁</h3><p>單一 .html 檔，可以直接用瀏覽器開啟，或上傳到主機。</p><div class="row"><button type="button" class="btn pri" data-x="full" disabled>下載 .html</button></div></div>
+<div class="xo"><h3>可編輯版本</h3><p>單一 .html，保留編輯功能。在電腦上用瀏覽器開啟就能編輯，改完按「下載存檔」存成新檔。</p><div class="row"><button type="button" class="btn pri" data-x="edit" disabled>下載編輯版</button></div></div>
+<div class="xo"><h3>WordPress 區塊用</h3><p>貼進文章的「自訂 HTML」區塊。固定以淺色顯示，樣式只作用在這個區塊裡。</p><div class="row"><button type="button" class="btn pri" data-x="copy" disabled>複製 HTML</button><button type="button" class="btn" data-x="wp" disabled>下載 .html</button></div></div></div>
+<p class="err" id="x-msg" role="status">準備中…</p><div id="x-more"></div><textarea class="code" id="x-code" readonly hidden aria-label="匯出的 HTML"></textarea>`,async b=>{
+    const msg=b.querySelector('#x-msg'),code=b.querySelector('#x-code'),more=b.querySelector('#x-more');
+    const {st,n,lost}=await exportState();
+    const pre=staticBody(st);
+    const out={full:buildDoc(st,'view',pre),wp:buildFrag(st,pre),edit:buildDoc(st,'edit')};
+    const mb=s=>(new Blob([s]).size/1048576).toFixed(1);
+    const info=k=>`${n?`含 ${n} 張照片，`:''}約 ${mb(out[k])} MB${lost?`；有 ${lost} 張照片讀取失敗，已略過`:''}。`;
+    b.querySelectorAll('[data-x]').forEach(x=>x.disabled=false);msg.textContent='';
+    const showCode=(k,why)=>{code.hidden=false;code.value=out[k];msg.textContent=why+info(k);more.innerHTML='<div class="row" style="margin-top:8px"><button type="button" class="btn pri" data-x="copyall" data-k="'+k+'">複製全部</button></div>'};
+    const dl=(k,ext)=>{const name=slug()+(k==='wp'?'-wordpress':k==='edit'?'-編輯版':'')+ext;
+      if(!DL&&LOCAL&&fileDL(out[k],name)){msg.textContent=`已下載 ${name}。`+info(k);return}
+      if(!DL){showCode(k,'這個畫面沒有開放下載功能。請按「複製全部」，貼到記事本或 VS Code 存成 .html；或用瀏覽器分頁直接開啟這個頁面再試一次下載。');return}
+      DL.save({filename:name,data:new Blob([out[k]],{type:'text/plain'})}).then(()=>{msg.textContent=`已下載 ${name}。`+info(k)+(ext==='.txt'?' 下載後把副檔名 .txt 改成 .html 即可。':'');more.innerHTML='';code.hidden=true}).catch(err=>{const c=err&&err.code;
+        if(c==='declined'){msg.textContent='已取消下載。';return}
+        if((c==='extension_not_enabled'||c==='rejected_extension')&&ext==='.html'){msg.textContent='這個檢視不能下載 .html 檔。可以改下載成 .txt，下載後把副檔名改成 .html。';more.innerHTML='<div class="row" style="margin-top:8px"><button type="button" class="btn pri" data-x="txt" data-k="'+k+'">下載 .txt</button><button type="button" class="btn" data-x="show" data-k="'+k+'">改用複製</button></div>';return}
+        if(c==='host_unavailable'){showCode(k,'這個 App 無法存檔，請改用電腦瀏覽器開啟，或複製下方內容。');return}
+        if(c==='rate_limited'){msg.textContent='下載視窗已經開著或太頻繁，請稍等再按一次。';return}
+        showCode(k,`下載失敗（${c||'未知原因'}），可以複製下方內容。`)});};
+    const copy=k=>{const done=()=>{msg.textContent='已複製。'+info(k);more.innerHTML='';code.hidden=true};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(out[k]).then(done).catch(()=>showCode(k,'無法直接複製，請點下方框框，全選（Ctrl＋A／⌘＋A）後複製。'))}
+      else showCode(k,'無法直接複製，請點下方框框，全選後複製。')};
+    b.addEventListener('click',e=>{const t=e.target.closest('[data-x]');if(!t||t.disabled)return;const x=t.dataset.x,k=t.dataset.k;
+      if(x==='full')dl('full','.html');else if(x==='edit')dl('edit','.html');else if(x==='wp')dl('wp','.html');else if(x==='copy')copy('wp');
+      else if(x==='txt')dl(k,'.txt');else if(x==='show')showCode(k,'請點下方框框，全選後複製。');
+      else if(x==='copyall'){code.focus();code.select();copy(k)}});
+  });
+}
+async function saveLocal(){
+  const {st,lost}=await exportState();const name=slug()+'-編輯版.html';
+  if(!fileDL(buildDoc(st,'edit'),name)){toast('無法下載，請改用「匯出頁面」複製內容');return}
+  savedJSON=JSON.stringify(S);try{localStorage.removeItem(DKEY)}catch(e){}renderBar();
+  toast(`已下載 ${name}${lost?`（${lost} 張照片讀取失敗）`:''}，下次開這個新檔繼續編輯`);
+}
+async function save(){
+  if(!ART||readOnly)return;
+  const btn=root.querySelector('[data-act="save"]');if(btn){btn.disabled=true;btn.textContent='儲存中…'}
+  try{await ART.publish(buildDoc(S,'edit'))}
+  catch(e){const c=e&&e.code;
+    if(c==='conflict'){toast('頁面在別處更新過，重新載入中；未儲存的內容會留在草稿裡')}
+    else if(c==='not_writer'||c==='not_granted'||c==='not_declared'||c==='capability_disabled'||c==='consent_required'){readOnly=true;toast('這個檢視無法儲存')}
+    else if(c==='too_large'){toast('頁面太大無法儲存，請移除一些內嵌照片')}
+    else toast('儲存失敗，請稍後再試');
+    renderBar();}
+}
+/* ---------- events ---------- */
+root.addEventListener('click',e=>{
+  const t=e.target.closest('.t');if(t&&root.contains(t)&&t.closest('#nl-map')){if(t.dataset.n==='0'&&ui.pf!==t.dataset.p)return;ui.pf=ui.pf===t.dataset.p?'':t.dataset.p;renderList();return}
+  const c=e.target.closest('#nl-chips .chip');if(c){ui.cat=c.dataset.c;renderList();return}
+  if(e.target.closest('#nl-fab')){editing=true;renderAll();return}
+  if(e.target.closest('.close')||e.target.id==='nl-modal'){closeModal();return}
+  const a=e.target.closest('[data-act]');if(!a)return;
+  const act=a.dataset.act;
+  if(act==='reset'){ui.cat='';ui.pf='';ui.q='';const q=$('#nl-q');if(q)q.value='';renderList()}
+  else if(act==='edit')editItem(a.dataset.id);
+  else if(act==='add')editItem(null);
+  else if(act==='cats')editCats();
+  else if(act==='export')openExport();
+  else if(act==='save')save();
+  else if(act==='savelocal')saveLocal();
+  else if(act==='done'){editing=false;renderAll()}
+  else if(act==='undo'){if(!undo.length)return;S=JSON.parse(undo.pop());renderAll();changed()}
+  else if(act==='addfig'){pushUndo();S.figs.push({n:'',l:''});renderHero();changed();const f=root.querySelectorAll('.fig1 b');if(f.length)f[f.length-1].focus()}
+  else if(act==='delfig'){pushUndo();S.figs.splice(+a.dataset.i,1);renderHero();changed()}
+  else if(act==='addcol'){pushUndo();S.about.push({h:'',body:''});renderAbout();changed()}
+  else if(act==='delcol'){pushUndo();S.about.splice(+a.dataset.i,1);renderAbout();changed()}
+});
+root.addEventListener('change',e=>{if(e.target.id==='nl-pf'){ui.pf=e.target.value;renderList()}});
+root.addEventListener('input',e=>{
+  if(e.target.id==='nl-q'){ui.q=e.target.value.trim();renderList();return}
+  const el=e.target.closest&&e.target.closest('[data-k]');
+  if(el&&editing){setPath(el.dataset.k,el.dataset.multi!==undefined?txt(el).replace(/\n{3,}/g,'\n\n'):txt(el).replace(/\s*\n\s*/g,' '));changed()}
+});
+root.addEventListener('focusin',e=>{if(editing&&e.target.closest&&e.target.closest('[data-k]'))pushUndo()});
+root.addEventListener('focusout',e=>{const el=e.target.closest&&e.target.closest('[data-k]');if(el&&editing&&el.dataset.k==='title'){document.title=S.title||document.title}});
+root.addEventListener('keydown',e=>{const el=e.target.closest&&e.target.closest('[data-k]');if(el&&e.key==='Enter'&&el.dataset.multi===undefined){e.preventDefault();el.blur()}});
+document.addEventListener('keydown',e=>{
+  if(MODE!=='edit')return;
+  if(e.key==='Escape'&&!$('#nl-modal').hidden){closeModal();return}
+  const tg=e.target;const typing=tg&&(tg.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(tg.tagName));
+  if(editing&&!typing&&(e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&undo.length){e.preventDefault();S=JSON.parse(undo.pop());renderAll();changed()}
+});
+/* ---------- boot ---------- */
+shell();renderAll();
+if(MODE==='edit'){
+  let draft=null;try{draft=localStorage.getItem(DKEY)}catch(e){}
+  if(draft&&draft!==savedJSON){try{JSON.parse(draft);const n=$('#nl-notice');n.className='notice';n.innerHTML='<span>這個瀏覽器裡有上次還沒儲存的變更。</span><button type="button" class="btn pri" id="nl-restore">還原</button><button type="button" class="btn" id="nl-drop">捨棄</button>';
+    n.querySelector('#nl-restore').addEventListener('click',()=>{pushUndo();S=JSON.parse(draft);editing=true;n.innerHTML='';n.className='';renderAll()});
+    n.querySelector('#nl-drop').addEventListener('click',()=>{try{localStorage.removeItem(DKEY)}catch(e){}n.innerHTML='';n.className=''});}catch(e){}}
+  else if(draft){try{localStorage.removeItem(DKEY)}catch(e){}}
+  if(window.claude&&typeof window.claude.use==='function'){
+    window.claude.use('artifact').then(a=>{ART=a;if(!a)readOnly=true;renderBar()}).catch(()=>{readOnly=true;renderBar()});
+    window.claude.use('assets').then(a=>{ASSETS=a}).catch(()=>{});
+    window.claude.use('downloads').then(d=>{DL=d}).catch(()=>{});
+  }else{readOnly=true;renderBar()}
+}
+}
+}
+</script>
+</body>
+</html>
